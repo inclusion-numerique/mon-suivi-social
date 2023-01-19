@@ -1,0 +1,11 @@
+{
+  "name": "@mss/e2e",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "playwright": "playwright"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.29.2"
+  }
+}

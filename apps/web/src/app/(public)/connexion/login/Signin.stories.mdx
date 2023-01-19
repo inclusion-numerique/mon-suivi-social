@@ -1,0 +1,26 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { Signin } from './Signin'
+
+<Meta title="Authentication/Signin" component={Signin} />
+
+# Signin
+
+Verify screen
+
+## Props
+
+<ArgsTable of={Signin} />
+
+## Examples
+
+<Canvas>
+  <Story name="Default">
+    <Signin />
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Error">
+    <Signin error="ServerError" />
+  </Story>
+</Canvas>

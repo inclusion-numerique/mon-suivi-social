@@ -1,0 +1,9 @@
+.card {
+  box-shadow: 0 0 0 1px var(--border-default-grey);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

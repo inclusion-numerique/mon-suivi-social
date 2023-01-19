@@ -1,0 +1,67 @@
+{
+  "name": "mss",
+  "description": "Mon Suivi Social - Monorepo",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
+  "private": true,
+  "engines": {
+    "node": "^18.13"
+  },
+  "packageManager": "pnpm@7.20.0",
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/web/**"
+    ]
+  },
+  "scripts": {
+    "build": "turbo build",
+    "clean": "rm -rf node_modules",
+    "clean:workspaces": "turbo clean",
+    "db-generate": "turbo db-generate",
+    "db-push": "turbo db-push",
+    "dev": "turbo dev --parallel",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo lint",
+    "eslint": "eslint",
+    "tsc": "turbo tsc",
+    "with-env": "dotenv --",
+    "scw": "pnpm with-env scw",
+    "manypkg": "manypkg",
+    "manypkg:check": "manypkg check",
+    "start:web": "npm -w @mss/web start",
+    "docker:build:web": "docker buildx build --platform linux/amd64 -t rg.fr-par.scw.cloud/mec-web/mec-web-dev:latest -f docker/web/Dockerfile .",
+    "docker:build:web:debug": "DOCKER_BUILDKIT=0 docker build -t mec-web/mec-web-dev:debug -f docker/web/Dockerfile ."
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
+    "@manypkg/cli": "^0.19.2",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@types/jest": "^29.2.6",
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "dotenv": "^16.0.3",
+    "dotenv-cli": "^6.0.0",
+    "eslint": "^8.32.0",
+    "eslint-config-next": "^13.1.2",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-turbo": "^0.0.7",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
+    "jest-extended": "^3.2.3",
+    "jest-joi": "^1.1.14",
+    "joi": "^17.7.0",
+    "prettier": "^2.8.3",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "turbo": "^1.7.0",
+    "typescript": "^4.9.4"
+  },
+  "optionalDependencies": {
+    "turbo-linux-arm64": "^1.7.0"
+  }
+}

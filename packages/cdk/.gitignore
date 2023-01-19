@@ -1,0 +1,5 @@
+cdktf.out/
+!cdktf.out/stacks/web/.terraform.lock.hcl
+terraform.*.tfstate
+.terraform.*
+cdk.out.json

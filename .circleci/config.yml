@@ -1,0 +1,295 @@
+version: 2.1
+
+orbs:
+  skip: theodo/skip@0.1.2
+  queue: eddiewebb/queue@1.8.4
+
+executors:
+  node:
+    docker:
+      - image: cimg/node:18.13.0
+        environment:
+          TZ: 'UTC'
+  node-browsers:
+    docker:
+      - image: cimg/node:18.13.0-browsers
+        environment:
+          TZ: 'UTC'
+
+parameters:
+  cache_version:
+    type: string
+    default: '20230106-01'
+  virtual_store_dir:
+    type: string
+    default: './.pnpm'
+  lockfile:
+    type: string
+    default: './pnpm-lock.yaml'
+  registry:
+    type: string
+    default: rg.fr-par.scw.cloud/mss-web
+  image:
+    type: string
+    default: mss-web-<< pipeline.git.branch >> | sed -e 's/\//-/g'
+  build_version:
+    type: string
+    default: $CIRCLE_SHA1
+  deploy_version:
+    type: string
+    default: latest
+  e2e_version:
+    type: string
+    default: e2e
+
+workflows:
+  version: 2
+  lint_test_build_deploy:
+    jobs:
+      - prepare_workspace_dependencies
+      - prepare_web_prod_dependencies
+      - lint_and_test:
+          requires:
+            - prepare_workspace_dependencies
+
+      - build_web:
+          requires:
+            - prepare_workspace_dependencies
+            - prepare_web_prod_dependencies
+
+      - chromatic:
+          requires:
+            - prepare_workspace_dependencies
+
+      - test_e2e:
+          requires:
+            - build_web
+
+      - deploy_web:
+          requires:
+            - lint_and_test
+            - chromatic
+            - build_web
+            # - test_e2e
+
+jobs:
+  prepare_workspace_dependencies:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - skip/skip_unchanged:
+          paths: pnpm-lock.yaml
+      - install_dependencies
+      - run:
+          name: 'Fetch dependencies'
+          command: pnpm install --virtual-store-dir << pipeline.parameters.virtual_store_dir >> --frozen-lockfile
+      - save_cache:
+          key: << pipeline.parameters.cache_version >>-pnpm-{{ checksum "<< pipeline.parameters.lockfile >>" }}
+          paths:
+            - << pipeline.parameters.virtual_store_dir >>
+            - ./node_modules
+            - ./apps/web/node_modules
+            - ./apps/cli/node_modules
+            - ./packages/e2e/node_modules
+            - ./packages/cdk/node_modules
+
+  prepare_web_prod_dependencies:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - skip/skip_unchanged:
+          paths: pnpm-lock.yaml
+      - install_pnpm
+      - run:
+          name: 'Install dependencies'
+          command: |
+            pnpm install -F @mss/web --prod --node-linker=hoisted --frozen-lockfile
+      - save_cache:
+          key: << pipeline.parameters.cache_version >>-web-prod-{{ checksum "<< pipeline.parameters.lockfile >>" }}
+          paths:
+            - ./node_modules
+            - ./apps/web/node_modules
+
+  lint_and_test:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - run:
+          name: 'Lint'
+          command: pnpm lint
+      - run:
+          name: 'Prisma generate'
+          command: pnpm -F @mss/web prisma:generate
+      - run:
+          name: 'Tsc'
+          command: pnpm tsc
+      - run:
+          name: 'Test @mss/web'
+          command: pnpm -F @mss/web test
+
+  build_web:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - setup_docker_env
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - install_dependencies
+      - run:
+          name: 'Prisma generate'
+          command: pnpm -F @mss/web prisma:generate
+      - run:
+          name: 'Install DSFR'
+          command: pnpm -F @mss/web setup:dsfr
+      - run:
+          name: 'Build next app'
+          command: pnpm -F @mss/web build
+      - run:
+          name: 'Clear dependencies to install only prod dependencies'
+          command: |
+            rm -rf node_modules
+            rm -rf apps/web/node_modules
+      - restore_cache:
+          keys:
+            - << pipeline.parameters.cache_version >>-web-prod-{{ checksum "<< pipeline.parameters.lockfile >>" }}
+      - run:
+          name: 'Re-generate Prisma after cleaning dependencies'
+          command: pnpm -F @mss/web prisma:generate
+      - run:
+          name: 'Cleanup build'
+          command: |
+            # standalone not needed for plain build
+            rm -rf apps/web/.next/standalone
+      - run:
+          name: 'Build docker image'
+          command: DOCKER_BUILDKIT=1 docker build --progress=plain -t $IMAGE_BUILD_TAG -f docker/web/Dockerfile .
+      - run:
+          name: 'Login to registry and push image'
+          command: |
+            docker login $REGISTRY -u nologin --password-stdin \<<< "$SCW_SECRET_KEY"
+            docker push $IMAGE_BUILD_TAG
+
+  chromatic:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - run:
+          name: 'Setup DSFR'
+          command: pnpm -F @mss/web setup:dsfr
+      - run:
+          name: 'Build storybook and test components'
+          command: pnpm -F @mss/web chromatic
+
+  test_e2e:
+    executor: node-browsers
+    resource_class: large
+    parallelism: 1
+    steps:
+      - checkout
+      - install_pnpm
+      - setup_docker_env
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: 'Login to registry and pull image'
+          command: |
+            docker login $REGISTRY -u nologin --password-stdin \<<< "$SCW_SECRET_KEY"
+            docker pull $IMAGE_BUILD_TAG
+      - run:
+          name: 'Install playwright'
+          # This will be instantly resolved from global store thanks to custom image playwright setup
+          command: |
+            pnpm -F @mss/e2e install
+            pnpx playwright install
+      #      - run:
+      #          name: 'Up docker-compose'
+      #          command: |
+      #            docker-compose -f docker/web/docker-compose.ci.yml up
+      - run:
+          name: 'Run playwright'
+          command: |
+            SHARD="$((${CIRCLE_NODE_INDEX}+1))"
+            pnpm -F @mss/e2e playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+
+  deploy_web:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - setup_docker_env
+      - install_dependencies
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: 'Install Terraform'
+          command: |
+            wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+            echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+            sudo apt update && sudo apt install terraform
+      - run:
+          name: 'Generate Prisma client for this platform'
+          command: |
+            pnpm -F @mss/web prisma:generate
+      - queue/until_front_of_line:
+          time: '10'
+      - run:
+          name: 'Deploy stack'
+          command: |
+            pnpm -F @mss/cdk deploy:web:ci
+      #      - run:
+      # TODO I have got false negatives where container is green but output is "error" why ?
+      #          name: 'Verify that web container is ready'
+      #          command: |
+      #            pnpm -F @mss/cli web-container:check
+      - run:
+          name: 'Create .env file from deployment outputs'
+          command: |
+            pnpm -F @mss/cli env:from-cdk
+      - run:
+          name: 'Migrate database'
+          command: |
+            pnpm -F @mss/web with-env prisma db push --skip-generate --accept-data-loss
+      - run:
+          name: 'Load administrative data if none loaded'
+          command: |
+            pnpm -F @mss/cli admin-data:update --only-if-empty
+      - run:
+          name: 'Load fixtures'
+          command: |
+            pnpm -F @mss/cli fixtures:load
+
+commands:
+  install_pnpm:
+    steps:
+      - run:
+          name: 'Install pnpm'
+          command: sudo corepack enable && corepack prepare pnpm@latest --activate
+
+  install_dependencies:
+    steps:
+      - install_pnpm
+      - restore_cache:
+          keys:
+            - << pipeline.parameters.cache_version >>-pnpm-{{ checksum "<< pipeline.parameters.lockfile >>" }}
+
+  setup_docker_env:
+    steps:
+      - run:
+          name: "Set docker env vars"
+          command: |
+            echo "export REGISTRY=<< pipeline.parameters.registry >>" >> ${BASH_ENV}
+            echo "export BRANCH='<< pipeline.git.branch >>'" >> ${BASH_ENV}
+            echo "export NAMESPACE=$(echo '<< pipeline.git.branch >>' | sed -e 's/\//-/g')" >> ${BASH_ENV}
+            echo "export IMAGE_NAME=$(echo 'mss-web-<< pipeline.git.branch >>' | sed -e 's/\//-/g')" >> ${BASH_ENV}
+            echo "export IMAGE_BUILD_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
+            echo "export IMAGE_DEPLOY_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.deploy_version >>')" >> ${BASH_ENV}
+            echo "export IMAGE_E2E_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.e2e_version >>')" >> ${BASH_ENV}
+            echo "export TF_VAR_web_webContainerImage_C5B2590D=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
+

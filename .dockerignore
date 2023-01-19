@@ -1,0 +1,37 @@
+**/.git
+**/var
+**/.turbo
+**/.pnp
+**/.pnp.js
+**/.idea
+**/.vscode
+**/storybook-static
+
+# local env files
+**/.env*.local
+**/.env
+
+# vercel
+**/.vercel
+
+# typescript
+**/*.tsbuildinfo
+**/next-env.d.ts
+
+# generated files
+apps/web/test
+apps/web/data
+
+# Unused package in docker app
+packages/
+apps/cli/node_modules
+
+# Test files
+**/*.stories.mdx
+**/*.spec.ts
+**/*.spec.tsx
+**/*.integration.ts
+**/*.integration.tsx
+**/*.e2e.ts
+**/*.e2e.tsx
+

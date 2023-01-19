@@ -1,0 +1,42 @@
+{
+  "name": "@mss/cli",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
+  "private": true,
+  "scripts": {
+    "lint": "eslint",
+    "tsc": "tsc --noEmit",
+    "build": "tsc",
+    "with-env": "dotenv -e ../../.env --",
+    "with-remote-env": "dotenv -e ../../.env.remote -e ../../.env --",
+    "web-container:check": "pnpm with-env ts-node src/commands/checkWebContainer.ts",
+    "env:from-cdk": "pnpm with-env ts-node src/commands/envFromCdk.ts",
+    "fixtures:load": "pnpm with-env ts-node src/commands/loadFixtures.ts",
+    "remote:fixtures:load": "pnpm with-remote-env ts-node src/commands/loadFixtures.ts",
+    "remote:admin-data:update": "pnpm with-remote-env ts-node src/commands/updateAdministrativeData.ts",
+    "admin-data:download:epci": "ts-node src/commands/downloadEpciData.ts",
+    "admin-data:download:perimeters": "ts-node src/commands/downloadAideTerritoiresData.ts",
+    "admin-data:download:municipalities": "ts-node src/commands/downloadMunicipalitiesData.ts",
+    "admin-data:download:categories": "ts-node src/commands/downloadCategoryData.ts",
+    "admin-data:download": "pnpm admin-data:download:epci && pnpm admin-data:download:municipalities && pnpm admin-data:download:categories",
+    "admin-data:update": "pnpm with-env ts-node src/commands/updateAdministrativeData.ts",
+    "admin-data:setup": "pnpm admin-data:download && pnpm admin-data:update"
+  },
+  "engines": {
+    "node": "^18.13"
+  },
+  "dependencies": {
+    "@mss/web": "*",
+    "axios": "^1.2.3",
+    "csv-parse": "^5.3.3",
+    "csv-stringify": "^6.2.3",
+    "lodash": "^4.17.21",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.4"
+  }
+}

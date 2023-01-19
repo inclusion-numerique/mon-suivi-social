@@ -1,0 +1,38 @@
+{
+  "name": "@mss/cdk",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "with-env": "dotenv -e ../../.env --",
+    "tsc": "tsc --noEmit",
+    "synth": "pnpm with-env cdktf synth",
+    "deploy:web": "pnpm with-env cdktf deploy web",
+    "deploy:web:ci": "cdktf deploy web --auto-approve --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs",
+    "cdktf": "pnpm with-env cdktf",
+    "output": "pnpm clean-cdktf output --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs",
+    "clean-cdktf": "rm -rf cdktf.out && pnpm with-env cdktf",
+    "tf:web:backend-reconfigure": "cd cdktf.out/stacks/web && terraform init -reconfigure",
+    "scw": "pnpm with-env scw"
+  },
+  "overrides": {
+    "cdktf-cli": {
+      "react": "*"
+    }
+  },
+  "dependencies": {
+    "cdktf": "^0.15.0",
+    "cdktf-cli": "^0.15.0",
+    "constructs": "^10.1.224",
+    "dotenv": "^16.0.3",
+    "dotenv-cli": "^6.0.0",
+    "git-rev-sync": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/git-rev-sync": "^2.0.0",
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2",
+    "typescript": "^4.9.4"
+  }
+}

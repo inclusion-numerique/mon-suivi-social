@@ -1,0 +1,12 @@
+@import url("/dsfr/dsfr.min.css");
+@import url("/dsfr/utility/utility.min.css");
+
+html, body, body > div:not(#environment-information) {
+  min-height: 100% !important;
+  height: 100%;
+}
+
+textarea {
+  resize: none;
+}
+

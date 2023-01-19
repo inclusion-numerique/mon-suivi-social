@@ -1,0 +1,12 @@
+version: '2'
+services:
+  web:
+    container_name: mon-suivi-social
+#    image: mec:0.1.0
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    ports:
+      - "3000:8080"
+    environment:
+      DATABASE_URL: postgres://h@localhost/mec
