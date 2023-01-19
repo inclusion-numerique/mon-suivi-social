@@ -27,6 +27,7 @@ import {
   namespacer,
 } from './utils'
 
+const projectSlug = 'mss'
 const databaseInstanceId = '7857e02a-05a5-437a-a46d-5da289559d67'
 const containerNamespaceId = 'ec549573-e3c9-4688-8e85-d1cb247095e2'
 const region = 'fr-par'
@@ -88,7 +89,7 @@ export class WebAppStack extends TerraformStack {
     })
 
     // State of deployed infrastructure for each branch will be stored in the
-    // same 'mec-terraform' bucket
+    // same 'mss-terraform' bucket
     new S3Backend(this, {
       bucket: 'mss-terraform',
       key: `${namespaced('state')}.tfstate`,
@@ -108,11 +109,11 @@ export class WebAppStack extends TerraformStack {
     output('databasePort', dbInstance.endpointPort)
 
     const dbConfig = {
-      name: namespaced('mec'),
-      user: namespaced('mec'),
+      name: namespaced(projectSlug),
+      user: namespaced(projectSlug),
       password: generateDatabasePassword(
         databasePasswordSalt.value,
-        namespaced('mec'),
+        namespaced(projectSlug),
       ),
     }
 
