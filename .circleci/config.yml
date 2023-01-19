@@ -257,10 +257,6 @@ jobs:
           command: |
             pnpm -F @mss/web with-env prisma db push --skip-generate --accept-data-loss
       - run:
-          name: 'Load administrative data if none loaded'
-          command: |
-            pnpm -F @mss/cli admin-data:update --only-if-empty
-      - run:
           name: 'Load fixtures'
           command: |
             pnpm -F @mss/cli fixtures:load
