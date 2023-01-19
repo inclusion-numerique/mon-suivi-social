@@ -92,7 +92,7 @@ export class WebAppStack extends TerraformStack {
     // same 'mss-terraform' bucket
     new S3Backend(this, {
       bucket: 'mss-terraform',
-      key: `${namespaced('state')}.tfstate`,
+      key: `${projectSlug}-${namespaced('state')}.tfstate`,
       // Credentials are provided with AWS_*** env variables
       endpoint: 'https://s3.fr-par.scw.cloud',
       skipCredentialsValidation: true,
