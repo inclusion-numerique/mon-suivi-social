@@ -67,10 +67,6 @@ const PublicHeader = ({
                 </div>
                 <div className="fr-header__operator">
                   <h2>Mon Suivi Social</h2>
-                  <p>
-                    Une plateforme unique pour la relation entre État &
-                    collectivités
-                  </p>
                 </div>
                 <div className="fr-header__navbar">
                   <button
