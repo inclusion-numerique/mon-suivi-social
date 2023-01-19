@@ -91,7 +91,9 @@ export class WebAppStack extends TerraformStack {
     // State of deployed infrastructure for each branch will be stored in the
     // same 'mss-terraform' bucket
     new S3Backend(this, {
-      bucket: 'mss-terraform',
+      // TODO MIGRATE WHEN UPLOAD IS FIXED
+      // bucket: `${projectSlug}-terraform-state`,
+      bucket: `mec-terraform`,
       key: `${projectSlug}-${namespaced('state')}.tfstate`,
       // Credentials are provided with AWS_*** env variables
       endpoint: 'https://s3.fr-par.scw.cloud',
@@ -140,7 +142,7 @@ export class WebAppStack extends TerraformStack {
     })
 
     const uploadsBucket = new ObjectBucket(this, 'uploads', {
-      name: namespaced('mss-uploads'),
+      name: namespaced(`${projectSlug}-uploads`),
     })
 
     output('uploadsBucketName', uploadsBucket.name)
