@@ -31,6 +31,7 @@ const PublicFooter = () => {
                   href="https://gouvernement.fr"
                   className="fr-footer__content-link"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   gouvernement.fr
                 </a>
@@ -40,6 +41,7 @@ const PublicFooter = () => {
                   href="https://service-public.fr"
                   className="fr-footer__content-link"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   service-public.fr
                 </a>
@@ -49,6 +51,7 @@ const PublicFooter = () => {
                   href="https://data.gouv.fr"
                   className="fr-footer__content-link"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   data.gouv.fr
                 </a>
@@ -58,6 +61,7 @@ const PublicFooter = () => {
                   href="https://beta.gouv.fr"
                   className="fr-footer__content-link"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   beta.gouv.fr
                 </a>
@@ -67,21 +71,6 @@ const PublicFooter = () => {
         </div>
         <div className="fr-footer__bottom">
           <ul className="fr-footer__bottom-list">
-            {/*<li className="fr-footer__bottom-item">*/}
-            {/*  <a className="fr-footer__bottom-link" href="/data">*/}
-            {/*    Données et API*/}
-            {/*  </a>*/}
-            {/*</li>*/}
-            {/*<li className="fr-footer__bottom-item">*/}
-            {/*  <a className="fr-footer__bottom-link" href="/contact">*/}
-            {/*    Nous contacter*/}
-            {/*  </a>*/}
-            {/*</li>*/}
-            {/*<li className="fr-footer__bottom-item">*/}
-            {/*  <a className="fr-footer__bottom-link" href="/mentions-legales">*/}
-            {/*    Mentions légales*/}
-            {/*  </a>*/}
-            {/*</li>*/}
             <li className="fr-footer__bottom-item">
               <a className="fr-footer__bottom-link" href="/confidentialite">
                 Politique de confidentialité
