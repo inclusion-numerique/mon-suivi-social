@@ -28,7 +28,7 @@ import {
 } from './utils'
 
 const databaseInstanceId = '7857e02a-05a5-437a-a46d-5da289559d67'
-const containerNamespaceId = '99eb3592-9355-476f-ad0c-6db7b80bff87'
+const containerNamespaceId = 'ec549573-e3c9-4688-8e85-d1cb247095e2'
 const region = 'fr-par'
 const domain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
 
@@ -90,7 +90,7 @@ export class WebAppStack extends TerraformStack {
     // State of deployed infrastructure for each branch will be stored in the
     // same 'mec-terraform' bucket
     new S3Backend(this, {
-      bucket: 'mec-terraform',
+      bucket: 'mss-terraform',
       key: `${namespaced('state')}.tfstate`,
       // Credentials are provided with AWS_*** env variables
       endpoint: 'https://s3.fr-par.scw.cloud',
@@ -102,7 +102,6 @@ export class WebAppStack extends TerraformStack {
     // but do not manage it through this stack
     const dbInstance = new DataScalewayRdbInstance(this, 'dbInstance', {
       instanceId: databaseInstanceId,
-      // name: 'mec-production',
     })
 
     output('databaseHost', dbInstance.endpointIp)
@@ -140,7 +139,7 @@ export class WebAppStack extends TerraformStack {
     })
 
     const uploadsBucket = new ObjectBucket(this, 'uploads', {
-      name: namespaced('mec-uploads'),
+      name: namespaced('mss-uploads'),
     })
 
     output('uploadsBucketName', uploadsBucket.name)
@@ -189,7 +188,6 @@ export class WebAppStack extends TerraformStack {
       },
       secretEnvironmentVariables: {
         DATABASE_URL: databaseUrl,
-        TEST_SECRET: 'hello',
       },
       name: containerName,
       minScale: isMain ? 2 : 0,
