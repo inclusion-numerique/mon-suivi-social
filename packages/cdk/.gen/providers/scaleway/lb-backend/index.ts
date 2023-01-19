@@ -66,6 +66,12 @@ E.g. 'failover-website.s3-website.fr-par.scw.cloud' if your bucket website URL i
   */
   readonly id?: string;
   /**
+  * Specifies whether the Load Balancer should check the backend server’s certificate before initiating a connection
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#ignore_ssl_server_verify LbBackend#ignore_ssl_server_verify}
+  */
+  readonly ignoreSslServerVerify?: boolean | cdktf.IResolvable;
+  /**
   * The load-balancer ID
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#lb_id LbBackend#lb_id}
@@ -101,6 +107,12 @@ E.g. 'failover-website.s3-website.fr-par.scw.cloud' if your bucket website URL i
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#server_ips LbBackend#server_ips}
   */
   readonly serverIps?: string[];
+  /**
+  * Enables SSL between load balancer and backend servers
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#ssl_bridging LbBackend#ssl_bridging}
+  */
+  readonly sslBridging?: boolean | cdktf.IResolvable;
   /**
   * Load balancing algorithm
   * 
@@ -648,7 +660,7 @@ export class LbBackend extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_lb_backend',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,
@@ -668,12 +680,14 @@ export class LbBackend extends cdktf.TerraformResource {
     this._healthCheckPort = config.healthCheckPort;
     this._healthCheckTimeout = config.healthCheckTimeout;
     this._id = config.id;
+    this._ignoreSslServerVerify = config.ignoreSslServerVerify;
     this._lbId = config.lbId;
     this._name = config.name;
     this._onMarkedDownAction = config.onMarkedDownAction;
     this._proxyProtocol = config.proxyProtocol;
     this._sendProxyV2 = config.sendProxyV2;
     this._serverIps = config.serverIps;
+    this._sslBridging = config.sslBridging;
     this._stickySessions = config.stickySessions;
     this._stickySessionsCookieName = config.stickySessionsCookieName;
     this._timeoutConnect = config.timeoutConnect;
@@ -827,6 +841,22 @@ export class LbBackend extends cdktf.TerraformResource {
     return this._id;
   }
 
+  // ignore_ssl_server_verify - computed: false, optional: true, required: false
+  private _ignoreSslServerVerify?: boolean | cdktf.IResolvable; 
+  public get ignoreSslServerVerify() {
+    return this.getBooleanAttribute('ignore_ssl_server_verify');
+  }
+  public set ignoreSslServerVerify(value: boolean | cdktf.IResolvable) {
+    this._ignoreSslServerVerify = value;
+  }
+  public resetIgnoreSslServerVerify() {
+    this._ignoreSslServerVerify = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ignoreSslServerVerifyInput() {
+    return this._ignoreSslServerVerify;
+  }
+
   // lb_id - computed: false, optional: false, required: true
   private _lbId?: string; 
   public get lbId() {
@@ -918,6 +948,22 @@ export class LbBackend extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get serverIpsInput() {
     return this._serverIps;
+  }
+
+  // ssl_bridging - computed: false, optional: true, required: false
+  private _sslBridging?: boolean | cdktf.IResolvable; 
+  public get sslBridging() {
+    return this.getBooleanAttribute('ssl_bridging');
+  }
+  public set sslBridging(value: boolean | cdktf.IResolvable) {
+    this._sslBridging = value;
+  }
+  public resetSslBridging() {
+    this._sslBridging = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sslBridgingInput() {
+    return this._sslBridging;
   }
 
   // sticky_sessions - computed: false, optional: true, required: false
@@ -1079,12 +1125,14 @@ export class LbBackend extends cdktf.TerraformResource {
       health_check_port: cdktf.numberToTerraform(this._healthCheckPort),
       health_check_timeout: cdktf.stringToTerraform(this._healthCheckTimeout),
       id: cdktf.stringToTerraform(this._id),
+      ignore_ssl_server_verify: cdktf.booleanToTerraform(this._ignoreSslServerVerify),
       lb_id: cdktf.stringToTerraform(this._lbId),
       name: cdktf.stringToTerraform(this._name),
       on_marked_down_action: cdktf.stringToTerraform(this._onMarkedDownAction),
       proxy_protocol: cdktf.stringToTerraform(this._proxyProtocol),
       send_proxy_v2: cdktf.booleanToTerraform(this._sendProxyV2),
       server_ips: cdktf.listMapper(cdktf.stringToTerraform, false)(this._serverIps),
+      ssl_bridging: cdktf.booleanToTerraform(this._sslBridging),
       sticky_sessions: cdktf.stringToTerraform(this._stickySessions),
       sticky_sessions_cookie_name: cdktf.stringToTerraform(this._stickySessionsCookieName),
       timeout_connect: cdktf.stringToTerraform(this._timeoutConnect),

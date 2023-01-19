@@ -66,7 +66,7 @@ export class DataScalewayContainer extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_container',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,
@@ -138,6 +138,11 @@ export class DataScalewayContainer extends cdktf.TerraformDataSource {
   // error_message - computed: true, optional: false, required: false
   public get errorMessage() {
     return this.getStringAttribute('error_message');
+  }
+
+  // http_option - computed: true, optional: false, required: false
+  public get httpOption() {
+    return this.getStringAttribute('http_option');
   }
 
   // id - computed: true, optional: true, required: false

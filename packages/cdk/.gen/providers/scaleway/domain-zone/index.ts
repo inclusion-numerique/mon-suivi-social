@@ -141,7 +141,7 @@ export class DomainZone extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_domain_zone',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,

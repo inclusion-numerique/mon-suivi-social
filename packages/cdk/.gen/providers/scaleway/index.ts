@@ -44,6 +44,7 @@ export * as lbCertificate from './lb-certificate';
 export * as lbFrontend from './lb-frontend';
 export * as lbIp from './lb-ip';
 export * as lbRoute from './lb-route';
+export * as mnqNamespace from './mnq-namespace';
 export * as objectResource from './object-resource';
 export * as objectBucket from './object-bucket';
 export * as objectBucketAcl from './object-bucket-acl';

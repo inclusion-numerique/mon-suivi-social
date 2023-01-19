@@ -1,4 +1,4 @@
-// https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup
+// https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -6,75 +6,69 @@ import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface RdbDatabaseBackupConfig extends cdktf.TerraformMetaArguments {
+export interface MnqNamespaceConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Name of the database of this backup.
-  * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#database_name RdbDatabaseBackup#database_name}
-  */
-  readonly databaseName: string;
-  /**
-  * Expiration date (Format ISO 8601). Cannot be removed.
-  * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#expires_at RdbDatabaseBackup#expires_at}
-  */
-  readonly expiresAt?: string;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#id RdbDatabaseBackup#id}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#id MnqNamespace#id}
   *
   * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
   * If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.
   */
   readonly id?: string;
   /**
-  * Instance on which the user is created
+  * The name of the mnq namespace
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#instance_id RdbDatabaseBackup#instance_id}
-  */
-  readonly instanceId: string;
-  /**
-  * Name of the backup.
-  * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#name RdbDatabaseBackup#name}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#name MnqNamespace#name}
   */
   readonly name?: string;
   /**
+  * The project_id you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#project_id MnqNamespace#project_id}
+  */
+  readonly projectId?: string;
+  /**
+  * The Namespace protocol
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#protocol MnqNamespace#protocol}
+  */
+  readonly protocol: string;
+  /**
   * The region you want to attach the resource to
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#region RdbDatabaseBackup#region}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#region MnqNamespace#region}
   */
   readonly region?: string;
   /**
   * timeouts block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#timeouts RdbDatabaseBackup#timeouts}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#timeouts MnqNamespace#timeouts}
   */
-  readonly timeouts?: RdbDatabaseBackupTimeouts;
+  readonly timeouts?: MnqNamespaceTimeouts;
 }
-export interface RdbDatabaseBackupTimeouts {
+export interface MnqNamespaceTimeouts {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#create RdbDatabaseBackup#create}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#create MnqNamespace#create}
   */
   readonly create?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#default RdbDatabaseBackup#default}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#default MnqNamespace#default}
   */
   readonly default?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#delete RdbDatabaseBackup#delete}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#delete MnqNamespace#delete}
   */
   readonly delete?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#read RdbDatabaseBackup#read}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#read MnqNamespace#read}
   */
   readonly read?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup#update RdbDatabaseBackup#update}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace#update MnqNamespace#update}
   */
   readonly update?: string;
 }
 
-export function rdbDatabaseBackupTimeoutsToTerraform(struct?: RdbDatabaseBackupTimeoutsOutputReference | RdbDatabaseBackupTimeouts | cdktf.IResolvable): any {
+export function mnqNamespaceTimeoutsToTerraform(struct?: MnqNamespaceTimeoutsOutputReference | MnqNamespaceTimeouts | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
@@ -88,7 +82,7 @@ export function rdbDatabaseBackupTimeoutsToTerraform(struct?: RdbDatabaseBackupT
   }
 }
 
-export class RdbDatabaseBackupTimeoutsOutputReference extends cdktf.ComplexObject {
+export class MnqNamespaceTimeoutsOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
 
@@ -100,7 +94,7 @@ export class RdbDatabaseBackupTimeoutsOutputReference extends cdktf.ComplexObjec
     super(terraformResource, terraformAttribute, false, 0);
   }
 
-  public get internalValue(): RdbDatabaseBackupTimeouts | cdktf.IResolvable | undefined {
+  public get internalValue(): MnqNamespaceTimeouts | cdktf.IResolvable | undefined {
     if (this.resolvableValue) {
       return this.resolvableValue;
     }
@@ -129,7 +123,7 @@ export class RdbDatabaseBackupTimeoutsOutputReference extends cdktf.ComplexObjec
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: RdbDatabaseBackupTimeouts | cdktf.IResolvable | undefined) {
+  public set internalValue(value: MnqNamespaceTimeouts | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
@@ -236,29 +230,29 @@ export class RdbDatabaseBackupTimeoutsOutputReference extends cdktf.ComplexObjec
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup scaleway_rdb_database_backup}
+* Represents a {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace scaleway_mnq_namespace}
 */
-export class RdbDatabaseBackup extends cdktf.TerraformResource {
+export class MnqNamespace extends cdktf.TerraformResource {
 
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = "scaleway_rdb_database_backup";
+  public static readonly tfResourceType = "scaleway_mnq_namespace";
 
   // ===========
   // INITIALIZER
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database_backup scaleway_rdb_database_backup} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/scaleway/r/mnq_namespace scaleway_mnq_namespace} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
-  * @param options RdbDatabaseBackupConfig
+  * @param options MnqNamespaceConfig
   */
-  public constructor(scope: Construct, id: string, config: RdbDatabaseBackupConfig) {
+  public constructor(scope: Construct, id: string, config: MnqNamespaceConfig) {
     super(scope, id, {
-      terraformResourceType: 'scaleway_rdb_database_backup',
+      terraformResourceType: 'scaleway_mnq_namespace',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
         providerVersion: '2.9.1',
@@ -272,11 +266,10 @@ export class RdbDatabaseBackup extends cdktf.TerraformResource {
       connection: config.connection,
       forEach: config.forEach
     });
-    this._databaseName = config.databaseName;
-    this._expiresAt = config.expiresAt;
     this._id = config.id;
-    this._instanceId = config.instanceId;
     this._name = config.name;
+    this._projectId = config.projectId;
+    this._protocol = config.protocol;
     this._region = config.region;
     this._timeouts.internalValue = config.timeouts;
   }
@@ -290,33 +283,9 @@ export class RdbDatabaseBackup extends cdktf.TerraformResource {
     return this.getStringAttribute('created_at');
   }
 
-  // database_name - computed: false, optional: false, required: true
-  private _databaseName?: string; 
-  public get databaseName() {
-    return this.getStringAttribute('database_name');
-  }
-  public set databaseName(value: string) {
-    this._databaseName = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get databaseNameInput() {
-    return this._databaseName;
-  }
-
-  // expires_at - computed: false, optional: true, required: false
-  private _expiresAt?: string; 
-  public get expiresAt() {
-    return this.getStringAttribute('expires_at');
-  }
-  public set expiresAt(value: string) {
-    this._expiresAt = value;
-  }
-  public resetExpiresAt() {
-    this._expiresAt = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get expiresAtInput() {
-    return this._expiresAt;
+  // endpoint - computed: true, optional: false, required: false
+  public get endpoint() {
+    return this.getStringAttribute('endpoint');
   }
 
   // id - computed: true, optional: true, required: false
@@ -335,24 +304,6 @@ export class RdbDatabaseBackup extends cdktf.TerraformResource {
     return this._id;
   }
 
-  // instance_id - computed: false, optional: false, required: true
-  private _instanceId?: string; 
-  public get instanceId() {
-    return this.getStringAttribute('instance_id');
-  }
-  public set instanceId(value: string) {
-    this._instanceId = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get instanceIdInput() {
-    return this._instanceId;
-  }
-
-  // instance_name - computed: true, optional: false, required: false
-  public get instanceName() {
-    return this.getStringAttribute('instance_name');
-  }
-
   // name - computed: true, optional: true, required: false
   private _name?: string; 
   public get name() {
@@ -367,6 +318,35 @@ export class RdbDatabaseBackup extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get nameInput() {
     return this._name;
+  }
+
+  // project_id - computed: true, optional: true, required: false
+  private _projectId?: string; 
+  public get projectId() {
+    return this.getStringAttribute('project_id');
+  }
+  public set projectId(value: string) {
+    this._projectId = value;
+  }
+  public resetProjectId() {
+    this._projectId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get projectIdInput() {
+    return this._projectId;
+  }
+
+  // protocol - computed: false, optional: false, required: true
+  private _protocol?: string; 
+  public get protocol() {
+    return this.getStringAttribute('protocol');
+  }
+  public set protocol(value: string) {
+    this._protocol = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get protocolInput() {
+    return this._protocol;
   }
 
   // region - computed: true, optional: true, required: false
@@ -385,22 +365,17 @@ export class RdbDatabaseBackup extends cdktf.TerraformResource {
     return this._region;
   }
 
-  // size - computed: true, optional: false, required: false
-  public get size() {
-    return this.getNumberAttribute('size');
-  }
-
   // updated_at - computed: true, optional: false, required: false
   public get updatedAt() {
     return this.getStringAttribute('updated_at');
   }
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts = new RdbDatabaseBackupTimeoutsOutputReference(this, "timeouts");
+  private _timeouts = new MnqNamespaceTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
     return this._timeouts;
   }
-  public putTimeouts(value: RdbDatabaseBackupTimeouts) {
+  public putTimeouts(value: MnqNamespaceTimeouts) {
     this._timeouts.internalValue = value;
   }
   public resetTimeouts() {
@@ -417,13 +392,12 @@ export class RdbDatabaseBackup extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      database_name: cdktf.stringToTerraform(this._databaseName),
-      expires_at: cdktf.stringToTerraform(this._expiresAt),
       id: cdktf.stringToTerraform(this._id),
-      instance_id: cdktf.stringToTerraform(this._instanceId),
       name: cdktf.stringToTerraform(this._name),
+      project_id: cdktf.stringToTerraform(this._projectId),
+      protocol: cdktf.stringToTerraform(this._protocol),
       region: cdktf.stringToTerraform(this._region),
-      timeouts: rdbDatabaseBackupTimeoutsToTerraform(this._timeouts.internalValue),
+      timeouts: mnqNamespaceTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

@@ -32,6 +32,12 @@ export interface ContainerConfig extends cdktf.TerraformMetaArguments {
   */
   readonly environmentVariables?: { [key: string]: string };
   /**
+  * HTTP traffic configuration
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/container#http_option Container#http_option}
+  */
+  readonly httpOption?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/container#id Container#id}
   *
   * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
@@ -339,7 +345,7 @@ export class Container extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_container',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,
@@ -354,6 +360,7 @@ export class Container extends cdktf.TerraformResource {
     this._deploy = config.deploy;
     this._description = config.description;
     this._environmentVariables = config.environmentVariables;
+    this._httpOption = config.httpOption;
     this._id = config.id;
     this._maxConcurrency = config.maxConcurrency;
     this._maxScale = config.maxScale;
@@ -453,6 +460,22 @@ export class Container extends cdktf.TerraformResource {
   // error_message - computed: true, optional: false, required: false
   public get errorMessage() {
     return this.getStringAttribute('error_message');
+  }
+
+  // http_option - computed: false, optional: true, required: false
+  private _httpOption?: string; 
+  public get httpOption() {
+    return this.getStringAttribute('http_option');
+  }
+  public set httpOption(value: string) {
+    this._httpOption = value;
+  }
+  public resetHttpOption() {
+    this._httpOption = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get httpOptionInput() {
+    return this._httpOption;
   }
 
   // id - computed: true, optional: true, required: false
@@ -723,6 +746,7 @@ export class Container extends cdktf.TerraformResource {
       deploy: cdktf.booleanToTerraform(this._deploy),
       description: cdktf.stringToTerraform(this._description),
       environment_variables: cdktf.hashMapper(cdktf.stringToTerraform)(this._environmentVariables),
+      http_option: cdktf.stringToTerraform(this._httpOption),
       id: cdktf.stringToTerraform(this._id),
       max_concurrency: cdktf.numberToTerraform(this._maxConcurrency),
       max_scale: cdktf.numberToTerraform(this._maxScale),

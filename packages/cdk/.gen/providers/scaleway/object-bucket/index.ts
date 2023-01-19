@@ -862,7 +862,7 @@ export class ObjectBucketVersioningOutputReference extends cdktf.ComplexObject {
     }
   }
 
-  // enabled - computed: false, optional: true, required: false
+  // enabled - computed: true, optional: true, required: false
   private _enabled?: boolean | cdktf.IResolvable; 
   public get enabled() {
     return this.getBooleanAttribute('enabled');
@@ -905,7 +905,7 @@ export class ObjectBucket extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_object_bucket',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,

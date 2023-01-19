@@ -161,6 +161,11 @@ export class DataScalewayBaremetalServerOptionsOutputReference extends cdktf.Com
   public get id() {
     return this.getStringAttribute('id');
   }
+
+  // name - computed: true, optional: false, required: false
+  public get name() {
+    return this.getStringAttribute('name');
+  }
 }
 
 export class DataScalewayBaremetalServerOptionsList extends cdktf.ComplexList {
@@ -179,6 +184,90 @@ export class DataScalewayBaremetalServerOptionsList extends cdktf.ComplexList {
   */
   public get(index: number): DataScalewayBaremetalServerOptionsOutputReference {
     return new DataScalewayBaremetalServerOptionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface DataScalewayBaremetalServerPrivateNetwork {
+}
+
+export function dataScalewayBaremetalServerPrivateNetworkToTerraform(struct?: DataScalewayBaremetalServerPrivateNetwork): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataScalewayBaremetalServerPrivateNetworkOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): DataScalewayBaremetalServerPrivateNetwork | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataScalewayBaremetalServerPrivateNetwork | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // created_at - computed: true, optional: false, required: false
+  public get createdAt() {
+    return this.getStringAttribute('created_at');
+  }
+
+  // id - computed: true, optional: false, required: false
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // status - computed: true, optional: false, required: false
+  public get status() {
+    return this.getStringAttribute('status');
+  }
+
+  // updated_at - computed: true, optional: false, required: false
+  public get updatedAt() {
+    return this.getStringAttribute('updated_at');
+  }
+
+  // vlan - computed: true, optional: false, required: false
+  public get vlan() {
+    return this.getNumberAttribute('vlan');
+  }
+}
+
+export class DataScalewayBaremetalServerPrivateNetworkList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): DataScalewayBaremetalServerPrivateNetworkOutputReference {
+    return new DataScalewayBaremetalServerPrivateNetworkOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 
@@ -208,7 +297,7 @@ export class DataScalewayBaremetalServer extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_baremetal_server',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,
@@ -316,6 +405,12 @@ export class DataScalewayBaremetalServer extends cdktf.TerraformDataSource {
   // password - computed: true, optional: false, required: false
   public get password() {
     return this.getStringAttribute('password');
+  }
+
+  // private_network - computed: true, optional: false, required: false
+  private _privateNetwork = new DataScalewayBaremetalServerPrivateNetworkList(this, "private_network", true);
+  public get privateNetwork() {
+    return this._privateNetwork;
   }
 
   // project_id - computed: true, optional: false, required: false

@@ -20,6 +20,12 @@ export interface LbFrontendConfig extends cdktf.TerraformMetaArguments {
   */
   readonly certificateIds?: string[];
   /**
+  * Activates HTTP/3 protocol
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_frontend#enable_http3 LbFrontend#enable_http3}
+  */
+  readonly enableHttp3?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_frontend#id LbFrontend#id}
   *
   * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
@@ -644,7 +650,7 @@ export class LbFrontend extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_lb_frontend',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,
@@ -657,6 +663,7 @@ export class LbFrontend extends cdktf.TerraformResource {
     });
     this._backendId = config.backendId;
     this._certificateIds = config.certificateIds;
+    this._enableHttp3 = config.enableHttp3;
     this._id = config.id;
     this._inboundPort = config.inboundPort;
     this._lbId = config.lbId;
@@ -702,6 +709,22 @@ export class LbFrontend extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get certificateIdsInput() {
     return this._certificateIds;
+  }
+
+  // enable_http3 - computed: false, optional: true, required: false
+  private _enableHttp3?: boolean | cdktf.IResolvable; 
+  public get enableHttp3() {
+    return this.getBooleanAttribute('enable_http3');
+  }
+  public set enableHttp3(value: boolean | cdktf.IResolvable) {
+    this._enableHttp3 = value;
+  }
+  public resetEnableHttp3() {
+    this._enableHttp3 = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enableHttp3Input() {
+    return this._enableHttp3;
   }
 
   // id - computed: true, optional: true, required: false
@@ -818,6 +841,7 @@ export class LbFrontend extends cdktf.TerraformResource {
     return {
       backend_id: cdktf.stringToTerraform(this._backendId),
       certificate_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(this._certificateIds),
+      enable_http3: cdktf.booleanToTerraform(this._enableHttp3),
       id: cdktf.stringToTerraform(this._id),
       inbound_port: cdktf.numberToTerraform(this._inboundPort),
       lb_id: cdktf.stringToTerraform(this._lbId),

@@ -273,7 +273,7 @@ export class ContainerNamespace extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_container_namespace',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,

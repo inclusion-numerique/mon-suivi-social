@@ -108,6 +108,12 @@ If this behaviour is wanted, please set 'reinstall_on_ssh_key_changes' argument 
   */
   readonly options?: BaremetalServerOptions[] | cdktf.IResolvable;
   /**
+  * private_network block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/baremetal_server#private_network BaremetalServer#private_network}
+  */
+  readonly privateNetwork?: BaremetalServerPrivateNetwork[] | cdktf.IResolvable;
+  /**
   * timeouts block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/baremetal_server#timeouts BaremetalServer#timeouts}
@@ -300,6 +306,11 @@ export class BaremetalServerOptionsOutputReference extends cdktf.ComplexObject {
   public get idInput() {
     return this._id;
   }
+
+  // name - computed: true, optional: false, required: false
+  public get name() {
+    return this.getStringAttribute('name');
+  }
 }
 
 export class BaremetalServerOptionsList extends cdktf.ComplexList {
@@ -319,6 +330,125 @@ export class BaremetalServerOptionsList extends cdktf.ComplexList {
   */
   public get(index: number): BaremetalServerOptionsOutputReference {
     return new BaremetalServerOptionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface BaremetalServerPrivateNetwork {
+  /**
+  * The private network ID
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/baremetal_server#id BaremetalServer#id}
+  *
+  * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
+  * If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.
+  */
+  readonly id: string;
+}
+
+export function baremetalServerPrivateNetworkToTerraform(struct?: BaremetalServerPrivateNetwork | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    id: cdktf.stringToTerraform(struct!.id),
+  }
+}
+
+export class BaremetalServerPrivateNetworkOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): BaremetalServerPrivateNetwork | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._id !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.id = this._id;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: BaremetalServerPrivateNetwork | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._id = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._id = value.id;
+    }
+  }
+
+  // created_at - computed: true, optional: false, required: false
+  public get createdAt() {
+    return this.getStringAttribute('created_at');
+  }
+
+  // id - computed: false, optional: false, required: true
+  private _id?: string; 
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
+  }
+
+  // status - computed: true, optional: false, required: false
+  public get status() {
+    return this.getStringAttribute('status');
+  }
+
+  // updated_at - computed: true, optional: false, required: false
+  public get updatedAt() {
+    return this.getStringAttribute('updated_at');
+  }
+
+  // vlan - computed: true, optional: false, required: false
+  public get vlan() {
+    return this.getNumberAttribute('vlan');
+  }
+}
+
+export class BaremetalServerPrivateNetworkList extends cdktf.ComplexList {
+  public internalValue? : BaremetalServerPrivateNetwork[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): BaremetalServerPrivateNetworkOutputReference {
+    return new BaremetalServerPrivateNetworkOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 export interface BaremetalServerTimeouts {
@@ -504,7 +634,7 @@ export class BaremetalServer extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_baremetal_server',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,
@@ -531,6 +661,7 @@ export class BaremetalServer extends cdktf.TerraformResource {
     this._user = config.user;
     this._zone = config.zone;
     this._options.internalValue = config.options;
+    this._privateNetwork.internalValue = config.privateNetwork;
     this._timeouts.internalValue = config.timeouts;
   }
 
@@ -811,6 +942,22 @@ export class BaremetalServer extends cdktf.TerraformResource {
     return this._options.internalValue;
   }
 
+  // private_network - computed: false, optional: true, required: false
+  private _privateNetwork = new BaremetalServerPrivateNetworkList(this, "private_network", true);
+  public get privateNetwork() {
+    return this._privateNetwork;
+  }
+  public putPrivateNetwork(value: BaremetalServerPrivateNetwork[] | cdktf.IResolvable) {
+    this._privateNetwork.internalValue = value;
+  }
+  public resetPrivateNetwork() {
+    this._privateNetwork.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get privateNetworkInput() {
+    return this._privateNetwork.internalValue;
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts = new BaremetalServerTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
@@ -849,6 +996,7 @@ export class BaremetalServer extends cdktf.TerraformResource {
       user: cdktf.stringToTerraform(this._user),
       zone: cdktf.stringToTerraform(this._zone),
       options: cdktf.listMapper(baremetalServerOptionsToTerraform, true)(this._options.internalValue),
+      private_network: cdktf.listMapper(baremetalServerPrivateNetworkToTerraform, true)(this._privateNetwork.internalValue),
       timeouts: baremetalServerTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }

@@ -433,7 +433,7 @@ export class DataScalewayDomainRecord extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_domain_record',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.8.0',
+        providerVersion: '2.9.1',
         providerVersionConstraint: '>= 2.8.0'
       },
       provider: config.provider,
