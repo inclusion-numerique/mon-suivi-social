@@ -28,7 +28,7 @@ parameters:
     default: './pnpm-lock.yaml'
   registry:
     type: string
-    default: rg.fr-par.scw.cloud/mss-web
+    default: rg.fr-par.scw.cloud/mss-web-app
   image:
     type: string
     default: mss-web-<< pipeline.git.branch >> | sed -e 's/\//-/g'
