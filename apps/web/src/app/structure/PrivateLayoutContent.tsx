@@ -42,7 +42,7 @@ const PrivateLayoutContent: FunctionComponent<{
           </nav>
         </div>
         <div className="fr-col-12 fr-col-md-8 fr-col-xl-9">
-          <div className="fr-container fr-pt-8v">{children}</div>
+          <div className="fr-container fr-pt-2v">{children}</div>
         </div>
       </div>
     </main>

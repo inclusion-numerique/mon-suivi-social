@@ -64,9 +64,7 @@ const StatistiquesPage = async () => {
 
   return (
     <>
-      <PageTitle icon="pie-chart-2-line">
-        Statistiques {organisation.name}
-      </PageTitle>
+      <PageTitle icon="pie-chart-2-line" title="Statistiques" />
       <div className="fr-grid-row fr-mt-2v fr-grid-row--gutters">
         <div className="fr-col-12 fr-col-md-6">
           <div className="fr-card">

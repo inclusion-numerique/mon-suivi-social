@@ -1,17 +1,11 @@
 import BeneficiariesSearchBar from '@mss/web/app/structure/beneficiaires/BeneficiariesSearchBar'
 import Link from 'next/link'
+import { PageTitle } from '@mss/web/app/structure/PageTitle'
 
 const TableauDeBordPage = () => {
   return (
     <>
-      <div className="fr-grid-row">
-        <div className="fr-col-12">
-          <h2>
-            <span className="fr-icon-profil-line fr-icon--lg fr-mr-1w" />
-            Tableau de bord
-          </h2>
-        </div>
-      </div>
+      <PageTitle icon="profil-line" title="Tableau de bord" />
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">

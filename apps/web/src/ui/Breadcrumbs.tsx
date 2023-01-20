@@ -1,16 +1,23 @@
 import Link from 'next/link'
 
+export type BreadCrumbParent = { title: string; href: string }
+export type BreadCrumbParents = BreadCrumbParent[]
+
 export const Breadcrumbs = ({
   currentPage,
   parents = [],
+  hideRoot,
+  className,
 }: {
   currentPage: string
-  parents?: { title: string; href: string }[]
+  parents?: BreadCrumbParents
+  hideRoot?: boolean
+  className?: string
 }) => {
   return (
     <nav
       role="navigation"
-      className="fr-breadcrumb"
+      className={`fr-breadcrumb ${className}`}
       aria-label="vous êtes ici :"
       data-fr-js-breadcrumb="true"
     >
@@ -24,11 +31,13 @@ export const Breadcrumbs = ({
       </button>
       <div className="fr-collapse" id="breadcrumbs" data-fr-js-collapse="true">
         <ol className="fr-breadcrumb__list">
-          <li>
-            <Link className="fr-breadcrumb__link" href="/">
-              Accueil
-            </Link>
-          </li>
+          {hideRoot ? null : (
+            <li>
+              <Link className="fr-breadcrumb__link" href="/">
+                Accueil
+              </Link>
+            </li>
+          )}
           {parents.map(({ title, href }) => (
             <li key={href}>
               <Link className="fr-breadcrumb__link" href={href}>

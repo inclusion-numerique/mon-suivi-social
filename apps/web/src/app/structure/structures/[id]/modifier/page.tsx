@@ -1,5 +1,6 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
+import { PageTitle } from '@mss/web/app/structure/PageTitle'
 export const revalidate = 0
 
 const StructurePage = async ({}: { params?: { id: string } }) => {
@@ -10,12 +11,7 @@ const StructurePage = async ({}: { params?: { id: string } }) => {
 
   return (
     <>
-      <div className="fr-grid-row ">
-        <h2>
-          <span className="fr-icon-building-line fr-icon--lg fr-mr-1w" />
-          {structure.name}
-        </h2>
-      </div>
+      <PageTitle icon="building-line" title={structure.name} />
     </>
   )
 }

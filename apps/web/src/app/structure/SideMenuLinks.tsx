@@ -92,7 +92,7 @@ const SideMenuLinks = ({ user }: { user: SessionUser }) => {
   const menuLinksWithCurrent = [...mainLinks, ...userSpecificLinks].map(
     (link) => ({
       ...link,
-      current: isCurrent(link.path),
+      current: isCurrent(link.path, link.path === Routes.Structure.Index),
     }),
   )
 

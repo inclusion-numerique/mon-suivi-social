@@ -1,17 +1,11 @@
 import Link from 'next/link'
 import BeneficiariesSearchBar from '@mss/web/app/structure/beneficiaires/BeneficiariesSearchBar'
+import { PageTitle } from '@mss/web/app/structure/PageTitle'
 
 const BeneficiariesPage = async () => {
   return (
     <>
-      <div className="fr-grid-row">
-        <div className="fr-col-12">
-          <h2>
-            <span className="fr-icon-user-line fr-icon--lg fr-mr-1w" />
-            Bénéficiaires
-          </h2>
-        </div>
-      </div>
+      <PageTitle icon="user-line" title="Bénéficiaires" />
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">

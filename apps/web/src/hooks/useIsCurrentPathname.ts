@@ -3,5 +3,6 @@ import { usePathname } from 'next/navigation'
 export const useIsCurrentPathname = () => {
   const pathName = usePathname() ?? '/'
 
-  return (path: string) => pathName.startsWith(path)
+  return (path: string, exact?: boolean) =>
+    exact ? pathName === path : pathName.startsWith(path)
 }
