@@ -1,6 +1,9 @@
 import BeneficiaryForm from '@mss/web/beneficiary/BeneficiaryForm'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { getAgentOptions } from '@mss/web/app/structure/beneficiaires/getAgentOptions'
+import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
+import { Routes } from '@mss/web/app/routing/routes'
+import { PageTitle } from '@mss/web/app/structure/PageTitle'
 
 const AddBeneficiaryPage = async () => {
   const user = await getAuthenticatedAgent()
@@ -8,9 +11,16 @@ const AddBeneficiaryPage = async () => {
 
   return (
     <>
-      <div className="fr-grid-row">
-        <h2>Ajouter un·e bénéficiaire</h2>
-      </div>
+      <PageTitle
+        icon="user-line"
+        title="Ajouter un·e bénéficiaire"
+        parents={[
+          {
+            title: 'Bénéficiaires',
+            href: Routes.Structure.Beneficiaires.Index,
+          },
+        ]}
+      />
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">

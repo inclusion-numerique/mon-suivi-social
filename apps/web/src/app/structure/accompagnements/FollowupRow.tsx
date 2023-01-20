@@ -17,8 +17,8 @@ export const FollowupRow = ({
   const router = useRouter()
 
   const href = Routes.Structure.Beneficiaire.IndexWithParams(beneficiary, {
-    tab: 'entretiens',
-    item: id,
+    tab: 'historique',
+    accompagnement: id,
   })
 
   const statusBadge =

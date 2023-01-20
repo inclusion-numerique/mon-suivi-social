@@ -17,8 +17,8 @@ export const HelpRequestRow = ({
   const helpRequest = deserialize(serializedHelpRequest)
   const { status, id, beneficiary, agent, type } = helpRequest
   const href = Routes.Structure.Beneficiaire.IndexWithParams(beneficiary, {
-    tab: 'demandes',
-    item: id,
+    tab: 'historique',
+    accompagnement: id,
   })
 
   const statusBadge =

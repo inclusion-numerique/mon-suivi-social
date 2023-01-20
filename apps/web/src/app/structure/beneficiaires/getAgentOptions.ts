@@ -12,7 +12,7 @@ export const getAgentOptions = ({
   organisationId
     ? prismaClient.user
         .findMany({
-          where: { role: 'Agent', organisationId },
+          where: { role: { not: 'Administrator' }, organisationId },
           orderBy: { lastName: 'asc' },
         })
         .then((agents) =>

@@ -24,14 +24,27 @@ export const Routes = {
       IndexWithParams: (
         { fileNumber }: { fileNumber: string },
         params: {
-          tab?: 'entretiens' | 'demandes'
-          // ID of item to scroll to
-          item?: string
+          tab?: 'info' | 'fichiers' | 'historique'
+          // ID of item to scroll to in history tab
+          accompagnement?: string
         },
       ) => withSearchParams(`/structure/beneficiaires/${fileNumber}`)(params),
+      Nouveau: `/structure/beneficiaires/nouveau`,
+      Modifier: ({ fileNumber }: { fileNumber: string }) =>
+        `/structure/beneficiaires/${fileNumber}/modifier`,
     },
     Accompagnements: {
       Index: '/structure/accompagnements',
+      Entretien: {
+        Nouveau: withSearchParams<{
+          dossier: string
+        }>('/structure/accompagnements/entretiens/nouveau'),
+      },
+      DemandeDAide: {
+        Nouvelle: withSearchParams<{
+          dossier: string
+        }>('/structure/accompagnements/demande-d-aide/nouvelle'),
+      },
     },
     Statistiques: {
       Index: '/structure/statistiques',

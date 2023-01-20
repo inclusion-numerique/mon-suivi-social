@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import BeneficiariesSearchBar from '@mss/web/app/structure/beneficiaires/BeneficiariesSearchBar'
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
+import { Routes } from '@mss/web/app/routing/routes'
 
 const BeneficiariesPage = async () => {
   return (
@@ -20,7 +21,7 @@ const BeneficiariesPage = async () => {
                 <div className="fr-btns-group fr-btns-group--icon-left">
                   <Link
                     className="fr-btn fr-icon-user-add-line fr-mb-0"
-                    href="/beneficiaries/add"
+                    href={Routes.Structure.Beneficiaire.Nouveau}
                   >
                     Ajouter un·e bénéficiaire
                   </Link>

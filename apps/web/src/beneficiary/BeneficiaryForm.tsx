@@ -1,5 +1,5 @@
 'use client'
-import { useForm } from 'react-hook-form'
+import { DefaultValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { InputFormField } from '@mss/web/form/InputFormField'
 import {
@@ -15,6 +15,12 @@ import { trpc } from '@mss/web/trpc'
 import { useRouter } from 'next/navigation'
 import { withTrpc } from '@mss/web/withTrpc'
 import { Routes } from '@mss/web/app/routing/routes'
+import { deserialize, Serialized } from '@mss/web/utils/serialization'
+import { Beneficiary } from '@prisma/client'
+
+const defaultValueFromBeneficiary = (beneficiary: Beneficiary) => {
+  return beneficiary
+}
 
 export const BeneficiaryForm: FunctionComponent<
   { agents: Options } & (
@@ -24,13 +30,23 @@ export const BeneficiaryForm: FunctionComponent<
       }
     | {
         creation: false
-        defaultValues: Partial<BeneficiaryData> & { id: string }
+        serializedBeneficiary: Serialized<Beneficiary>
       }
   )
-> = ({ creation, defaultValues, agents }) => {
+> = (props) => {
   const router = useRouter()
 
   const addBeneficiary = trpc.beneficiary.add.useMutation()
+
+  const { agents } = props
+
+  const defaultValues: DefaultValues<BeneficiaryData> = props.creation
+    ? props.defaultValues
+    : defaultValueFromBeneficiary(deserialize(props.serializedBeneficiary))
+
+  if (!defaultValues.aidantConnectAuthorized) {
+    defaultValues.aidantConnectAuthorized = false
+  }
 
   const form = useForm<BeneficiaryData>({
     resolver: zodResolver(BeneficiaryDataValidation),
@@ -88,6 +104,7 @@ export const BeneficiaryForm: FunctionComponent<
 
       <InputFormField
         label="Informations complémentaires"
+        hint="Il est fortement recommandé de ne stocker que les informations utiles au suivi du bénéficiaire et d'éviter le recueil d'informations sensibles (données de santé, mots de passe, etc)."
         disabled={fieldsDisabled}
         control={control}
         path="additionalInformation"
@@ -98,9 +115,13 @@ export const BeneficiaryForm: FunctionComponent<
         <p className="fr-error-text">{addBeneficiary.error.message}</p>
       ) : null}
 
-      <button className="fr-btn" type="submit" disabled={isLoading}>
-        {creation ? 'Ajouter le bénéficiaire' : 'Enregistrer le bénéficiaire'}
-      </button>
+      <div className="fr-grid-row fr-grid-row--center">
+        <button className="fr-btn" type="submit" disabled={isLoading}>
+          {props.creation
+            ? 'Ajouter le bénéficiaire'
+            : 'Enregistrer le bénéficiaire'}
+        </button>
+      </div>
     </form>
   )
 }

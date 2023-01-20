@@ -4,17 +4,19 @@ import { Routes } from '@mss/web/app/routing/routes'
 export const PageTitle = ({
   icon,
   title,
+  breadcrumbsTitle,
   parents,
 }: {
   icon: string
   title: string
+  breadcrumbsTitle?: string
   parents?: BreadCrumbParents
 }) => (
   <>
     <Breadcrumbs
       hideRoot
       className="fr-mb-4v"
-      currentPage={title}
+      currentPage={breadcrumbsTitle ?? title}
       parents={[
         { title: 'Votre structure', href: Routes.Structure.Index },
         ...(parents ?? []),

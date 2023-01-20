@@ -3,8 +3,11 @@ import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { getAgentOptions } from '@mss/web/app/structure/beneficiaires/getAgentOptions'
 import { notFound } from 'next/navigation'
 import { prismaClient } from '@mss/web/prismaClient'
+import { PageTitle } from '@mss/web/app/structure/PageTitle'
+import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
+import { serialize } from '@mss/web/utils/serialization'
+import { Routes } from '@mss/web/app/routing/routes'
 
-import { serializeDate } from '@mss/web/utils/serializeDate'
 export const revalidate = 0
 
 const EditBeneficiaryPage = async ({
@@ -26,36 +29,29 @@ const EditBeneficiaryPage = async ({
     return notFound()
   }
 
-  const {
-    birthDate,
-    deathDate,
-    created,
-    updated,
-    additionalInformation,
-    ...rest
-  } = beneficiary
-
-  // Serialized for client component
-  const serializedBeneficiary = {
-    ...rest,
-    birthDate: serializeDate(birthDate),
-    deathDate: serializeDate(deathDate),
-    created: serializeDate(created),
-    updated: serializeDate(updated),
-    additionalInformation: additionalInformation ?? '',
-  }
-
   return (
     <>
-      <div className="fr-grid-row">
-        <h2>Modifier un·e bénéficiaire</h2>
-      </div>
+      <PageTitle
+        icon="user-line"
+        title={`${beneficiaryDisplayName(beneficiary)} · Modification`}
+        breadcrumbsTitle="Modification"
+        parents={[
+          {
+            title: 'Bénéficiaires',
+            href: Routes.Structure.Beneficiaires.Index,
+          },
+          {
+            title: beneficiaryDisplayName(beneficiary),
+            href: Routes.Structure.Beneficiaire.Index({ fileNumber }),
+          },
+        ]}
+      />
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">
             <BeneficiaryForm
               agents={agents}
-              defaultValues={serializedBeneficiary}
+              serializedBeneficiary={serialize(beneficiary)}
             />
           </div>
         </div>
