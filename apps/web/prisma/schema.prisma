@@ -47,7 +47,9 @@ enum UserStatus {
 enum UserRole {
   Administrator
   StructureManager
-  Agent
+  Referent
+  Instructor
+  ReceptionAgent
 }
 
 model User {
@@ -58,7 +60,7 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
-  role          UserRole @default(value: Agent)
+  role          UserRole
   status        UserStatus @default(value: Active)
 
   location    String?

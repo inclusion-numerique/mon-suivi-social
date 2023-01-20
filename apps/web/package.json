@@ -23,6 +23,7 @@
     "prisma:generate": "prisma generate",
     "prisma:format": "prisma format",
     "prisma:pull": "pnpm with-env prisma db pull",
+    "prisma": "pnpm with-env prisma",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "pnpm with-env chromatic --exit-zero-on-changes --exit-once-uploaded"
