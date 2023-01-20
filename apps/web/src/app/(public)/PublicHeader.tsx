@@ -3,7 +3,9 @@ import { ReactNode } from 'react'
 import { Routes } from '@mss/web/app/routing/routes'
 
 const PublicHeader = ({
+  hideRepublic,
   hideSigninButton,
+  fullWidth,
   headerTools = (
     <div className="fr-header__tools">
       <div className="fr-header__tools-links">
@@ -11,7 +13,7 @@ const PublicHeader = ({
           {hideSigninButton ? null : (
             <li>
               <a
-                className="fr-btn fr-btn--tertiary fr-icon-account-circle-fill"
+                className="fr-btn fr-btn--tertiary fr-icon-user-setting-line"
                 href={Routes.Connexion.Login}
               >
                 Se connecter
@@ -28,7 +30,7 @@ const PublicHeader = ({
         {hideSigninButton ? null : (
           <li>
             <Link
-              className="fr-btn fr-btn--icon-left fr-icon-account-circle-fill"
+              className="fr-btn fr-btn--icon-left fr-icon-user-setting-line"
               href={Routes.Connexion.Login}
             >
               Se connecter
@@ -39,34 +41,40 @@ const PublicHeader = ({
     </div>
   ),
 }: {
+  hideRepublic?: boolean
   hideSigninButton?: boolean
+  fullWidth?: boolean
   headerTools?: ReactNode
   mobileMenuLinks?: ReactNode
 }) => {
   return (
     <header role="banner" className="fr-header">
       <div className="fr-header__body">
-        <div className="fr-container">
+        <div className={fullWidth ? 'fr-pl-4v' : 'fr-container'}>
           <div className="fr-header__body-row">
             <div className="fr-header__brand fr-enlarge-link">
               <div className="fr-header__brand-top">
+                {hideRepublic ? null : (
+                  <div className="fr-header__logo">
+                    <Link
+                      href="/"
+                      aria-current="page"
+                      target="_self"
+                      title="Mon Suivi Social"
+                      className="nuxt-link-exact-active nuxt-link-active"
+                    >
+                      <p className="fr-logo">
+                        République
+                        <br />
+                        Française
+                      </p>
+                    </Link>
+                  </div>
+                )}
                 <div className="fr-header__logo">
-                  <Link
-                    href="/"
-                    aria-current="page"
-                    target="_self"
-                    title="Mon Suivi Social"
-                    className="nuxt-link-exact-active nuxt-link-active"
-                  >
-                    <p className="fr-logo">
-                      République
-                      <br />
-                      Française
-                    </p>
-                  </Link>
-                </div>
-                <div className="fr-header__operator">
-                  <h2>Mon Suivi Social</h2>
+                  <picture>
+                    <img width={240} src="/images/logo.svg" />
+                  </picture>
                 </div>
                 <div className="fr-header__navbar">
                   <button

@@ -8,7 +8,7 @@ export const UserMenu = ({ user }: { user: SessionUser }) => {
     <Link
       href={Routes.Structure.MonCompte.Index}
       target="_self"
-      className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-account-circle-fill"
+      className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-user-setting-line"
     >
       {getUserDisplayName(user)}
     </Link>

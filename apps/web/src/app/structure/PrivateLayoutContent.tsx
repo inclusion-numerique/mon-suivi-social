@@ -6,6 +6,8 @@ const PrivateLayoutContent: FunctionComponent<{
   user: SessionUser
   children: ReactNode
 }> = ({ children, user }) => {
+  const menuTitle = user.organisation?.name ?? 'Administration'
+
   return (
     <main
       style={{
@@ -27,11 +29,11 @@ const PrivateLayoutContent: FunctionComponent<{
                 aria-controls="fr-sidemenu-wrapper"
                 aria-expanded="false"
               >
-                Mon suivi social
+                {menuTitle}
               </button>
               <div className="fr-collapse" id="fr-sidemenu-wrapper">
                 <h4 className="fr-hidden fr-unhidden-md fr-mt-4v fr-mb-4v fr-ml-1w">
-                  Mon suivi social
+                  {menuTitle}
                 </h4>
 
                 <SideMenuLinks user={user} />

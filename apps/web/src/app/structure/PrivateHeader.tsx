@@ -7,6 +7,8 @@ import { UserMenu } from '@mss/web/app/structure/UserMenu'
 const PrivateHeader = ({ user }: { user: SessionUser }) => {
   return (
     <PublicHeader
+      fullWidth
+      hideRepublic
       headerTools={
         <div className="fr-header__tools">
           <div className="fr-header__tools-links">
