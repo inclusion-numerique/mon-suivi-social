@@ -33,9 +33,6 @@ export const Routes = {
     Accompagnements: {
       Index: '/structure/accompagnements',
     },
-    TableauDeBord: {
-      Index: '/structure/tableau-de-bord',
-    },
     Statistiques: {
       Index: '/structure/statistiques',
     },

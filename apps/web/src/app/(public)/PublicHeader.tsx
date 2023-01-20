@@ -6,6 +6,7 @@ const PublicHeader = ({
   hideRepublic,
   hideSigninButton,
   fullWidth,
+  rootPath = '/',
   headerTools = (
     <div className="fr-header__tools">
       <div className="fr-header__tools-links">
@@ -42,6 +43,7 @@ const PublicHeader = ({
   ),
 }: {
   hideRepublic?: boolean
+  rootPath?: string
   hideSigninButton?: boolean
   fullWidth?: boolean
   headerTools?: ReactNode
@@ -54,28 +56,28 @@ const PublicHeader = ({
           <div className="fr-header__body-row">
             <div className="fr-header__brand fr-enlarge-link">
               <div className="fr-header__brand-top">
-                {hideRepublic ? null : (
-                  <div className="fr-header__logo">
-                    <Link
-                      href="/"
-                      aria-current="page"
-                      target="_self"
-                      title="Mon Suivi Social"
-                      className="nuxt-link-exact-active nuxt-link-active"
-                    >
+                <Link
+                  href={rootPath}
+                  aria-current="page"
+                  target="_self"
+                  title="Mon Suivi Social"
+                  style={{ display: 'flex' }}
+                >
+                  {hideRepublic ? null : (
+                    <div className="fr-header__logo">
                       <p className="fr-logo">
                         République
                         <br />
                         Française
                       </p>
-                    </Link>
+                    </div>
+                  )}
+                  <div className="fr-header__logo">
+                    <picture>
+                      <img width={240} src="/images/logo.svg" />
+                    </picture>
                   </div>
-                )}
-                <div className="fr-header__logo">
-                  <picture>
-                    <img width={240} src="/images/logo.svg" />
-                  </picture>
-                </div>
+                </Link>
                 <div className="fr-header__navbar">
                   <button
                     id="fr-btn-menu-mobile"

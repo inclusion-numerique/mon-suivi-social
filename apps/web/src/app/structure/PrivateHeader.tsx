@@ -9,6 +9,7 @@ const PrivateHeader = ({ user }: { user: SessionUser }) => {
     <PublicHeader
       fullWidth
       hideRepublic
+      rootPath={Routes.Structure.Index}
       headerTools={
         <div className="fr-header__tools">
           <div className="fr-header__tools-links">

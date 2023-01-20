@@ -8,7 +8,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 const mainLinks = [
   {
     title: 'Tableau de bord',
-    path: Routes.Structure.TableauDeBord.Index,
+    path: Routes.Structure.Index,
     icon: 'profil-line',
   },
   {

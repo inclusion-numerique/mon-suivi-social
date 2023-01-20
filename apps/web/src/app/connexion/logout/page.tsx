@@ -33,7 +33,7 @@ const SignoutPage = () => {
           </li>
         </ul>
         <div className="fr-grid-row fr-grid-row--center">
-          <Link href={Routes.Structure.TableauDeBord.Index}>Retour</Link>
+          <Link href={Routes.Structure.Index}>Retour</Link>
         </div>
       </AuthCard>
     </>
