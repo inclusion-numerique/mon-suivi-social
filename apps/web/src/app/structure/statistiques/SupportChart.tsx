@@ -1,11 +1,11 @@
 'use client'
-import 'chart.js/auto'
 
 import { Bar } from 'react-chartjs-2'
 import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
-import { SupportStats } from '@mss/web/app/structure/statistiques/page'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
+import { SupportStats } from '@mss/web/stats/stats'
+import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
 export const SupportChart = ({
   supportStats,
@@ -13,27 +13,27 @@ export const SupportChart = ({
   supportStats: SupportStats
 }) => {
   const colors = useCssProperties([
-    '--artwork-minor-green-emeraude',
     '--artwork-minor-pink-tuile',
-    '--artwork-major-blue-france',
+    '--artwork-minor-blue-cumulus',
+    '--artwork-minor-green-emeraude',
   ])
 
   const data: ChartData<'bar'> = {
     labels: [...pick(supportStats.stats, 'name'), 'Total'],
     datasets: [
       {
-        label: 'Suivis',
-        data: [
-          ...supportStats.stats.map(({ _count }) => _count.followups),
-          supportStats.total.followups,
-        ],
-        backgroundColor: colors[0],
-      },
-      {
         label: "Demandes d'aide",
         data: [
           ...supportStats.stats.map(({ _count }) => _count.helpRequests),
           supportStats.total.helpRequests,
+        ],
+        backgroundColor: colors[0],
+      },
+      {
+        label: 'Entretiens',
+        data: [
+          ...supportStats.stats.map(({ _count }) => _count.followups),
+          supportStats.total.followups,
         ],
         backgroundColor: colors[1],
       },
@@ -50,5 +50,9 @@ export const SupportChart = ({
     ],
   }
 
-  return <Bar data={data} options={{ indexAxis: 'y' }} />
+  return (
+    <BrowserOnly>
+      <Bar data={data} options={{ indexAxis: 'y' }} />
+    </BrowserOnly>
+  )
 }

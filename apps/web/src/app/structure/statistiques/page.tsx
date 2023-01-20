@@ -1,103 +1,133 @@
-import { prismaClient } from '@mss/web/prismaClient'
-
-import { sum } from '@mss/web/utils/sum'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { GenderChart } from '@mss/web/app/structure/statistiques/GenderChart'
 import { SupportChart } from '@mss/web/app/structure/statistiques/SupportChart'
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
-
-const getGenderStats = async (organisationId: string) => {
-  const stats = await prismaClient.beneficiary.groupBy({
-    by: ['gender'],
-    where: {
-      organisationId,
-    },
-    _count: true,
-    orderBy: { gender: 'asc' },
-  })
-  const total = sum(stats, '_count')
-
-  return { stats, total }
-}
-
-export type GenderStats = Awaited<ReturnType<typeof getGenderStats>>
-
-const getSupportStats = async (organisationId: string) => {
-  const stats = await prismaClient.followupType.findMany({
-    where: {
-      organisations: {
-        some: { id: organisationId },
-      },
-    },
-    include: {
-      _count: {
-        select: { followups: true, helpRequests: true },
-      },
-    },
-    orderBy: { name: 'asc' },
-  })
-
-  const total = stats.reduce(
-    (
-      result,
-      { _count },
-    ): { followups: number; helpRequests: number; total: number } => {
-      result.followups += _count.followups
-      result.helpRequests += _count.helpRequests
-      result.total += _count.followups + _count.helpRequests
-
-      return result
-    },
-    { total: 0, followups: 0, helpRequests: 0 },
-  )
-
-  return { stats, total }
-}
-export type SupportStats = Awaited<ReturnType<typeof getSupportStats>>
+import {
+  getAgeStats,
+  getFamilyStats,
+  getGenderStats,
+  getSupportStats,
+} from '@mss/web/stats/stats'
+import { PropsWithChildren, ReactNode } from 'react'
+import { FamilySituationChart } from '@mss/web/app/structure/statistiques/FamilySituationChart'
+import { AgeChart } from '@mss/web/app/structure/statistiques/AgeChart'
+import { ChartJs } from '@mss/web/app/structure/statistiques/ChartJs'
 
 const StatistiquesPage = async () => {
   const { organisationId, organisation } = await getAuthenticatedAgent()
-  const [genderStats, supportStats] = await Promise.all([
-    getGenderStats(organisationId),
-    getSupportStats(organisationId),
-  ])
+  const [genderStats, familySituationStats, ageStats, supportStats] =
+    await Promise.all([
+      getGenderStats(organisationId),
+      getFamilyStats(organisationId),
+      getAgeStats(organisationId),
+      getSupportStats(organisationId),
+    ])
 
   return (
     <>
+      <ChartJs />
       <PageTitle icon="pie-chart-2-line" title="Statistiques" />
-      <div className="fr-grid-row fr-mt-2v fr-grid-row--gutters">
-        <div className="fr-col-12 fr-col-md-6">
-          <div className="fr-card">
-            <div className="fr-card__body">
-              <div className="fr-card__content">
-                <h3 className="fr-card__title" style={{ textAlign: 'center' }}>
-                  <span className="fr-icon-user-line fr-mr-1w" />
-                  {genderStats.total} bénéficiaires
-                </h3>
-                <div className="fr-card__desc fr-pt-4v">
-                  <GenderChart genderStats={genderStats} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="fr-col-12 fr-col-md-6">
-          <div className="fr-card">
-            <div className="fr-card__body">
-              <div className="fr-card__content">
-                <h3 className="fr-card__title" style={{ textAlign: 'center' }}>
-                  <span className="fr-icon-folder-2-line fr-mr-1w" />
-                  {supportStats.total.total} accompagnements
-                </h3>
-                <div className="fr-card__desc fr-pt-4v">
-                  <SupportChart supportStats={supportStats} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <SectionTitle>
+        <span className="fr-icon-user-line" /> {genderStats.total} bénéficiaires
+      </SectionTitle>
+      <div className="fr-grid-row fr-grid-row--gutters">
+        <StatCard
+          cols={{ md: 6, xl: 4 }}
+          title={
+            <>
+              <span className="fr-icon-user-line" /> Genres
+            </>
+          }
+        >
+          <GenderChart genderStats={genderStats} />
+        </StatCard>
+        <StatCard
+          cols={{ md: 6, xl: 4 }}
+          title={
+            <>
+              <span className="fr-icon-user-line" /> Situations familiales
+            </>
+          }
+        >
+          <FamilySituationChart familySituationStats={familySituationStats} />
+        </StatCard>
+        <StatCard
+          cols={{ md: 6, xl: 4 }}
+          title={
+            <>
+              <span className="fr-icon-user-line" /> Tranches d&apos;âge
+            </>
+          }
+        >
+          <AgeChart ageStats={ageStats} />
+        </StatCard>
+      </div>
+      <SectionTitle className="fr-mt-4v">
+        <span className="fr-icon-folder-2-line" /> {supportStats.total.total}{' '}
+        accompagnements
+      </SectionTitle>
+      <div className="fr-grid-row fr-grid-row--gutters">
+        <StatCard
+          cols={{ xl: 6 }}
+          title={
+            <>
+              <span className="fr-icon-folder-2-line fr-mr-1w" />
+              Types d'accompagnements
+            </>
+          }
+        >
+          <SupportChart supportStats={supportStats} />
+        </StatCard>
       </div>
     </>
   )
 }
+
+const SectionTitle = ({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) => (
+  <div className={`fr-grid-row fr-grid-row--gutters ${className ?? ''}`}>
+    <div className="fr-col-12 fr-col-md-6">
+      <h4 className="fr-mb-2v">{children}</h4>
+    </div>
+  </div>
+)
+
+const StatCard = ({
+  cols = {},
+  title,
+  children,
+}: PropsWithChildren<{
+  title: ReactNode
+  cols?: {
+    default?: number
+    sm?: number
+    md?: number
+    lg?: number
+    xl?: number
+  }
+}>) => (
+  <div
+    className={`fr-col-${cols?.default ?? 12} ${
+      cols?.sm ? `fr-col-sm-${cols.sm}` : ''
+    } ${cols?.md ? `fr-col-md-${cols.md}` : ''} ${
+      cols?.lg ? `fr-col-lg-${cols.lg}` : ''
+    } ${cols?.xl ? `fr-col-xl-${cols.xl}` : ''}`}
+  >
+    <div className="fr-card">
+      <div className="fr-card__body">
+        <div className="fr-card__content">
+          <h3 className="fr-card__title" style={{ textAlign: 'center' }}>
+            {title}
+          </h3>
+          <div className="fr-card__desc fr-pt-4v">
+            <div className="fr-grid-row fr-grid-row--center"> {children}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
 export default StatistiquesPage
