@@ -2,7 +2,7 @@
 CREATE TYPE "UserStatus" AS ENUM ('Active', 'Disabled');
 
 -- CreateEnum
-CREATE TYPE "UserRole" AS ENUM ('Administrator', 'StructureManager', 'Agent');
+CREATE TYPE "UserRole" AS ENUM ('Administrator', 'StructureManager', 'Referent', 'Instructor', 'ReceptionAgent');
 
 -- CreateEnum
 CREATE TYPE "OrganisationType" AS ENUM ('Ccas', 'Cias', 'Commune', 'Association', 'Ministere');
@@ -101,7 +101,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
-    "role" "UserRole" NOT NULL DEFAULT 'Agent',
+    "role" "UserRole" NOT NULL,
     "status" "UserStatus" NOT NULL DEFAULT 'Active',
     "location" TEXT,
     "title" TEXT,
