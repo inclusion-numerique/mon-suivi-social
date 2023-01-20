@@ -74,7 +74,11 @@ const PublicHeader = ({
                   )}
                   <div className="fr-header__logo">
                     <picture>
-                      <img width={240} src="/images/logo.svg" />
+                      <img
+                        alt="Mon Suivi Social"
+                        width={240}
+                        src="/images/logo.svg"
+                      />
                     </picture>
                   </div>
                 </Link>

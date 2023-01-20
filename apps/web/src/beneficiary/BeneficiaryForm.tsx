@@ -18,15 +18,22 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Beneficiary } from '@prisma/client'
 
-const defaultValueFromBeneficiary = (beneficiary: Beneficiary) => {
-  return beneficiary
+const defaultValueFromBeneficiary = (
+  beneficiary: Beneficiary,
+): DefaultValues<BeneficiaryData> => {
+  const { additionalInformation, ...rest } = beneficiary
+
+  return {
+    additionalInformation: additionalInformation ?? undefined,
+    ...rest,
+  }
 }
 
 export const BeneficiaryForm: FunctionComponent<
   { agents: Options } & (
     | {
         creation: true
-        defaultValues?: Partial<BeneficiaryData>
+        defaultValues?: DefaultValues<BeneficiaryData>
       }
     | {
         creation: false
@@ -41,7 +48,7 @@ export const BeneficiaryForm: FunctionComponent<
   const { agents } = props
 
   const defaultValues: DefaultValues<BeneficiaryData> = props.creation
-    ? props.defaultValues
+    ? props.defaultValues ?? {}
     : defaultValueFromBeneficiary(deserialize(props.serializedBeneficiary))
 
   if (!defaultValues.aidantConnectAuthorized) {

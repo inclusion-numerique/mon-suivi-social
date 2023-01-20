@@ -72,7 +72,7 @@ const StatistiquesPage = async () => {
           title={
             <>
               <span className="fr-icon-folder-2-line fr-mr-1w" />
-              Types d'accompagnements
+              Types d&apos;accompagnements
             </>
           }
         >
