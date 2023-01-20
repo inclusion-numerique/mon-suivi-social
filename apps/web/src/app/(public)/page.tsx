@@ -20,7 +20,7 @@ const HomeCard = ({
             src={image}
             alt={title}
             className="fr-mx-auto"
-            style={{ height: '100%' }}
+            style={{ height: '100%', maxHeight: '100%' }}
           />
         </picture>
       </div>
