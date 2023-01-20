@@ -1,6 +1,6 @@
 import '@mss/web/auth/nextAuthSetup'
 import EmailProvider from 'next-auth/providers/email'
-import KeycloakProvider from 'next-auth/providers/keycloak'
+import KeycloakProvider, { KeycloakProfile } from 'next-auth/providers/keycloak'
 
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import { PrivateConfig } from '@mss/web/config'
@@ -26,18 +26,21 @@ export const authOptions: NextAuthOptions = {
     }),
     // See https://github.com/nextauthjs/next-auth/blob/main/packages/next-auth/src/providers/keycloak.ts for options
     KeycloakProvider({
+      // Allow an email user to login with Inclusion Connect
+      allowDangerousEmailAccountLinking: true,
       id: 'inclusion-connect',
       name: 'Inclusion Connect',
       clientId: PrivateConfig.InclusionConnect.clientId,
       clientSecret: PrivateConfig.InclusionConnect.clientSecret,
       issuer: PrivateConfig.InclusionConnect.issuer,
-      profile: (profile) => {
+
+      profile: (profile: KeycloakProfile) => {
         console.log('PROFILE FROM INCLUSION', profile)
         return {
-          id: profile.id,
-          name: profile.kakao_account?.profile.nickname,
-          email: profile.kakao_account?.email,
-          image: profile.kakao_account?.profile.profile_image_url,
+          id: profile.sub,
+          name: profile.name ?? profile.preferred_username,
+          email: profile.email,
+          image: profile.picture,
         }
       },
     }),
