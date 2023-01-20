@@ -1,14 +1,10 @@
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
 import { redirect } from 'next/navigation'
-import { Signin } from '@mss/web/app/(public)/connexion/login/Signin'
+import { Verify } from '@mss/web/app/connexion/verification/Verify'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import { Routes } from '@mss/web/app/routing/routes'
 
-const SigninPage = async ({
-  searchParams: { error } = {},
-}: {
-  searchParams?: { error?: string }
-}) => {
+const VerifyPage = async () => {
   const user = await getSessionUser()
   if (user) {
     redirect(Routes.Structure.TableauDeBord.Index)
@@ -18,9 +14,9 @@ const SigninPage = async ({
   return (
     <>
       <Breadcrumbs currentPage="Connexion" />
-      <Signin error={error} />
+      <Verify />
     </>
   )
 }
 
-export default SigninPage
+export default VerifyPage

@@ -3,7 +3,7 @@ import { getUserDisplayName } from '@mss/web/utils/user'
 
 import Link from 'next/link'
 import { Routes } from '@mss/web/app/routing/routes'
-import { AuthCard } from '@mss/web/app/(public)/connexion/AuthCard'
+import { AuthCard } from '@mss/web/app/connexion/AuthCard'
 
 const OnboardingWithoutOrganisation = ({ user }: { user: SessionUser }) => (
   <AuthCard>

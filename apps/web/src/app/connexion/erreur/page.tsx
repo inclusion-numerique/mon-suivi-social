@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
-import { AuthCard } from '@mss/web/app/(public)/connexion/AuthCard'
+import { AuthCard } from '@mss/web/app/connexion/AuthCard'
 import { Routes } from '@mss/web/app/routing/routes'
 
 const errorMessage = (error?: string): string | undefined => {

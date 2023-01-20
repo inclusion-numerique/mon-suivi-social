@@ -1,6 +1,6 @@
-import { EmailSigninForm } from '@mss/web/app/(public)/connexion/EmailSigninForm'
-import { AuthCard } from '@mss/web/app/(public)/connexion/AuthCard'
-import { InclusionConnectSigninButton } from '@mss/web/app/(public)/connexion/InclusionConnectSigninButton'
+import { EmailSigninForm } from '@mss/web/app/connexion/EmailSigninForm'
+import { AuthCard } from '@mss/web/app/connexion/AuthCard'
+import { InclusionConnectSigninButton } from '@mss/web/app/connexion/InclusionConnectSigninButton'
 
 const signinErrorMessage = (error?: string): string | undefined => {
   if (!error) {

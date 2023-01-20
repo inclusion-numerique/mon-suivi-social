@@ -1,5 +1,5 @@
 import { Spinner } from '@mss/web/ui/Spinner'
-import { AuthCard } from '@mss/web/app/(public)/connexion/AuthCard'
+import { AuthCard } from '@mss/web/app/connexion/AuthCard'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 
 const AuthLoading = () => {

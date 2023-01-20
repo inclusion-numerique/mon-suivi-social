@@ -1,5 +1,5 @@
 import { PublicConfig } from '@mss/web/config'
-import { AuthCard } from '@mss/web/app/(public)/connexion/AuthCard'
+import { AuthCard } from '@mss/web/app/connexion/AuthCard'
 import { cookies } from 'next/headers'
 
 export const Verify = () => {
