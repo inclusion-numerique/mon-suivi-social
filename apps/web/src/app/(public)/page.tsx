@@ -16,12 +16,7 @@ const HomeCard = ({
       <div className="fr-card__img fr-pt-4v" style={{ textAlign: 'center' }}>
         <picture>
           <source srcSet={image} type="image/svg" />
-          <img
-            src={image}
-            alt={title}
-            className="fr-mx-auto"
-            style={{ height: '100%', maxHeight: '100%' }}
-          />
+          <img src={image} alt={title} className="fr-mx-auto" />
         </picture>
       </div>
     </div>
