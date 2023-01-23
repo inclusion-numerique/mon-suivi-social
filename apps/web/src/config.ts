@@ -32,12 +32,7 @@ export const PrivateConfig = {
     sirenAccessToken: process.env.SIREN_ACCESS_TOKEN,
   },
   InclusionConnect: {
-    realm: process.env.INCLUSION_CONNECT_REALM ?? '',
-    baseUrl: process.env.INCLUSION_CONNECT_BASE_URL ?? '',
-    clientId: process.env.INCLUSION_CONNECT_CLIENT_ID ?? '',
     clientSecret: process.env.INCLUSION_CONNECT_CLIENT_SECRET ?? '',
-    issuer: process.env.INCLUSION_CONNECT_ISSUER ?? '',
-    from: 'monsuivisocial',
   },
 }
 
@@ -47,4 +42,10 @@ export const PublicConfig = {
   repository: 'https://github.com/inclusion-numerique/mon-suivi-social',
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? '',
   sirenApiKey: process.env.NEXT_PUBLIC_SIREN_API_KEY ?? '',
+
+  InclusionConnect: {
+    issuer: process.env.NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER ?? '',
+    clientId: process.env.NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID ?? '',
+    from: 'monsuivisocial',
+  },
 }
