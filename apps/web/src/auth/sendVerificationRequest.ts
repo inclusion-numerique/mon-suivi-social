@@ -15,14 +15,13 @@ export const sendVerificationRequest = async ({
     console.log(`[AUTH] Magic link for ${identifier}: ${url}`)
   }
 
-  const { host } = new URL(url)
   const transport = createTransport(provider.server)
   const result = await transport.sendMail({
     to: identifier,
     from: provider.from,
     subject: `Connexion à Mon Suivi Social`,
-    text: emailSignin.text({ url, host }),
-    html: compileMjml(emailSignin.mjml({ url, host })),
+    text: emailSignin.text({ url }),
+    html: compileMjml(emailSignin.mjml({ url })),
   })
   const failed = result.rejected.concat(result.pending).filter(Boolean)
   if (failed.length) {
