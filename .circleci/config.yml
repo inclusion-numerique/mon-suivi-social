@@ -122,6 +122,9 @@ jobs:
           name: 'Lint'
           command: pnpm lint
       - run:
+          name: 'Monorepo manypkg check'
+          command: pnpm -F @mss/lint manypkg check
+      - run:
           name: 'Prisma generate'
           command: pnpm -F @mss/web prisma:generate
       - run:
@@ -185,7 +188,7 @@ jobs:
           command: pnpm -F @mss/web setup:dsfr
       - run:
           name: 'Build storybook and test components'
-          command: pnpm -F @mss/web chromatic
+          command: pnpm -F @mss/storybook chromatic
 
   test_e2e:
     executor: node-browsers

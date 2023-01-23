@@ -51,7 +51,7 @@ const agents: Exclude<
     email: 'hugues+mss-test@kime.tech',
     organisationId: organisations[0].id,
     status: 'Active',
-    role: 'Agent',
+    role: 'ReceptionAgent',
   },
 ]
 

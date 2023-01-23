@@ -33,7 +33,7 @@ const config = {
     nodeModulesTransformIgnorePattern,
     '^.+\\.module\\.(css|sass|scss)$',
   ],
-  setupFilesAfterEnv: ['<rootDir>/../../jest/jest.setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/../../packages/test/src/jest.setup.ts'],
   testMatch: [
     '**/*.spec.ts',
     '**/*.spec.tsx',

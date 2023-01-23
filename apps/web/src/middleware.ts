@@ -29,6 +29,7 @@ const middleware: NextMiddleware = (request) => {
   response.headers.delete('X-Powered-By')
 
   // TODO This CSP policy is too restrictive an account has been created in report-uri.com. Make this in another deployment.
+  // TODO use https://www.npmjs.com/package/csp-header
   // https://report-uri.com
   // response.headers.append(
   //   'Content-Security-Policy',

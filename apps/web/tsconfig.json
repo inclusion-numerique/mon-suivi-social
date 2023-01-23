@@ -9,7 +9,6 @@
   },
   "include": [
     "next-env.d.ts",
-    "../../jest/jest.setup.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     ".next/types/**/*.ts",

@@ -2,14 +2,14 @@ import { existsSync, promises as fs } from 'fs'
 import { resolve } from 'path'
 import { compileMjml } from './mjml'
 
-const varDir = resolve(__dirname, '../../var/email')
+const varDir = resolve(__dirname, '../var/email')
 
 async function createEmailVarDirIfItDoesNotExist(): Promise<void> {
   if (existsSync(varDir)) {
     return
   }
 
-  await fs.mkdir(varDir)
+  await fs.mkdir(varDir, { recursive: true })
 }
 
 export async function outputHtmlTemplate(
@@ -29,7 +29,7 @@ export async function outputMjmlTemplate(
   await fs.writeFile(`${varDir}/${name}.mjml`, mjmlTemplate)
 }
 
-export function htmlTemplateOutputFactory(
+export function createHtmlTemplateOutput(
   templateName: string,
 ): (htmlContent: string) => Promise<void> {
   let i = 0
@@ -42,7 +42,7 @@ export function htmlTemplateOutputFactory(
  * Outputs mjml AND compiled html version to test that mjml syntax is valid
  * It is then easy to debug templates in /var/email
  */
-export function mjmlTemplateOutputFactory(
+export function createMjmlTemplateOutput(
   templateName: string,
 ): (templateName: string) => Promise<void> {
   let i = 0

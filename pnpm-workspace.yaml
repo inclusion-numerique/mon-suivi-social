@@ -1,5 +1,9 @@
 packages:
-  - apps/web
   - apps/cli
+  - apps/web
   - packages/cdk
   - packages/e2e
+  - packages/emails
+  - packages/lint
+  - packages/storybook
+  - packages/test
