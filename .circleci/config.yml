@@ -19,7 +19,7 @@ executors:
 parameters:
   cache_version:
     type: string
-    default: '20230106-01'
+    default: '20230123-01'
   virtual_store_dir:
     type: string
     default: './.pnpm'
@@ -91,8 +91,12 @@ jobs:
             - ./node_modules
             - ./apps/web/node_modules
             - ./apps/cli/node_modules
-            - ./packages/e2e/node_modules
             - ./packages/cdk/node_modules
+            - ./packages/e2e/node_modules
+            - ./packages/emails/node_modules
+            - ./packages/lint/node_modules
+            - ./packages/storybook/node_modules
+            - ./packages/test/node_modules
 
   prepare_web_prod_dependencies:
     executor: node
