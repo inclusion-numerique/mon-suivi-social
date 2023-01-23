@@ -19,6 +19,7 @@ const nextConfig = {
     { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack },
   ) => {
     // Mjml cannot be bundled as it uses dynamic requires
+    // Only put library required on the server in externals as they would not be available in client
     config.externals.push('mjml', 'mjml-core')
 
     return config
