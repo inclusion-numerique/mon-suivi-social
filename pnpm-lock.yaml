@@ -312,7 +312,7 @@ importers:
       '@storybook/react': ^7.0.0-beta.31
       '@storybook/testing-library': ^0.0.14-next.1
       '@types/node': ^18.11.18
-      chromatic: ^6.14.0
+      chromatic: ^6.15.0
       eslint: ^8.32.0
       jest: ^29.4.0
       react: ^18.2.0
@@ -328,7 +328,7 @@ importers:
       '@storybook/nextjs': 7.0.0-beta.31_o4scbtliisanygemawej7x2d6i
       '@storybook/react': 7.0.0-beta.31_o4scbtliisanygemawej7x2d6i
       '@storybook/testing-library': 0.0.14-next.1
-      chromatic: 6.14.0
+      chromatic: 6.15.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       storybook: 7.0.0-beta.31
@@ -7559,8 +7559,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /chromatic/6.14.0:
-    resolution: {integrity: sha512-wc/BdtV9yJEnKb9VCDgOkysTZK135sdExA7JFCpNbjBaDqRdpsoZewpgiy6Nqf1782/z3EplTtMsBDX5wSkiAA==}
+  /chromatic/6.15.0:
+    resolution: {integrity: sha512-cdB9ar8zLLpqJHgHH70iWnNXdd4pGCXCqZwSz/z35gNuftlJZKQJewOUnLUe9Mu6pdxKCS/aKVPfpDwzdWvslQ==}
     hasBin: true
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
