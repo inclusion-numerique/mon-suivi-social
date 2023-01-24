@@ -48,8 +48,8 @@ export const emailSignin = {
                 Se connecter
               </MjmlButton>
               <MjmlText>
-                Si vous n'avez pas demandé à recevoir cet email, vous pouvez
-                l'ignorer en toute sécurité.
+                Si vous n&apos;avez pas demandé à recevoir cet email, vous
+                pouvez l&apos;ignorer en toute sécurité.
               </MjmlText>
             </MjmlColumn>
           </MjmlSection>

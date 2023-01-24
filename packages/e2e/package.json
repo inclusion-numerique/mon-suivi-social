@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "license": "AGPL-3.0-or-later",
   "scripts": {
-    "playwright": "playwright"
+    "playwright": "playwright",
+    "lint": "eslint tests"
   },
   "devDependencies": {
-    "@playwright/test": "^1.29.2"
+    "@playwright/test": "^1.29.2",
+    "eslint": "^8.32.0"
   }
 }

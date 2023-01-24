@@ -4,7 +4,7 @@ module.exports = {
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
     'interface-name': 'off',
-    'no-console': 'off',
+    'no-console': 'warn',
     'no-implicit-dependencies': 'off',
     'no-submodule-imports': 'off',
     'no-trailing-spaces': 'error',

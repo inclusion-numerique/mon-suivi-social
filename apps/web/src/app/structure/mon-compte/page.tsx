@@ -34,7 +34,7 @@ const MonComptePage = async () => {
               className="fr-btn fr-btn--icon-left fr-icon-logout-box-r-line"
               href={getInclusionConnectLogoutUrl()}
             >
-              Se déconnecter d'Inclusion Connect
+              Se déconnecter d&apos;Inclusion Connect
             </Link>
           </div>
         </div>

@@ -23,6 +23,7 @@ importers:
       axios: ^1.2.3
       csv-parse: ^5.3.3
       csv-stringify: ^6.2.3
+      eslint: ^8.32.0
       lodash: ^4.17.21
       ts-node: ^10.9.1
       tsconfig-paths: ^4.1.2
@@ -38,6 +39,7 @@ importers:
     devDependencies:
       '@types/lodash': 4.14.191
       '@types/node': 18.11.18
+      eslint: 8.32.0
       typescript: 4.9.4
 
   apps/web:
@@ -76,6 +78,7 @@ importers:
       dotenv-cli: ^7.0.0
       encoding: ^0.1.13
       env-var: ^7.3.0
+      eslint: ^8.32.0
       file-saver: ^2.0.5
       form-data: ^4.0.0
       jest: ^29.3.1
@@ -178,6 +181,7 @@ importers:
       '@types/styled-components': 5.1.26
       '@types/uuid': 9.0.0
       css-loader: 6.7.3
+      eslint: 8.32.0
       jest: 29.3.1_@types+node@18.11.18
       modclean: 3.0.0-beta.1
       postcss: 8.4.21
@@ -200,6 +204,7 @@ importers:
       constructs: ^10.1.224
       dotenv: ^16.0.3
       dotenv-cli: ^7.0.0
+      eslint: ^8.32.0
       git-rev-sync: ^3.0.2
       ts-node: ^10.9.1
       tsconfig-paths: ^4.1.2
@@ -214,6 +219,7 @@ importers:
     devDependencies:
       '@types/git-rev-sync': 2.0.0
       '@types/node': 18.11.18
+      eslint: 8.32.0
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       tsconfig-paths: 4.1.2
       typescript: 4.9.4
@@ -221,8 +227,10 @@ importers:
   packages/e2e:
     specifiers:
       '@playwright/test': ^1.29.2
+      eslint: ^8.32.0
     devDependencies:
       '@playwright/test': 1.29.2
+      eslint: 8.32.0
 
   packages/emails:
     specifiers:
@@ -233,6 +241,7 @@ importers:
       '@types/mjml-react': ^2.0.6
       '@types/node': ^18.11.18
       '@types/react': ^18.0.27
+      eslint: ^8.32.0
       html-minifier: ^4.0.0
       jest: ^29.3.1
       mjml: ^4.13.0
@@ -252,6 +261,7 @@ importers:
       '@types/mjml-react': 2.0.6
       '@types/node': 18.11.18
       '@types/react': 18.0.27
+      eslint: 8.32.0
       jest: 29.3.1_@types+node@18.11.18
       typescript: 4.9.4
 
@@ -293,6 +303,7 @@ importers:
       '@storybook/testing-library': ^0.0.14-next.1
       '@types/node': ^18.11.18
       chromatic: ^6.14.0
+      eslint: ^8.32.0
       react: ^18.2.0
       react-dom: ^18.2.0
       storybook: ^7.0.0-beta.31
@@ -312,6 +323,7 @@ importers:
       storybook: 7.0.0-beta.31
     devDependencies:
       '@types/node': 18.11.18
+      eslint: 8.32.0
       typescript: 4.9.4
 
   packages/test:
@@ -321,6 +333,7 @@ importers:
       '@testing-library/jest-dom': ^5.16.5
       '@types/jest': ^29.2.6
       '@types/node': ^18.11.18
+      eslint: ^8.32.0
       jest: ^29.3.1
       jest-environment-jsdom: ^29.3.1
       jest-extended: ^3.2.3
@@ -335,6 +348,7 @@ importers:
       '@testing-library/jest-dom': 5.16.5
       '@types/jest': 29.2.6
       '@types/node': 18.11.18
+      eslint: 8.32.0
       jest: 29.3.1_zfha7dvnw4nti6zkbsmhmn6xo4
       jest-environment-jsdom: 29.3.1
       jest-extended: 3.2.3_jest@29.3.1
@@ -4604,6 +4618,17 @@ packages:
       telejson: 7.0.4
     dev: false
 
+  /@storybook/channel-postmessage/7.0.0-beta.32:
+    resolution: {integrity: sha512-R0AoV20XI9/FE34Z4SyVzuPG4mhL6cM3s3J4CqOGRBEzzAT9RZnVHNrHDXfrsGnCulqefE49psZSQ8U/Xbm9XA==}
+    dependencies:
+      '@storybook/channels': 7.0.0-beta.32
+      '@storybook/client-logger': 7.0.0-beta.32
+      '@storybook/core-events': 7.0.0-beta.32
+      '@storybook/global': 5.0.0
+      qs: 6.11.0
+      telejson: 7.0.4
+    dev: false
+
   /@storybook/channel-websocket/7.0.0-beta.31:
     resolution: {integrity: sha512-yTo9HoAHZ8N+LLW0v3hXbgYlEDoYELFEg6BkQCFibCaa8+UYKyeL8adHj1fq4695lOgyTk6Pd9dxntPJ9qjhQQ==}
     dependencies:
@@ -4615,6 +4640,10 @@ packages:
 
   /@storybook/channels/7.0.0-beta.31:
     resolution: {integrity: sha512-9KrVhBZfsgTUgEZIngvUPncqt0U1T0ZsfMf4WDKisELl5nZXDOtsdYKntVP4a0MU8cglu75Yf8y0BJqPZ1v7uQ==}
+    dev: false
+
+  /@storybook/channels/7.0.0-beta.32:
+    resolution: {integrity: sha512-BozCiwxqS/ZWaoyqFE5RwwDoUNYk/7nvDzvBajCaJCvJqbQu+1zuuiS9ZpuyXEGPSqWqT+eRGSKt1A++g1DBTA==}
     dev: false
 
   /@storybook/cli/7.0.0-beta.31:
@@ -4674,6 +4703,12 @@ packages:
 
   /@storybook/client-logger/7.0.0-beta.31:
     resolution: {integrity: sha512-O1BDTmhnySIyM4wt/6h7hU5GMVfPXOAwBsCmiSRloTzsHqrH45m31q2tli0jAH7KDKF3y62071HWUZMTpVbR4w==}
+    dependencies:
+      '@storybook/global': 5.0.0
+    dev: false
+
+  /@storybook/client-logger/7.0.0-beta.32:
+    resolution: {integrity: sha512-LOA9fJYy9INtvPBcsNd5QdnA5xDPhRLr0tVE1U0a5DCy3VNTjdlPdjcR3egA95M3WIB1S4QrJRKsorQ53AspFQ==}
     dependencies:
       '@storybook/global': 5.0.0
     dev: false
@@ -4759,6 +4794,10 @@ packages:
 
   /@storybook/core-events/7.0.0-beta.31:
     resolution: {integrity: sha512-PKJhTL4TxnZ4rb2LG2QplJOQSKhXqDHB1qiwOrTmFK57jmaaDngb7/9EZj3NF7288JPpAVkhfMKtYAtCfWzy0A==}
+    dev: false
+
+  /@storybook/core-events/7.0.0-beta.32:
+    resolution: {integrity: sha512-lO9EAZqWaocct2vkqrAV9JtZpeD3PwmIhcRp+ABmiDB3N3goD0FIOx9WzBYcPU3+e/c8WcdDI20BKKc2+P4lGA==}
     dev: false
 
   /@storybook/core-server/7.0.0-beta.31:
@@ -4885,6 +4924,19 @@ packages:
       '@storybook/core-events': 7.0.0-beta.31
       '@storybook/global': 5.0.0
       '@storybook/preview-api': 7.0.0-beta.31
+      core-js: 3.27.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@storybook/instrumenter/7.0.0-beta.32:
+    resolution: {integrity: sha512-vHOYIazMjZ31oVWeKcLNV1gsD8fr80I0WEPtOGhhRjvXNXGmUhRLy+aSrCA7cemeiIGg+SjgnOmD7MzmcKkOyA==}
+    dependencies:
+      '@storybook/channels': 7.0.0-beta.32
+      '@storybook/client-logger': 7.0.0-beta.32
+      '@storybook/core-events': 7.0.0-beta.32
+      '@storybook/global': 5.0.0
+      '@storybook/preview-api': 7.0.0-beta.32
       core-js: 3.27.2
     transitivePeerDependencies:
       - supports-color
@@ -5066,6 +5118,29 @@ packages:
       - supports-color
     dev: false
 
+  /@storybook/preview-api/7.0.0-beta.32:
+    resolution: {integrity: sha512-nS5JtqpyrB18QxPHfcr+sev+eKB2bfF7kl4IoWMX9to55uFRaQbSQZfhkcI4yn50j8wWJBUJ4ynnB9Djh0RF9g==}
+    dependencies:
+      '@storybook/channel-postmessage': 7.0.0-beta.32
+      '@storybook/channels': 7.0.0-beta.32
+      '@storybook/client-logger': 7.0.0-beta.32
+      '@storybook/core-events': 7.0.0-beta.32
+      '@storybook/csf': 0.0.2-next.8
+      '@storybook/global': 5.0.0
+      '@storybook/types': 7.0.0-beta.32
+      '@types/qs': 6.9.7
+      dequal: 2.0.3
+      lodash: 4.17.21
+      memoizerific: 1.11.3
+      qs: 6.11.0
+      slash: 3.0.0
+      synchronous-promise: 2.0.17
+      ts-dedent: 2.2.0
+      util-deprecate: 1.0.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@storybook/preview/7.0.0-beta.31:
     resolution: {integrity: sha512-+qVBe1FHRE7N/Xb4OtHdj7mlrX29xZKG0I2mc2iQRozt5WV2kXXlvybi2JkSv47/wS+wGGuUR+mwVSAWLe4Org==}
     dev: false
@@ -5168,8 +5243,8 @@ packages:
   /@storybook/testing-library/0.0.14-next.1:
     resolution: {integrity: sha512-1CAl40IKIhcPaCC4pYCG0b9IiYNymktfV/jTrX7ctquRY3akaN7f4A1SippVHosksft0M+rQTFE0ccfWW581fw==}
     dependencies:
-      '@storybook/client-logger': 7.0.0-beta.31
-      '@storybook/instrumenter': 7.0.0-beta.31
+      '@storybook/client-logger': 7.0.0-beta.32
+      '@storybook/instrumenter': 7.0.0-beta.32
       '@testing-library/dom': 8.20.0
       '@testing-library/user-event': 13.5.0_yxlyej73nftwmh2fiao7paxmlm
       ts-dedent: 2.2.0
@@ -5196,6 +5271,19 @@ packages:
     dependencies:
       '@babel/core': 7.20.12
       '@storybook/channels': 7.0.0-beta.31
+      '@types/babel__core': 7.20.0
+      '@types/express': 4.17.15
+      express: 4.18.2
+      file-system-cache: 2.0.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@storybook/types/7.0.0-beta.32:
+    resolution: {integrity: sha512-bnaKVuIr3eKa/7LUPefhKBw5jDa9u0jwJA4YA3Vc/or/sihl7epNH1A30luIQa+7l+9YtePknqu4FSJSQRe3NQ==}
+    dependencies:
+      '@babel/core': 7.20.12
+      '@storybook/channels': 7.0.0-beta.32
       '@types/babel__core': 7.20.0
       '@types/express': 4.17.15
       express: 4.18.2
