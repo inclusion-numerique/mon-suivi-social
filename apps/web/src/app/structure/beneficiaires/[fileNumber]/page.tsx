@@ -83,7 +83,7 @@ const BeneficiaryPage = async ({
   const beneficiary = await prismaClient.beneficiary.findFirstOrThrow({
     where: { organisationId: user.organisationId, fileNumber },
     include: {
-      agent: true,
+      referents: true,
     },
   })
   const supports = await getSupports({
@@ -91,7 +91,7 @@ const BeneficiaryPage = async ({
     agentId: user.id,
   })
 
-  const { agent } = beneficiary
+  const { referents } = beneficiary
 
   const page: PageConfig = {
     icon: Routes.Structure.Beneficiaires.Beneficiaire.Index.icon,
@@ -110,7 +110,8 @@ const BeneficiaryPage = async ({
             </span>
           </li>
           <li>
-            Agent référent : <strong>{getUserDisplayName(agent)}</strong>
+            Agents référents :{' '}
+            <strong>{referents.map(getUserDisplayName)}</strong>
           </li>
         </ul>
       </div>

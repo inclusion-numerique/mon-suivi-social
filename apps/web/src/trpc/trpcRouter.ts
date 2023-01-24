@@ -86,7 +86,6 @@ export const beneficiaryRouter = router({
           status,
           aidantConnectAuthorized,
           organisationId,
-          agentId,
           additionalInformation,
         },
         ctx: { user },
@@ -100,8 +99,8 @@ export const beneficiaryRouter = router({
             organisationId,
             fileNumber,
             status,
+            // TODO Add referents
             aidantConnectAuthorized,
-            agentId,
             additionalInformation,
           },
         })

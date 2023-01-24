@@ -57,7 +57,7 @@ model User {
   firstName     String?
   lastName      String?
   name          String?
-  email         String    @unique
+  email         String     @unique
   emailVerified DateTime?
   image         String?
   role          UserRole
@@ -78,7 +78,7 @@ model User {
   followups      Followup[]
   helpRequests   HelpRequest[]
 
-  Beneficiary Beneficiary[]
+  referentFor Beneficiary[] @relation(name: "beneficiary_referents")
 }
 
 enum OrganisationType {
@@ -105,9 +105,8 @@ model Organisation {
 
   Beneficiary Beneficiary[]
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created DateTime @default(now())
+  updated DateTime @default(now())
 }
 
 enum FollowupTypeType {
@@ -179,9 +178,8 @@ model Followup {
   dueDate          DateTime? @db.Date
   thirdPersonName  String?
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created DateTime @default(now())
+  updated DateTime @default(now())
 }
 
 enum HelpRequestStatus {
@@ -257,9 +255,8 @@ model HelpRequest {
   fullFile Boolean?
   reason   HelpRequestReason?
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created DateTime @default(now())
+  updated DateTime @default(now())
 }
 
 enum BeneficiaryStatus {
@@ -446,8 +443,7 @@ model Beneficiary {
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @db.Uuid
 
-  agent   User   @relation(fields: [agentId], references: [id])
-  agentId String @db.Uuid
+  referents User[] @relation(name: "beneficiary_referents")
 
   aidantConnectAuthorized Boolean @default(false)
 
@@ -523,9 +519,8 @@ model Beneficiary {
   followups    Followup[]
   helpRequests HelpRequest[]
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created DateTime @default(now())
+  updated DateTime @default(now())
 }
 
 enum RelativeRelationship {
@@ -567,9 +562,8 @@ model BeneficiaryRelative {
 
   additionalInformation String?
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created DateTime @default(now())
+  updated DateTime @default(now())
 }
 
 model VerificationToken {
@@ -587,14 +581,13 @@ enum MutationSource {
 }
 
 model MutationLog {
-  id     String         @id @db.Uuid
-  date   DateTime
-  source MutationSource
+  id          String         @id @db.Uuid
+  date        DateTime
+  source      MutationSource
   // If user is deleted, we keep history. If system did a mutation this is empty
-  by     User?          @relation(fields: [byId], references: [id], onDelete: SetNull)
-  byId   String?        @db.Uuid
+  by          User?          @relation(fields: [byId], references: [id], onDelete: SetNull)
+  byId        String?        @db.Uuid
   // Uuid of the object target of the mutation, if applicable
-  aggregateId   String?        @db.Uuid
-  data   Json
+  aggregateId String?        @db.Uuid
+  data        Json
 }
-
