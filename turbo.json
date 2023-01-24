@@ -15,10 +15,16 @@
     },
     "build": {
       "dependsOn": ["^build", "^prisma:generate"],
-      "outputs": [".next/**"]
+      "outputs": [".next/**"],
+      "cache": false
     },
     "lint": {
-      "outputs": []
+      "outputs": [],
+      "cache": false
+    },
+    "test": {
+      "outputs": [],
+      "cache": false
     },
     "clean": {
       "cache": false
