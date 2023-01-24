@@ -6,6 +6,7 @@ import { FollowupRow } from '@mss/web/app/structure/accompagnements/FollowupRow'
 import { HelpRequestRow } from '@mss/web/app/structure/accompagnements/HelpRequestRow'
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
+import { Routes } from '@mss/web/app/routing/routes'
 
 const getFollowups = (organisationId: string) =>
   prismaClient.followup.findMany({
@@ -35,11 +36,7 @@ const AccompagnementsPage = async () => {
 
   return (
     <>
-      <PageTitle
-        icon="folder-2-line"
-        title="Accompagnements"
-        organisationName={user.organisation.name}
-      />
+      <PageTitle page={Routes.Structure.Accompagnements.Index} />
       <div className="fr-tabs fr-mt-4v">
         <ul
           className="fr-tabs__list"

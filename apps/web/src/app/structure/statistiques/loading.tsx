@@ -1,12 +1,13 @@
-import PrivateLoading from '@mss/web/app/structure/loading'
+import PrivateLoading from '@mss/web/app/structure/PrivateLoading'
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
+import { Routes } from '@mss/web/app/routing/routes'
 
 // TODO Factorize main page and loading skeletons somehow
 // TODO Put this in storybook along with main page
-const StatsLoading = async () => {
+const StatsLoading = () => {
   return (
     <>
-      <PageTitle icon="pie-chart-2-line" title="Statistiques" />
+      <PageTitle page={Routes.Structure.Statistiques.Index} />
       <div className="fr-grid-row fr-mt-2v fr-grid-row--center">
         <PrivateLoading />
       </div>

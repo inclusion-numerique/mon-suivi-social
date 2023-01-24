@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export type BreadCrumbParent = { title: string; href: string }
+export type BreadCrumbParent = { title: string; path: string }
 export type BreadCrumbParents = BreadCrumbParent[]
 
 export const Breadcrumbs = ({
@@ -38,9 +38,9 @@ export const Breadcrumbs = ({
               </Link>
             </li>
           )}
-          {parents.map(({ title, href }) => (
-            <li key={href}>
-              <Link className="fr-breadcrumb__link" href={href}>
+          {parents.map(({ title, path }) => (
+            <li key={path}>
+              <Link className="fr-breadcrumb__link" href={path}>
                 {title}
               </Link>
             </li>

@@ -16,10 +16,13 @@ export const FollowupRow = ({
     deserialize(serializedFollowup)
   const router = useRouter()
 
-  const href = Routes.Structure.Beneficiaire.IndexWithParams(beneficiary, {
-    tab: 'historique',
-    accompagnement: id,
-  })
+  const href = Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
+    beneficiary,
+    {
+      tab: 'historique',
+      accompagnement: id,
+    },
+  )
 
   const statusBadge =
     status === 'Done' ? (

@@ -1,7 +1,8 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
-import { PageTitle } from '@mss/web/app/structure/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/app/structure/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
+
 export const revalidate = 0
 
 const StructurePage = async ({}: { params?: { id: string } }) => {
@@ -10,15 +11,14 @@ const StructurePage = async ({}: { params?: { id: string } }) => {
     where: { id: user.organisationId },
   })
 
+  const page: PageConfig = {
+    ...Routes.Structure.Structures.Modifier,
+    title: Routes.Structure.Structures.Modifier.title(structure),
+  }
+
   return (
     <>
-      <PageTitle
-        icon="building-line"
-        title={structure.name}
-        parents={[
-          { title: 'Structures', href: Routes.Structure.Structures.Index },
-        ]}
-      />
+      <PageTitle page={page} parents={[Routes.Structure.Structures.Index]} />
     </>
   )
 }

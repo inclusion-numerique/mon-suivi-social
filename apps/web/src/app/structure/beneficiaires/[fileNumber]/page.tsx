@@ -6,7 +6,7 @@ import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { LabelAndValue } from '@mss/web/ui/LabelAndValue'
 import { getAge } from '@mss/web/utils/age'
-import { PageTitle } from '@mss/web/app/structure/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/app/structure/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 
 export const revalidate = 0
@@ -93,21 +93,16 @@ const BeneficiaryPage = async ({
     agentId: user.id,
   })
 
-  const { agent, aidantConnectAuthorized } = beneficiary
+  const { agent } = beneficiary
+
+  const page: PageConfig = {
+    icon: Routes.Structure.Beneficiaires.Beneficiaire.Index.icon,
+    title: Routes.Structure.Beneficiaires.Beneficiaire.Index.title(beneficiary),
+  }
 
   return (
     <>
-      <PageTitle
-        icon="user-line"
-        title={beneficiaryDisplayName(beneficiary)}
-        organisationName={user.organisation.name}
-        parents={[
-          {
-            title: 'Bénéficiaires',
-            href: Routes.Structure.Beneficiaires.Index,
-          },
-        ]}
-      />
+      <PageTitle page={page} parents={[Routes.Structure.Beneficiaires.Index]} />
       <div className="fr-col-12 fr-col-lg-8 fr-col-xl-9">
         <ul className="fr-raw-list">
           <li>
@@ -117,7 +112,7 @@ const BeneficiaryPage = async ({
             </span>
           </li>
           <li>
-            Agent référent : <strong>{getUserDisplayName(agent)}</strong>
+            Agent référent : <strong>{getUserDisplayName(agent)}</strong>
           </li>
         </ul>
       </div>
@@ -125,7 +120,9 @@ const BeneficiaryPage = async ({
         <ul className="fr-btns-group  fr-btns-group--icon-left fr-btns-group--inline fr-btns-group--sm">
           <li>
             <Link
-              href={Routes.Structure.Beneficiaire.Modifier({ fileNumber })}
+              href={Routes.Structure.Beneficiaires.Beneficiaire.Modifier.path({
+                fileNumber,
+              })}
               className="fr-btn fr-icon-pencil-line fr-btn--primary"
             >
               Modifier le bénéficiaire
@@ -133,7 +130,7 @@ const BeneficiaryPage = async ({
           </li>
           <li>
             <Link
-              href={Routes.Structure.Accompagnements.Entretien.Nouveau({
+              href={Routes.Structure.Accompagnements.Entretien.Nouveau.path({
                 dossier: fileNumber,
               })}
               className="fr-btn fr-icon-file-add-line fr-btn--secondary"
@@ -143,9 +140,11 @@ const BeneficiaryPage = async ({
           </li>
           <li>
             <Link
-              href={Routes.Structure.Accompagnements.DemandeDAide.Nouvelle({
-                dossier: fileNumber,
-              })}
+              href={Routes.Structure.Accompagnements.DemandeDAide.Nouvelle.path(
+                {
+                  dossier: fileNumber,
+                },
+              )}
               className="fr-btn fr-icon-file-add-line fr-btn--secondary"
             >
               Demande d&apos;aide

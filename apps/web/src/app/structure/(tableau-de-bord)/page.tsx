@@ -1,18 +1,12 @@
 import BeneficiariesSearchBar from '@mss/web/app/structure/beneficiaires/BeneficiariesSearchBar'
 import Link from 'next/link'
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
-import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
+import { Routes } from '@mss/web/app/routing/routes'
 
 const TableauDeBordPage = async () => {
-  const user = await getAuthenticatedAgent()
-
   return (
     <>
-      <PageTitle
-        icon="profil-line"
-        title="Tableau de bord"
-        organisationName={user.organisation.name}
-      />
+      <PageTitle page={Routes.Structure.Index} />
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">

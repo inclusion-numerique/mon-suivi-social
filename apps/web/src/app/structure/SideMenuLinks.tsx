@@ -6,32 +6,13 @@ import { useIsCurrentPathname } from '@mss/web/hooks/useIsCurrentPathname'
 import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 
-const mainLinks = [
-  {
-    title: 'Tableau de bord',
-    path: Routes.Structure.Index,
-    icon: 'profil-line',
-  },
-  {
-    title: 'Bénéficiaires',
-    path: Routes.Structure.Beneficiaires.Index,
-    icon: 'user-line',
-  },
-  {
-    title: 'Accompagnements',
-    path: Routes.Structure.Accompagnements.Index,
-    icon: 'folder-2-line',
-  },
-  {
-    title: 'Statistiques',
-    path: Routes.Structure.Statistiques.Index,
-    icon: 'pie-chart-2-line',
-  },
-  {
-    title: 'Mon compte',
-    path: Routes.Structure.MonCompte.Index,
-    icon: 'user-setting-line',
-  },
+type MenuLink = { title: string; path: string; icon: string }
+const mainLinks: MenuLink[] = [
+  Routes.Structure.Index,
+  Routes.Structure.Beneficiaires.Index,
+  Routes.Structure.Accompagnements.Index,
+  Routes.Structure.Statistiques.Index,
+  Routes.Structure.MonCompte.Index,
 ]
 
 const MenuLinkItem = ({
@@ -76,12 +57,12 @@ const SideMenuLinks = ({
   }
 
   // TODO MSS depends on role
-  const userSpecificLinks: typeof mainLinks = []
+  const userSpecificLinks: MenuLink[] = []
 
   if (user.organisationId) {
     userSpecificLinks.push({
       title: 'Structure',
-      path: Routes.Structure.Structures.Modifier({
+      path: Routes.Structure.Structures.Modifier.path({
         organisationId: user.organisationId,
       }),
       icon: 'building-line',
@@ -89,16 +70,12 @@ const SideMenuLinks = ({
   }
 
   // TODO MSS if admin or structure boss??
-  userSpecificLinks.push({
-    title: 'Utilisateurs',
-    path: Routes.Structure.Utilisateurs.Index,
-    icon: 'team-line',
-  })
+  userSpecificLinks.push(Routes.Structure.Utilisateurs.Index)
 
   const menuLinksWithCurrent = [...mainLinks, ...userSpecificLinks].map(
     (link) => ({
       ...link,
-      current: isCurrent(link.path, link.path === Routes.Structure.Index),
+      current: isCurrent(link.path, link.path === Routes.Structure.Index.path),
     }),
   )
 

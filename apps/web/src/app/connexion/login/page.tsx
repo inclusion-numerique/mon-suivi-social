@@ -11,7 +11,7 @@ const SigninPage = async ({
 }) => {
   const user = await getSessionUser()
   if (user) {
-    redirect(Routes.Structure.Index)
+    redirect(Routes.Structure.Index.path)
     return null
   }
 

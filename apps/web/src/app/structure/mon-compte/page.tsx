@@ -7,6 +7,7 @@ import {
 } from '@mss/web/auth/inclusionConnect'
 import Link from 'next/link'
 import { Card } from '@mss/web/ui/Card'
+import { Routes } from '@mss/web/app/routing/routes'
 
 const MonComptePage = async () => {
   const user = await getAuthenticatedSessionUser()
@@ -16,11 +17,7 @@ const MonComptePage = async () => {
 
   return (
     <>
-      <PageTitle
-        icon="user-setting-line"
-        title="Mon compte"
-        organisationName={user.organisation?.name}
-      />
+      <PageTitle page={Routes.Structure.MonCompte.Index} />
       {inclusionConnectAccount ? (
         <div className="fr-grid-row fr-grid-row--gutters">
           <div className="fr-col-12">

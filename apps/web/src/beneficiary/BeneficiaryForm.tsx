@@ -73,7 +73,11 @@ export const BeneficiaryForm: FunctionComponent<
   const onSubmit = async (data: BeneficiaryData) => {
     try {
       const result = await addBeneficiary.mutateAsync(data)
-      router.push(Routes.Structure.Beneficiaire.Index(result.beneficiary))
+      router.push(
+        Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
+          result.beneficiary,
+        ),
+      )
     } catch (err) {
       // Error message will be in hook result
     }

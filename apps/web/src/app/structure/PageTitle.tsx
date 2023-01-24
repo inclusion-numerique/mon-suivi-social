@@ -1,28 +1,23 @@
 import { BreadCrumbParents, Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import { Routes } from '@mss/web/app/routing/routes'
 
-export const PageTitle = ({
-  icon,
-  title,
-  breadcrumbsTitle,
-  parents = [],
-  organisationName,
-}: {
-  icon: string
+export type PageConfig = {
   title: string
+  icon: string
   breadcrumbsTitle?: string
+}
+
+export const PageTitle = ({
+  page: { icon, title, breadcrumbsTitle },
+  parents = [],
+}: {
+  page: PageConfig
   parents?: BreadCrumbParents
-  organisationName?: string
 }) => {
-  const breadcrumbsParents = organisationName
-    ? [
-        {
-          title: organisationName,
-          href: Routes.Structure.Index,
-        },
-        ...parents,
-      ]
-    : parents
+  const breadcrumbsParents: BreadCrumbParents = [
+    { title: 'Votre structure', path: Routes.Structure.Index.path },
+    ...parents,
+  ]
 
   return (
     <>

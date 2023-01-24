@@ -12,6 +12,7 @@ import { PropsWithChildren, ReactNode } from 'react'
 import { FamilySituationChart } from '@mss/web/app/structure/statistiques/FamilySituationChart'
 import { AgeChart } from '@mss/web/app/structure/statistiques/AgeChart'
 import { ChartJs } from '@mss/web/app/structure/statistiques/ChartJs'
+import { Routes } from '@mss/web/app/routing/routes'
 
 const StatistiquesPage = async () => {
   const { organisationId, organisation } = await getAuthenticatedAgent()
@@ -26,11 +27,7 @@ const StatistiquesPage = async () => {
   return (
     <>
       <ChartJs />
-      <PageTitle
-        organisationName={organisation.name}
-        icon="pie-chart-2-line"
-        title="Statistiques"
-      />
+      <PageTitle page={Routes.Structure.Statistiques.Index} />
       <SectionTitle>
         <span className="fr-icon-user-line" /> {genderStats.total} bénéficiaires
       </SectionTitle>

@@ -1,16 +1,13 @@
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
 import { getAuthenticatedSessionUser } from '@mss/web/auth/getSessionUser'
+import { Routes } from '@mss/web/app/routing/routes'
 
 const UtilisateursPage = async () => {
   const user = await getAuthenticatedSessionUser()
 
   return (
     <>
-      <PageTitle
-        icon="team-line"
-        title="Utilisateurs"
-        organisationName={user.organisation?.name}
-      />
+      <PageTitle page={Routes.Structure.Utilisateurs.Index} />
     </>
   )
 }
