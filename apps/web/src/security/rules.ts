@@ -38,7 +38,7 @@ export const isStructureManager = (
   grantee.organisationId === target.organisationId &&
   grantee.status === 'Active'
 
-export const isOrganisationAgent = (
+export const isInSameOrganisationAs = (
   grantee: SecurityRuleGrantee,
   target: SecurityTargetWithOrganisation,
   allowedRoles: AllowedRoles,
@@ -103,7 +103,7 @@ export const canListBeneficiaries = (
   target: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, target, [
+  isInSameOrganisationAs(grantee, target, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -116,7 +116,7 @@ export const canCreateBeneficiaryWithGeneralInfo = (
   target: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, target, [
+  isInSameOrganisationAs(grantee, target, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -129,7 +129,7 @@ export const canCreateBeneficiaryWithFullInfo = (
   target: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, target, [
+  isInSameOrganisationAs(grantee, target, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -141,7 +141,7 @@ export const canViewBeneficiaryGeneralInfo = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -154,7 +154,7 @@ export const canViewBeneficiaryFullInfo = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -169,7 +169,7 @@ export const canDeleteBeneficiary = (
   beneficiary: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
   ])
@@ -179,7 +179,7 @@ export const canUpdateBeneficiaryReferents = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -191,14 +191,14 @@ export const canExportBeneficiariesData = (
   beneficiary: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, ['StructureManager'])
+  isInSameOrganisationAs(grantee, beneficiary, ['StructureManager'])
 
 export const canAddBeneficiaryDocument = (
   grantee: SecurityRuleGrantee,
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -211,7 +211,7 @@ export const canViewBeneficiaryDocuments = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -224,7 +224,7 @@ export const canDeleteBeneficiaryDocument = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
   ]) ||
@@ -235,7 +235,7 @@ export const canCreateBeneficiaryFollowup = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -248,7 +248,7 @@ export const canListBeneficiaryFollowups = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -262,7 +262,7 @@ export const canViewBeneficiaryFollowup = (
   followup: SecurityTargetWithCreator,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -276,7 +276,7 @@ export const canEditBeneficiaryFollowup = (
   followup: SecurityTargetWithCreator,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, ['StructureManager']) ||
+  isInSameOrganisationAs(grantee, beneficiary, ['StructureManager']) ||
   isCreator(grantee, followup, [
     'SocialWorker',
     'Instructor',
@@ -293,7 +293,7 @@ export const canDeleteBeneficiaryFollowup = (
   followup: SecurityTargetWithCreator,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, ['StructureManager']) ||
+  isInSameOrganisationAs(grantee, beneficiary, ['StructureManager']) ||
   isCreator(grantee, followup, ['SocialWorker', 'Instructor']) ||
   isReferent(grantee, beneficiary)
 
@@ -302,7 +302,7 @@ export const canCreateBeneficiaryHelpRequest = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -314,7 +314,7 @@ export const canListBeneficiaryHelpRequests = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -328,7 +328,7 @@ export const canViewBeneficiaryHelpRequest = (
   helpRequest: SecurityTargetWithCreator,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
   ]) ||
@@ -341,7 +341,7 @@ export const canEditBeneficiaryHelpRequest = (
   helpRequest: SecurityTargetWithCreator,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, ['StructureManager']) ||
+  isInSameOrganisationAs(grantee, beneficiary, ['StructureManager']) ||
   isCreator(grantee, helpRequest, ['SocialWorker', 'Instructor']) ||
   isReferent(grantee, beneficiary)
 
@@ -352,7 +352,7 @@ export const canListCommentsToBeneficiaryHelpRequest = (
   beneficiary: SecurityTargetWithOrganisation & SecurityTargetWithReferents,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -365,7 +365,7 @@ export const canDeleteBeneficiaryHelpRequest = (
   helpRequest: SecurityTargetWithCreator,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, beneficiary, [
+  isInSameOrganisationAs(grantee, beneficiary, [
     'StructureManager',
     'SocialWorker',
   ]) ||
@@ -381,7 +381,7 @@ export const canAccessFollowupsPage = (
   target: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, target, [
+  isInSameOrganisationAs(grantee, target, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -394,7 +394,7 @@ export const canExportFollowupsData = (
   target: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, target, [
+  isInSameOrganisationAs(grantee, target, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -406,7 +406,7 @@ export const canAccessStatsPage = (
   target: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, target, [
+  isInSameOrganisationAs(grantee, target, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
@@ -418,4 +418,4 @@ export const canExportStats = (
   target: SecurityTargetWithOrganisation,
 ): boolean =>
   isAdministrator(grantee) ||
-  isOrganisationAgent(grantee, target, ['StructureManager', 'SocialWorker'])
+  isInSameOrganisationAs(grantee, target, ['StructureManager', 'SocialWorker'])
