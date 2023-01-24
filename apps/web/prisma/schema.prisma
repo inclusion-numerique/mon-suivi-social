@@ -47,9 +47,10 @@ enum UserStatus {
 enum UserRole {
   Administrator
   StructureManager
-  Referent
+  SocialWorker
   Instructor
   ReceptionAgent
+  Referent
 }
 
 model User {
@@ -78,7 +79,8 @@ model User {
   followups      Followup[]
   helpRequests   HelpRequest[]
 
-  referentFor Beneficiary[] @relation(name: "beneficiary_referents")
+  createdBeneficiaries Beneficiary[] @relation(name: "created_beneficiaries")
+  referentFor          Beneficiary[] @relation(name: "beneficiary_referents")
 }
 
 enum OrganisationType {
@@ -443,7 +445,9 @@ model Beneficiary {
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @db.Uuid
 
-  referents User[] @relation(name: "beneficiary_referents")
+  createdById String? @db.Uuid
+  createdBy   User?   @relation(name: "created_beneficiaries", fields: [createdById], references: [id])
+  referents   User[] @relation(name: "beneficiary_referents")
 
   aidantConnectAuthorized Boolean @default(false)
 
