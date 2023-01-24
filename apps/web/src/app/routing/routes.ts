@@ -47,8 +47,12 @@ export const Routes = {
         },
 
         Modifier: {
-          title: (beneficiary: Beneficiary) =>
-            `${beneficiaryDisplayName(beneficiary)} · Modification`,
+          title: (
+            beneficiary: Pick<
+              Beneficiary,
+              'firstName' | 'usualName' | 'birthName' | 'fileNumber'
+            >,
+          ) => `${beneficiaryDisplayName(beneficiary)} · Modification`,
           icon: 'user-line',
           breadcrumbsTitle: 'Modification',
           path: ({ fileNumber }: { fileNumber: string }) =>

@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
-
-import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { LabelAndValue } from '@mss/web/ui/LabelAndValue'
 import { getAge } from '@mss/web/utils/age'
@@ -112,7 +110,7 @@ const BeneficiaryPage = async ({
             </span>
           </li>
           <li>
-            Agent référent : <strong>{getUserDisplayName(agent)}</strong>
+            Agent référent : <strong>{getUserDisplayName(agent)}</strong>
           </li>
         </ul>
       </div>
