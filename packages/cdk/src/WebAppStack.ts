@@ -211,12 +211,12 @@ export class WebAppStack extends TerraformStack {
         NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID: isMain
           ? mainInclusionConnectClientId.value
           : previewInclusionConnectClientId.value,
-        INCLUSION_CONNECT_CLIENT_SECRET: isMain
-          ? mainInclusionConnectClientSecret.value
-          : previewInclusionConnectClientSecret.value,
       },
       secretEnvironmentVariables: {
         DATABASE_URL: databaseUrl,
+        INCLUSION_CONNECT_CLIENT_SECRET: isMain
+          ? mainInclusionConnectClientSecret.value
+          : previewInclusionConnectClientSecret.value,
       },
       name: containerName,
       minScale: isMain ? 2 : 0,
