@@ -100,6 +100,7 @@ const BeneficiaryPage = async ({
       <PageTitle
         icon="user-line"
         title={beneficiaryDisplayName(beneficiary)}
+        organisationName={user.organisation.name}
         parents={[
           {
             title: 'Bénéficiaires',

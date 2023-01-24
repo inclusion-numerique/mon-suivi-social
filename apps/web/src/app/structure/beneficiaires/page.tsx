@@ -2,11 +2,18 @@ import Link from 'next/link'
 import BeneficiariesSearchBar from '@mss/web/app/structure/beneficiaires/BeneficiariesSearchBar'
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
+import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 
 const BeneficiariesPage = async () => {
+  const user = await getAuthenticatedAgent()
+
   return (
     <>
-      <PageTitle icon="user-line" title="Bénéficiaires" />
+      <PageTitle
+        icon="user-line"
+        title="Bénéficiaires"
+        organisationName={user.organisation.name}
+      />
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">

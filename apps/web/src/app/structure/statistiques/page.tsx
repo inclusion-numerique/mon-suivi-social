@@ -26,7 +26,11 @@ const StatistiquesPage = async () => {
   return (
     <>
       <ChartJs />
-      <PageTitle icon="pie-chart-2-line" title="Statistiques" />
+      <PageTitle
+        organisationName={organisation.name}
+        icon="pie-chart-2-line"
+        title="Statistiques"
+      />
       <SectionTitle>
         <span className="fr-icon-user-line" /> {genderStats.total} bénéficiaires
       </SectionTitle>

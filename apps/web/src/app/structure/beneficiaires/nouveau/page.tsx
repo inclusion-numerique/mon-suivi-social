@@ -14,6 +14,7 @@ const AddBeneficiaryPage = async () => {
       <PageTitle
         icon="user-line"
         title="Ajouter un·e bénéficiaire"
+        organisationName={user.organisation.name}
         parents={[
           {
             title: 'Bénéficiaires',

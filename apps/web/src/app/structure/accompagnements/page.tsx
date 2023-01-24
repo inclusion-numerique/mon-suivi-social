@@ -35,7 +35,11 @@ const AccompagnementsPage = async () => {
 
   return (
     <>
-      <PageTitle icon="folder-2-line" title="Accompagnements" />
+      <PageTitle
+        icon="folder-2-line"
+        title="Accompagnements"
+        organisationName={user.organisation.name}
+      />
       <div className="fr-tabs fr-mt-4v">
         <ul
           className="fr-tabs__list"

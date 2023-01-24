@@ -1,6 +1,7 @@
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import SideMenuLinks from '@mss/web/app/structure/SideMenuLinks'
 import { FunctionComponent, ReactNode } from 'react'
+import { serialize } from '@mss/web/utils/serialization'
 
 const PrivateLayoutContent: FunctionComponent<{
   user: SessionUser
@@ -36,7 +37,7 @@ const PrivateLayoutContent: FunctionComponent<{
                   {menuTitle}
                 </h4>
 
-                <SideMenuLinks user={user} />
+                <SideMenuLinks serializedUser={serialize(user)} />
               </div>
             </div>
           </nav>

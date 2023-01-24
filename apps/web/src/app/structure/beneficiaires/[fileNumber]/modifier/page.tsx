@@ -35,6 +35,7 @@ const EditBeneficiaryPage = async ({
         icon="user-line"
         title={`${beneficiaryDisplayName(beneficiary)} · Modification`}
         breadcrumbsTitle="Modification"
+        organisationName={user.organisation.name}
         parents={[
           {
             title: 'Bénéficiaires',

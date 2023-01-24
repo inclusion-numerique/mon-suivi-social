@@ -1,9 +1,15 @@
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
+import { getAuthenticatedSessionUser } from '@mss/web/auth/getSessionUser'
 
-const StructuresPage = () => {
+const StructuresPage = async () => {
+  const user = await getAuthenticatedSessionUser()
   return (
     <>
-      <PageTitle icon="building-line" title="Structures" />
+      <PageTitle
+        organisationName={user.organisation?.name}
+        icon="building-line"
+        title="Structures"
+      />
     </>
   )
 }

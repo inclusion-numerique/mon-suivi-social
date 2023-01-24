@@ -6,6 +6,7 @@ import {
   inclusionConnectProviderId,
 } from '@mss/web/auth/inclusionConnect'
 import Link from 'next/link'
+import { Card } from '@mss/web/ui/Card'
 
 const MonComptePage = async () => {
   const user = await getAuthenticatedSessionUser()
@@ -15,27 +16,35 @@ const MonComptePage = async () => {
 
   return (
     <>
-      <PageTitle icon="user-setting-line" title="Mon compte" />
+      <PageTitle
+        icon="user-setting-line"
+        title="Mon compte"
+        organisationName={user.organisation?.name}
+      />
       {inclusionConnectAccount ? (
         <div className="fr-grid-row fr-grid-row--gutters">
           <div className="fr-col-12">
-            <h4>Inclusion Connect</h4>
-            <p>
-              Votre compte {user.email} est lié à votre compte Inclusion
-              Connect.
-            </p>
-            <p>
-              Vous pouvez vous déconnecter de tout les services utilisant votre
-              compte Inclusion Connect :
-            </p>
+            <Card>
+              <h4>Inclusion Connect</h4>
+              <p>
+                Votre compte {user.email} est lié à votre compte Inclusion
+                Connect.
+              </p>
+              <p>
+                Vous pouvez vous déconnecter de tous les autres services
+                utilisant votre compte Inclusion Connect en suivant ce lien :
+              </p>
 
-            {/*TODO MSS ALSO LOGOUT ? */}
-            <Link
-              className="fr-btn fr-btn--icon-left fr-icon-logout-box-r-line"
-              href={getInclusionConnectLogoutUrl()}
-            >
-              Se déconnecter d&apos;Inclusion Connect
-            </Link>
+              {/*TODO MSS ALSO LOGOUT ? */}
+              <Link
+                className="fr-btn"
+                href={getInclusionConnectLogoutUrl()}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Se déconnecter d&apos;Inclusion Connect
+              </Link>
+            </Card>
           </div>
         </div>
       ) : null}

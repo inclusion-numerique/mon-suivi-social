@@ -4,6 +4,7 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import { signOut } from 'next-auth/react'
 import { useIsCurrentPathname } from '@mss/web/hooks/useIsCurrentPathname'
 import { Routes } from '@mss/web/app/routing/routes'
+import { deserialize, Serialized } from '@mss/web/utils/serialization'
 
 const mainLinks = [
   {
@@ -62,7 +63,12 @@ const MenuLinkItem = ({
   )
 }
 
-const SideMenuLinks = ({ user }: { user: SessionUser }) => {
+const SideMenuLinks = ({
+  serializedUser,
+}: {
+  serializedUser: Serialized<SessionUser>
+}) => {
+  const user = deserialize(serializedUser)
   const isCurrent = useIsCurrentPathname()
 
   const onLogoutClick = () => {
