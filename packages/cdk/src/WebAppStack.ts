@@ -72,12 +72,29 @@ export class WebAppStack extends TerraformStack {
 
     // Configuring env variables
     const webContainerImage = envVariable('webContainerImage')
+    const previewInclusionConnectIssuer = envVariable(
+      'previewInclusionConnectIssuer',
+    )
+    const mainInclusionConnectIssuer = envVariable('mainInclusionConnectIssuer')
+    const previewInclusionConnectClientId = envVariable(
+      'previewInclusionConnectClientId',
+    )
+    const mainInclusionConnectClientId = envVariable(
+      'mainInclusionConnectClientId',
+    )
+
     // Configuring env secrets
     const accessKey = sensitiveEnvVariable('accessKey')
     const secretKey = sensitiveEnvVariable('secretKey')
     const organizationId = sensitiveEnvVariable('organizationId')
     const projectId = sensitiveEnvVariable('projectId')
     const databasePasswordSalt = sensitiveEnvVariable('databasePasswordSalt')
+    const previewInclusionConnectClientSecret = envVariable(
+      'previewInclusionConnectClientSecret',
+    )
+    const mainInclusionConnectClientSecret = envVariable(
+      'mainInclusionConnectClientSecret',
+    )
 
     // Configuring provider that will be used for the rest of the stack
     new ScalewayProvider(this, 'provider', {
@@ -188,6 +205,15 @@ export class WebAppStack extends TerraformStack {
         BASE_URL: hostname,
         BRANCH: branch,
         NAMESPACE: namespace,
+        NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER: isMain
+          ? mainInclusionConnectIssuer.value
+          : previewInclusionConnectIssuer.value,
+        NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID: isMain
+          ? mainInclusionConnectClientId.value
+          : previewInclusionConnectClientId.value,
+        INCLUSION_CONNECT_CLIENT_SECRET: isMain
+          ? mainInclusionConnectClientSecret.value
+          : previewInclusionConnectClientSecret.value,
       },
       secretEnvironmentVariables: {
         DATABASE_URL: databaseUrl,
