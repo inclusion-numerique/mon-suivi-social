@@ -1,7 +1,6 @@
 import { PrivateConfig, PublicConfig } from '@mss/web/config'
 
 export const EnvironmentInformation = () => {
-  console.log('CONFIG', PrivateConfig)
   const branch = PrivateConfig.Branch
   const isMain = PrivateConfig.isMain
 
