@@ -15,7 +15,7 @@ export const HelpRequestRow = ({
   const router = useRouter()
 
   const helpRequest = deserialize(serializedHelpRequest)
-  const { status, id, beneficiary, agent, type } = helpRequest
+  const { status, id, beneficiary, createdBy, type } = helpRequest
   const href = Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
     beneficiary,
     {
@@ -53,7 +53,7 @@ export const HelpRequestRow = ({
         </span>
       </td>
       <td>{beneficiaryDisplayName(beneficiary)}</td>
-      <td>{getUserDisplayName(agent)}</td>
+      <td>{createdBy ? getUserDisplayName(createdBy) : 'Système'}</td>
     </tr>
   )
 }

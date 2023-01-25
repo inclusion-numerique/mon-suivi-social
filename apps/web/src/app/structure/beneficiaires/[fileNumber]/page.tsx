@@ -22,7 +22,7 @@ const getSupports = async ({
       id: true,
       followups: {
         include: {
-          agent: true,
+          createdBy: true,
           type: true,
         },
         orderBy: {
@@ -31,7 +31,7 @@ const getSupports = async ({
       },
       helpRequests: {
         include: {
-          agent: true,
+          createdBy: true,
           type: true,
         },
         orderBy: {
@@ -43,7 +43,7 @@ const getSupports = async ({
 
   // Remove private info
   const followups = result.followups.map((followup) => {
-    if (followup.agentId !== agentId) {
+    if (followup.createdById !== agentId) {
       followup.privateSynthesis = null
     }
 
@@ -54,7 +54,7 @@ const getSupports = async ({
     }
   })
   const helpRequests = result.helpRequests.map((helpRequest) => {
-    if (helpRequest.agentId !== agentId) {
+    if (helpRequest.createdById !== agentId) {
       helpRequest.privateSynthesis = null
     }
     return {
@@ -314,12 +314,14 @@ const BeneficiaryPage = async ({
                             </div>
                             <div
                               className={`fr-col-12 fr-col-md-4 fr-text--bold ${
-                                support.agent.id === user.id
+                                support.createdById === user.id
                                   ? 'fr-text-label--blue-france'
                                   : null
                               }`}
                             >
-                              {getUserDisplayName(support.agent)}
+                              {support.createdBy
+                                ? getUserDisplayName(support.createdBy)
+                                : 'Système'}
                             </div>
                           </div>
                         </div>

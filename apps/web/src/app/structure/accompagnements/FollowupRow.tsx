@@ -12,7 +12,7 @@ export const FollowupRow = ({
 }: {
   serializedFollowup: Serialized<HistoryFollowup>
 }) => {
-  const { beneficiary, id, medium, type, agent, status } =
+  const { beneficiary, id, medium, type, createdBy, status } =
     deserialize(serializedFollowup)
   const router = useRouter()
 
@@ -50,7 +50,7 @@ export const FollowupRow = ({
         </span>
       </td>
       <td>{beneficiaryDisplayName(beneficiary)}</td>
-      <td>{getUserDisplayName(agent)}</td>
+      <td>{createdBy ? getUserDisplayName(createdBy) : 'Système'}</td>
     </tr>
   )
 }
