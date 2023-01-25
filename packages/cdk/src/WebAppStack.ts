@@ -200,6 +200,7 @@ export class WebAppStack extends TerraformStack {
         EMAIL_FROM_ADDRESS: emailFromAddress,
         EMAIL_FROM_NAME: emailFromName,
         MSS_WEB_IMAGE: webContainerImage.value,
+        UPLOADS_BUCKET_ID: uploadsBucket.id,
         BASE_URL: hostname,
         BRANCH: branch,
         NAMESPACE: namespace,
