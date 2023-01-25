@@ -25,6 +25,7 @@ import {
   generateDatabaseUrl,
   namespacer,
 } from './utils'
+import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
 
 const projectSlug = 'mss'
 const databaseInstanceId = '7857e02a-05a5-437a-a46d-5da289559d67'
@@ -155,14 +156,12 @@ export class WebAppStack extends TerraformStack {
       dependsOn: [database, databaseUser],
     })
 
-    // const uploadsBucket = new ObjectBucket(this, 'uploads', {
-    //   name: namespaced(`${projectSlug}-uploads`),
-    // })
-    //
-    // output('uploadsBucketName', uploadsBucket.name)
-    // output('uploadsBucketEndpoint', uploadsBucket.endpoint)
-    output('uploadsBucketName', 'wip')
-    output('uploadsBucketEndpoint', 'wip')
+    const uploadsBucket = new ObjectBucket(this, 'uploads', {
+      name: namespaced(`${projectSlug}-uploads`),
+    })
+
+    output('uploadsBucketName', uploadsBucket.name)
+    output('uploadsBucketEndpoint', uploadsBucket.endpoint)
 
     const containerNamespace = new DataScalewayContainerNamespace(
       this,
