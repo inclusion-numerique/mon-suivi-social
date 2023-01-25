@@ -38,7 +38,7 @@ export const Routes = {
           path: (
             { fileNumber }: { fileNumber: string },
             params?: {
-              tab?: 'info' | 'fichiers' | 'historique'
+              tab?: 'info' | 'documents' | 'historique'
               // ID of item to scroll to in history tab
               accompagnement?: string
             },
@@ -119,3 +119,9 @@ export const Routes = {
     },
   },
 }
+
+// Helper type for typing props of pages components
+export type RoutePathParams<T extends (...args: any) => any> = Parameters<T>[0]
+
+export type RoutePathSearchParams<T extends (...args: any) => any> =
+  Parameters<T>[1]

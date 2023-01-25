@@ -6,6 +6,10 @@ import { TRPCError } from '@trpc/server'
 import { BeneficiaryDataValidation } from '@mss/web/beneficiary/beneficiary'
 import { generateFileNumber } from '@mss/web/beneficiary/generateFileNumber'
 import { SessionUser, SessionUserAgent } from '@mss/web/auth/sessionUser'
+import {
+  AddDocumentData,
+  AddDocumentDataValidation,
+} from '@mss/web/app/structure/beneficiaires/[fileNumber]/AddDocumentData'
 
 const enforceUserHasAccessToOrganisation = (
   user: SessionUser,
@@ -108,6 +112,13 @@ export const beneficiaryRouter = router({
         return { beneficiary }
       },
     ),
+  document: router({
+    add: protectedProcedure
+      .input(AddDocumentDataValidation)
+      .mutation(async ({ input: {}, ctx: { user } }) => {
+        return {}
+      }),
+  }),
 })
 
 export const appRouter = router({

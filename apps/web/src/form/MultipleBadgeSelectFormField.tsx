@@ -55,8 +55,7 @@ export function MultipleBadgeSelectFormField<T extends FieldValues>({
       name={path}
       render={({
         field: { onChange, onBlur, value, name, ref },
-        fieldState: { invalid, isTouched, isDirty, error },
-        formState,
+        fieldState: { invalid, isTouched, error },
       }) => {
         // Value is an array of option values
         const onSelectChange: ChangeEventHandler<HTMLSelectElement> = (

@@ -26,8 +26,7 @@ export function RadioFormField<T extends FieldValues>({
       name={path}
       render={({
         field: { onChange, onBlur, value, name, ref },
-        fieldState: { invalid, isTouched, isDirty, error },
-        formState,
+        fieldState: { invalid, isTouched, error },
       }) => (
         <div className="fr-form-group">
           <fieldset

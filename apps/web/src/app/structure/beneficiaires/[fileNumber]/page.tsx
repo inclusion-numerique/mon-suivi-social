@@ -2,10 +2,16 @@ import Link from 'next/link'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
 import { getUserDisplayName } from '@mss/web/utils/user'
-import { LabelAndValue } from '@mss/web/ui/LabelAndValue'
-import { getAge } from '@mss/web/utils/age'
 import { PageConfig, PageTitle } from '@mss/web/app/structure/PageTitle'
-import { Routes } from '@mss/web/app/routing/routes'
+import {
+  RoutePathParams,
+  RoutePathSearchParams,
+  Routes,
+} from '@mss/web/app/routing/routes'
+import { DocumentsTab } from '@mss/web/app/structure/beneficiaires/[fileNumber]/DocumentsTab'
+import { HistoryTab } from '@mss/web/app/structure/beneficiaires/[fileNumber]/HistoryTab'
+import { InfoTab } from '@mss/web/app/structure/beneficiaires/[fileNumber]/InfoTab'
+import { PropsWithChildren } from 'react'
 
 export const revalidate = 0
 
@@ -69,26 +75,61 @@ const getSupports = async ({
   )
 }
 
-const BeneficiaryPage = async ({
-  params: { fileNumber },
-  searchParams: { tab, accompagnement } = {},
+export type BeneficiaryPageSupport = Awaited<ReturnType<typeof getSupports>>[0]
+
+const getBeneficiary = ({
+  fileNumber,
+  organisationId,
 }: {
-  params: { fileNumber: string }
-  searchParams?: {
-    tab?: 'info' | 'fichiers' | 'historique'
-    accompagnement?: string
-  }
-}) => {
-  const user = await getAuthenticatedAgent()
-  const beneficiary = await prismaClient.beneficiary.findFirstOrThrow({
-    where: { organisationId: user.organisationId, fileNumber },
+  organisationId: string
+  fileNumber: string
+}) =>
+  prismaClient.beneficiary.findFirstOrThrow({
+    where: { organisationId, fileNumber },
     include: {
       referents: true,
     },
   })
+export type BeneficiaryPageInfo = Awaited<ReturnType<typeof getBeneficiary>>
+
+const getDocuments = ({
+  userId,
+  beneficiaryId,
+}: {
+  userId: string
+  beneficiaryId: string
+}) =>
+  prismaClient.document.findMany({
+    where: { beneficiaryId },
+  })
+
+export type BeneficiaryPageDocuments = Awaited<ReturnType<typeof getDocuments>>
+
+const BeneficiaryPage = async ({
+  params: { fileNumber },
+  searchParams: { tab, accompagnement } = {},
+}: {
+  params: RoutePathParams<
+    typeof Routes.Structure.Beneficiaires.Beneficiaire.Index.path
+  >
+  searchParams?: RoutePathSearchParams<
+    typeof Routes.Structure.Beneficiaires.Beneficiaire.Index.path
+  >
+}) => {
+  const user = await getAuthenticatedAgent()
+  // TODO use security rules instead of where filters
+  const beneficiary = await getBeneficiary({
+    fileNumber,
+    organisationId: user.organisationId,
+  })
   const supports = await getSupports({
     beneficiaryId: beneficiary.id,
     agentId: user.id,
+  })
+
+  const documents = await getDocuments({
+    beneficiaryId: beneficiary.id,
+    userId: user.id,
   })
 
   const { referents } = beneficiary
@@ -110,7 +151,7 @@ const BeneficiaryPage = async ({
             </span>
           </li>
           <li>
-            Agents référents :{' '}
+            Agents référents :{' '}
             <strong>{referents.map(getUserDisplayName)}</strong>
           </li>
         </ul>
@@ -166,175 +207,86 @@ const BeneficiaryPage = async ({
           role="tablist"
           aria-label="Informations bénéficiaire"
         >
-          <li role="presentation">
-            <button
-              id="tabpanel-404"
-              className="fr-tabs__tab fr-icon-list-unordered fr-tabs__tab--icon-left"
-              tabIndex={0}
-              role="tab"
-              aria-selected={!tab || tab === 'info' ? 'true' : 'false'}
-              aria-controls="tabpanel-404-panel"
-            >
-              Info
-            </button>
-          </li>
-          <li role="presentation">
-            <button
-              id="tabpanel-405"
-              className="fr-tabs__tab fr-icon-file-line fr-tabs__tab--icon-left"
-              tabIndex={-1}
-              role="tab"
-              aria-selected={tab === 'fichiers' ? 'true' : 'false'}
-              aria-controls="tabpanel-405-panel"
-            >
-              Fichiers
-            </button>
-          </li>
-          <li role="presentation">
-            <button
-              id="tabpanel-406"
-              className="fr-tabs__tab fr-icon-folder-2-line fr-tabs__tab--icon-left"
-              tabIndex={-1}
-              role="tab"
-              aria-selected={tab === 'historique' ? 'true' : 'false'}
-              aria-controls="tabpanel-406-panel"
-            >
-              Historique
-            </button>
-          </li>
+          <TabButton
+            id="beneficiary-tab-info"
+            icon="list-unordered"
+            selected={!tab || tab === 'info'}
+          >
+            Info
+          </TabButton>
+          <TabButton
+            id="beneficiary-tab-documents"
+            icon="file-line"
+            selected={tab === 'documents'}
+          >
+            Documents
+          </TabButton>
+          <TabButton
+            id="beneficiary-tab-historique"
+            icon="folder-2-line"
+            selected={tab === 'historique'}
+          >
+            Historique
+          </TabButton>
         </ul>
-        <div
-          id="tabpanel-404-panel"
-          className={`fr-tabs__panel ${
-            !tab || tab === 'info' ? 'fr-tabs__panel--selected' : ''
-          }`}
-          role="tabpanel"
-          aria-labelledby="tabpanel-404"
-          tabIndex={0}
+        <TabContainer
+          id="beneficiary-tab-info"
+          selected={!tab || tab === 'info'}
         >
-          <h4>Bénéficiaire</h4>
-          <ul className="fr-raw-list">
-            <LabelAndValue value={beneficiary.title}>Civilité</LabelAndValue>
-            <LabelAndValue value={beneficiary.firstName}>Prénom</LabelAndValue>
-            <LabelAndValue value={beneficiary.usualName}>
-              Nom usuel
-            </LabelAndValue>
-            <LabelAndValue value={beneficiary.birthName}>
-              Nom de naissance
-            </LabelAndValue>
-            <LabelAndValue value={beneficiary.birthDate?.toLocaleDateString()}>
-              Date de naissance
-            </LabelAndValue>
-            <LabelAndValue
-              value={
-                beneficiary.birthDate ? getAge(beneficiary.birthDate) : null
-              }
-            >
-              Age
-            </LabelAndValue>
-          </ul>
-        </div>
-        <div
-          id="tabpanel-405-panel"
-          className={`fr-tabs__panel ${
-            tab === 'fichiers' ? 'fr-tabs__panel--selected' : ''
-          }`}
-          role="tabpanel"
-          aria-labelledby="tabpanel-405"
-          tabIndex={0}
+          <InfoTab user={user} beneficiary={beneficiary} />
+        </TabContainer>
+        <TabContainer
+          id="beneficiary-tab-documents"
+          selected={tab === 'documents'}
         >
-          <h4>Fichiers</h4>
-          <p>Aucun fichier disponible</p>
-        </div>
-        <div
-          id="tabpanel-406-panel"
-          className={`fr-tabs__panel ${
-            tab === 'historique' ? 'fr-tabs__panel--selected' : ''
-          }`}
-          role="tabpanel"
-          aria-labelledby="tabpanel-406"
-          tabIndex={0}
+          <DocumentsTab user={user} documents={documents} />
+        </TabContainer>
+        <TabContainer
+          id="beneficiary-tab-historique"
+          selected={tab === 'historique'}
         >
-          <h4>Historique</h4>
-
-          <div>
-            {supports.map((support) => {
-              return (
-                <div
-                  key={support.id}
-                  className="fr-grid-row fr-grid-row--gutters"
-                >
-                  <div className="fr-col-12 fr-col-md-2 fr-text-label--blue-france fr-text--bold">
-                    {support.historyDate.toLocaleDateString()}
-                  </div>
-                  <div className="fr-col-12 fr-col-md-10">
-                    <div className="fr-card">
-                      <div className="fr-card__body fr-px-4w">
-                        <div className="fr-card__content fr-py-4v">
-                          <div className="fr-grid-row">
-                            <div className="fr-col-12 fr-col-md-8">
-                              <ul className="fr-raw-list">
-                                <LabelAndValue
-                                  value={
-                                    support.__type === 'helpRequest'
-                                      ? "Demande d'aide"
-                                      : 'Entretien'
-                                  }
-                                >
-                                  Type
-                                </LabelAndValue>
-                                <LabelAndValue value={support.type.name}>
-                                  Accompagnement
-                                </LabelAndValue>
-                                <LabelAndValue value={support.status}>
-                                  Statut
-                                </LabelAndValue>
-
-                                {support.__type === 'followup' ? (
-                                  <>
-                                    <LabelAndValue
-                                      value={support.organisationName}
-                                    >
-                                      Redirigé vers
-                                    </LabelAndValue>
-                                  </>
-                                ) : null}
-                                {support.__type === 'helpRequest' ? (
-                                  <>
-                                    <LabelAndValue
-                                      value={
-                                        support.financialSupport ? 'Oui' : 'Non'
-                                      }
-                                    >
-                                      Demande financière
-                                    </LabelAndValue>
-                                  </>
-                                ) : null}
-                              </ul>
-                            </div>
-                            <div
-                              className={`fr-col-12 fr-col-md-4 fr-text--bold ${
-                                support.createdById === user.id
-                                  ? 'fr-text-label--blue-france'
-                                  : null
-                              }`}
-                            >
-                              {support.createdBy
-                                ? getUserDisplayName(support.createdBy)
-                                : 'Système'}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
+          <HistoryTab user={user} supports={supports} />
+        </TabContainer>
       </div>
     </>
   )
 }
+
+const TabButton = ({
+  id,
+  selected,
+  children,
+  icon,
+}: PropsWithChildren<{ id: string; icon: string; selected?: boolean }>) => (
+  <li role="presentation">
+    <button
+      id={id}
+      className={`fr-tabs__tab fr-icon-${icon} fr-tabs__tab--icon-left`}
+      tabIndex={-1}
+      role="tab"
+      aria-selected={selected ? 'true' : 'false'}
+      aria-controls={`${id}_panel`}
+      data-fr-js-tab-button="true"
+    >
+      {children}
+    </button>
+  </li>
+)
+
+const TabContainer = ({
+  id,
+  selected,
+  children,
+}: PropsWithChildren<{ id: string; selected?: boolean }>) => (
+  <div
+    id={`${id}_panel`}
+    className={`fr-tabs__panel ${selected ? 'fr-tabs__panel--selected' : ''}`}
+    role="tabpanel"
+    aria-labelledby={id}
+    tabIndex={0}
+  >
+    {children}
+  </div>
+)
+
 export default BeneficiaryPage

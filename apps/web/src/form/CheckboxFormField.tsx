@@ -1,49 +1,85 @@
-import { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
+import { Control, Controller, FieldValues } from 'react-hook-form'
 import { FieldPath } from 'react-hook-form/dist/types/path'
 
 // View design options here https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/case-a-cocher/
-// TODO MSS Same interface as other InputField and Select field for control
 export function CheckboxFormField<T extends FieldValues>({
-  label,
-  errors,
-  register,
+  control,
   path,
-  placeholder,
-  hint,
   disabled,
+  label,
+  checkboxLabel,
+  hint,
+  autoFocus,
 }: {
-  register: UseFormRegister<T>
-  errors: Partial<FieldErrorsImpl<T>>
+  control: Control<T>
   path: FieldPath<T>
   disabled?: boolean
   label?: string
+  checkboxLabel?: string
   hint?: string
-  placeholder?: string
+  autoFocus?: boolean
 }) {
-  // We do not use language errors as record object, we cast to string
-  const error = 'TODO'
   const id = `checkbox-form-field__${path}`
-  const registerProps = register(path)
 
   return (
-    <div
-      className={`fr-checkbox-group ${
-        error ? 'fr-checkbox-group--error' : ''
-      } ${disabled ? 'fr-checkbox-group--disabled' : ''}`}
-    >
-      <input
-        className="fr-input fr-input--error"
-        aria-describedby="text-input-error-desc-error"
-        type="checkbox"
-        id={id}
-        placeholder={placeholder}
-        {...registerProps}
-      />
-      <label className="fr-label" htmlFor={id}>
-        {label}
-        {hint ? <span className="fr-hint-text">{hint}</span> : null}
-      </label>
-      {error ? <p className="fr-error-text">{error}</p> : null}
-    </div>
+    <Controller
+      control={control}
+      name={path}
+      render={({
+        field: { onChange, onBlur, value, name, ref },
+        fieldState: { invalid, isTouched, error },
+      }) => (
+        <div className="fr-form-group">
+          <fieldset
+            className={`fr-fieldset ${error ? 'fr-fieldset--error' : ''} ${
+              disabled ? 'fr-fieldset--disabled' : ''
+            } ${isTouched && !invalid ? 'fr-fieldset--valid' : ''}`}
+            aria-labelledby={`${id}__legend ${id}__error`}
+            role="group"
+          >
+            <legend
+              className="fr-fieldset__legend fr-text--regular"
+              id={`${id}__legend`}
+            >
+              {label}
+              {hint ? (
+                <span className="fr-hint-text fr-mt-0">{hint}</span>
+              ) : null}
+            </legend>
+            <div className="fr-fieldset__content">
+              <div
+                className={`fr-checkbox-group ${
+                  error ? 'fr-checkbox-group--error' : ''
+                } ${disabled ? 'fr-checkbox-group--disabled' : ''} ${
+                  isTouched && !invalid ? 'fr-checkbox-group--valid' : ''
+                }`}
+              >
+                <input
+                  aria-describedby={error ? `${id}__error` : undefined}
+                  disabled={disabled}
+                  type="checkbox"
+                  id={id}
+                  onBlur={onBlur}
+                  onChange={onChange}
+                  value={value ?? ''}
+                  ref={ref}
+                  name={name}
+                  autoFocus={autoFocus}
+                />
+                <label className="fr-label" htmlFor={id}>
+                  {checkboxLabel ?? ' '}
+                </label>
+
+                {error ? (
+                  <p id={`${id}__error`} className="fr-error-text">
+                    {error.message}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      )}
+    />
   )
 }
