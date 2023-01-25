@@ -12,7 +12,10 @@ export const createSignedGetUrl = async ({
   // Signed URL
   const url = await getSignedUrl(
     s3,
-    new GetObjectCommand({ Key: key, Bucket: PrivateConfig.S3.bucketId }),
+    new GetObjectCommand({
+      Key: key,
+      Bucket: PrivateConfig.S3.uploadsBucketId,
+    }),
     {
       expiresIn: 600,
     },
@@ -37,7 +40,7 @@ export const createSignedUploadUrl = async ({
     s3,
     new PutObjectCommand({
       Key: key,
-      Bucket: PrivateConfig.S3.bucketId,
+      Bucket: PrivateConfig.S3.uploadsBucketId,
       ContentType: type,
     }),
     { expiresIn: 3600 },
