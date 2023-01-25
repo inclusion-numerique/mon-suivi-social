@@ -2,9 +2,9 @@
 import { FileError, FileRejection, useDropzone } from 'react-dropzone'
 import { useState } from 'react'
 import axios from 'axios'
-import { Spinner } from '@pt/ui/Spinner'
-import { AttachmentUploadApiResponse } from '@pt/pages/api/file/upload'
 import styled from 'styled-components'
+import { trpc } from '@mss/web/trpc'
+import { Spinner } from '@mss/web/ui/Spinner'
 
 type UploadingFileInfo = {
   file: File
@@ -19,12 +19,15 @@ const UploadedFileRow = styled.li`
 
 const DocumentUploader = ({
   onChange,
-  reference,
+  beneficiaryId,
 }: {
-  reference: string
+  beneficiaryId: string
   onChange: (files: UploadingFileInfo[]) => void
 }) => {
   const [files, setFiles] = useState<UploadingFileInfo[]>([])
+
+  const createUploadUrl =
+    trpc.beneficiary.document.createUploadUrl.useMutation()
 
   const onDrop = async (
     acceptedFiles: File[],
@@ -38,23 +41,20 @@ const DocumentUploader = ({
 
     const uploadedFiles = await Promise.all(
       acceptedFiles.map(async (file): Promise<UploadingFileInfo> => {
-        const urlResult = await axios.post<AttachmentUploadApiResponse>(
-          '/api/file/upload',
-          {
-            name: file.name,
-            type: file.type,
-            directory: reference,
-          },
-        )
+        const { url, key } = await createUploadUrl.mutateAsync({
+          name: file.name,
+          mimeType: file.type,
+          beneficiaryId,
+        })
 
-        await axios.put(urlResult.data.url, file, {
+        await axios.put(url, file, {
           headers: {
             'Content-Type': file.type,
             'Access-Control-Allow-Origin': '*',
           },
         })
 
-        return { key: urlResult.data.key, status: 'uploaded', file }
+        return { key, status: 'uploaded', file }
       }),
     )
 
@@ -75,7 +75,7 @@ const DocumentUploader = ({
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-
+    multiple: false,
     // accept: [], TODO what is this ?
     minSize: 100,
     maxSize: 40_000_000, // 40 M
@@ -102,8 +102,9 @@ const DocumentUploader = ({
         >
           <input {...getInputProps()} />
           <p className="" style={{ pointerEvents: 'none' }}>
-            Vous pouvez <strong>glisser-déposer</strong> des pièces jointes ici,{' '}
-            <strong>ou cliquer</strong> pour sélectionner des fichiers.
+            Vous pouvez <strong>glisser-déposer</strong> le document ici,{' '}
+            <strong>ou cliquer</strong> pour sélectionner un fichier depuis
+            votre ordinateur.
           </p>
         </div>
       </div>
@@ -115,9 +116,7 @@ const DocumentUploader = ({
             ) : (
               <span className="fr-icon-checkbox-circle-fill fr-text-label--blue-france" />
             )}
-            <span className="fr-ml-4v fr-text--sm fr-m-0">
-              {file.file.name}
-            </span>
+            <span className="fr-ml-4v fr-m-0">{file.file.name}</span>
             <button
               type="button"
               className="fr-btn fr-icon-close-line fr-btn--tertiary-no-outline fr-btn--sm fr-ml-4v"

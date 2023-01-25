@@ -11,7 +11,7 @@ import {
 import { DocumentsTab } from '@mss/web/app/structure/beneficiaires/[fileNumber]/DocumentsTab'
 import { HistoryTab } from '@mss/web/app/structure/beneficiaires/[fileNumber]/HistoryTab'
 import { InfoTab } from '@mss/web/app/structure/beneficiaires/[fileNumber]/InfoTab'
-import { PropsWithChildren } from 'react'
+import { CSSProperties, PropsWithChildren } from 'react'
 
 export const revalidate = 0
 
@@ -201,11 +201,18 @@ const BeneficiaryPage = async ({
           </li>
         </ul>
       </div>
-      <div className="fr-tabs fr-mt-4v">
+      <div className="fr-tabs fr-mt-4v" data-fr-js-tabs-group="true">
         <ul
           className="fr-tabs__list"
           role="tablist"
           aria-label="Informations bénéficiaire"
+          data-fr-js-tabs-list="true"
+          style={
+            {
+              // TODO need this to match server rendered content
+              '--tab-list-height': '48px;',
+            } as CSSProperties
+          }
         >
           <TabButton
             id="beneficiary-tab-info"
@@ -239,11 +246,16 @@ const BeneficiaryPage = async ({
           id="beneficiary-tab-documents"
           selected={tab === 'documents'}
         >
-          <DocumentsTab user={user} documents={documents} />
+          <DocumentsTab
+            user={user}
+            documents={documents}
+            beneficiary={beneficiary}
+          />
         </TabContainer>
         <TabContainer
           id="beneficiary-tab-historique"
           selected={tab === 'historique'}
+          last
         >
           <HistoryTab user={user} supports={supports} />
         </TabContainer>
@@ -276,14 +288,18 @@ const TabButton = ({
 const TabContainer = ({
   id,
   selected,
+  last,
   children,
-}: PropsWithChildren<{ id: string; selected?: boolean }>) => (
+}: PropsWithChildren<{ id: string; last?: boolean; selected?: boolean }>) => (
   <div
     id={`${id}_panel`}
-    className={`fr-tabs__panel ${selected ? 'fr-tabs__panel--selected' : ''}`}
+    className={`fr-tabs__panel ${last ? 'fr-tabs__panel--direction-end' : ''}${
+      selected ? 'fr-tabs__panel--selected' : ''
+    }`}
     role="tabpanel"
     aria-labelledby={id}
     tabIndex={0}
+    data-fr-js-tab-panel="true"
   >
     {children}
   </div>

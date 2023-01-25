@@ -2,34 +2,38 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { v4 } from 'uuid'
 import z from 'zod'
 import { protectedProcedure, router } from './trpc'
-import { TRPCError } from '@trpc/server'
 import { BeneficiaryDataValidation } from '@mss/web/beneficiary/beneficiary'
 import { generateFileNumber } from '@mss/web/beneficiary/generateFileNumber'
 import { SessionUser, SessionUserAgent } from '@mss/web/auth/sessionUser'
+import { AddDocumentDataValidation } from '@mss/web/app/structure/beneficiaires/[fileNumber]/AddDocumentData'
 import {
-  AddDocumentData,
-  AddDocumentDataValidation,
-} from '@mss/web/app/structure/beneficiaires/[fileNumber]/AddDocumentData'
+  createSignedGetUrl,
+  createSignedUploadUrl,
+} from '@mss/web/server/createSignedUrl'
+import {
+  forbiddenError,
+  invalidError,
+  notfoundError,
+} from '@mss/web/trpc/trpcErrors'
+import {
+  canAddBeneficiaryDocument,
+  canDeleteBeneficiaryDocument,
+  canViewBeneficiaryDocuments,
+} from '@mss/web/security/rules'
 
 const enforceUserHasAccessToOrganisation = (
   user: SessionUser,
   organisationId: string,
 ): user is SessionUserAgent => {
   if (!user.organisationId || organisationId !== user.organisationId) {
-    throw new TRPCError({
-      code: 'FORBIDDEN',
-      message: 'Cannot access this organisation',
-    })
+    throw forbiddenError()
   }
   return true
 }
 
 const enforceUserHasOrganisation = (user: SessionUser): string => {
   if (!user.organisationId) {
-    throw new TRPCError({
-      code: 'FORBIDDEN',
-      message: 'No organisation',
-    })
+    throw forbiddenError()
   }
   return user.organisationId
 }
@@ -40,6 +44,22 @@ const tokenToSearchCondition = (token: string) => {
     mode: 'insensitive',
   }
 }
+
+const beneficiarySecurityTargetSelect = {
+  id: true,
+  organisationId: true,
+  referents: { select: { id: true } },
+} as const
+
+const beneficiarySecurityTargetInclude = {
+  select: beneficiarySecurityTargetSelect,
+} as const
+
+const getBeneficiarySecurityTarget = (id: string) =>
+  prismaClient.beneficiary.findUnique({
+    where: { id },
+    select: beneficiarySecurityTargetSelect,
+  })
 
 export const beneficiaryRouter = router({
   search: protectedProcedure
@@ -115,7 +135,124 @@ export const beneficiaryRouter = router({
   document: router({
     add: protectedProcedure
       .input(AddDocumentDataValidation)
-      .mutation(async ({ input: {}, ctx: { user } }) => {
+      .mutation(
+        async ({
+          input: {
+            key,
+            type,
+            beneficiaryId,
+            confidential,
+            tags,
+            mimeType,
+            name,
+            size,
+          },
+          ctx: { user },
+        }) => {
+          const beneficiary = await getBeneficiarySecurityTarget(beneficiaryId)
+
+          if (!beneficiary) {
+            throw invalidError()
+          }
+
+          if (!canAddBeneficiaryDocument(user, beneficiary)) {
+            throw forbiddenError()
+          }
+
+          // TODO Mutation log
+          const document = await prismaClient.document.create({
+            data: {
+              beneficiaryId,
+              key,
+              type,
+              confidential,
+              tags,
+              mimeType,
+              name,
+              size,
+              createdById: user.id,
+            },
+          })
+
+          return { document }
+        },
+      ),
+    createUploadUrl: protectedProcedure
+      .input(
+        z.object({
+          name: z.string(),
+          mimeType: z.string(),
+          beneficiaryId: z.string(),
+        }),
+      )
+      .mutation(
+        async ({ input: { name, beneficiaryId, mimeType }, ctx: { user } }) => {
+          const beneficiary = await getBeneficiarySecurityTarget(beneficiaryId)
+
+          if (!beneficiary) {
+            throw invalidError()
+          }
+
+          if (!canAddBeneficiaryDocument(user, beneficiary)) {
+            throw forbiddenError()
+          }
+
+          const directory = `users/${user.id}/uploaded-documents`
+
+          console.log('CREATION URL', { name, mimeType, directory })
+
+          // TODO Mutation log
+          const { url, key } = await createSignedUploadUrl({
+            name,
+            type: mimeType,
+            directory,
+          })
+
+          return { url, key }
+        },
+      ),
+    createViewUrl: protectedProcedure
+      .input(z.object({ key: z.string() }))
+      .mutation(async ({ input: { key }, ctx: { user } }) => {
+        const document = await prismaClient.document.findUnique({
+          where: { key },
+          include: { beneficiary: beneficiarySecurityTargetInclude },
+        })
+
+        if (!document) {
+          throw notfoundError()
+        }
+        if (!canViewBeneficiaryDocuments(user, document.beneficiary)) {
+          throw forbiddenError()
+        }
+
+        // TODO Mutation or audit log
+        const { url } = await createSignedGetUrl({
+          key,
+        })
+
+        return { url }
+      }),
+    delete: protectedProcedure
+      .input(z.object({ key: z.string() }))
+      .mutation(async ({ input: { key }, ctx: { user } }) => {
+        const document = await prismaClient.document.findUnique({
+          where: { key },
+          include: { beneficiary: beneficiarySecurityTargetInclude },
+        })
+
+        if (!document) {
+          throw notfoundError()
+        }
+
+        if (!canDeleteBeneficiaryDocument(user, document.beneficiary)) {
+          throw forbiddenError()
+        }
+
+        // TODO Mutation log
+        // TODO Delete from bucket
+        await prismaClient.document.delete({ where: { key } })
+
         return {}
       }),
   }),

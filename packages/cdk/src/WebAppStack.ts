@@ -6,7 +6,6 @@ import {
 } from 'cdktf'
 import { Construct } from 'constructs'
 import { ScalewayProvider } from '../.gen/providers/scaleway/provider'
-import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
 import { RdbDatabase } from '../.gen/providers/scaleway/rdb-database'
 import { DataScalewayRdbInstance } from '../.gen/providers/scaleway/data-scaleway-rdb-instance'
 import { RdbUser } from '../.gen/providers/scaleway/rdb-user'
@@ -108,10 +107,11 @@ export class WebAppStack extends TerraformStack {
     // State of deployed infrastructure for each branch will be stored in the
     // same 'mss-terraform' bucket
     new S3Backend(this, {
-      // TODO MIGRATE WHEN UPLOAD IS FIXED
-      // bucket: `${projectSlug}-terraform-state`,
+      // TODO CHANGE WHEN IT IS OK WITH ENV VARS
       bucket: `mec-terraform`,
       key: `${projectSlug}-${namespaced('state')}.tfstate`,
+      // bucket: `${projectSlug}-terraform-state`,
+      // key: `${projectSlug}-web-${namespaced('state')}.tfstate`,
       // Credentials are provided with AWS_*** env variables
       endpoint: 'https://s3.fr-par.scw.cloud',
       skipCredentialsValidation: true,
@@ -158,12 +158,14 @@ export class WebAppStack extends TerraformStack {
       dependsOn: [database, databaseUser],
     })
 
-    const uploadsBucket = new ObjectBucket(this, 'uploads', {
-      name: namespaced(`${projectSlug}-uploads`),
-    })
-
-    output('uploadsBucketName', uploadsBucket.name)
-    output('uploadsBucketEndpoint', uploadsBucket.endpoint)
+    // const uploadsBucket = new ObjectBucket(this, 'uploads', {
+    //   name: namespaced(`${projectSlug}-uploads`),
+    // })
+    //
+    // output('uploadsBucketName', uploadsBucket.name)
+    // output('uploadsBucketEndpoint', uploadsBucket.endpoint)
+    output('uploadsBucketName', 'wip')
+    output('uploadsBucketEndpoint', 'wip')
 
     const containerNamespace = new DataScalewayContainerNamespace(
       this,
@@ -205,6 +207,7 @@ export class WebAppStack extends TerraformStack {
         BASE_URL: hostname,
         BRANCH: branch,
         NAMESPACE: namespace,
+        SCW_DEFAULT_REGION: region,
         NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER: isMain
           ? mainInclusionConnectIssuer.value
           : previewInclusionConnectIssuer.value,

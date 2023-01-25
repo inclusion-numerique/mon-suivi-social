@@ -124,6 +124,8 @@ model Document {
   mimeType     String
   name         String
   type         DocumentType
+  // Size in bytes
+  size         Int
   tags         String[]
   confidential Boolean
 

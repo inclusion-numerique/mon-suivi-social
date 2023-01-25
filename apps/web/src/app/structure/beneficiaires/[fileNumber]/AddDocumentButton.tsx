@@ -1,6 +1,10 @@
 import { AddDocumentModalForm } from '@mss/web/app/structure/beneficiaires/[fileNumber]/AddDocumentModalForm'
 
-export const AddDocumentButton = () => {
+export const AddDocumentButton = ({
+  beneficiaryId,
+}: {
+  beneficiaryId: string
+}) => {
   return (
     <>
       <button
@@ -24,7 +28,7 @@ export const AddDocumentButton = () => {
           <div className="fr-grid-row fr-grid-row--center">
             <div className="fr-col-12 fr-col-md-8 fr-col-lg-6">
               <div className="fr-modal__body" data-fr-js-modal-body="true">
-                <AddDocumentModalForm />
+                <AddDocumentModalForm beneficiaryId={beneficiaryId} />
               </div>
             </div>
           </div>
