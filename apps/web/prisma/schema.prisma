@@ -74,10 +74,11 @@ model User {
   updated      DateTime      @default(now())
   mutationLogs MutationLog[]
 
-  organisation   Organisation? @relation(fields: [organisationId], references: [id])
-  organisationId String?       @db.Uuid
-  followups      Followup[]
-  helpRequests   HelpRequest[]
+  organisation        Organisation? @relation(fields: [organisationId], references: [id])
+  organisationId      String?       @db.Uuid
+  createdFollowups    Followup[]    @relation(name: "created_followups")
+  createdHelpRequests HelpRequest[] @relation(name: "created_help_requests")
+  createdDocuments    Document[]
 
   createdBeneficiaries Beneficiary[] @relation(name: "created_beneficiaries")
   referentFor          Beneficiary[] @relation(name: "beneficiary_referents")
@@ -109,6 +110,29 @@ model Organisation {
 
   created DateTime @default(now())
   updated DateTime @default(now())
+}
+
+enum DocumentType {
+  Cerfa
+  HistoriqueCourrier
+  Justificatifs
+  Rapports
+}
+
+model Document {
+  key          String       @id
+  mimeType     String
+  name         String
+  type         DocumentType
+  tags         String[]
+  confidential Boolean
+
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
+  beneficiaryId String      @db.Uuid
+
+  created     DateTime @default(now())
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String   @db.Uuid
 }
 
 enum FollowupTypeType {
@@ -153,17 +177,19 @@ enum FollowupStatus {
 }
 
 model Followup {
-  id      String @id @db.Uuid
-  agent   User   @relation(fields: [agentId], references: [id])
-  agentId String @db.Uuid
+  id String @id @db.Uuid
 
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @db.Uuid
 
-  beneficiary   Beneficiary    @relation(fields: [beneficiaryId], references: [id])
-  beneficiaryId String         @db.Uuid
-  medium        FollowupMedium
-  date          DateTime       @db.Date
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
+  beneficiaryId String      @db.Uuid
+
+  createdById String? @db.Uuid
+  createdBy   User?   @relation(name: "created_followups", fields: [createdById], references: [id])
+
+  medium FollowupMedium
+  date   DateTime       @db.Date
 
   type   FollowupType @relation(fields: [typeId], references: [id])
   typeId String       @db.Uuid
@@ -215,15 +241,16 @@ enum HelpRequestReason {
 }
 
 model HelpRequest {
-  id      String @id @db.Uuid
-  agent   User   @relation(fields: [agentId], references: [id])
-  agentId String @db.Uuid
+  id String @id @db.Uuid
 
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @db.Uuid
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
   beneficiaryId String      @db.Uuid
+
+  createdById String? @db.Uuid
+  createdBy   User?   @relation(name: "created_help_requests", fields: [createdById], references: [id])
 
   openingDate DateTime @db.Date
 
@@ -447,7 +474,7 @@ model Beneficiary {
 
   createdById String? @db.Uuid
   createdBy   User?   @relation(name: "created_beneficiaries", fields: [createdById], references: [id])
-  referents   User[] @relation(name: "beneficiary_referents")
+  referents   User[]  @relation(name: "beneficiary_referents")
 
   aidantConnectAuthorized Boolean @default(false)
 
@@ -520,6 +547,7 @@ model Beneficiary {
 
   additionalInformation String?
 
+  documents    Document[]
   followups    Followup[]
   helpRequests HelpRequest[]
 
