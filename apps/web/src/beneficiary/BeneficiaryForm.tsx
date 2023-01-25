@@ -100,8 +100,8 @@ export const BeneficiaryForm: FunctionComponent<
       <CheckboxFormField
         label="Mandat Aidant Connect"
         disabled={fieldsDisabled}
-        register={register}
-        errors={errors}
+        control={control}
+        checkboxLabel="Autorisé"
         path="aidantConnectAuthorized"
       />
 
