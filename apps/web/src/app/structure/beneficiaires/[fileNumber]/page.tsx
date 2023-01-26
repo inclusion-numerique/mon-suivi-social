@@ -255,7 +255,6 @@ const BeneficiaryPage = async ({
         <TabContainer
           id="beneficiary-tab-historique"
           selected={tab === 'historique'}
-          last
         >
           <HistoryTab user={user} supports={supports} />
         </TabContainer>
@@ -278,7 +277,6 @@ const TabButton = ({
       role="tab"
       aria-selected={selected ? 'true' : 'false'}
       aria-controls={`${id}_panel`}
-      data-fr-js-tab-button="true"
     >
       {children}
     </button>
@@ -288,18 +286,14 @@ const TabButton = ({
 const TabContainer = ({
   id,
   selected,
-  last,
   children,
-}: PropsWithChildren<{ id: string; last?: boolean; selected?: boolean }>) => (
+}: PropsWithChildren<{ id: string; selected?: boolean }>) => (
   <div
     id={`${id}_panel`}
-    className={`fr-tabs__panel ${last ? 'fr-tabs__panel--direction-end' : ''}${
-      selected ? 'fr-tabs__panel--selected' : ''
-    }`}
+    className={`fr-tabs__panel ${selected ? 'fr-tabs__panel--selected' : ''}`}
     role="tabpanel"
     aria-labelledby={id}
     tabIndex={0}
-    data-fr-js-tab-panel="true"
   >
     {children}
   </div>
