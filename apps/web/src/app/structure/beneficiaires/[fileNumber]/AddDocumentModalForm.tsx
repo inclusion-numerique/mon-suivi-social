@@ -1,11 +1,12 @@
 'use client'
 
-import { Controller, DefaultValues, useForm } from 'react-hook-form'
+import mime from 'mime-types'
+import { DefaultValues, useForm } from 'react-hook-form'
 import {
-  AddDocumentData,
-  AddDocumentDataValidation,
   AddDocumentDataValidationWithUpload,
   AddDocumentDataWithUpload,
+  documentFileAllowedTypes,
+  documentFileMaxSize,
   documentTagOptions,
   documentTypeOptions,
 } from '@mss/web/app/structure/beneficiaires/[fileNumber]/AddDocumentData'
@@ -14,36 +15,101 @@ import { withTrpc } from '@mss/web/withTrpc'
 import { SelectFormField } from '@mss/web/form/SelectFormField'
 import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MultipleBadgeFormField } from '@mss/web/form/MultipleBadgeFormField'
-import { MouseEventHandler } from 'react'
-import DocumentUploader from '@mss/web/document/DocumentUploader'
-
-const defaultValues: DefaultValues<AddDocumentDataWithUpload> = {
-  confidential: false,
-  tags: [],
-}
+import { TagsFormField } from '@mss/web/form/TagsFormField'
+import { MouseEventHandler, useRef } from 'react'
+import { UploadFormField } from '@mss/web/form/UploadFormField'
+import { formatByteSize } from '@mss/web/utils/formatByteSize'
+import axios from 'axios'
+import { Spinner } from '@mss/web/ui/Spinner'
 
 export const AddDocumentModalForm = withTrpc(
   ({ beneficiaryId }: { beneficiaryId: string }) => {
     const addDocument = trpc.beneficiary.document.add.useMutation()
+    const createUploadUrl =
+      trpc.beneficiary.document.createUploadUrl.useMutation()
+    const closeRef = useRef<HTMLButtonElement>(null)
+
+    const defaultValues: DefaultValues<AddDocumentDataWithUpload> = {
+      confidential: false,
+      tags: [],
+      beneficiaryId,
+    }
 
     const {
       control,
       handleSubmit,
       reset,
+      setError,
       formState: { isSubmitting },
     } = useForm<AddDocumentDataWithUpload>({
       defaultValues,
       resolver: zodResolver(AddDocumentDataValidationWithUpload),
     })
 
-    const onSubmit = (data: AddDocumentData) => {
-      console.log('Submitted', data)
+    const onSubmit = async ({
+      confidential,
+      file,
+      beneficiaryId,
+      type,
+      tags,
+    }: AddDocumentDataWithUpload) => {
+      const signedUrl = await createUploadUrl
+        .mutateAsync({
+          name: file.name,
+          mimeType: file.type,
+          beneficiaryId,
+        })
+        .catch((err) => {
+          // TODO SENTRY
+          setError('file', {
+            message:
+              'Une erreur est survenue lors du téléversement. Merci de réessayer',
+          })
+        })
+      if (!signedUrl) {
+        return
+      }
+
+      const uploaded = await axios
+        .put(signedUrl.url, file, {
+          headers: {
+            'Content-Type': file.type,
+          },
+        })
+        .catch((err) => {
+          // TODO SENTRY
+          setError('file', {
+            message:
+              'Une erreur est survenue lors du téléversement. Merci de réessayer',
+          })
+        })
+      if (!uploaded) {
+        return
+      }
+
+      addDocument.mutate(
+        {
+          file: {
+            key: signedUrl.key,
+            mimeType: file.type,
+            name: file.name,
+            size: file.size,
+          },
+          beneficiaryId,
+          type,
+          tags,
+          confidential,
+        },
+        {
+          onSuccess: () => {
+            closeRef.current?.click()
+            reset(defaultValues)
+          },
+        },
+      )
     }
 
-    // TODO or is uploading
-    const disableFields = addDocument.isLoading
-    const disableButtons = disableFields
+    const isLoading = isSubmitting || addDocument.isLoading
 
     const onCancel: MouseEventHandler = (event) => {
       reset(defaultValues, { keepDefaultValues: true })
@@ -56,6 +122,7 @@ export const AddDocumentModalForm = withTrpc(
             className="fr-link--close fr-link"
             aria-controls="fr-modal-add-document"
             data-fr-js-modal-button="true"
+            ref={closeRef}
           >
             Fermer
           </button>
@@ -71,46 +138,35 @@ export const AddDocumentModalForm = withTrpc(
             path="type"
             defaultOption
             options={documentTypeOptions}
-            disabled={disableFields}
+            disabled={isLoading}
           />
 
           <CheckboxFormField
             control={control}
-            label="Confidentialité"
             checkboxLabel="Confidentiel"
             path="confidential"
-            disabled={disableFields}
+            disabled={isLoading}
           />
 
-          <MultipleBadgeFormField
+          <TagsFormField
             control={control}
             label="Thèmes"
             path="tags"
             options={documentTagOptions}
-            disabled={disableFields}
+            disabled={isLoading}
           />
 
-          <p>Document</p>
-          <Controller
+          <UploadFormField
             control={control}
-            name="file"
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
-            }) => (
-              <DocumentUploader
-                beneficiaryId={beneficiaryId}
-                onChange={(files) => {
-                  onChange(
-                    files.map(({ file, key }) => ({
-                      type: file.type,
-                      name: file.name,
-                      key,
-                    })),
-                  )
-                }}
-              />
-            )}
+            label="Document"
+            hint={`Taille maximale : ${formatByteSize(
+              documentFileMaxSize,
+            )}. Formats supportés : ${documentFileAllowedTypes
+              .map(mime.extension)
+              .join(', ')}`}
+            disabled={isLoading}
+            accept={documentFileAllowedTypes.join(', ')}
+            path="file"
           />
 
           {addDocument.isError ? (
@@ -125,15 +181,15 @@ export const AddDocumentModalForm = withTrpc(
             <li>
               <button
                 type="submit"
-                disabled={disableButtons}
+                disabled={isLoading}
                 className="fr-btn fr-icon-file-add-line"
               >
-                Ajouter
+                {isLoading ? <Spinner size="sm" /> : 'Ajouter'}
               </button>
             </li>
             <li>
               <button
-                disabled={disableButtons}
+                disabled={isLoading}
                 aria-controls="fr-modal-add-document"
                 className="fr-btn  fr-btn--secondary"
                 onClick={onCancel}

@@ -1,30 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css'
-import { Spinner } from '@pt/ui/Spinner'
-import axios from 'axios'
-import { AttachmentUploadApiResponse } from '@pt/pages/api/file/upload'
+import { trpc } from '@mss/web/trpc'
+import { Spinner } from '@mss/web/ui/Spinner'
 
 export const DocumentViewer = ({
   key,
-  type,
   name,
 }: {
   key: string
   type: string
   name: string
 }) => {
-  const [assetUrl, setAssetUrl] = useState<string | null>(null)
+  const viewUrl = trpc.beneficiary.document.createViewUrl.useMutation()
 
   useEffect(() => {
-    axios
-      .post<AttachmentUploadApiResponse>('/api/upload/get', {
-        key,
-      })
-      .then((response) => response.data.url)
-      .then(setAssetUrl)
-  }, [key])
+    viewUrl.mutate({ key })
+  }, [key, viewUrl])
 
-  if (!assetUrl) {
+  if (!viewUrl.isSuccess) {
     return (
       <div>
         <Spinner />
@@ -32,12 +25,12 @@ export const DocumentViewer = ({
     )
   }
 
-  // TODO download asset  and button to Open asset in new tab
+  // TODO button to download asset and button to Open asset in new tab
   return (
     <div>
-      <div>
-        <div>{name}</div>
-      </div>
+      <a href={viewUrl.data.url} target="_blank" rel="noreferrer">
+        {name}
+      </a>
     </div>
   )
 }

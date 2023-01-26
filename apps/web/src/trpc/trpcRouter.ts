@@ -137,16 +137,7 @@ export const beneficiaryRouter = router({
       .input(AddDocumentDataValidation)
       .mutation(
         async ({
-          input: {
-            key,
-            type,
-            beneficiaryId,
-            confidential,
-            tags,
-            mimeType,
-            name,
-            size,
-          },
+          input: { type, beneficiaryId, confidential, tags, file },
           ctx: { user },
         }) => {
           const beneficiary = await getBeneficiarySecurityTarget(beneficiaryId)
@@ -159,18 +150,14 @@ export const beneficiaryRouter = router({
             throw forbiddenError()
           }
 
-          // TODO Mutation log
           const document = await prismaClient.document.create({
             data: {
               beneficiaryId,
-              key,
               type,
               confidential,
               tags,
-              mimeType,
-              name,
-              size,
               createdById: user.id,
+              ...file,
             },
           })
 
@@ -198,8 +185,6 @@ export const beneficiaryRouter = router({
           }
 
           const directory = `users/${user.id}/uploaded-documents`
-
-          console.log('CREATION URL', { name, mimeType, directory })
 
           // TODO Mutation log
           const { url, key } = await createSignedUploadUrl({

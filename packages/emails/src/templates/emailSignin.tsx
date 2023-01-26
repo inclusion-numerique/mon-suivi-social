@@ -42,7 +42,7 @@ export const emailSignin = {
           <MjmlSection>
             <MjmlColumn>
               <MjmlText>
-                Voici votre lien de connexion sécurisé à usage unique :
+                Voici votre lien de connexion sécurisé à usage unique&nbsp;:
               </MjmlText>
               <MjmlButton padding="20px" backgroundColor="#4550e5" href={url}>
                 Se connecter

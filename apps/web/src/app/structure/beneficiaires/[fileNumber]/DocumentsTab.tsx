@@ -14,7 +14,6 @@ export const DocumentsTab = ({
   documents: BeneficiaryPageDocuments
   beneficiary: Pick<BeneficiaryPageInfo, 'id'>
 }) => {
-  console.log('DOCUMENTS', documents)
   return (
     <>
       <h4>Documents</h4>

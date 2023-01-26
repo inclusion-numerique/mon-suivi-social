@@ -3,21 +3,10 @@
 import { Control, Controller, FieldValues } from 'react-hook-form'
 import { FieldPath } from 'react-hook-form/dist/types/path'
 import { Option, Options, OptionsGroups } from '@mss/web/utils/options'
-import { ChangeEventHandler, MouseEventHandler } from 'react'
-
-const OptionsList = ({ options }: { options: Options }) => (
-  <>
-    {options.map(({ name, value }) => (
-      <option key={value} value={value}>
-        {name}
-      </option>
-    ))}
-    )
-  </>
-)
+import { MouseEventHandler } from 'react'
 
 // View design options here https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/liste-deroulante/
-export function MultipleBadgeFormField<T extends FieldValues>({
+export function TagsFormField<T extends FieldValues>({
   control,
   label,
   path,
@@ -81,7 +70,7 @@ export function MultipleBadgeFormField<T extends FieldValues>({
               role="group"
             >
               <legend
-                className="fr-fieldset__legend fr-text--regular"
+                className="fr-fieldset__legend fr-text--regular fr-mb-0"
                 id={`${id}__legend`}
               >
                 {label}
@@ -89,7 +78,7 @@ export function MultipleBadgeFormField<T extends FieldValues>({
                   <span className="fr-hint-text fr-mt-0">{hint}</span>
                 ) : null}
               </legend>
-              <div className="fr-fieldset__content">
+              <div className="fr-fieldset__content fr-mt-2v">
                 {flattenedOptions.map((option) => {
                   const selected = valuesSet.has(option.value)
                   return (
@@ -116,15 +105,6 @@ export function MultipleBadgeFormField<T extends FieldValues>({
   )
 }
 
-const baseOptionBadgeClass = 'fr-badge--icon-left fr-icon-add-line'
-const selectedOptionBadgeClass =
-  'fr-badge--icon-left fr-icon-success-fill fr-badge--blue-cumulus'
-
-const baseDisabledOptionBadgeClass = 'fr-badge--icon-left fr-icon-add-line'
-const selectedDisabledOptionBadgeClass =
-  'fr-badge--icon-left fr-icon-success-fill'
-
-// TODO Css module with class
 const OptionBadge = ({
   option,
   onClick,
@@ -135,26 +115,15 @@ const OptionBadge = ({
   onClick: MouseEventHandler
   selected?: boolean
   disabled?: boolean
-}) => {
-  const badgeClass = disabled
-    ? selected
-      ? selectedDisabledOptionBadgeClass
-      : baseDisabledOptionBadgeClass
-    : selected
-    ? selectedOptionBadgeClass
-    : baseOptionBadgeClass
-  return (
-    <div
-      key={option.value}
-      className={`fr-badge fr-mb-2v fr-mr-2v ${badgeClass}`}
-      onClick={disabled ? undefined : onClick}
-      aria-selected={selected ? 'true' : 'false'}
-      style={{
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.67 : undefined,
-      }}
-    >
-      {option.name}
-    </div>
-  )
-}
+}) => (
+  <button
+    type="button"
+    className="fr-tag fr-mr-2v fr-mb-2v"
+    data-fr-js-toggle="true"
+    disabled={disabled}
+    aria-pressed={selected ? 'true' : 'false'}
+    onClick={disabled ? undefined : onClick}
+  >
+    {option.name}
+  </button>
+)

@@ -30,15 +30,12 @@ export const authOptions: NextAuthOptions = {
       clientSecret: PrivateConfig.InclusionConnect.clientSecret,
       // KeycloakProvider adds wellknown open id config path
       issuer: PublicConfig.InclusionConnect.issuer,
-      profile: (profile: KeycloakProfile) => {
-        console.log('PROFILE FROM INCLUSION', profile)
-        return {
-          id: profile.sub,
-          name: profile.name ?? profile.preferred_username,
-          email: profile.email,
-          image: profile.picture,
-        }
-      },
+      profile: (profile: KeycloakProfile) => ({
+        id: profile.sub,
+        name: profile.name ?? profile.preferred_username,
+        email: profile.email,
+        image: profile.picture,
+      }),
     }),
   ],
   callbacks: {

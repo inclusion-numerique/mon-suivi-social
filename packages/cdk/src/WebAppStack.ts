@@ -25,7 +25,10 @@ import {
   generateDatabaseUrl,
   namespacer,
 } from './utils'
-import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
+import {
+  ObjectBucket,
+  ObjectBucketCorsRuleList,
+} from '../.gen/providers/scaleway/object-bucket'
 
 const projectSlug = 'mss'
 const databaseInstanceId = '7857e02a-05a5-437a-a46d-5da289559d67'
@@ -158,6 +161,15 @@ export class WebAppStack extends TerraformStack {
 
     const uploadsBucket = new ObjectBucket(this, 'uploads', {
       name: namespaced(`${projectSlug}-uploads`),
+      corsRule: [
+        {
+          allowedHeaders: ['*'],
+          allowedMethods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE'],
+          maxAgeSeconds: 3000,
+          exposeHeaders: ['Etag'],
+          allowedOrigins: [`https://${hostname}`],
+        },
+      ],
     })
 
     output('uploadsBucketName', uploadsBucket.name)

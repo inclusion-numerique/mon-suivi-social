@@ -32,8 +32,7 @@ export const createSignedUploadUrl = async ({
   type: string
   directory: string
 }): Promise<{ url: string; key: string }> => {
-  // TODO current git branch and more info on user
-  const key = `${PrivateConfig.NodeEnv}/${directory}/${nanoid()}_${name}`
+  const key = `${directory}/${nanoid()}_${name}`
 
   // Signed URL
   const url = await getSignedUrl(
