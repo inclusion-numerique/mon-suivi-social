@@ -61,8 +61,8 @@ export type AgeStats = Awaited<ReturnType<typeof getAgeStats>>
 export const getSupportStats = async (organisationId: string) => {
   const stats = await prismaClient.followupType.findMany({
     where: {
-      organisations: {
-        some: { id: organisationId },
+      proposedFollowupTypes: {
+        some: { organisationId },
       },
     },
     include: {

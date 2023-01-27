@@ -103,11 +103,20 @@ export const Routes = {
         icon: 'building-line',
         path: '/structure/structures',
       },
-      Modifier: {
-        title: ({ name }: { name: string }) => name,
-        icon: 'building-line',
-        path: ({ organisationId }: { organisationId: string }) =>
-          `/structure/structures/${organisationId}/modifier`,
+      Structure: {
+        Index: {
+          title: ({ name }: { name: string }) => name,
+          icon: 'building-line',
+          path: ({ organisationId }: { organisationId: string }) =>
+            `/structure/structures/${organisationId}`,
+        },
+        Modifier: {
+          title: ({ name }: { name: string }) => `${name} · Modification`,
+          breadcrumbsTitle: 'Modification',
+          icon: 'building-line',
+          path: ({ organisationId }: { organisationId: string }) =>
+            `/structure/structures/${organisationId}/modifier`,
+        },
       },
     },
     Utilisateurs: {

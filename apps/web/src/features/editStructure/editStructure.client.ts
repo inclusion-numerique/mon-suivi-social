@@ -1,0 +1,56 @@
+import { canEditOrganisation } from '@mss/web/security/rules'
+import z from 'zod'
+import { OrganisationType } from '@prisma/client'
+import type { EditStructureFeatureServer } from '@mss/web/features/editStructure/editStructure.server'
+
+const securityCheck = canEditOrganisation
+
+const dataValidation = z.object({
+  id: z.string().uuid().optional(),
+  type: z.nativeEnum(OrganisationType),
+  name: z.string().min(2),
+  zipcode: z.string().min(5),
+  city: z.string().min(2),
+  address: z.string().min(2),
+  phone: z.string().min(10),
+  email: z.string().email(),
+  // Ids of the followupTypes to propose
+  proposedFollowupTypes: z.array(z.string().uuid()),
+})
+
+const dataFromExistingState = ({
+  structure: {
+    id,
+    name,
+    type,
+    address,
+    zipcode,
+    city,
+    phone,
+    email,
+    proposedFollowupTypes,
+  },
+}: EditStructureFeatureServer.ExistingState): EditStructureFeatureClient.Data => ({
+  id,
+  name,
+  type,
+  address,
+  zipcode,
+  city,
+  phone,
+  email,
+  proposedFollowupTypes: proposedFollowupTypes.map(
+    ({ followupTypeId }) => followupTypeId,
+  ),
+})
+
+export const EditStructureFeatureClient = {
+  securityCheck,
+  dataValidation,
+  dataFromExistingState,
+}
+
+export namespace EditStructureFeatureClient {
+  export type Data = z.infer<typeof dataValidation>
+  export type ExistingState = EditStructureFeatureServer.ExistingState
+}

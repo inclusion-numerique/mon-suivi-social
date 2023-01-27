@@ -48,6 +48,7 @@
     "copy": "^0.3.2",
     "date-fns": "^2.29.3",
     "decimal.js": "^10.4.3",
+    "deep-object-diff": "^1.1.9",
     "dotenv": "^16.0.3",
     "dotenv-cli": "^7.0.0",
     "encoding": "^0.1.13",

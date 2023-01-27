@@ -93,6 +93,19 @@ export const canChangeUserRole = (
   isAdministrator(grantee) ||
   (isStructureManager(grantee, target) && params.role !== 'Administrator')
 
+export const canViewOrganisation = (
+  grantee: SecurityRuleGrantee,
+  target: SecurityTargetWithOrganisation,
+): boolean =>
+  isAdministrator(grantee) ||
+  isInSameOrganisationAs(grantee, target, [
+    'StructureManager',
+    'SocialWorker',
+    'Instructor',
+    'ReceptionAgent',
+    'Referent',
+  ])
+
 export const canEditOrganisation = (
   grantee: SecurityRuleGrantee,
   target: SecurityTargetWithOrganisation,

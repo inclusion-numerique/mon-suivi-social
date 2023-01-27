@@ -9,16 +9,7 @@ const Loading = () => (
       title:
         Routes.Structure.Structures.Structure.Modifier.title(loadingStructure),
     }}
-    parents={[
-      Routes.Structure.Structures.Index,
-      {
-        title:
-          Routes.Structure.Structures.Structure.Index.title(loadingStructure),
-        path: Routes.Structure.Structures.Structure.Index.path({
-          organisationId: loadingStructure.id,
-        }),
-      },
-    ]}
+    parents={[Routes.Structure.Structures.Index]}
   />
 )
 

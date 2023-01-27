@@ -20,6 +20,9 @@ import {
   canDeleteBeneficiaryDocument,
   canViewBeneficiaryDocuments,
 } from '@mss/web/security/rules'
+import { EditStructureFeatureClient } from '@mss/web/features/editStructure/editStructure.client'
+import { EditStructureFeatureServer } from '@mss/web/features/editStructure/editStructure.server'
+import { detailedDiff } from 'deep-object-diff'
 
 const enforceUserHasAccessToOrganisation = (
   user: SessionUser,
@@ -243,8 +246,46 @@ export const beneficiaryRouter = router({
   }),
 })
 
+const structureRouter = router({
+  edit: protectedProcedure
+    .input(EditStructureFeatureClient.dataValidation)
+    .mutation(async ({ input, ctx: { user } }) => {
+      const organisationId = user?.organisationId
+      if (!organisationId) {
+        throw invalidError()
+      }
+
+      const existingState = await EditStructureFeatureServer.getExistingState({
+        organisationId,
+      })
+
+      console.log('SECURITY', user, { organisationId })
+      if (!EditStructureFeatureClient.securityCheck(user, { organisationId })) {
+        throw forbiddenError()
+      }
+
+      const diff = detailedDiff(
+        EditStructureFeatureClient.dataFromExistingState(existingState),
+        input,
+      )
+      console.log('EDITION DIFF', diff)
+
+      const { id, proposedFollowupTypes, ...data } = input
+
+      const updated = await prismaClient.organisation.update({
+        where: { id: organisationId },
+        data: {
+          ...data,
+        },
+      })
+
+      return { structure: updated }
+    }),
+})
+
 export const appRouter = router({
   beneficiary: beneficiaryRouter,
+  structure: structureRouter,
 })
 // export type definition of API
 export type AppRouter = typeof appRouter

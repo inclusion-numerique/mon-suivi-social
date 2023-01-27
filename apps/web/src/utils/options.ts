@@ -1,4 +1,4 @@
-export type Option<T = string> = { name: string; value: T }
+export type Option<T = string> = { name: string; value: T; disabled?: boolean }
 export type Options<T = string> = Option<T>[]
 export type OptionsGroups<T = string> = { [key: string]: Options<T> }
 

@@ -1,8 +1,8 @@
-import BeneficiaryForm from '@mss/web/beneficiary/BeneficiaryForm'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { getAgentOptions } from '@mss/web/app/structure/beneficiaires/getAgentOptions'
 import { Routes } from '@mss/web/app/routing/routes'
 import { PageTitle } from '@mss/web/app/structure/PageTitle'
+import { BeneficiaryForm } from '@mss/web/beneficiary/BeneficiaryForm'
 
 const AddBeneficiaryPage = async () => {
   const user = await getAuthenticatedAgent()
@@ -19,7 +19,7 @@ const AddBeneficiaryPage = async () => {
           <div className="fr-card__content">
             <BeneficiaryForm
               agents={agents}
-              creation={true}
+              creation
               defaultValues={{ organisationId: user.organisationId }}
             />
           </div>

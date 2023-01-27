@@ -15,6 +15,7 @@ export function TagsFormField<T extends FieldValues>({
   defaultOption,
   disabled,
   autoFocus,
+  badgeSize,
   ...optionsProps
 }: {
   control: Control<T>
@@ -26,6 +27,7 @@ export function TagsFormField<T extends FieldValues>({
   hint?: string
   placeholder?: string
   autoFocus?: boolean
+  badgeSize?: 'sm' | 'md'
 } & (
   | { groups?: false; options: Options }
   | { groups: true; optionGroups: OptionsGroups }
@@ -87,6 +89,7 @@ export function TagsFormField<T extends FieldValues>({
                       option={option}
                       selected={selected}
                       disabled={disabled}
+                      size={badgeSize}
                       onClick={() => onOptionBadgeClick(option, selected)}
                     />
                   )
@@ -110,16 +113,18 @@ const OptionBadge = ({
   onClick,
   selected,
   disabled,
+  size,
 }: {
   option: Option
   onClick: MouseEventHandler
   selected?: boolean
   disabled?: boolean
+  size?: 'sm' | 'md'
 }) => (
   <button
     type="button"
-    className="fr-tag fr-mr-2v fr-mb-2v"
-    disabled={disabled}
+    className={`fr-tag fr-mr-2v fr-mb-2v ${size === 'sm' ? 'fr-tag--sm' : ''}`}
+    disabled={disabled || option.disabled}
     aria-pressed={selected ? 'true' : 'false'}
     onClick={disabled ? undefined : onClick}
   >

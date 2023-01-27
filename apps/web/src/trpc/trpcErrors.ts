@@ -3,17 +3,19 @@ import { TRPCError } from '@trpc/server'
 export const forbiddenError = (message?: string) =>
   new TRPCError({
     code: 'FORBIDDEN',
-    message: message ?? 'Not authorized.',
+    message:
+      message ?? "Vous n'êtes pas autoriser a effectuer cette opération.",
   })
 
 export const notfoundError = (message?: string) =>
   new TRPCError({
     code: 'NOT_FOUND',
-    message: message ?? 'Not found.',
+    message: message ?? 'Introuvable. Veuillez réessayer ultérieurement.',
   })
 
 export const invalidError = (message?: string) =>
   new TRPCError({
     code: 'BAD_REQUEST',
-    message: message ?? 'Request is not valid.',
+    message:
+      message ?? 'Opération invalide. Veuillez réessayer ultérieurement.',
   })
