@@ -15,6 +15,7 @@
     "@luma-team/mjml-react": "^0.3.0-0",
     "html-minifier": "^4.0.0",
     "mjml": "^4.13.0",
+    "mjml-react": "^2.0.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
