@@ -67,7 +67,10 @@ export const getSupportStats = async (organisationId: string) => {
     },
     include: {
       _count: {
-        select: { followups: true, helpRequests: true },
+        select: {
+          followups: { where: { organisationId } },
+          helpRequests: { where: { organisationId } },
+        },
       },
     },
   })
