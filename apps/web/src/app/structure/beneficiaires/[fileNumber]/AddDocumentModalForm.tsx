@@ -121,7 +121,6 @@ export const AddDocumentModalForm = withTrpc(
           <button
             className="fr-link--close fr-link"
             aria-controls="fr-modal-add-document"
-            data-fr-js-modal-button="true"
             ref={closeRef}
           >
             Fermer
@@ -193,7 +192,6 @@ export const AddDocumentModalForm = withTrpc(
                 aria-controls="fr-modal-add-document"
                 className="fr-btn  fr-btn--secondary"
                 onClick={onCancel}
-                data-fr-js-modal-button="true"
               >
                 Annuler
               </button>

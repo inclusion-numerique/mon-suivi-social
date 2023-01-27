@@ -85,12 +85,10 @@ const PublicHeader = ({
                 <div className="fr-header__navbar">
                   <button
                     id="fr-btn-menu-mobile"
-                    data-fr-opened="false"
                     aria-controls="modal-menu-mobile"
                     aria-haspopup="menu"
                     title="Menu"
                     className="fr-btn--menu fr-btn"
-                    data-fr-js-modal-button="true"
                   >
                     Menu
                   </button>
@@ -101,12 +99,7 @@ const PublicHeader = ({
           </div>
         </div>
       </div>
-      <div
-        id="modal-menu-mobile"
-        className="fr-header__menu fr-modal"
-        data-fr-js-modal="true"
-        data-fr-js-header-modal="true"
-      >
+      <div id="modal-menu-mobile" className="fr-header__menu fr-modal">
         <div className="fr-container">
           <button
             aria-controls="modal-menu-mobile"

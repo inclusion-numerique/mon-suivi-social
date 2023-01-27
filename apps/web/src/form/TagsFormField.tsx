@@ -119,7 +119,6 @@ const OptionBadge = ({
   <button
     type="button"
     className="fr-tag fr-mr-2v fr-mb-2v"
-    data-fr-js-toggle="true"
     disabled={disabled}
     aria-pressed={selected ? 'true' : 'false'}
     onClick={disabled ? undefined : onClick}

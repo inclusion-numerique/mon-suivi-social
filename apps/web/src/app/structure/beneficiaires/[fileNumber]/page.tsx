@@ -201,12 +201,11 @@ const BeneficiaryPage = async ({
           </li>
         </ul>
       </div>
-      <div className="fr-tabs fr-mt-4v" data-fr-js-tabs-group="true">
+      <div className="fr-tabs fr-mt-4v">
         <ul
           className="fr-tabs__list"
           role="tablist"
           aria-label="Informations bénéficiaire"
-          data-fr-js-tabs-list="true"
           style={
             {
               // TODO need this to match server rendered content

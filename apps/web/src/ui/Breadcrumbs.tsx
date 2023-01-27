@@ -19,17 +19,15 @@ export const Breadcrumbs = ({
       role="navigation"
       className={`fr-breadcrumb ${className}`}
       aria-label="vous êtes ici :"
-      data-fr-js-breadcrumb="true"
     >
       <button
         className="fr-breadcrumb__button"
         aria-expanded="false"
         aria-controls="breadcrumbs"
-        data-fr-js-collapse-button="true"
       >
         Voir le fil d’Ariane
       </button>
-      <div className="fr-collapse" id="breadcrumbs" data-fr-js-collapse="true">
+      <div className="fr-collapse" id="breadcrumbs">
         <ol className="fr-breadcrumb__list">
           {hideRoot ? null : (
             <li>
