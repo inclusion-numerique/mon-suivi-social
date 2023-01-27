@@ -5,14 +5,14 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { getUserDisplayName } from '@mss/web/utils/user'
 
 export const getAgentOptions = ({
-  organisationId,
+  structureId,
 }: {
-  organisationId: string | null
+  structureId: string | null
 }): Promise<Options> | Options =>
-  organisationId
+  structureId
     ? prismaClient.user
         .findMany({
-          where: { role: { not: 'Administrator' }, organisationId },
+          where: { role: { not: 'Administrator' }, structureId },
           orderBy: { lastName: 'asc' },
         })
         .then((agents) =>

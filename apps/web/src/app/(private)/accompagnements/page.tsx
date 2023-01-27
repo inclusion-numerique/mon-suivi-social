@@ -8,17 +8,17 @@ import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { Routes } from '@mss/web/app/routing/routes'
 
-const getFollowups = (organisationId: string) =>
+const getFollowups = (structureId: string) =>
   prismaClient.followup.findMany({
-    where: { organisationId },
+    where: { structureId },
     include: { type: true, beneficiary: true, createdBy: true },
     orderBy: [{ date: 'desc' }, { created: 'desc' }],
   })
 export type HistoryFollowup = Awaited<ReturnType<typeof getFollowups>>[0]
 
-const getHelpRequests = (organisationId: string) =>
+const getHelpRequests = (structureId: string) =>
   prismaClient.helpRequest.findMany({
-    where: { organisationId },
+    where: { structureId },
     include: { type: true, beneficiary: true, createdBy: true },
     orderBy: [{ openingDate: 'desc' }, { created: 'desc' }],
   })
@@ -27,11 +27,11 @@ export type HistoryHelpRequest = Awaited<ReturnType<typeof getHelpRequests>>[0]
 
 const AccompagnementsPage = async () => {
   const user = await getAuthenticatedAgent()
-  const { organisationId } = user
+  const { structureId } = user
 
   const [followups, helpRequests] = await Promise.all([
-    getFollowups(organisationId),
-    getHelpRequests(organisationId),
+    getFollowups(structureId),
+    getHelpRequests(structureId),
   ])
 
   return (

@@ -47,7 +47,7 @@ export const HistoryTab = ({
 
                             {support.__type === 'followup' ? (
                               <>
-                                <LabelAndValue value={support.organisationName}>
+                                <LabelAndValue value={support.structureName}>
                                   Redirigé vers
                                 </LabelAndValue>
                               </>

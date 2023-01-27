@@ -24,7 +24,7 @@ const EditBeneficiaryPage = async ({
     where: { fileNumber },
   })
 
-  if (!beneficiary || beneficiary.organisationId != user.organisationId) {
+  if (!beneficiary || beneficiary.structureId != user.structureId) {
     return notFound()
   }
 

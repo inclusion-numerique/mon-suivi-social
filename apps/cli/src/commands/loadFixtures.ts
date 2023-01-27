@@ -7,8 +7,8 @@ export const loadCommonFixtures = async () => {
   // TODO MSS See what fixtures are needed from latest @thibaud MR
 }
 
-const organisations: Exclude<
-  Parameters<typeof prismaClient.organisation.createMany>[0],
+const structures: Exclude<
+  Parameters<typeof prismaClient.structure.createMany>[0],
   undefined
 >['data'] = [
   {
@@ -49,7 +49,7 @@ const agents: Exclude<
     id: 'eecac657-f415-47e1-8087-c4508ea16191',
     name: 'Agent Démo',
     email: 'hugues+mss-test@kime.tech',
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     status: 'Active',
     role: 'ReceptionAgent',
   },
@@ -66,7 +66,7 @@ const beneficiaries: Exclude<
     email: 'hugues.maignol@beta.gouv.fr',
     fileNumber: 'AA0000DEMO',
     status: 'Active',
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     agentId: agents[0].id!,
   },
   {
@@ -76,7 +76,7 @@ const beneficiaries: Exclude<
     email: 'hugues.maignol@beta.gouv.fr',
     fileNumber: 'BB0000DEMO',
     status: 'Active',
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     agentId: agents[0].id!,
   },
   {
@@ -86,7 +86,7 @@ const beneficiaries: Exclude<
     email: 'hugues.maignol@beta.gouv.fr',
     fileNumber: 'CC0000DEMO',
     status: 'Active',
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     agentId: agents[0].id!,
   },
   {
@@ -96,7 +96,7 @@ const beneficiaries: Exclude<
     email: 'hugues.maignol@beta.gouv.fr',
     fileNumber: 'DD0000DEMO',
     status: 'Active',
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     agentId: agents[0].id!,
   },
 ]
@@ -109,7 +109,7 @@ const followups: Exclude<
     id: 'e20b26f8-52fd-4620-8959-4cbb4623fb05',
     status: 'Done',
     agentId: agents[0].id!,
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     beneficiaryId: beneficiaries[0].id,
     medium: 'PlannedInPerson',
     typeId: followupTypes[0].id,
@@ -119,7 +119,7 @@ const followups: Exclude<
     id: '8f8a083f-f04f-4977-9e07-8b88135c7210',
     status: 'Done',
     agentId: agents[0].id!,
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     beneficiaryId: beneficiaries[0].id,
     medium: 'PhoneCall',
     typeId: followupTypes[0].id,
@@ -129,7 +129,7 @@ const followups: Exclude<
     id: '07e809c3-4b6e-4152-bde3-357c501c981f',
     status: 'Done',
     agentId: agents[0].id!,
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     beneficiaryId: beneficiaries[2].id,
     medium: 'Videoconference',
     typeId: followupTypes[0].id,
@@ -139,7 +139,7 @@ const followups: Exclude<
     id: 'b811a9d7-ada7-42ca-b809-926caaebaf52',
     status: 'Done',
     agentId: agents[0].id!,
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     beneficiaryId: beneficiaries[1].id,
     medium: 'UnplannedInPerson',
     typeId: followupTypes[0].id,
@@ -149,7 +149,7 @@ const followups: Exclude<
     id: 'b15eba7c-d00d-4de6-a227-75361066c322',
     status: 'InProgress',
     agentId: agents[0].id!,
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     beneficiaryId: beneficiaries[2].id,
     medium: 'PlannedInPerson',
     typeId: followupTypes[0].id,
@@ -159,7 +159,7 @@ const followups: Exclude<
     id: '19ed2ebb-4e28-433a-9e2d-d97d9098624a',
     status: 'InProgress',
     agentId: agents[0].id!,
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     beneficiaryId: beneficiaries[3].id,
     medium: 'PhoneCall',
     typeId: followupTypes[0].id,
@@ -176,9 +176,9 @@ const helpRequests: Exclude<
     status: 'Accepted',
     typeId: followupTypes[0].id,
     agentId: agents[0].id!,
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     beneficiaryId: beneficiaries[0].id,
-    externalOrganisation: false,
+    externalStructure: false,
     financialSupport: false,
     openingDate: new Date('2022-10-26'),
   },
@@ -187,9 +187,9 @@ const helpRequests: Exclude<
     status: 'WaitingForDecision',
     typeId: followupTypes[1].id,
     agentId: agents[0].id!,
-    organisationId: organisations[0].id,
+    structureId: structures[0].id,
     beneficiaryId: beneficiaries[2].id,
-    externalOrganisation: false,
+    externalStructure: false,
     financialSupport: false,
     openingDate: new Date('2022-10-27'),
   },
@@ -198,8 +198,8 @@ const helpRequests: Exclude<
 // Only loaded in preview environment, not main
 export const loadPreviewFixtures = async () => {
   await prismaClient.$transaction([
-    prismaClient.organisation.createMany({
-      data: organisations,
+    prismaClient.structure.createMany({
+      data: structures,
       skipDuplicates: true,
     }),
     prismaClient.followupType.createMany({
@@ -226,9 +226,9 @@ export const loadPreviewFixtures = async () => {
     // Could be more efficient but ok for this low volume of fixtures
     ...followupTypes
       .map((type) =>
-        organisations.map((organisation) =>
-          prismaClient.organisation.update({
-            where: { id: organisation.id },
+        structures.map((structure) =>
+          prismaClient.structure.update({
+            where: { id: structure.id },
             data: { followupTypes: { connect: { id: type.id } } },
           }),
         ),

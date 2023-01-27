@@ -24,21 +24,21 @@ import { EditStructureFeatureClient } from '@mss/web/features/editStructure/edit
 import { EditStructureFeatureServer } from '@mss/web/features/editStructure/editStructure.server'
 import { detailedDiff } from 'deep-object-diff'
 
-const enforceUserHasAccessToOrganisation = (
+const enforceUserHasAccessToStructure = (
   user: SessionUser,
-  organisationId: string,
+  structureId: string,
 ): user is SessionUserAgent => {
-  if (!user.organisationId || organisationId !== user.organisationId) {
+  if (!user.structureId || structureId !== user.structureId) {
     throw forbiddenError()
   }
   return true
 }
 
-const enforceUserHasOrganisation = (user: SessionUser): string => {
-  if (!user.organisationId) {
+const enforceUserHasStructure = (user: SessionUser): string => {
+  if (!user.structureId) {
     throw forbiddenError()
   }
-  return user.organisationId
+  return user.structureId
 }
 
 const tokenToSearchCondition = (token: string) => {
@@ -50,7 +50,7 @@ const tokenToSearchCondition = (token: string) => {
 
 const beneficiarySecurityTargetSelect = {
   id: true,
-  organisationId: true,
+  structureId: true,
   referents: { select: { id: true } },
 } as const
 
@@ -68,7 +68,7 @@ export const beneficiaryRouter = router({
   search: protectedProcedure
     .input(z.object({ query: z.string() }))
     .query(async ({ input: { query }, ctx: { user } }) => {
-      const organisationId = enforceUserHasOrganisation(user)
+      const structureId = enforceUserHasStructure(user)
 
       // TODO unit test
       const tokens = query.trim().replace(/%/g, '').split(/\s+/g)
@@ -90,7 +90,7 @@ export const beneficiaryRouter = router({
       // TODO check pg_trgm https://www.postgresql.org/docs/12/pgtrgm.html#id-1.11.7.40.7 for indexing
       const beneficiaries = await prismaClient.beneficiary.findMany({
         where: {
-          organisationId,
+          structureId,
           AND: searchConditions,
         },
         orderBy: [{ usualName: 'asc' }, { birthName: 'asc' }],
@@ -112,18 +112,18 @@ export const beneficiaryRouter = router({
         input: {
           status,
           aidantConnectAuthorized,
-          organisationId,
+          structureId,
           additionalInformation,
         },
         ctx: { user },
       }) => {
-        enforceUserHasAccessToOrganisation(user, organisationId)
+        enforceUserHasAccessToStructure(user, structureId)
         const id = v4()
         const fileNumber = generateFileNumber()
         const beneficiary = await prismaClient.beneficiary.create({
           data: {
             id,
-            organisationId,
+            structureId,
             fileNumber,
             status,
             // TODO Add referents
@@ -250,17 +250,17 @@ const structureRouter = router({
   edit: protectedProcedure
     .input(EditStructureFeatureClient.dataValidation)
     .mutation(async ({ input, ctx: { user } }) => {
-      const organisationId = user?.organisationId
-      if (!organisationId) {
+      const structureId = user?.structureId
+      if (!structureId) {
         throw invalidError()
       }
 
       const existingState = await EditStructureFeatureServer.getExistingState({
-        organisationId,
+        structureId,
       })
 
-      console.log('SECURITY', user, { organisationId })
-      if (!EditStructureFeatureClient.securityCheck(user, { organisationId })) {
+      console.log('SECURITY', user, { structureId })
+      if (!EditStructureFeatureClient.securityCheck(user, { structureId })) {
         throw forbiddenError()
       }
 
@@ -272,8 +272,8 @@ const structureRouter = router({
 
       const { id, proposedFollowupTypes, ...data } = input
 
-      const updated = await prismaClient.organisation.update({
-        where: { id: organisationId },
+      const updated = await prismaClient.structure.update({
+        where: { id: structureId },
         data: {
           ...data,
         },

@@ -20,7 +20,7 @@ const AddBeneficiaryPage = async () => {
             <BeneficiaryForm
               agents={agents}
               creation
-              defaultValues={{ organisationId: user.organisationId }}
+              defaultValues={{ structureId: user.structureId }}
             />
           </div>
         </div>

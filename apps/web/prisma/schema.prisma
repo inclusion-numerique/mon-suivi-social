@@ -74,8 +74,8 @@ model User {
   updated      DateTime      @default(now())
   mutationLogs MutationLog[]
 
-  organisation        Organisation? @relation(fields: [organisationId], references: [id])
-  organisationId      String?       @db.Uuid
+  structure        Structure? @relation(fields: [structureId], references: [id])
+  structureId      String?       @db.Uuid
   createdFollowups    Followup[]    @relation(name: "created_followups")
   createdHelpRequests HelpRequest[] @relation(name: "created_help_requests")
   createdDocuments    Document[]
@@ -85,7 +85,7 @@ model User {
   FollowupType         FollowupType[]
 }
 
-enum OrganisationType {
+enum StructureType {
   Ccas
   Cias
   Commune
@@ -93,9 +93,9 @@ enum OrganisationType {
   Ministere
 }
 
-model Organisation {
+model Structure {
   id                    String                 @id @db.Uuid
-  type                  OrganisationType
+  type                  StructureType
   name                  String
   zipcode               String
   city                  String
@@ -153,20 +153,20 @@ model FollowupType {
   helpRequests HelpRequest[]
 
   proposedFollowupTypes ProposedFollowupType[]
-  Organisation          Organisation?          @relation(fields: [organisationId], references: [id])
-  organisationId        String?                @db.Uuid
+  Structure          Structure?          @relation(fields: [structureId], references: [id])
+  structureId        String?                @db.Uuid
 }
 
 model ProposedFollowupType {
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String       @db.Uuid
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String       @db.Uuid
 
   followupType   FollowupType @relation(fields: [followupTypeId], references: [id])
   followupTypeId String       @db.Uuid
 
   created DateTime @default(now())
 
-  @@id([organisationId, followupTypeId])
+  @@id([structureId, followupTypeId])
 }
 
 enum FollowupMedium {
@@ -198,8 +198,8 @@ enum FollowupStatus {
 model Followup {
   id String @id @db.Uuid
 
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String       @db.Uuid
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String       @db.Uuid
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
   beneficiaryId String      @db.Uuid
@@ -221,7 +221,7 @@ model Followup {
   helpRequested    Boolean?
   place            String?
   redirected       Boolean?
-  organisationName String?
+  structureName String?
   dueDate          DateTime? @db.Date
   thirdPersonName  String?
 
@@ -262,8 +262,8 @@ enum HelpRequestReason {
 model HelpRequest {
   id String @id @db.Uuid
 
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String       @db.Uuid
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String       @db.Uuid
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
   beneficiaryId String      @db.Uuid
@@ -277,7 +277,7 @@ model HelpRequest {
   typeId String       @db.Uuid
 
   financialSupport     Boolean
-  externalOrganisation Boolean
+  externalStructure Boolean
   status               HelpRequestStatus
 
   askedAmount Decimal?
@@ -291,7 +291,7 @@ model HelpRequest {
   paymentDate           DateTime?      @db.Date
   handlingDate          DateTime?      @db.Date
   refusalReason         String?
-  examiningOrganisation String?
+  examiningStructure String?
   dispatchDate          DateTime?      @db.Date
 
   synthesis String?
@@ -488,8 +488,8 @@ enum BeneficiaryOrientationType {
 model Beneficiary {
   id String @id @db.Uuid
 
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String       @db.Uuid
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String       @db.Uuid
 
   createdById String? @db.Uuid
   createdBy   User?   @relation(name: "created_beneficiaries", fields: [createdById], references: [id])
@@ -550,17 +550,17 @@ model Beneficiary {
   majorChildrenMainIncomeSource IncomeSource[]
   majorChildrenMainIncomeAmount Decimal?
   unemploymentNumber            String?
-  pensionOrganisation           String?
+  pensionStructure           String?
   cafNumber                     String?
   bank                          String?
   funeralContract               String?
 
-  // External Organisations
+  // External Structures
   protectionMeasure       BeneficiaryProtectionMeasure?
   representative          String?
-  prescribingOrganisation String?
+  prescribingStructure String?
   orientationType         BeneficiaryOrientationType?
-  orientationOrganisation String?
+  orientationStructure String?
   serviceProviders        String?
   involvedPartners        String?
 

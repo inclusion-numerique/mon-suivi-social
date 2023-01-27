@@ -10,19 +10,19 @@ import { notFound } from 'next/navigation'
 export const revalidate = 0
 
 const StructureEditPage = async ({
-  params: { id: organisationId },
+  params: { id: structureId },
 }: {
   params: RoutePathParams<typeof Routes.Structure.Structure.Index.path>
 }) => {
   const user = await getAuthenticatedAgent()
 
-  if (!EditStructureFeatureClient.securityCheck(user, { organisationId })) {
+  if (!EditStructureFeatureClient.securityCheck(user, { structureId })) {
     notFound()
     return null
   }
 
   const existingState = await EditStructureFeatureServer.getExistingState({
-    organisationId,
+    structureId,
   })
   const { structure } = existingState
 
@@ -39,7 +39,7 @@ const StructureEditPage = async ({
           {
             title: Routes.Structure.Structure.Index.title(structure),
             path: Routes.Structure.Structure.Index.path({
-              id: organisationId,
+              id: structureId,
             }),
           },
         ]}

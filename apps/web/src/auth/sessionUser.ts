@@ -1,16 +1,16 @@
-import { User, Organisation } from '@prisma/client'
+import { User, Structure } from '@prisma/client'
 
-export type SessionUserOrganisation = Pick<Organisation, 'id' | 'name'>
+export type SessionUserStructure = Pick<Structure, 'id' | 'name'>
 
 // Serializable user interface
 export type SessionUser = Omit<
   User,
   'created' | 'updated' | 'emailVerified'
 > & {
-  organisation: SessionUserOrganisation | null
+  structure: SessionUserStructure | null
 }
 
-export type SessionUserAgent = Omit<SessionUser, 'organisationId'> & {
-  organisationId: string
-  organisation: SessionUserOrganisation
+export type SessionUserAgent = Omit<SessionUser, 'structureId'> & {
+  structureId: string
+  structure: SessionUserStructure
 }

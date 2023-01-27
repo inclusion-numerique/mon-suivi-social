@@ -2,11 +2,11 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { sum } from '@mss/web/utils/sum'
 import { AgeGroup } from '@mss/web/wording/ageGroup'
 
-export const getGenderStats = async (organisationId: string) => {
+export const getGenderStats = async (structureId: string) => {
   const stats = await prismaClient.beneficiary.groupBy({
     by: ['gender'],
     where: {
-      organisationId,
+      structureId,
     },
     _count: true,
     orderBy: { _count: { gender: 'desc' } },
@@ -18,11 +18,11 @@ export const getGenderStats = async (organisationId: string) => {
 
 export type GenderStats = Awaited<ReturnType<typeof getGenderStats>>
 
-export const getFamilyStats = async (organisationId: string) => {
+export const getFamilyStats = async (structureId: string) => {
   const stats = await prismaClient.beneficiary.groupBy({
     by: ['familySituation'],
     where: {
-      organisationId,
+      structureId,
     },
     _count: true,
     orderBy: { _count: { familySituation: 'desc' } },
@@ -34,13 +34,13 @@ export const getFamilyStats = async (organisationId: string) => {
 
 export type FamilySituationStats = Awaited<ReturnType<typeof getFamilyStats>>
 
-export const getAgeStats = async (organisationId: string) => {
+export const getAgeStats = async (structureId: string) => {
   const stats: [{ [ageGroup in AgeGroup]: number }] =
     await prismaClient.$queryRaw`
 WITH "BeneficiaryAge" AS (
   SELECT date_part('year', age("birthDate")) AS age, "birthDate"
   FROM "Beneficiary"
-  WHERE "organisationId" = ${organisationId}::uuid
+  WHERE "structureId" = ${structureId}::uuid
 )
 SELECT
   (count(*) filter (where age<25))::int as "less-25",
@@ -58,18 +58,18 @@ FROM "BeneficiaryAge"
 
 export type AgeStats = Awaited<ReturnType<typeof getAgeStats>>
 
-export const getSupportStats = async (organisationId: string) => {
+export const getSupportStats = async (structureId: string) => {
   const stats = await prismaClient.followupType.findMany({
     where: {
       proposedFollowupTypes: {
-        some: { organisationId },
+        some: { structureId },
       },
     },
     include: {
       _count: {
         select: {
-          followups: { where: { organisationId } },
-          helpRequests: { where: { organisationId } },
+          followups: { where: { structureId } },
+          helpRequests: { where: { structureId } },
         },
       },
     },

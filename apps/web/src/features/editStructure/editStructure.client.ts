@@ -1,13 +1,13 @@
-import { canEditOrganisation } from '@mss/web/security/rules'
+import { canEditStructure } from '@mss/web/security/rules'
 import z from 'zod'
-import { OrganisationType } from '@prisma/client'
+import { StructureType } from '@prisma/client'
 import type { EditStructureFeatureServer } from '@mss/web/features/editStructure/editStructure.server'
 
-const securityCheck = canEditOrganisation
+const securityCheck = canEditStructure
 
 const dataValidation = z.object({
   id: z.string().uuid().optional(),
-  type: z.nativeEnum(OrganisationType),
+  type: z.nativeEnum(StructureType),
   name: z.string().min(2),
   zipcode: z.string().min(5),
   city: z.string().min(2),

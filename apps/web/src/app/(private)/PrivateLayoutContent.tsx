@@ -7,7 +7,7 @@ const PrivateLayoutContent: FunctionComponent<{
   user: SessionUser
   children: ReactNode
 }> = ({ children, user }) => {
-  const menuTitle = user.organisation?.name ?? 'Administration'
+  const menuTitle = user.structure?.name ?? 'Administration'
 
   return (
     <main

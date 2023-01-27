@@ -13,7 +13,9 @@ export const getSessionUserFromSessionToken = async (
       sessionToken,
       expires: { gt: new Date() },
     },
-    include: { user: { include: { organisation: { select: { id: true, name: true } } } } },
+    include: {
+      user: { include: { structure: { select: { id: true, name: true } } } },
+    },
   })
 
   if (!res?.user) {

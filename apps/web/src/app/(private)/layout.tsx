@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
 import PrivateLayoutContent from '@mss/web/app/(private)/PrivateLayoutContent'
-import OnboardingWithoutOrganisation from '@mss/web/app/(private)/OnboardingWithoutOrganisation'
+import OnboardingWithoutStructure from '@mss/web/app/(private)/OnboardingWithoutStructure'
 import { redirect } from 'next/navigation'
 import { Routes } from '@mss/web/app/routing/routes'
 import PublicFooter from '@mss/web/app/(public)/PublicFooter'
@@ -29,10 +29,10 @@ const PrivateLayout = async ({ children }: PropsWithChildren) => {
     return null
   }
 
-  if (!user.organisationId) {
+  if (!user.structureId) {
     return (
       <LoggedInUserWithoutFullAccess>
-        <OnboardingWithoutOrganisation user={user} />
+        <OnboardingWithoutStructure user={user} />
       </LoggedInUserWithoutFullAccess>
     )
   }

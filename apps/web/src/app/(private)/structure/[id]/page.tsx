@@ -2,7 +2,7 @@ import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
-import { canViewOrganisation } from '@mss/web/security/rules'
+import { canViewStructure } from '@mss/web/security/rules'
 import { prismaClient } from '@mss/web/prismaClient'
 import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
 import Link from 'next/link'
@@ -11,20 +11,20 @@ import { EditStructureFeatureClient } from '@mss/web/features/editStructure/edit
 export const revalidate = 0
 
 const StructurePage = async ({
-  params: { id: organisationId },
+  params: { id: structureId },
 }: {
   params: RoutePathParams<typeof Routes.Structure.Structure.Index.path>
 }) => {
   const user = await getAuthenticatedAgent()
 
   // TODO ViewStructure feature ?
-  if (!canViewOrganisation(user, { organisationId })) {
+  if (!canViewStructure(user, { structureId })) {
     notFound()
     return null
   }
 
-  const structure = await prismaClient.organisation.findUniqueOrThrow({
-    where: { id: organisationId },
+  const structure = await prismaClient.structure.findUniqueOrThrow({
+    where: { id: structureId },
     include: {
       proposedFollowupTypes: {
         select: {
@@ -55,12 +55,12 @@ const StructurePage = async ({
       <div className="fr-col-12 fr-mt-4v">
         <ul className="fr-btns-group  fr-btns-group--icon-left fr-btns-group--inline fr-btns-group--sm">
           {EditStructureFeatureClient.securityCheck(user, {
-            organisationId,
+            structureId,
           }) ? (
             <li>
               <Link
                 href={Routes.Structure.Structure.Modifier.path({
-                  organisationId: structure.id,
+                  structureId: structure.id,
                 })}
                 className="fr-btn fr-icon-pencil-line fr-btn--primary"
               >

@@ -2,13 +2,13 @@
 CREATE TYPE "UserStatus" AS ENUM ('Active', 'Disabled');
 
 -- CreateEnum
-CREATE TYPE "UserRole" AS ENUM ('Administrator', 'StructureManager', 'Referent', 'Instructor', 'ReceptionAgent');
+CREATE TYPE "UserRole" AS ENUM ('Administrator', 'StructureManager', 'SocialWorker', 'Instructor', 'ReceptionAgent', 'Referent');
 
 -- CreateEnum
-CREATE TYPE "OrganisationType" AS ENUM ('Ccas', 'Cias', 'Commune', 'Association', 'Ministere');
+CREATE TYPE "StructureType" AS ENUM ('Ccas', 'Cias', 'Commune', 'Association', 'Ministere');
 
 -- CreateEnum
-CREATE TYPE "FollowupTypeType" AS ENUM ('Legal', 'Optional');
+CREATE TYPE "DocumentType" AS ENUM ('Cerfa', 'HistoriqueCourrier', 'Justificatifs', 'Rapports');
 
 -- CreateEnum
 CREATE TYPE "FollowupMedium" AS ENUM ('PlannedInPerson', 'UnplannedInPerson', 'PhoneCall', 'BeneficiaryHouseAppointment', 'ExternalAppointment', 'PostalMail', 'Email', 'Videoconference', 'ThirdParty');
@@ -108,15 +108,15 @@ CREATE TABLE "User" (
     "description" TEXT,
     "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "organisationId" UUID,
+    "structureId" UUID,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Organisation" (
+CREATE TABLE "Structure" (
     "id" UUID NOT NULL,
-    "type" "OrganisationType" NOT NULL,
+    "type" "StructureType" NOT NULL,
     "name" TEXT NOT NULL,
     "zipcode" TEXT NOT NULL,
     "city" TEXT NOT NULL,
@@ -126,25 +126,53 @@ CREATE TABLE "Organisation" (
     "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Organisation_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Structure_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Document" (
+    "key" TEXT NOT NULL,
+    "mimeType" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "type" "DocumentType" NOT NULL,
+    "size" INTEGER NOT NULL,
+    "tags" TEXT[],
+    "confidential" BOOLEAN NOT NULL,
+    "beneficiaryId" UUID NOT NULL,
+    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdById" UUID NOT NULL,
+
+    CONSTRAINT "Document_pkey" PRIMARY KEY ("key")
 );
 
 -- CreateTable
 CREATE TABLE "FollowupType" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
-    "type" "FollowupTypeType" NOT NULL,
     "default" BOOLEAN NOT NULL,
+    "legallyRequired" BOOLEAN NOT NULL,
+    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdById" UUID,
+    "structureId" UUID,
 
     CONSTRAINT "FollowupType_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "ProposedFollowupType" (
+    "structureId" UUID NOT NULL,
+    "followupTypeId" UUID NOT NULL,
+    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "ProposedFollowupType_pkey" PRIMARY KEY ("structureId","followupTypeId")
+);
+
+-- CreateTable
 CREATE TABLE "Followup" (
     "id" UUID NOT NULL,
-    "agentId" UUID NOT NULL,
-    "organisationId" UUID NOT NULL,
+    "structureId" UUID NOT NULL,
     "beneficiaryId" UUID NOT NULL,
+    "createdById" UUID,
     "medium" "FollowupMedium" NOT NULL,
     "date" DATE NOT NULL,
     "typeId" UUID NOT NULL,
@@ -154,7 +182,7 @@ CREATE TABLE "Followup" (
     "helpRequested" BOOLEAN,
     "place" TEXT,
     "redirected" BOOLEAN,
-    "organisationName" TEXT,
+    "structureName" TEXT,
     "dueDate" DATE,
     "thirdPersonName" TEXT,
     "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -166,13 +194,13 @@ CREATE TABLE "Followup" (
 -- CreateTable
 CREATE TABLE "HelpRequest" (
     "id" UUID NOT NULL,
-    "agentId" UUID NOT NULL,
-    "organisationId" UUID NOT NULL,
+    "structureId" UUID NOT NULL,
     "beneficiaryId" UUID NOT NULL,
+    "createdById" UUID,
     "openingDate" DATE NOT NULL,
     "typeId" UUID NOT NULL,
     "financialSupport" BOOLEAN NOT NULL,
-    "externalOrganisation" BOOLEAN NOT NULL,
+    "externalStructure" BOOLEAN NOT NULL,
     "status" "HelpRequestStatus" NOT NULL,
     "askedAmount" DECIMAL(65,30),
     "examinationDate" DATE,
@@ -182,7 +210,7 @@ CREATE TABLE "HelpRequest" (
     "paymentDate" DATE,
     "handlingDate" DATE,
     "refusalReason" TEXT,
-    "examiningOrganisation" TEXT,
+    "examiningStructure" TEXT,
     "dispatchDate" DATE,
     "synthesis" TEXT,
     "privateSynthesis" TEXT,
@@ -198,8 +226,8 @@ CREATE TABLE "HelpRequest" (
 -- CreateTable
 CREATE TABLE "Beneficiary" (
     "id" UUID NOT NULL,
-    "organisationId" UUID NOT NULL,
-    "agentId" UUID NOT NULL,
+    "structureId" UUID NOT NULL,
+    "createdById" UUID,
     "aidantConnectAuthorized" BOOLEAN NOT NULL DEFAULT false,
     "fileNumber" TEXT NOT NULL,
     "status" "BeneficiaryStatus" NOT NULL,
@@ -247,15 +275,15 @@ CREATE TABLE "Beneficiary" (
     "majorChildrenMainIncomeSource" "IncomeSource"[],
     "majorChildrenMainIncomeAmount" DECIMAL(65,30),
     "unemploymentNumber" TEXT,
-    "pensionOrganisation" TEXT,
+    "pensionStructure" TEXT,
     "cafNumber" TEXT,
     "bank" TEXT,
     "funeralContract" TEXT,
     "protectionMeasure" "BeneficiaryProtectionMeasure",
     "representative" TEXT,
-    "prescribingOrganisation" TEXT,
+    "prescribingStructure" TEXT,
     "orientationType" "BeneficiaryOrientationType",
-    "orientationOrganisation" TEXT,
+    "orientationStructure" TEXT,
     "serviceProviders" TEXT,
     "involvedPartners" TEXT,
     "additionalInformation" TEXT,
@@ -306,7 +334,7 @@ CREATE TABLE "MutationLog" (
 );
 
 -- CreateTable
-CREATE TABLE "_FollowupTypeToOrganisation" (
+CREATE TABLE "_beneficiary_referents" (
     "A" UUID NOT NULL,
     "B" UUID NOT NULL
 );
@@ -330,10 +358,10 @@ CREATE UNIQUE INDEX "Beneficiary_fileNumber_key" ON "Beneficiary"("fileNumber");
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_FollowupTypeToOrganisation_AB_unique" ON "_FollowupTypeToOrganisation"("A", "B");
+CREATE UNIQUE INDEX "_beneficiary_referents_AB_unique" ON "_beneficiary_referents"("A", "B");
 
 -- CreateIndex
-CREATE INDEX "_FollowupTypeToOrganisation_B_index" ON "_FollowupTypeToOrganisation"("B");
+CREATE INDEX "_beneficiary_referents_B_index" ON "_beneficiary_referents"("B");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -342,37 +370,55 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_organisationId_fkey" FOREIGN KEY ("organisationId") REFERENCES "Organisation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_structureId_fkey" FOREIGN KEY ("structureId") REFERENCES "Structure"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Followup" ADD CONSTRAINT "Followup_agentId_fkey" FOREIGN KEY ("agentId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Document" ADD CONSTRAINT "Document_beneficiaryId_fkey" FOREIGN KEY ("beneficiaryId") REFERENCES "Beneficiary"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Followup" ADD CONSTRAINT "Followup_organisationId_fkey" FOREIGN KEY ("organisationId") REFERENCES "Organisation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Document" ADD CONSTRAINT "Document_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FollowupType" ADD CONSTRAINT "FollowupType_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FollowupType" ADD CONSTRAINT "FollowupType_structureId_fkey" FOREIGN KEY ("structureId") REFERENCES "Structure"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProposedFollowupType" ADD CONSTRAINT "ProposedFollowupType_structureId_fkey" FOREIGN KEY ("structureId") REFERENCES "Structure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProposedFollowupType" ADD CONSTRAINT "ProposedFollowupType_followupTypeId_fkey" FOREIGN KEY ("followupTypeId") REFERENCES "FollowupType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Followup" ADD CONSTRAINT "Followup_structureId_fkey" FOREIGN KEY ("structureId") REFERENCES "Structure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Followup" ADD CONSTRAINT "Followup_beneficiaryId_fkey" FOREIGN KEY ("beneficiaryId") REFERENCES "Beneficiary"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Followup" ADD CONSTRAINT "Followup_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Followup" ADD CONSTRAINT "Followup_typeId_fkey" FOREIGN KEY ("typeId") REFERENCES "FollowupType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "HelpRequest" ADD CONSTRAINT "HelpRequest_agentId_fkey" FOREIGN KEY ("agentId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "HelpRequest" ADD CONSTRAINT "HelpRequest_organisationId_fkey" FOREIGN KEY ("organisationId") REFERENCES "Organisation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "HelpRequest" ADD CONSTRAINT "HelpRequest_structureId_fkey" FOREIGN KEY ("structureId") REFERENCES "Structure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "HelpRequest" ADD CONSTRAINT "HelpRequest_beneficiaryId_fkey" FOREIGN KEY ("beneficiaryId") REFERENCES "Beneficiary"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "HelpRequest" ADD CONSTRAINT "HelpRequest_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "HelpRequest" ADD CONSTRAINT "HelpRequest_typeId_fkey" FOREIGN KEY ("typeId") REFERENCES "FollowupType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Beneficiary" ADD CONSTRAINT "Beneficiary_organisationId_fkey" FOREIGN KEY ("organisationId") REFERENCES "Organisation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Beneficiary" ADD CONSTRAINT "Beneficiary_structureId_fkey" FOREIGN KEY ("structureId") REFERENCES "Structure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Beneficiary" ADD CONSTRAINT "Beneficiary_agentId_fkey" FOREIGN KEY ("agentId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Beneficiary" ADD CONSTRAINT "Beneficiary_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "BeneficiaryRelative" ADD CONSTRAINT "BeneficiaryRelative_beneficiaryId_fkey" FOREIGN KEY ("beneficiaryId") REFERENCES "Beneficiary"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -381,7 +427,7 @@ ALTER TABLE "BeneficiaryRelative" ADD CONSTRAINT "BeneficiaryRelative_beneficiar
 ALTER TABLE "MutationLog" ADD CONSTRAINT "MutationLog_byId_fkey" FOREIGN KEY ("byId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_FollowupTypeToOrganisation" ADD CONSTRAINT "_FollowupTypeToOrganisation_A_fkey" FOREIGN KEY ("A") REFERENCES "FollowupType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_beneficiary_referents" ADD CONSTRAINT "_beneficiary_referents_A_fkey" FOREIGN KEY ("A") REFERENCES "Beneficiary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_FollowupTypeToOrganisation" ADD CONSTRAINT "_FollowupTypeToOrganisation_B_fkey" FOREIGN KEY ("B") REFERENCES "Organisation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_beneficiary_referents" ADD CONSTRAINT "_beneficiary_referents_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

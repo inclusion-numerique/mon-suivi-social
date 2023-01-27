@@ -79,13 +79,13 @@ export type BeneficiaryPageSupport = Awaited<ReturnType<typeof getSupports>>[0]
 
 const getBeneficiary = ({
   fileNumber,
-  organisationId,
+  structureId,
 }: {
-  organisationId: string
+  structureId: string
   fileNumber: string
 }) =>
   prismaClient.beneficiary.findFirstOrThrow({
-    where: { organisationId, fileNumber },
+    where: { structureId, fileNumber },
     include: {
       referents: true,
     },
@@ -120,7 +120,7 @@ const BeneficiaryPage = async ({
   // TODO use security rules instead of where filters
   const beneficiary = await getBeneficiary({
     fileNumber,
-    organisationId: user.organisationId,
+    structureId: user.structureId,
   })
   const supports = await getSupports({
     beneficiaryId: beneficiary.id,

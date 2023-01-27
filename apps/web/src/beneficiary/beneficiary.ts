@@ -3,7 +3,7 @@ import { Beneficiary, BeneficiaryStatus } from '@prisma/client'
 import { labelsToOptions } from '@mss/web/utils/options'
 
 export const BeneficiaryDataValidation = z.object({
-  organisationId: z.string().uuid('Veuillez sélectionner une structure'),
+  structureId: z.string().uuid('Veuillez sélectionner une structure'),
   agentId: z.string().uuid('Veuillez sélectionner un agent référent'),
   aidantConnectAuthorized: z.boolean(),
   status: z.nativeEnum(BeneficiaryStatus),

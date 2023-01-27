@@ -1,13 +1,9 @@
 import { prismaClient } from '@mss/web/prismaClient'
 
-const getExistingState = async ({
-  organisationId,
-}: {
-  organisationId: string
-}) => {
+const getExistingState = async ({ structureId }: { structureId: string }) => {
   const [structure, followupTypes] = await Promise.all([
-    prismaClient.organisation.findUniqueOrThrow({
-      where: { id: organisationId },
+    prismaClient.structure.findUniqueOrThrow({
+      where: { id: structureId },
       include: {
         proposedFollowupTypes: { select: { followupTypeId: true } },
       },
@@ -17,14 +13,14 @@ const getExistingState = async ({
         id: true,
         name: true,
         legallyRequired: true,
-        // To know if they are in use by the organisation
+        // To know if they are in use by the structure
         _count: {
           select: {
             followups: {
-              where: { organisationId },
+              where: { structureId },
             },
             helpRequests: {
-              where: { organisationId },
+              where: { structureId },
             },
           },
         },

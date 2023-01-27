@@ -45,8 +45,8 @@ export const getAuthenticatedSessionUser = () =>
 
 export const getAuthenticatedAgent = (): Promise<SessionUserAgent> =>
   getAuthenticatedSessionUser().then((user): SessionUserAgent => {
-    if (!!user.organisationId) {
+    if (!!user.structureId) {
       return user as SessionUserAgent
     }
-    throw new Error('User is not an agent attached to an organisation')
+    throw new Error('User is not an agent attached to an structure')
   })

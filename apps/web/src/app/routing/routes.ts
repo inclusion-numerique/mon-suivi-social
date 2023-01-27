@@ -113,8 +113,8 @@ export const Routes = {
         title: ({ name }: { name: string }) => `${name} · Modification`,
         breadcrumbsTitle: 'Modification',
         icon: 'building-line',
-        path: ({ organisationId }: { organisationId: string }) =>
-          `/structure/${organisationId}/modifier`,
+        path: ({ structureId }: { structureId: string }) =>
+          `/structure/${structureId}/modifier`,
       },
     },
     Utilisateurs: {

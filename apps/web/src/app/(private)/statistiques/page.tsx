@@ -15,13 +15,13 @@ import { ChartJs } from '@mss/web/app/(private)/statistiques/ChartJs'
 import { Routes } from '@mss/web/app/routing/routes'
 
 const StatistiquesPage = async () => {
-  const { organisationId, organisation } = await getAuthenticatedAgent()
+  const { structureId, structure } = await getAuthenticatedAgent()
   const [genderStats, familySituationStats, ageStats, supportStats] =
     await Promise.all([
-      getGenderStats(organisationId),
-      getFamilyStats(organisationId),
-      getAgeStats(organisationId),
-      getSupportStats(organisationId),
+      getGenderStats(structureId),
+      getFamilyStats(structureId),
+      getAgeStats(structureId),
+      getSupportStats(structureId),
     ])
 
   return (

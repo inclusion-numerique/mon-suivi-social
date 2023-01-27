@@ -66,11 +66,11 @@ const SideMenuLinks = ({
       path: Routes.Structure.Structures.Index.path,
       icon: 'building-line',
     })
-  } else if (user.organisationId) {
+  } else if (user.structureId) {
     userSpecificLinks.push({
       title: 'Structure',
       path: Routes.Structure.Structure.Index.path({
-        id: user.organisationId,
+        id: user.structureId,
       }),
       icon: 'building-line',
     })
