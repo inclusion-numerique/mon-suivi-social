@@ -5,7 +5,7 @@ import { protectedProcedure, router } from './trpc'
 import { BeneficiaryDataValidation } from '@mss/web/beneficiary/beneficiary'
 import { generateFileNumber } from '@mss/web/beneficiary/generateFileNumber'
 import { SessionUser, SessionUserAgent } from '@mss/web/auth/sessionUser'
-import { AddDocumentDataValidation } from '@mss/web/app/structure/beneficiaires/[fileNumber]/AddDocumentData'
+import { AddDocumentDataValidation } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/AddDocumentData'
 import {
   createSignedGetUrl,
   createSignedUploadUrl,

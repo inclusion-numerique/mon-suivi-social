@@ -15,21 +15,21 @@ export const Routes = {
   Structure: {
     Index: {
       title: 'Tableau de bord',
-      path: '/structure',
+      path: '/tableau-de-bord',
       icon: 'profil-line',
     },
     MonCompte: {
       Index: {
         title: 'Mon compte',
         icon: 'user-setting-line',
-        path: '/structure/mon-compte',
+        path: '/mon-compte',
       },
     },
     Beneficiaires: {
       Index: {
         title: 'Bénéficiaires',
         icon: 'user-line',
-        path: '/structure/beneficiaires',
+        path: '/beneficiaires',
       },
       Beneficiaire: {
         Index: {
@@ -42,8 +42,7 @@ export const Routes = {
               // ID of item to scroll to in history tab
               accompagnement?: string
             },
-          ) =>
-            withSearchParams(`/structure/beneficiaires/${fileNumber}`)(params),
+          ) => withSearchParams(`/beneficiaires/${fileNumber}`)(params),
         },
 
         Modifier: {
@@ -56,20 +55,20 @@ export const Routes = {
           icon: 'user-line',
           breadcrumbsTitle: 'Modification',
           path: ({ fileNumber }: { fileNumber: string }) =>
-            `/structure/beneficiaires/${fileNumber}/modifier`,
+            `/beneficiaires/${fileNumber}/modifier`,
         },
       },
       Nouveau: {
         title: 'Ajouter un·e bénéficiaire',
         icon: 'user-line',
-        path: `/structure/beneficiaires/nouveau`,
+        path: `/beneficiaires/nouveau`,
       },
     },
     Accompagnements: {
       Index: {
         title: 'Accompagnements',
         icon: 'folder-2-line',
-        path: '/structure/accompagnements',
+        path: '/accompagnements',
       },
       Entretien: {
         Nouveau: {
@@ -77,7 +76,7 @@ export const Routes = {
           icon: 'folder-2-line',
           path: withSearchParams<{
             dossier: string
-          }>('/structure/accompagnements/entretiens/nouveau'),
+          }>('/accompagnements/entretiens/nouveau'),
         },
       },
       DemandeDAide: {
@@ -86,7 +85,7 @@ export const Routes = {
           icon: 'folder-2-line',
           path: withSearchParams<{
             dossier: string
-          }>('/structure/accompagnements/demande-d-aide/nouvelle'),
+          }>('/accompagnements/demande-d-aide/nouvelle'),
         },
       },
     },
@@ -94,36 +93,35 @@ export const Routes = {
       Index: {
         title: 'Statistiques',
         icon: 'pie-chart-2-line',
-        path: '/structure/statistiques',
+        path: '/statistiques',
       },
     },
     Structures: {
       Index: {
         title: 'Structures',
         icon: 'building-line',
-        path: '/structure/structures',
+        path: '/structures',
       },
-      Structure: {
-        Index: {
-          title: ({ name }: { name: string }) => name,
-          icon: 'building-line',
-          path: ({ organisationId }: { organisationId: string }) =>
-            `/structure/structures/${organisationId}`,
-        },
-        Modifier: {
-          title: ({ name }: { name: string }) => `${name} · Modification`,
-          breadcrumbsTitle: 'Modification',
-          icon: 'building-line',
-          path: ({ organisationId }: { organisationId: string }) =>
-            `/structure/structures/${organisationId}/modifier`,
-        },
+    },
+    Structure: {
+      Index: {
+        title: ({ name }: { name: string }) => name,
+        icon: 'building-line',
+        path: ({ id }: { id: string }) => `/structure/${id}`,
+      },
+      Modifier: {
+        title: ({ name }: { name: string }) => `${name} · Modification`,
+        breadcrumbsTitle: 'Modification',
+        icon: 'building-line',
+        path: ({ organisationId }: { organisationId: string }) =>
+          `/structure/${organisationId}/modifier`,
       },
     },
     Utilisateurs: {
       Index: {
         title: 'Utilisateurs',
         icon: 'team-line',
-        path: '/structure/utilisateurs',
+        path: '/utilisateurs',
       },
     },
   },
