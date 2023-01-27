@@ -48,7 +48,7 @@ export const isInSameOrganisationAs = (
   grantee.status === 'Active' &&
   allowedRoles.includes(grantee.role)
 
-export const isReferent = (
+export const isReferentFor = (
   grantee: SecurityRuleGrantee,
   target: SecurityTargetWithReferents,
 ) =>
@@ -147,7 +147,7 @@ export const canViewBeneficiaryGeneralInfo = (
     'Instructor',
     'ReceptionAgent',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canViewBeneficiaryFullInfo = (
   grantee: SecurityRuleGrantee,
@@ -159,7 +159,7 @@ export const canViewBeneficiaryFullInfo = (
     'SocialWorker',
     'Instructor',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canEditBeneficiaryGeneralInfo = canViewBeneficiaryGeneralInfo
 export const canEditBeneficiaryFullInfo = canViewBeneficiaryFullInfo
@@ -184,7 +184,7 @@ export const canUpdateBeneficiaryReferents = (
     'SocialWorker',
     'Instructor',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canExportBeneficiariesData = (
   grantee: SecurityRuleGrantee,
@@ -204,7 +204,7 @@ export const canAddBeneficiaryDocument = (
     'Instructor',
     'ReceptionAgent',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canViewBeneficiaryDocuments = (
   grantee: SecurityRuleGrantee,
@@ -217,7 +217,7 @@ export const canViewBeneficiaryDocuments = (
     'Instructor',
     'ReceptionAgent',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canDeleteBeneficiaryDocument = (
   grantee: SecurityRuleGrantee,
@@ -228,7 +228,7 @@ export const canDeleteBeneficiaryDocument = (
     'StructureManager',
     'SocialWorker',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canCreateBeneficiaryFollowup = (
   grantee: SecurityRuleGrantee,
@@ -241,7 +241,7 @@ export const canCreateBeneficiaryFollowup = (
     'Instructor',
     'ReceptionAgent',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canListBeneficiaryFollowups = (
   grantee: SecurityRuleGrantee,
@@ -254,7 +254,7 @@ export const canListBeneficiaryFollowups = (
     'Instructor',
     'ReceptionAgent',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canViewBeneficiaryFollowup = (
   grantee: SecurityRuleGrantee,
@@ -268,7 +268,7 @@ export const canViewBeneficiaryFollowup = (
     'Instructor',
   ]) ||
   isCreator(grantee, followup, ['ReceptionAgent']) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canEditBeneficiaryFollowup = (
   grantee: SecurityRuleGrantee,
@@ -295,7 +295,7 @@ export const canDeleteBeneficiaryFollowup = (
   isAdministrator(grantee) ||
   isInSameOrganisationAs(grantee, beneficiary, ['StructureManager']) ||
   isCreator(grantee, followup, ['SocialWorker', 'Instructor']) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canCreateBeneficiaryHelpRequest = (
   grantee: SecurityRuleGrantee,
@@ -307,7 +307,7 @@ export const canCreateBeneficiaryHelpRequest = (
     'SocialWorker',
     'Instructor',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canListBeneficiaryHelpRequests = (
   grantee: SecurityRuleGrantee,
@@ -320,7 +320,7 @@ export const canListBeneficiaryHelpRequests = (
     'Instructor',
     'ReceptionAgent',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canViewBeneficiaryHelpRequest = (
   grantee: SecurityRuleGrantee,
@@ -333,7 +333,7 @@ export const canViewBeneficiaryHelpRequest = (
     'SocialWorker',
   ]) ||
   isCreator(grantee, helpRequest, ['Instructor']) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canEditBeneficiaryHelpRequest = (
   grantee: SecurityRuleGrantee,
@@ -343,7 +343,7 @@ export const canEditBeneficiaryHelpRequest = (
   isAdministrator(grantee) ||
   isInSameOrganisationAs(grantee, beneficiary, ['StructureManager']) ||
   isCreator(grantee, helpRequest, ['SocialWorker', 'Instructor']) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canAddCommentToBeneficiaryHelpRequest =
   canListBeneficiaryHelpRequests
@@ -357,7 +357,7 @@ export const canListCommentsToBeneficiaryHelpRequest = (
     'SocialWorker',
     'Instructor',
   ]) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canDeleteBeneficiaryHelpRequest = (
   grantee: SecurityRuleGrantee,
@@ -370,7 +370,7 @@ export const canDeleteBeneficiaryHelpRequest = (
     'SocialWorker',
   ]) ||
   isCreator(grantee, helpRequest, ['Instructor']) ||
-  isReferent(grantee, beneficiary)
+  isReferentFor(grantee, beneficiary)
 
 export const canAccessSocialRightsSimulator = (
   grantee: SecurityRuleGrantee,
