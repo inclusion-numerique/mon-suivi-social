@@ -80,8 +80,9 @@ model User {
   createdHelpRequests HelpRequest[] @relation(name: "created_help_requests")
   createdDocuments    Document[]
 
-  createdBeneficiaries Beneficiary[] @relation(name: "created_beneficiaries")
-  referentFor          Beneficiary[] @relation(name: "beneficiary_referents")
+  createdBeneficiaries Beneficiary[]  @relation(name: "created_beneficiaries")
+  referentFor          Beneficiary[]  @relation(name: "beneficiary_referents")
+  FollowupType         FollowupType[]
 }
 
 enum OrganisationType {
@@ -93,18 +94,19 @@ enum OrganisationType {
 }
 
 model Organisation {
-  id            String           @id @db.Uuid
-  type          OrganisationType
-  name          String
-  zipcode       String
-  city          String
-  address       String
-  phone         String
-  email         String
-  followupTypes FollowupType[]
-  users         User[]
-  helpRequests  HelpRequest[]
-  followups     Followup[]
+  id                    String                 @id @db.Uuid
+  type                  OrganisationType
+  name                  String
+  zipcode               String
+  city                  String
+  address               String
+  phone                 String
+  email                 String
+  followupTypes         FollowupType[]
+  users                 User[]
+  helpRequests          HelpRequest[]
+  followups             Followup[]
+  proposedFollowupTypes ProposedFollowupType[]
 
   Beneficiary Beneficiary[]
 
@@ -137,19 +139,34 @@ model Document {
   createdById String   @db.Uuid
 }
 
-enum FollowupTypeType {
-  Legal
-  Optional
+model FollowupType {
+  id              String  @id @db.Uuid
+  name            String  @unique
+  default         Boolean
+  legallyRequired Boolean
+
+  created     DateTime @default(now())
+  createdBy   User?    @relation(fields: [createdById], references: [id])
+  createdById String?  @db.Uuid
+
+  followups    Followup[]
+  helpRequests HelpRequest[]
+
+  proposedFollowupTypes ProposedFollowupType[]
+  Organisation          Organisation?          @relation(fields: [organisationId], references: [id])
+  organisationId        String?                @db.Uuid
 }
 
-model FollowupType {
-  id            String           @id @db.Uuid
-  name          String           @unique
-  type          FollowupTypeType
-  default       Boolean
-  organisations Organisation[]
-  followups     Followup[]
-  helpRequests  HelpRequest[]
+model ProposedFollowupType {
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String       @db.Uuid
+
+  followupType   FollowupType @relation(fields: [followupTypeId], references: [id])
+  followupTypeId String       @db.Uuid
+
+  created DateTime @default(now())
+
+  @@id([organisationId, followupTypeId])
 }
 
 enum FollowupMedium {
