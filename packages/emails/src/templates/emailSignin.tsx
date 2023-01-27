@@ -15,6 +15,7 @@ import {
 } from '@luma-team/mjml-react'
 import { PublicConfig } from '@mss/web/config'
 import { emailAssetUrl } from '@mss/emails/emailAssetUrl'
+import { MjmlAll, MjmlAttributes, MjmlFont } from 'mjml-react'
 
 export const emailSignin = {
   text: ({ url }: { url: string }): string => {
@@ -24,23 +25,23 @@ export const emailSignin = {
     renderToMjml(
       <Mjml>
         <MjmlHead>
+          <MjmlFont name="Marianne" href={emailAssetUrl('/email/fonts.css')} />
+          <MjmlAttributes>
+            <MjmlAll fontFamily="Marianne, Open Sans, Helvetica, Arial, sans-serif" />
+          </MjmlAttributes>
           <MjmlTitle>{`Connexion à ${PublicConfig.productTitle}`}</MjmlTitle>
           <MjmlPreview>
             Voici votre lien de connexion sécurisé à usage unique :
           </MjmlPreview>
         </MjmlHead>
-        <MjmlBody width={500}>
+        <MjmlBody width={500} backgroundColor="#F6F6F6">
           <MjmlSection>
-            <MjmlColumn>
+            <MjmlColumn backgroundColor="white">
               <MjmlImage
                 width={200}
                 src={emailAssetUrl('/images/logo.svg')}
                 alt={PublicConfig.productTitle}
               />
-            </MjmlColumn>
-          </MjmlSection>
-          <MjmlSection>
-            <MjmlColumn>
               <MjmlText>
                 Voici votre lien de connexion sécurisé à usage unique&nbsp;:
               </MjmlText>
