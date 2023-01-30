@@ -1,13 +1,11 @@
 import { canEditStructure } from '@mss/web/security/rules'
 import z from 'zod'
-import { StructureType } from '@prisma/client'
-import type { EditStructureFeatureServer } from '@mss/web/features/editStructure/editStructure.server'
+import type { EditStructureFeatureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 
 const securityCheck = canEditStructure
 
 const dataValidation = z.object({
-  id: z.string().uuid().optional(),
-  type: z.nativeEnum(StructureType),
+  id: z.string().uuid(),
   name: z.string().min(2),
   zipcode: z.string().min(5),
   city: z.string().min(2),
@@ -22,7 +20,6 @@ const dataFromServerState = ({
   structure: {
     id,
     name,
-    type,
     address,
     zipcode,
     city,
@@ -33,7 +30,6 @@ const dataFromServerState = ({
 }: EditStructureFeatureServer.ServerState): EditStructureFeatureClient.Data => ({
   id,
   name,
-  type,
   address,
   zipcode,
   city,

@@ -20,9 +20,10 @@ import {
   canDeleteBeneficiaryDocument,
   canViewBeneficiaryDocuments,
 } from '@mss/web/security/rules'
-import { EditStructureFeatureClient } from '@mss/web/features/editStructure/editStructure.client'
-import { EditStructureFeatureServer } from '@mss/web/features/editStructure/editStructure.server'
+import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
+import { EditStructureFeatureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import { detailedDiff } from 'deep-object-diff'
+import { CreateFollowupTypeFeatureClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
 
 const enforceUserHasAccessToStructure = (
   user: SessionUser,
@@ -250,25 +251,39 @@ const structureRouter = router({
   edit: protectedProcedure
     .input(EditStructureFeatureClient.dataValidation)
     .mutation(async ({ input, ctx: { user } }) => {
-      const structureId = user?.structureId
-      if (!structureId) {
-        throw invalidError()
+      const structureId = input.id
+
+      if (!EditStructureFeatureClient.securityCheck(user, { structureId })) {
+        throw forbiddenError()
       }
 
       const serverState = await EditStructureFeatureServer.getServerState({
         structureId,
       })
 
-      console.log('SECURITY', user, { structureId })
-      if (!EditStructureFeatureClient.securityCheck(user, { structureId })) {
-        throw forbiddenError()
-      }
-
       const diff = detailedDiff(
         EditStructureFeatureClient.dataFromServerState(serverState),
         input,
       )
-      console.log('EDITION DIFF', diff)
+      const addedFollowupIds =
+        'proposedFollowupTypes' in diff.added
+          ? // TODO how to use key from input data for stricter typing ? Or just test this
+            Object.values(
+              diff.added.proposedFollowupTypes as Record<string, string>,
+            )
+          : []
+      const deletedFollowupIds =
+        'proposedFollowupTypes' in diff.deleted
+          ? // TODO how to use key from input data for stricter typing ? Or just test this
+            // Deleted diff is the key index, not the value
+            Object.keys(
+              diff.deleted.proposedFollowupTypes as Record<string, string>,
+            ).map(
+              (index) =>
+                serverState.structure.proposedFollowupTypes[parseInt(index)]
+                  .followupTypeId,
+            )
+          : []
 
       const { id, proposedFollowupTypes, ...data } = input
 
@@ -276,10 +291,50 @@ const structureRouter = router({
         where: { id: structureId },
         data: {
           ...data,
+          proposedFollowupTypes: {
+            createMany: {
+              data: proposedFollowupTypes.map((followupTypeId) => ({
+                followupTypeId,
+              })),
+              skipDuplicates: true,
+            },
+            deleteMany: {
+              structureId,
+              followupTypeId: { in: deletedFollowupIds },
+            },
+          },
+        },
+      })
+      if (deletedFollowupIds) {
+        // If this is a custom followup type owned by this structure, delete it
+        await prismaClient.followupType.deleteMany({
+          where: {
+            ownedByStructureId: structureId,
+            id: { in: deletedFollowupIds },
+          },
+        })
+      }
+
+      return { structure: updated }
+    }),
+  createFollowupType: protectedProcedure
+    .input(CreateFollowupTypeFeatureClient.dataValidation)
+    .mutation(async ({ input: { structureId, name }, ctx: { user } }) => {
+      if (!EditStructureFeatureClient.securityCheck(user, { structureId })) {
+        throw forbiddenError()
+      }
+
+      const followupType = await prismaClient.followupType.create({
+        data: {
+          id: v4(),
+          legallyRequired: false,
+          ownedByStructureId: structureId,
+          name,
+          createdById: user.id,
         },
       })
 
-      return { structure: updated }
+      return { followupType }
     }),
 })
 

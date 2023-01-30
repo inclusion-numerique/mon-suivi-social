@@ -3,8 +3,8 @@ import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { StructureForm } from '@mss/web/app/(private)/structure/[id]/modifier/StructureForm'
 import { serialize } from '@mss/web/utils/serialization'
-import { EditStructureFeatureServer } from '@mss/web/features/editStructure/editStructure.server'
-import { EditStructureFeatureClient } from '@mss/web/features/editStructure/editStructure.client'
+import { EditStructureFeatureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
+import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { notFound } from 'next/navigation'
 
 export const revalidate = 0

@@ -6,7 +6,7 @@ import { canViewStructure } from '@mss/web/security/rules'
 import { prismaClient } from '@mss/web/prismaClient'
 import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
 import Link from 'next/link'
-import { EditStructureFeatureClient } from '@mss/web/features/editStructure/editStructure.client'
+import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 
 export const revalidate = 0
 
