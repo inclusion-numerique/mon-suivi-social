@@ -141,8 +141,7 @@ model Document {
 
 model FollowupType {
   id              String  @id @db.Uuid
-  name            String  @unique
-  default         Boolean
+  name            String
   legallyRequired Boolean
 
   created     DateTime @default(now())
@@ -153,8 +152,11 @@ model FollowupType {
   helpRequests HelpRequest[]
 
   proposedFollowupTypes ProposedFollowupType[]
-  Structure          Structure?          @relation(fields: [structureId], references: [id])
-  structureId        String?                @db.Uuid
+
+  ownedByStructure          Structure?          @relation(fields: [ownedByStructureId], references: [id])
+  ownedByStructureId        String?                @db.Uuid
+
+  @@unique([name, ownedByStructureId])
 }
 
 model ProposedFollowupType {
