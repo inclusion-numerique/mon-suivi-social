@@ -21,10 +21,10 @@ const StructureEditPage = async ({
     return null
   }
 
-  const existingState = await EditStructureFeatureServer.getExistingState({
+  const serverState = await EditStructureFeatureServer.getServerState({
     structureId,
   })
-  const { structure } = existingState
+  const { structure } = serverState
 
   const page: PageConfig = {
     ...Routes.Structure.Structure.Modifier,
@@ -46,7 +46,7 @@ const StructureEditPage = async ({
       />
       <div className="fr-card">
         <div className="fr-card__body fr-py-8v">
-          <StructureForm existingState={serialize(existingState)} />
+          <StructureForm serverState={serialize(serverState)} />
         </div>
       </div>
     </>

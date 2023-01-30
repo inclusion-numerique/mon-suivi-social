@@ -1,6 +1,6 @@
 import { prismaClient } from '@mss/web/prismaClient'
 
-const getExistingState = async ({ structureId }: { structureId: string }) => {
+const getServerState = async ({ structureId }: { structureId: string }) => {
   const [structure, followupTypes] = await Promise.all([
     prismaClient.structure.findUniqueOrThrow({
       where: { id: structureId },
@@ -9,6 +9,9 @@ const getExistingState = async ({ structureId }: { structureId: string }) => {
       },
     }),
     prismaClient.followupType.findMany({
+      where: {
+        OR: [{ ownedByStructureId: null }, { ownedByStructureId: structureId }],
+      },
       select: {
         id: true,
         name: true,
@@ -33,9 +36,9 @@ const getExistingState = async ({ structureId }: { structureId: string }) => {
 }
 
 export const EditStructureFeatureServer = {
-  getExistingState,
+  getServerState,
 }
 
 export namespace EditStructureFeatureServer {
-  export type ExistingState = Awaited<ReturnType<typeof getExistingState>>
+  export type ServerState = Awaited<ReturnType<typeof getServerState>>
 }

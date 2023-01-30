@@ -18,7 +18,7 @@ const dataValidation = z.object({
   proposedFollowupTypes: z.array(z.string().uuid()),
 })
 
-const dataFromExistingState = ({
+const dataFromServerState = ({
   structure: {
     id,
     name,
@@ -30,7 +30,7 @@ const dataFromExistingState = ({
     email,
     proposedFollowupTypes,
   },
-}: EditStructureFeatureServer.ExistingState): EditStructureFeatureClient.Data => ({
+}: EditStructureFeatureServer.ServerState): EditStructureFeatureClient.Data => ({
   id,
   name,
   type,
@@ -47,10 +47,10 @@ const dataFromExistingState = ({
 export const EditStructureFeatureClient = {
   securityCheck,
   dataValidation,
-  dataFromExistingState,
+  dataFromServerState,
 }
 
 export namespace EditStructureFeatureClient {
   export type Data = z.infer<typeof dataValidation>
-  export type ExistingState = EditStructureFeatureServer.ExistingState
+  export type ServerState = EditStructureFeatureServer.ServerState
 }

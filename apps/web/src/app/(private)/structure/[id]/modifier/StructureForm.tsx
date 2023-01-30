@@ -17,7 +17,7 @@ const followupTypeToOption = ({
   id,
   name,
   _count: { followups, helpRequests },
-}: EditStructureFeatureClient.ExistingState['followupTypes'][0]): Option => {
+}: EditStructureFeatureClient.ServerState['followupTypes'][0]): Option => {
   const usage = helpRequests + followups
   if (usage === 0) {
     return {
@@ -38,24 +38,24 @@ export const StructureForm = withTrpc(
       | {
           creation: true
           // TODO CREATION FEATURE
-          existingState: Serialized<EditStructureFeatureClient.ExistingState>
+          serverState: Serialized<EditStructureFeatureClient.ServerState>
         }
       | {
           creation?: false
-          existingState: Serialized<EditStructureFeatureClient.ExistingState>
+          serverState: Serialized<EditStructureFeatureClient.ServerState>
         },
   ) => {
     const router = useRouter()
 
     const editStructure = trpc.structure.edit.useMutation()
 
-    const existingState = deserialize(props.existingState)
-    const { structure, followupTypes } = existingState
+    const serverState = deserialize(props.serverState)
+    const { structure, followupTypes } = serverState
 
     const defaultValues = props.creation
       ? // TODO
         {}
-      : EditStructureFeatureClient.dataFromExistingState(existingState)
+      : EditStructureFeatureClient.dataFromServerState(serverState)
 
     const form = useForm<EditStructureFeatureClient.Data>({
       resolver: zodResolver(EditStructureFeatureClient.dataValidation),

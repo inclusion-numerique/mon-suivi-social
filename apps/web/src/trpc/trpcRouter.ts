@@ -255,7 +255,7 @@ const structureRouter = router({
         throw invalidError()
       }
 
-      const existingState = await EditStructureFeatureServer.getExistingState({
+      const serverState = await EditStructureFeatureServer.getServerState({
         structureId,
       })
 
@@ -265,7 +265,7 @@ const structureRouter = router({
       }
 
       const diff = detailedDiff(
-        EditStructureFeatureClient.dataFromExistingState(existingState),
+        EditStructureFeatureClient.dataFromServerState(serverState),
         input,
       )
       console.log('EDITION DIFF', diff)
