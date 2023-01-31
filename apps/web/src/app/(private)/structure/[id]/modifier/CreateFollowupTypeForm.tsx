@@ -71,12 +71,14 @@ export const CreateFollowupTypeForm = ({
 
   return (
     <>
-      <p className="fr-hint-text">Aucun accompagnement ne correspond ?</p>
+      <p className="fr-hint-text fr-mt-8v">
+        Aucun accompagnement ne correspond ?
+      </p>
       <button
         onClick={() => {
           setIsDisplayed(true)
         }}
-        className="fr-btn fr-mt-8v fr-btn--sm fr-btn--tertiary fr-btn--icon-left fr-icon-add-line"
+        className="fr-btn fr-btn--sm fr-btn--tertiary fr-btn--icon-left fr-icon-add-line"
       >
         Créer un nouveau type d&apos;accompagnement
       </button>

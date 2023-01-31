@@ -7,6 +7,7 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
 import Link from 'next/link'
 import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
+import { AttributeItem, AttributesList } from '@mss/web/ui/AttributesList'
 
 export const revalidate = 0
 
@@ -49,6 +50,42 @@ const StructurePage = async ({
       proposedFollowupTypes.map(({ followupType }) => followupType),
     )
 
+  const attributes: AttributeItem[] = [
+    ['Type de structure', type],
+    ['Adresse', address],
+    ['Code postal', zipcode],
+    ['Ville', city],
+    ['N° de téléphone', phone],
+    ['Adresse email', email],
+    [
+      'Accompagnements légaux proposés',
+
+      legalFollowupTypes.length === 0 ? (
+        'Aucun'
+      ) : (
+        <div className="fr-mt-2v">
+          {legalFollowupTypes.map((followupType) => (
+            <FollowupTypeBadge key={followupType.id} name={followupType.name} />
+          ))}
+        </div>
+      ),
+      { inline: false },
+    ],
+    [
+      'Accompagnements optionnels proposés',
+      optionalFollowupTypes.length === 0 ? (
+        'Aucun'
+      ) : (
+        <div className="fr-mt-2v">
+          {optionalFollowupTypes.map((followupType) => (
+            <FollowupTypeBadge key={followupType.id} name={followupType.name} />
+          ))}
+        </div>
+      ),
+      { inline: false },
+    ],
+  ]
+
   return (
     <>
       <PageTitle page={page} />
@@ -72,53 +109,7 @@ const StructurePage = async ({
       </div>
       <div className="fr-card">
         <div className="fr-card__body fr-py-8v">
-          <ul className="fr-raw-list">
-            {/*TODO Representation of fields and labels with component with value as a child and label as prop. Handle undefined as empty */}
-            <li>
-              Type de structure&nbsp;: <strong>{type}</strong>
-            </li>
-            <li>
-              Adresse&nbsp;: <strong>{address}</strong>
-            </li>
-            <li>
-              Code postal&nbsp;: <strong>{zipcode}</strong>
-            </li>
-            <li>
-              Ville&nbsp;: <strong>{city}</strong>
-            </li>
-            <li>
-              N° de téléphone&nbsp;: <strong>{phone}</strong>
-            </li>
-            <li>
-              Adresse email&nbsp;: <strong>{email}</strong>
-            </li>
-            <li>
-              Types d&apos;accompagnements légaux proposés&nbsp;:{' '}
-              {legalFollowupTypes.length === 0 ? <strong>Aucun</strong> : null}
-            </li>
-            <li>
-              {legalFollowupTypes.map((followupType) => (
-                <FollowupTypeBadge
-                  key={followupType.id}
-                  name={followupType.name}
-                />
-              ))}
-            </li>
-            <li>
-              Types d&apos;accompagnements optionnels proposés&nbsp;:{' '}
-              {optionalFollowupTypes.length === 0 ? (
-                <strong>Aucun</strong>
-              ) : null}
-            </li>
-            <li>
-              {optionalFollowupTypes.map((followupType) => (
-                <FollowupTypeBadge
-                  key={followupType.id}
-                  name={followupType.name}
-                />
-              ))}
-            </li>
-          </ul>
+          <AttributesList items={attributes} />
         </div>
       </div>
     </>
@@ -126,7 +117,7 @@ const StructurePage = async ({
 }
 
 const FollowupTypeBadge = ({ name }: { name: string }) => (
-  <div className="fr-tag">{name}</div>
+  <div className="fr-tag fr-mb-2v fr-mr-2v">{name}</div>
 )
 
 export default StructurePage
