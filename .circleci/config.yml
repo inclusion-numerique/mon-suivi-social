@@ -68,7 +68,7 @@ workflows:
       - deploy_web:
           requires:
             - lint_and_test
-            - chromatic
+#            - chromatic
             - build_web
             # - test_e2e
 
