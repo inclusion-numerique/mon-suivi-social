@@ -40,6 +40,8 @@ export class WebAppStack extends TerraformStack {
   constructor(scope: Construct, id: string, branch: string) {
     super(scope, id)
 
+    console.log('ENV', process.env)
+
     const namespace = computeBranchNamespace(branch)
 
     const namespaced = namespacer(namespace)
@@ -111,7 +113,7 @@ export class WebAppStack extends TerraformStack {
     // State of deployed infrastructure for each branch will be stored in the
     // same 'mss-terraform' bucket
     new S3Backend(this, {
-      bucket: `${projectSlug}-terraform-state`,
+      bucket: `${projectSlug}-terraform`,
       key: `${projectSlug}-web-${namespaced('state')}.tfstate`,
       // Credentials are provided with AWS_*** env variables
       endpoint: 'https://s3.fr-par.scw.cloud',
