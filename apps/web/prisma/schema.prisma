@@ -70,19 +70,22 @@ model User {
   accounts    Account[]
   sessions    Session[]
 
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
-  mutationLogs MutationLog[]
+  created DateTime @default(now())
+  updated DateTime @default(now())
 
-  structure        Structure? @relation(fields: [structureId], references: [id])
-  structureId      String?       @db.Uuid
-  createdFollowups    Followup[]    @relation(name: "created_followups")
-  createdHelpRequests HelpRequest[] @relation(name: "created_help_requests")
-  createdDocuments    Document[]
+  structure            Structure?     @relation(fields: [structureId], references: [id])
+  structureId          String?        @db.Uuid
+  createdFollowups     Followup[]     @relation(name: "created_followups")
+  createdHelpRequests  HelpRequest[]  @relation(name: "created_help_requests")
+  createdDocuments     Document[]
+  createdFollowupTypes FollowupType[]
 
-  createdBeneficiaries Beneficiary[]  @relation(name: "created_beneficiaries")
-  referentFor          Beneficiary[]  @relation(name: "beneficiary_referents")
-  FollowupType         FollowupType[]
+  createdBeneficiaries Beneficiary[] @relation(name: "created_beneficiaries")
+  referentFor          Beneficiary[] @relation(name: "beneficiary_referents")
+
+  doneMutations MutationLog[] @relation(name: "mutation_by")
+
+  targetForMutations MutationLog[] @relation(name: "mutation_target")
 }
 
 enum StructureType {
@@ -108,10 +111,11 @@ model Structure {
   followups             Followup[]
   proposedFollowupTypes ProposedFollowupType[]
 
-  Beneficiary Beneficiary[]
+  beneficiaries Beneficiary[]
 
-  created DateTime @default(now())
-  updated DateTime @default(now())
+  created            DateTime      @default(now())
+  updated            DateTime      @default(now())
+  targetForMutations MutationLog[]
 }
 
 enum DocumentType {
@@ -153,15 +157,15 @@ model FollowupType {
 
   proposedFollowupTypes ProposedFollowupType[]
 
-  ownedByStructure          Structure?          @relation(fields: [ownedByStructureId], references: [id])
-  ownedByStructureId        String?                @db.Uuid
+  ownedByStructure   Structure? @relation(fields: [ownedByStructureId], references: [id])
+  ownedByStructureId String?    @db.Uuid
 
   @@unique([name, ownedByStructureId])
 }
 
 model ProposedFollowupType {
   structure   Structure @relation(fields: [structureId], references: [id])
-  structureId String       @db.Uuid
+  structureId String    @db.Uuid
 
   followupType   FollowupType @relation(fields: [followupTypeId], references: [id])
   followupTypeId String       @db.Uuid
@@ -201,7 +205,7 @@ model Followup {
   id String @id @db.Uuid
 
   structure   Structure @relation(fields: [structureId], references: [id])
-  structureId String       @db.Uuid
+  structureId String    @db.Uuid
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
   beneficiaryId String      @db.Uuid
@@ -220,12 +224,12 @@ model Followup {
   status           FollowupStatus
   privateSynthesis String?
 
-  helpRequested    Boolean?
-  place            String?
-  redirected       Boolean?
-  structureName String?
-  dueDate          DateTime? @db.Date
-  thirdPersonName  String?
+  helpRequested   Boolean?
+  place           String?
+  redirected      Boolean?
+  structureName   String?
+  dueDate         DateTime? @db.Date
+  thirdPersonName String?
 
   created DateTime @default(now())
   updated DateTime @default(now())
@@ -265,7 +269,7 @@ model HelpRequest {
   id String @id @db.Uuid
 
   structure   Structure @relation(fields: [structureId], references: [id])
-  structureId String       @db.Uuid
+  structureId String    @db.Uuid
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
   beneficiaryId String      @db.Uuid
@@ -278,9 +282,9 @@ model HelpRequest {
   type   FollowupType @relation(fields: [typeId], references: [id])
   typeId String       @db.Uuid
 
-  financialSupport     Boolean
+  financialSupport  Boolean
   externalStructure Boolean
-  status               HelpRequestStatus
+  status            HelpRequestStatus
 
   askedAmount Decimal?
 
@@ -289,12 +293,12 @@ model HelpRequest {
 
   allocatedAmount Decimal?
 
-  paymentMethod         PaymentMethod?
-  paymentDate           DateTime?      @db.Date
-  handlingDate          DateTime?      @db.Date
-  refusalReason         String?
+  paymentMethod      PaymentMethod?
+  paymentDate        DateTime?      @db.Date
+  handlingDate       DateTime?      @db.Date
+  refusalReason      String?
   examiningStructure String?
-  dispatchDate          DateTime?      @db.Date
+  dispatchDate       DateTime?      @db.Date
 
   synthesis String?
 
@@ -491,7 +495,7 @@ model Beneficiary {
   id String @id @db.Uuid
 
   structure   Structure @relation(fields: [structureId], references: [id])
-  structureId String       @db.Uuid
+  structureId String    @db.Uuid
 
   createdById String? @db.Uuid
   createdBy   User?   @relation(name: "created_beneficiaries", fields: [createdById], references: [id])
@@ -552,19 +556,19 @@ model Beneficiary {
   majorChildrenMainIncomeSource IncomeSource[]
   majorChildrenMainIncomeAmount Decimal?
   unemploymentNumber            String?
-  pensionStructure           String?
+  pensionStructure              String?
   cafNumber                     String?
   bank                          String?
   funeralContract               String?
 
   // External Structures
-  protectionMeasure       BeneficiaryProtectionMeasure?
-  representative          String?
+  protectionMeasure    BeneficiaryProtectionMeasure?
+  representative       String?
   prescribingStructure String?
-  orientationType         BeneficiaryOrientationType?
+  orientationType      BeneficiaryOrientationType?
   orientationStructure String?
-  serviceProviders        String?
-  involvedPartners        String?
+  serviceProviders     String?
+  involvedPartners     String?
 
   additionalInformation String?
 
@@ -572,8 +576,9 @@ model Beneficiary {
   followups    Followup[]
   helpRequests HelpRequest[]
 
-  created DateTime @default(now())
-  updated DateTime @default(now())
+  created            DateTime      @default(now())
+  updated            DateTime      @default(now())
+  targetForMutations MutationLog[]
 }
 
 enum RelativeRelationship {
@@ -634,13 +639,32 @@ enum MutationSource {
 }
 
 model MutationLog {
-  id          String         @id @db.Uuid
-  date        DateTime
-  source      MutationSource
-  // If user is deleted, we keep history. If system did a mutation this is empty
-  by          User?          @relation(fields: [byId], references: [id], onDelete: SetNull)
-  byId        String?        @db.Uuid
-  // Uuid of the object target of the mutation, if applicable
-  aggregateId String?        @db.Uuid
-  data        Json
+  id     String         @id @db.Uuid
+  date   DateTime
+  source MutationSource
+
+  // User that did the mutation
+  by   User?   @relation(name: "mutation_by", fields: [byId], references: [id])
+  byId String? @db.Uuid
+
+  // Name of the mutation or feature
+  name String
+
+  // If the mutation impacts a user
+  targetUser   User?   @relation(name: "mutation_target", fields: [targetUserId], references: [id])
+  targetUserId String? @db.Uuid
+
+  // If the mutation impacts an aggregate owned by a structure (applies to beneficiaries, ...)
+  targetStructure   Structure? @relation(fields: [targetStructureId], references: [id])
+  targetStructureId String?    @db.Uuid
+
+  // If the mutation impacts an aggregate owned by a beneficiary (applies to followups, documents...)
+  targetBeneficiary   Beneficiary? @relation(fields: [targetBeneficiaryId], references: [id])
+  targetBeneficiaryId String?      @db.Uuid
+
+  // Id of the object target of the mutation, if applicable (can be a document id or followup id...)
+  targetId String?
+
+  // Data diff intent of the mutation
+  data Json
 }
