@@ -24,6 +24,7 @@ import { EditStructureFeatureClient } from '@mss/web/features/structure/editStru
 import { EditStructureFeatureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import { detailedDiff } from 'deep-object-diff'
 import { CreateFollowupTypeFeatureClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
+import { computeArrayDiff } from '@mss/web/utils/diff'
 
 const enforceUserHasAccessToStructure = (
   user: SessionUser,
@@ -260,30 +261,15 @@ const structureRouter = router({
       const serverState = await EditStructureFeatureServer.getServerState({
         structureId,
       })
+      const initialData =
+        EditStructureFeatureClient.dataFromServerState(serverState)
 
-      const diff = detailedDiff(
-        EditStructureFeatureClient.dataFromServerState(serverState),
-        input,
+      const diff = detailedDiff(initialData, input)
+
+      const followupsDiff = computeArrayDiff(
+        initialData.proposedFollowupTypes,
+        input.proposedFollowupTypes,
       )
-      const addedFollowupIds =
-        'proposedFollowupTypes' in diff.added
-          ? // TODO how to use key from input data for stricter typing ? Or just test this
-            Object.values(
-              diff.added.proposedFollowupTypes as Record<string, string>,
-            )
-          : []
-      const deletedFollowupIds =
-        'proposedFollowupTypes' in diff.deleted
-          ? // TODO how to use key from input data for stricter typing ? Or just test this
-            // Deleted diff is the key index, not the value
-            Object.keys(
-              diff.deleted.proposedFollowupTypes as Record<string, string>,
-            ).map(
-              (index) =>
-                serverState.structure.proposedFollowupTypes[parseInt(index)]
-                  .followupTypeId,
-            )
-          : []
 
       const { id, proposedFollowupTypes, ...data } = input
 
@@ -293,24 +279,25 @@ const structureRouter = router({
           ...data,
           proposedFollowupTypes: {
             createMany: {
-              data: proposedFollowupTypes.map((followupTypeId) => ({
+              data: followupsDiff.added.map((followupTypeId) => ({
                 followupTypeId,
               })),
               skipDuplicates: true,
             },
             deleteMany: {
               structureId,
-              followupTypeId: { in: deletedFollowupIds },
+              followupTypeId: { in: followupsDiff.removed },
             },
           },
         },
       })
-      if (deletedFollowupIds) {
+
+      if (followupsDiff.removed.length > 0) {
         // If this is a custom followup type owned by this structure, delete it
         await prismaClient.followupType.deleteMany({
           where: {
             ownedByStructureId: structureId,
-            id: { in: deletedFollowupIds },
+            id: { in: followupsDiff.removed },
           },
         })
       }
