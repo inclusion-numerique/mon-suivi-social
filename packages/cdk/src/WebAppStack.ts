@@ -113,7 +113,7 @@ export class WebAppStack extends TerraformStack {
     // State of deployed infrastructure for each branch will be stored in the
     // same 'mss-terraform' bucket
     new S3Backend(this, {
-      bucket: `${projectSlug}-terraform`,
+      bucket: `${projectSlug}-web-tfstate`,
       key: `${projectSlug}-web-${namespaced('state')}.tfstate`,
       // Credentials are provided with AWS_*** env variables
       endpoint: 'https://s3.fr-par.scw.cloud',
