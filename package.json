@@ -22,7 +22,6 @@
     "with-env": "dotenv --",
     "scw": "pnpm with-env scw",
     "manypkg": "manypkg",
-    "manypkg:check": "manypkg check",
     "start:web": "npm -w @mss/web start",
     "docker:build:web": "docker buildx build --platform linux/amd64 -t rg.fr-par.scw.cloud/mec-web/mec-web-dev:latest -f docker/web/Dockerfile .",
     "docker:build:web:debug": "DOCKER_BUILDKIT=0 docker build -t mec-web/mec-web-dev:debug -f docker/web/Dockerfile ."
@@ -31,6 +30,7 @@
     "turbo-linux-arm64": "^1.7.0"
   },
   "dependencies": {
+    "@manypkg/cli": "^0.20.0",
     "dotenv": "^16.0.3",
     "dotenv-cli": "^7.0.0",
     "turbo": "^1.7.0"

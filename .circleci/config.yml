@@ -127,7 +127,7 @@ jobs:
           command: pnpm lint
       - run:
           name: 'Monorepo manypkg check'
-          command: pnpm -F @mss/lint manypkg check
+          command: pnpm manypkg check
       - run:
           name: 'Prisma generate'
           command: pnpm -F @mss/web prisma:generate
