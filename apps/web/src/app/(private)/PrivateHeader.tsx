@@ -1,10 +1,38 @@
-import Link from 'next/link'
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import PublicHeader from '@mss/web/app/(public)/PublicHeader'
 import { Routes } from '@mss/web/app/routing/routes'
 import { UserMenu } from '@mss/web/app/(private)/UserMenu'
 
 const PrivateHeader = ({ user }: { user: SessionUser }) => {
+  const helpItem = (
+    <li>
+      <a
+        className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-question-line"
+        target="_blank"
+        rel="noreferrer"
+        href="https://mon-suivi-social.gitbook.io/mon-suivi-social/"
+      >
+        Aide
+      </a>
+    </li>
+  )
+  const userMenuItem = (
+    <li>
+      <UserMenu user={user} />
+    </li>
+  )
+
+  const logoutItem = (
+    <li>
+      <a
+        href={Routes.Connexion.Logout}
+        className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-logout-box-r-line"
+      >
+        Se déconnecter
+      </a>
+    </li>
+  )
+
   return (
     <PublicHeader
       fullWidth
@@ -14,18 +42,9 @@ const PrivateHeader = ({ user }: { user: SessionUser }) => {
         <div className="fr-header__tools">
           <div className="fr-header__tools-links">
             <ul className="fr-links-group">
-              <li>
-                <UserMenu user={user} />
-              </li>
-              <li>
-                <Link
-                  href={Routes.Connexion.Logout}
-                  target="_self"
-                  className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-logout-box-r-line"
-                >
-                  Se déconnecter
-                </Link>
-              </li>
+              {helpItem}
+              {userMenuItem}
+              {logoutItem}
             </ul>
           </div>
         </div>
@@ -33,17 +52,9 @@ const PrivateHeader = ({ user }: { user: SessionUser }) => {
       mobileMenuLinks={
         <div className="fr-header__menu-links">
           <ul className="fr-btns-group">
-            <li>
-              <UserMenu user={user} />
-            </li>
-            <li>
-              <a
-                href={Routes.Connexion.Logout}
-                className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-logout-box-r-line"
-              >
-                Se déconnecter
-              </a>
-            </li>
+            {helpItem}
+            {userMenuItem}
+            {logoutItem}
           </ul>
         </div>
       }
