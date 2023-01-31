@@ -14,7 +14,7 @@ import { TagsFormField } from '@mss/web/form/TagsFormField'
 import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
 import { CreateFollowupTypeFeatureClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
 import { CreateFollowupTypeForm } from '@mss/web/app/(private)/structure/[id]/modifier/CreateFollowupTypeForm'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 const followupTypeToOption = ({
   id,
@@ -33,6 +33,32 @@ const followupTypeToOption = ({
     value: id,
     disabled: true,
   }
+}
+
+const scoreFollowupTypeForSorting = (
+  initialValues: Set<string>,
+  followupType: EditStructureFeatureClient.ServerState['followupTypes'][number],
+): number => {
+  if (followupType._count.helpRequests + followupType._count.followups > 0) {
+    return 2
+  }
+
+  if (initialValues.has(followupType.id)) {
+    return 1
+  }
+
+  return 0
+}
+
+const sortFollowupTypes = (
+  initialValues: Set<string>,
+  followupTypes: EditStructureFeatureClient.ServerState['followupTypes'],
+): EditStructureFeatureClient.ServerState['followupTypes'] => {
+  return followupTypes.sort(
+    (a, b) =>
+      scoreFollowupTypeForSorting(initialValues, b) -
+      scoreFollowupTypeForSorting(initialValues, a),
+  )
 }
 
 export const StructureForm = withTrpc(
@@ -58,8 +84,12 @@ export const StructureForm = withTrpc(
 
     const defaultValues = props.creation
       ? // TODO
-        {}
+        { proposedFollowupTypes: [] }
       : EditStructureFeatureClient.dataFromServerState(serverState)
+
+    const initiallySelectedFollowupIds = new Set(
+      defaultValues.proposedFollowupTypes,
+    )
 
     const form = useForm<EditStructureFeatureClient.Data>({
       resolver: zodResolver(EditStructureFeatureClient.dataValidation),
@@ -68,8 +98,13 @@ export const StructureForm = withTrpc(
 
     const { handleSubmit, control } = form
 
+    const sortedFollowupTypes = useMemo(
+      () => sortFollowupTypes(initiallySelectedFollowupIds, followupTypes),
+      [props.serverState],
+    )
+
     const { legalFollowupTypes, optionalFollowupTypes } =
-      groupFollowupTypesByLegality(followupTypes)
+      groupFollowupTypesByLegality(sortedFollowupTypes)
 
     const isLoading = editStructure.isLoading
 
@@ -118,61 +153,43 @@ export const StructureForm = withTrpc(
       <>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h3>Informations</h3>
-          <div className="fr-grid-row fr-grid-row--gutters">
-            <div className="fr-col-12 fr-col-md-4">
-              <InputFormField
-                label="Raison sociale"
-                disabled={fieldsDisabled}
-                control={control}
-                path="name"
-              />
-            </div>
-            <div className="fr-col-12 fr-col-md-4">
-              <InputFormField
-                label="Code postal"
-                disabled={fieldsDisabled}
-                control={control}
-                path="zipcode"
-              />
-            </div>
-            <div className="fr-col-12 fr-col-md-4">
-              <InputFormField
-                label="Ville"
-                disabled={fieldsDisabled}
-                control={control}
-                path="city"
-              />
-            </div>
-          </div>
-          <div className="fr-grid-row fr-grid-row--gutters">
-            <div className="fr-col-12 fr-col-md-8">
-              <InputFormField
-                label="Adresse"
-                disabled={fieldsDisabled}
-                control={control}
-                path="address"
-              />
-            </div>
-            <div className="fr-col-12 fr-col-md-4">
-              <InputFormField
-                label="Téléphone"
-                disabled={fieldsDisabled}
-                control={control}
-                path="phone"
-              />
-            </div>
-          </div>
-          <div className="fr-grid-row fr-grid-row--gutters">
-            <div className="fr-col-12 fr-col-lg-8">
-              <InputFormField
-                label="Email"
-                disabled={fieldsDisabled}
-                control={control}
-                path="email"
-                type="email"
-              />
-            </div>
-          </div>
+          <InputFormField
+            label="Raison sociale"
+            disabled={fieldsDisabled}
+            control={control}
+            path="name"
+          />
+          <InputFormField
+            label="Adresse"
+            disabled={fieldsDisabled}
+            control={control}
+            path="address"
+          />
+          <InputFormField
+            label="Code postal"
+            disabled={fieldsDisabled}
+            control={control}
+            path="zipcode"
+          />
+          <InputFormField
+            label="Ville"
+            disabled={fieldsDisabled}
+            control={control}
+            path="city"
+          />
+          <InputFormField
+            label="Téléphone"
+            disabled={fieldsDisabled}
+            control={control}
+            path="phone"
+          />
+          <InputFormField
+            label="Email"
+            disabled={fieldsDisabled}
+            control={control}
+            path="email"
+            type="email"
+          />
 
           <h3 className="fr-mt-8v">Accompagnements proposés</h3>
 
@@ -194,24 +211,34 @@ export const StructureForm = withTrpc(
             path="proposedFollowupTypes"
             options={allOptionalFollowupTypes.map(followupTypeToOption)}
           />
+          <CreateFollowupTypeForm
+            structure={structure}
+            onCreated={onFollowupTypeCreated}
+          />
 
           {editStructure.isError ? (
             <p className="fr-error-text">{editStructure.error.message}</p>
           ) : null}
 
-          <div className="fr-grid-row fr-grid-row--center">
-            <button className="fr-btn" type="submit" disabled={isLoading}>
-              {props.creation
-                ? 'Créer la structure'
-                : 'Enregistrer les modifications'}
-            </button>
+          <div className="fr-grid-row fr-mt-12v">
+            <div className="fr-col-12">
+              <div className="fr-btns-group--inline fr-btns-group">
+                <button
+                  className="fr-btn fr-btn--secondary"
+                  type="button"
+                  disabled={isLoading}
+                >
+                  Annuler les modifications
+                </button>
+                <button className="fr-btn" type="submit" disabled={isLoading}>
+                  {props.creation
+                    ? 'Créer la structure'
+                    : 'Enregistrer les modifications'}
+                </button>
+              </div>
+            </div>
           </div>
         </form>
-
-        <CreateFollowupTypeForm
-          structure={structure}
-          onCreated={onFollowupTypeCreated}
-        />
       </>
     )
   },

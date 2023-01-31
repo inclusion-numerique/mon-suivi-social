@@ -44,9 +44,15 @@ const StructureEditPage = async ({
           },
         ]}
       />
-      <div className="fr-card">
-        <div className="fr-card__body fr-py-8v">
-          <StructureForm serverState={serialize(serverState)} />
+      {/*TODO rendre moins large pour les forms*/}
+
+      <div className="fr-grid-row fr-grid-row--center fr-pb-8v">
+        <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
+          <div className="fr-card">
+            <div className="fr-card__body fr-py-8v">
+              <StructureForm serverState={serialize(serverState)} />
+            </div>
+          </div>
         </div>
       </div>
     </>

@@ -38,21 +38,28 @@ const PrivateLayout = async ({ children }: PropsWithChildren) => {
   }
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}
-    >
-      <PrivateHeader user={user} />
+    <>
       <div
         style={{
-          flex: 1,
           display: 'flex',
           flexDirection: 'column',
+          minHeight: '100%',
         }}
       >
-        <PrivateLayoutContent user={user}>{children}</PrivateLayoutContent>
+        <PrivateHeader user={user} />
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            background: '#fcfcfc',
+          }}
+        >
+          <PrivateLayoutContent user={user}>{children}</PrivateLayoutContent>
+        </div>
+        <PublicFooter />
       </div>
-      <PublicFooter />
-    </div>
+    </>
   )
 }
 export default PrivateLayout

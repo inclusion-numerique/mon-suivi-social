@@ -28,6 +28,7 @@ export const CreateFollowupTypeForm = ({
   const { handleSubmit, control } = form
 
   const onSubmit = async (data: CreateFollowupTypeFeatureClient.Data) => {
+    console.log('ON SUBMIT', data)
     try {
       const { followupType } = await createFollowupType.mutateAsync(data)
       form.reset(defaultValues)
@@ -43,9 +44,16 @@ export const CreateFollowupTypeForm = ({
 
   const [isDisplayed, setIsDisplayed] = useState(false)
 
+  const submitHandler = handleSubmit(onSubmit)
+
   if (isDisplayed) {
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={submitHandler}
+        onKeyDown={(press) => {
+          console.log('GOT KEYPRESS', press)
+        }}
+      >
         <div className="fr-grid-row fr-grid-row--bottom fr-grid-row--gutters fr-mt-8v">
           <div className="fr-col12 fr-col-md-8">
             <InputFormField
@@ -60,6 +68,7 @@ export const CreateFollowupTypeForm = ({
               type="submit"
               className="fr-btn fr-btn--tertiary fr-btn--icon-left fr-icon-add-line"
               disabled={fieldsDisabled}
+              onClick={submitHandler}
             >
               Créer
             </button>
