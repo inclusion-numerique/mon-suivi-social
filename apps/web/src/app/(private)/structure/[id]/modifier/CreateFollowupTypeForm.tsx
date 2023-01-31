@@ -48,12 +48,7 @@ export const CreateFollowupTypeForm = ({
 
   if (isDisplayed) {
     return (
-      <form
-        onSubmit={submitHandler}
-        onKeyDown={(press) => {
-          console.log('GOT KEYPRESS', press)
-        }}
-      >
+      <form onSubmit={submitHandler}>
         <div className="fr-grid-row fr-grid-row--bottom fr-grid-row--gutters fr-mt-8v">
           <div className="fr-col12 fr-col-md-8">
             <InputFormField
