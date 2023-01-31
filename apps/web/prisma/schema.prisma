@@ -640,8 +640,7 @@ enum MutationSource {
 
 model MutationLog {
   id     String         @id @db.Uuid
-  date   DateTime
-  source MutationSource
+  date   DateTime @default(now())
 
   // User that did the mutation
   by   User?   @relation(name: "mutation_by", fields: [byId], references: [id])

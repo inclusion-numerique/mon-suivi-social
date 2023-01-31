@@ -273,6 +273,16 @@ const structureRouter = router({
 
       const { id, proposedFollowupTypes, ...data } = input
 
+      await prismaClient.mutationLog.create({
+        data: {
+          id: v4(),
+          byId: user.id,
+          targetStructureId: structureId,
+          name: 'structure.edit',
+          data: JSON.stringify(diff),
+        },
+      })
+
       const updated = await prismaClient.structure.update({
         where: { id: structureId },
         data: {
