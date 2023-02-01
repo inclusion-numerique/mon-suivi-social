@@ -149,6 +149,10 @@ export const StructureForm = withTrpc(
       }
     }
 
+    const onCancel = () => {
+      form.reset(defaultValues)
+    }
+
     return (
       <>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -227,6 +231,7 @@ export const StructureForm = withTrpc(
                   className="fr-btn fr-btn--secondary"
                   type="button"
                   disabled={isLoading}
+                  onClick={onCancel}
                 >
                   Annuler les modifications
                 </button>
