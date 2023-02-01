@@ -1,7 +1,7 @@
 import { prismaClient } from '@mss/web/src/prismaClient'
 import { fixtureStructure } from './structures'
 
-export const fixturesFollowupTypes = [
+export const fixturesDefaultFollowupTypes = [
   {
     id: 'a5ddd670-448c-4242-b919-962bcaf047aa',
     name: 'Domiciliation',
@@ -117,6 +117,12 @@ export const fixturesFollowupTypes = [
     name: 'Aide alimentaire',
     legallyRequired: false,
   },
+] satisfies Exclude<
+  Parameters<typeof prismaClient.followupType.createMany>[0],
+  undefined
+>['data']
+
+export const fixturesOwnedFollowupTypes = [
   {
     id: 'd895b9f6-f77b-4a71-b91c-d24849099d19',
     name: "Secours d'urgence",
@@ -145,3 +151,8 @@ export const fixturesFollowupTypes = [
   Parameters<typeof prismaClient.followupType.createMany>[0],
   undefined
 >['data']
+
+export const fixturesFollowupTypes = [
+  ...fixturesDefaultFollowupTypes,
+  ...fixturesOwnedFollowupTypes,
+]

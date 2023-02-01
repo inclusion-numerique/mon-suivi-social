@@ -7,6 +7,7 @@ import { previewUserFixtures, userFixtures } from '../fixtures/users'
 import { fixtureBeneficiaries } from '../fixtures/beneficiaries'
 import { fixtureFollowups } from '../fixtures/followups'
 import { fixturesHelpRequests } from '../fixtures/helpRequests'
+import { fixturesProposedFollowupTypes } from '../fixtures/proposedFollowupTypes'
 
 // Loaded on all environments
 export const loadCommonFixtures = async () => {
@@ -17,6 +18,10 @@ export const loadCommonFixtures = async () => {
     }),
     prismaClient.followupType.createMany({
       data: fixturesFollowupTypes,
+      skipDuplicates: true,
+    }),
+    prismaClient.proposedFollowupType.createMany({
+      data: fixturesProposedFollowupTypes,
       skipDuplicates: true,
     }),
     prismaClient.user.createMany({

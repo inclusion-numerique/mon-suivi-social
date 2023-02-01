@@ -9,6 +9,8 @@ export const fixtureBeneficiaries = [
     email: 'alice.allard@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0001',
     status: 'Active',
+    birthDate: new Date('1980-04-06'),
+    gender: 'Female',
     structureId: fixtureStructure.id,
   },
   {
@@ -18,6 +20,8 @@ export const fixtureBeneficiaries = [
     email: 'benoit.blanchet@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0002',
     status: 'Active',
+    birthDate: new Date('1986-06-06'),
+    gender: 'Male',
     structureId: fixtureStructure.id,
   },
   {
@@ -27,6 +31,8 @@ export const fixtureBeneficiaries = [
     email: 'carole.cartier@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0003',
     status: 'Active',
+    birthDate: new Date('1976-09-06'),
+    gender: 'Female',
     structureId: fixtureStructure.id,
   },
   {
@@ -36,6 +42,8 @@ export const fixtureBeneficiaries = [
     email: 'denis.dubois@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0004',
     status: 'Active',
+    birthDate: new Date('1965-08-06'),
+    gender: 'Male',
     structureId: fixtureStructure.id,
   },
   {
@@ -45,6 +53,8 @@ export const fixtureBeneficiaries = [
     email: 'emma.endel@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0005',
     status: 'Active',
+    birthDate: new Date('2000-02-06'),
+    gender: 'Female',
     structureId: fixtureStructure.id,
   },
   {
@@ -54,6 +64,8 @@ export const fixtureBeneficiaries = [
     email: 'francois.lefrancais@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0006',
     status: 'Active',
+    birthDate: new Date('1962-07-06'),
+    gender: 'Male',
     structureId: fixtureStructure.id,
   },
   {
@@ -63,6 +75,8 @@ export const fixtureBeneficiaries = [
     email: 'gaspard.garnier@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0007',
     status: 'Active',
+    birthDate: new Date('1966-07-06'),
+    gender: 'Male',
     structureId: fixtureStructure.id,
   },
   {
@@ -72,6 +86,8 @@ export const fixtureBeneficiaries = [
     email: 'hugo.hictor@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0008',
     status: 'Active',
+    birthDate: new Date('1956-07-06'),
+    gender: 'Male',
     structureId: fixtureStructure.id,
   },
   {
@@ -81,6 +97,8 @@ export const fixtureBeneficiaries = [
     email: 'ines.ille@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0009',
     status: 'Active',
+    birthDate: new Date('1968-08-06'),
+    gender: 'Female',
     structureId: fixtureStructure.id,
   },
   {
@@ -90,6 +108,8 @@ export const fixtureBeneficiaries = [
     email: 'jasmine.jalla@v2.monsuivisocial.incubateur.anct.gouv.fr',
     fileNumber: 'DEMO0010',
     status: 'Active',
+    birthDate: new Date('1988-04-06'),
+    gender: 'Female',
     structureId: fixtureStructure.id,
   },
 ] satisfies Exclude<

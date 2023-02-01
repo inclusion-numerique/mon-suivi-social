@@ -1,7 +1,7 @@
 import { prismaClient } from '@mss/web/src/prismaClient'
 import { fixtureStructure } from './structures'
 import { fixtureBeneficiaries } from './beneficiaries'
-import { fixturesFollowupTypes } from './followupTypes'
+import { fixturesProposedFollowupTypes } from './proposedFollowupTypes'
 
 export const fixtureFollowups = [
   {
@@ -10,7 +10,7 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[0].id,
     medium: 'PlannedInPerson',
-    typeId: fixturesFollowupTypes[0].id,
+    typeId: fixturesProposedFollowupTypes[0].followupTypeId,
     date: new Date('2022-10-20'),
   },
   {
@@ -19,7 +19,7 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[0].id,
     medium: 'PhoneCall',
-    typeId: fixturesFollowupTypes[0].id,
+    typeId: fixturesProposedFollowupTypes[1].followupTypeId,
     date: new Date('2022-10-21'),
   },
   {
@@ -28,7 +28,7 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[2].id,
     medium: 'Videoconference',
-    typeId: fixturesFollowupTypes[0].id,
+    typeId: fixturesProposedFollowupTypes[2].followupTypeId,
     date: new Date('2022-10-22'),
   },
   {
@@ -37,7 +37,7 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[1].id,
     medium: 'UnplannedInPerson',
-    typeId: fixturesFollowupTypes[1].id,
+    typeId: fixturesProposedFollowupTypes[2].followupTypeId,
     date: new Date('2022-10-23'),
   },
   {
@@ -46,7 +46,7 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[2].id,
     medium: 'PlannedInPerson',
-    typeId: fixturesFollowupTypes[2].id,
+    typeId: fixturesProposedFollowupTypes[4].followupTypeId,
     date: new Date('2022-10-24'),
   },
   {
@@ -55,7 +55,7 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[3].id,
     medium: 'PhoneCall',
-    typeId: fixturesFollowupTypes[2].id,
+    typeId: fixturesProposedFollowupTypes[4].followupTypeId,
     date: new Date('2022-10-25'),
   },
 ] satisfies Exclude<
