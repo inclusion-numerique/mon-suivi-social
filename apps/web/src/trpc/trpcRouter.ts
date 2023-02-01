@@ -21,10 +21,13 @@ import {
   canViewBeneficiaryDocuments,
 } from '@mss/web/security/rules'
 import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
-import { EditStructureFeatureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
-import { detailedDiff } from 'deep-object-diff'
+import { EditStructureFeature } from '@mss/web/features/structure/editStructure/editStructure.server'
 import { CreateFollowupTypeFeatureClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
-import { computeArrayDiff } from '@mss/web/utils/diff'
+import {
+  executeCreationMutation,
+  executeMutation,
+} from '@mss/web/features/mutationFeature.server'
+import { CreateFollowupTypeFeature } from '@mss/web/features/structure/createFollowupType/createFollowupType.server'
 
 const enforceUserHasAccessToStructure = (
   user: SessionUser,
@@ -251,88 +254,24 @@ export const beneficiaryRouter = router({
 const structureRouter = router({
   edit: protectedProcedure
     .input(EditStructureFeatureClient.dataValidation)
-    .mutation(async ({ input, ctx: { user } }) => {
-      const structureId = input.id
-
-      if (!EditStructureFeatureClient.securityCheck(user, { structureId })) {
-        throw forbiddenError()
-      }
-
-      const serverState = await EditStructureFeatureServer.getServerState({
-        structureId,
-      })
-      const initialData =
-        EditStructureFeatureClient.dataFromServerState(serverState)
-
-      const diff = detailedDiff(initialData, input)
-
-      const followupsDiff = computeArrayDiff(
-        initialData.proposedFollowupTypes,
-        input.proposedFollowupTypes,
-      )
-
-      const { id, proposedFollowupTypes, ...data } = input
-
-      await prismaClient.mutationLog.create({
-        data: {
-          id: v4(),
-          byId: user.id,
-          targetStructureId: structureId,
-          name: 'structure.edit',
-          data: JSON.stringify(diff),
+    .mutation(({ input, ctx: { user } }) =>
+      executeMutation(
+        {
+          user,
+          mutationData: input,
+          securityParams: {},
         },
-      })
-
-      const updated = await prismaClient.structure.update({
-        where: { id: structureId },
-        data: {
-          ...data,
-          proposedFollowupTypes: {
-            createMany: {
-              data: followupsDiff.added.map((followupTypeId) => ({
-                followupTypeId,
-              })),
-              skipDuplicates: true,
-            },
-            deleteMany: {
-              structureId,
-              followupTypeId: { in: followupsDiff.removed },
-            },
-          },
-        },
-      })
-
-      if (followupsDiff.removed.length > 0) {
-        // If this is a custom followup type owned by this structure, delete it
-        await prismaClient.followupType.deleteMany({
-          where: {
-            ownedByStructureId: structureId,
-            id: { in: followupsDiff.removed },
-          },
-        })
-      }
-
-      return { structure: updated }
-    }),
+        EditStructureFeature,
+      ),
+    ),
   createFollowupType: protectedProcedure
     .input(CreateFollowupTypeFeatureClient.dataValidation)
-    .mutation(async ({ input: { structureId, name }, ctx: { user } }) => {
-      if (!EditStructureFeatureClient.securityCheck(user, { structureId })) {
-        throw forbiddenError()
-      }
-
-      const followupType = await prismaClient.followupType.create({
-        data: {
-          id: v4(),
-          legallyRequired: false,
-          ownedByStructureId: structureId,
-          name,
-          createdById: user.id,
-        },
-      })
-
-      return { followupType }
-    }),
+    .mutation(({ input, ctx: { user } }) =>
+      executeCreationMutation(
+        { user, mutationData: input, securityParams: {} },
+        CreateFollowupTypeFeature,
+      ),
+    ),
 })
 
 export const appRouter = router({

@@ -5,7 +5,7 @@ import type { EditStructureFeatureServer } from '@mss/web/features/structure/edi
 const securityCheck = canEditStructure
 
 const dataValidation = z.object({
-  id: z.string().uuid(),
+  structureId: z.string().uuid(),
   name: z.string().min(2),
   zipcode: z.string().min(5),
   city: z.string().min(2),
@@ -28,7 +28,7 @@ const dataFromServerState = ({
     proposedFollowupTypes,
   },
 }: EditStructureFeatureServer.ServerState): EditStructureFeatureClient.Data => ({
-  id,
+  structureId: id,
   name,
   address,
   zipcode,

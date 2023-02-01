@@ -665,5 +665,5 @@ model MutationLog {
   targetId String?
 
   // Data diff intent of the mutation
-  data Json
+  diff Json
 }
