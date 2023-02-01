@@ -9,42 +9,39 @@ import { v4 } from 'uuid'
 import { computeMutationDiff } from '@mss/web/features/mutationLog'
 
 export const executeMutation = async <
-  Data,
+  Input,
   SecurityParams,
   ServerState,
   MutationResult,
 >(
   {
     user,
-    mutationData,
+    input,
     securityParams,
   }: {
     user: SecurityRuleGrantee
-    mutationData: Data
+    input: Input
     securityParams: SecurityParams
   },
-  feature: MutationFeature<Data, SecurityParams, ServerState, MutationResult>,
+  feature: MutationFeature<Input, SecurityParams, ServerState, MutationResult>,
 ) => {
-  if (!feature.securityCheck(user, mutationData, securityParams)) {
+  if (!feature.securityCheck(user, input, securityParams)) {
     throw forbiddenError()
   }
 
-  const serverState = await feature.getServerState(mutationData, { user })
-  const initialData = feature.dataFromServerState(serverState, { user })
+  const serverState = await feature.getServerState(input, { user })
+  const initialInput = feature.dataFromServerState(serverState, { user })
 
-  const diff = computeMutationDiff(
-    initialData as Object,
-    mutationData as Object,
-  )
+  const diff = computeMutationDiff(initialInput as Object, input as Object)
 
   return prismaClient.$transaction((transaction) =>
     Promise.all([
       feature.executeMutation({
         serverState,
-        initialData,
+        initialInput,
         diff,
         user,
-        mutationData,
+        input,
         transaction,
       }),
       transaction.mutationLog.create({
@@ -52,7 +49,7 @@ export const executeMutation = async <
           id: v4(),
           byId: user.id,
           diff: JSON.stringify(diff),
-          ...feature.mutationLogInfo(mutationData, { user }),
+          ...feature.mutationLogInfo(input, { user }),
         },
       }),
     ]).then(([result]) => result),
@@ -61,34 +58,34 @@ export const executeMutation = async <
 
 // I didn't succeed in making the types more generic to merge the definitions of mutations and creations but I'm sure there is a way
 export const executeCreationMutation = async <
-  Data,
+  Input,
   SecurityParams,
   MutationResult,
 >(
   {
     user,
-    mutationData,
+    input,
     securityParams,
   }: {
     user: SecurityRuleGrantee
-    mutationData: Data
+    input: Input
     securityParams: SecurityParams
   },
-  feature: CreationMutationFeature<Data, SecurityParams, MutationResult>,
+  feature: CreationMutationFeature<Input, SecurityParams, MutationResult>,
 ) => {
   // Id representing the created object
   const id = v4()
 
-  if (!feature.securityCheck(user, mutationData, securityParams)) {
+  if (!feature.securityCheck(user, input, securityParams)) {
     throw forbiddenError()
   }
-  const diff = computeMutationDiff({}, mutationData as Object)
+  const diff = computeMutationDiff({}, input as Object)
 
   return prismaClient.$transaction((transaction) =>
     Promise.all([
       feature.executeMutation({
         user,
-        mutationData,
+        input,
         transaction,
         id,
       }),
@@ -97,7 +94,7 @@ export const executeCreationMutation = async <
           id: v4(),
           byId: user.id,
           diff: JSON.stringify(diff),
-          ...feature.mutationLogInfo(mutationData, { user, id }),
+          ...feature.mutationLogInfo(input, { user, id }),
         },
       }),
     ]).then(([result]) => result),

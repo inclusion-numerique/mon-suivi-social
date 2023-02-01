@@ -6,7 +6,7 @@ import { CreationMutationFeature } from '@mss/web/features/feature'
 import { SecurityRuleGrantee } from '@mss/web/security/rules'
 
 const mutationLogInfo = (
-  { structureId }: CreateFollowupTypeFeatureClient.Data,
+  { structureId }: CreateFollowupTypeFeatureClient.Input,
   { id }: { id: string },
 ): MutationLogInfo => ({
   name: 'structure.createFollowupType',
@@ -15,16 +15,16 @@ const mutationLogInfo = (
 })
 
 const executeMutation = async ({
-  mutationData,
+  input,
   user,
   id,
 }: {
-  mutationData: CreateFollowupTypeFeatureClient.Data
+  input: CreateFollowupTypeFeatureClient.Input
   transaction: Prisma.TransactionClient
   user: SecurityRuleGrantee
   id: string
 }) => {
-  const { structureId, name } = mutationData
+  const { structureId, name } = input
 
   const followupType = await prismaClient.followupType.create({
     data: {
@@ -52,7 +52,7 @@ export const CreateFollowupTypeFeature = {
   ...CreateFollowupTypeFeatureClient,
   ...CreateFollowupTypeFeatureServer,
 } satisfies CreationMutationFeature<
-  CreateFollowupTypeFeatureClient.Data,
+  CreateFollowupTypeFeatureClient.Input,
   {},
   CreateFollowupTypeFeatureServer.MutationResult
 >

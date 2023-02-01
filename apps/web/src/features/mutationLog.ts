@@ -16,6 +16,6 @@ export type MutationLogInfo = Pick<
 export type MutationDiff = DetailedDiff
 
 export const computeMutationDiff = <T extends Object>(
-  initialData: T,
-  mutationData: T,
-): MutationDiff => detailedDiff(initialData, mutationData)
+  initialInput: T,
+  input: T,
+): MutationDiff => detailedDiff(initialInput, input)

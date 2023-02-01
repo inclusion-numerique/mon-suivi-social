@@ -42,7 +42,7 @@ const getServerState = async ({ structureId }: { structureId: string }) => {
 
 const mutationLogInfo = ({
   structureId,
-}: EditStructureFeatureClient.Data): MutationLogInfo => ({
+}: EditStructureFeatureClient.Input): MutationLogInfo => ({
   name: 'structure.edit',
   targetId: structureId,
   targetStructureId: structureId,
@@ -50,23 +50,23 @@ const mutationLogInfo = ({
 
 const executeMutation = async ({
   serverState,
-  initialData,
-  mutationData,
+  initialInput,
+  input,
   diff,
   transaction,
 }: {
   serverState: EditStructureFeatureServer.ServerState
-  initialData: EditStructureFeatureClient.Data
-  mutationData: EditStructureFeatureClient.Data
+  initialInput: EditStructureFeatureClient.Input
+  input: EditStructureFeatureClient.Input
   diff: MutationDiff
   transaction: Prisma.TransactionClient
 }) => {
   const followupsDiff = computeArrayDiff(
-    initialData.proposedFollowupTypes,
-    mutationData.proposedFollowupTypes,
+    initialInput.proposedFollowupTypes,
+    input.proposedFollowupTypes,
   )
 
-  const { structureId, proposedFollowupTypes, ...data } = mutationData
+  const { structureId, proposedFollowupTypes, ...data } = input
 
   const structure = await transaction.structure.update({
     where: { id: structureId },
@@ -115,7 +115,7 @@ export const EditStructureFeature = {
   ...EditStructureFeatureClient,
   ...EditStructureFeatureServer,
 } satisfies MutationFeature<
-  EditStructureFeatureClient.Data,
+  EditStructureFeatureClient.Input,
   {},
   EditStructureFeatureServer.ServerState,
   EditStructureFeatureServer.MutationResult

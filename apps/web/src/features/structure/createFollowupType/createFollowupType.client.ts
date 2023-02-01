@@ -3,7 +3,7 @@ import z from 'zod'
 
 const securityCheck = canEditStructure
 
-const dataValidation = z.object({
+const inputValidation = z.object({
   name: z
     .string({
       invalid_type_error: "Veuillez renseigner le nom de l'accompagnement",
@@ -15,9 +15,9 @@ const dataValidation = z.object({
 
 export const CreateFollowupTypeFeatureClient = {
   securityCheck,
-  dataValidation,
+  inputValidation,
 }
 
 export namespace CreateFollowupTypeFeatureClient {
-  export type Data = z.infer<typeof dataValidation>
+  export type Input = z.infer<typeof inputValidation>
 }

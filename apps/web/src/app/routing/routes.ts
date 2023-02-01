@@ -4,6 +4,7 @@
 import { withSearchParams } from '@mss/web/app/routing/withSearchParams'
 import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import { Beneficiary } from '@prisma/client'
+import { PaginationParams } from '@mss/web/app/(private)/beneficiaires/(list)/page'
 
 export const Routes = {
   Connexion: {
@@ -30,6 +31,7 @@ export const Routes = {
         title: 'Bénéficiaires',
         icon: 'user-line',
         path: '/beneficiaires',
+        pathWithParams: withSearchParams<PaginationParams>('/beneficiaires'),
       },
       Beneficiaire: {
         Index: {

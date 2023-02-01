@@ -1,0 +1,15 @@
+.row {
+    :focus-within {
+        /* TODO Background on keyboard navigation ? */
+    }
+    height: 100%;
+}
+.cell {
+    height: 100%;
+}
+.cellLink {
+    /* TODO Responsive styles */
+    display: block;
+    height: 100%;
+    min-height: 40px;
+}
