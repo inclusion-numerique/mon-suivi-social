@@ -52,7 +52,7 @@ const PublicHeader = ({
   return (
     <header role="banner" className="fr-header">
       <div className="fr-header__body">
-        <div className={fullWidth ? 'fr-pl-4v' : 'fr-container'}>
+        <div className={fullWidth ? 'fr-ml-4v fr-mr-4v' : 'fr-container'}>
           <div className="fr-header__body-row">
             <div className="fr-header__brand fr-enlarge-link">
               <div className="fr-header__brand-top">
