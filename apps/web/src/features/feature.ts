@@ -2,27 +2,7 @@ import { SecurityRuleGrantee } from '@mss/web/security/rules'
 import { Prisma } from '@prisma/client'
 import { MutationDiff, MutationLogInfo } from '@mss/web/features/mutationLog'
 
-export type MutationExecutor<Input, ServerState, MutationResult> =
-  (mutationContext: {
-    serverState: ServerState
-    initialInput: Input
-    input: Input
-    diff: MutationDiff
-    transaction: Prisma.TransactionClient
-    user: SecurityRuleGrantee
-  }) => Promise<MutationResult>
-
-export type CreationMutationExecutor<Input, MutationResult> =
-  (mutationContext: {
-    input: Input
-    transaction: Prisma.TransactionClient
-    user: SecurityRuleGrantee
-    id: string
-  }) => Promise<MutationResult>
-
-export type MutationContext = { user: SecurityRuleGrantee }
-export type CreationMutationContext = { user: SecurityRuleGrantee; id: string }
-
+// A feature that aims to modify server state
 export type MutationFeature<
   Input,
   SecurityParams,
@@ -45,7 +25,18 @@ export type MutationFeature<
   mutationLogInfo: (input: Input, context: MutationContext) => MutationLogInfo
   executeMutation: MutationExecutor<Input, ServerState, MutationResult>
 }
+export type MutationExecutor<Input, ServerState, MutationResult> =
+  (mutationContext: {
+    serverState: ServerState
+    initialInput: Input
+    input: Input
+    diff: MutationDiff
+    transaction: Prisma.TransactionClient
+    user: SecurityRuleGrantee
+  }) => Promise<MutationResult>
+export type MutationContext = { user: SecurityRuleGrantee }
 
+// A feature that aims to create a new object/objects in server state
 export type CreationMutationFeature<Input, SecurityParams, MutationResult> = {
   securityCheck: (
     grantee: SecurityRuleGrantee,
@@ -59,18 +50,28 @@ export type CreationMutationFeature<Input, SecurityParams, MutationResult> = {
 
   executeMutation: CreationMutationExecutor<Input, MutationResult>
 }
-export type QueryExecutor<Input, QueryResult> = (mutationContext: {
-  queryInput: Input
-  transaction: Prisma.TransactionClient
-  user: SecurityRuleGrantee
-  id: string
-}) => Promise<QueryResult>
+export type CreationMutationExecutor<Input, MutationResult> =
+  (mutationContext: {
+    input: Input
+    transaction: Prisma.TransactionClient
+    user: SecurityRuleGrantee
+    id: string
+  }) => Promise<MutationResult>
+export type CreationMutationContext = { user: SecurityRuleGrantee; id: string }
 
+// A Query feature that provides information to a user
 export type QueryFeature<Input, SecurityParams, QueryResult> = {
   securityCheck: (
     grantee: SecurityRuleGrantee,
     target: Input,
     params: SecurityParams,
   ) => boolean
-  executeQuery: CreationMutationExecutor<Input, QueryResult>
+  executeQuery: QueryExecutor<Input, QueryResult>
 }
+
+export type QueryExecutor<Input, QueryResult> = (mutationContext: {
+  queryInput: Input
+  transaction: Prisma.TransactionClient
+  user: SecurityRuleGrantee
+  id: string
+}) => Promise<QueryResult>
