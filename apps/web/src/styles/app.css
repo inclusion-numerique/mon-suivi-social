@@ -9,4 +9,7 @@ html, body, body > div:not(#environment-information) {
 textarea {
   resize: none;
 }
-
+:root {
+  /* TODO Overide styles for MSS using css vars ? */
+  /* --background-action-high-blue-france: red; */
+}
