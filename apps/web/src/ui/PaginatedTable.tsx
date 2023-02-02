@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import styles from '@mss/web/ui/PaginatedTable.module.css'
 
 // Only display at most 6 links
 const createPagesList = (
@@ -44,7 +45,7 @@ export const PaginatedTable = ({
   return (
     <>
       <div className="fr-table fr-table--bordered fr-mb-4v">
-        <table>
+        <table className={styles.table}>
           <thead>{tableHead}</thead>
           <tbody>{tableBody}</tbody>
           {tableFooter ? <tfoot>{tableFooter}</tfoot> : null}

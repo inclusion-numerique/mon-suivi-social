@@ -54,7 +54,6 @@ export const beneficiariesListTableColumns = [
   {
     label: 'Accompagnements',
     content: ({ followups, helpRequests }: ListBeneficiariesItem) => {
-      console.log('DATA', followups[0], helpRequests[0])
       const deduplicatedTypesMap = new Map<string, string>(
         [
           ...followups.map((followup) => followup.type),
@@ -92,6 +91,8 @@ export const beneficiariesListTableColumns = [
   },
   {
     label: 'N° dossier',
-    content: ({ fileNumber }: ListBeneficiariesItem) => fileNumber,
+    content: ({ fileNumber }: ListBeneficiariesItem) => (
+      <span className="fr-badge fr-badge--blue-cumulus">{fileNumber}</span>
+    ),
   },
 ] satisfies TableColumnDefinition<ListBeneficiariesItem>[]

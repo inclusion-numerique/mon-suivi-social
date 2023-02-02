@@ -5,11 +5,11 @@ import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
 import { PaginatedTable } from '@mss/web/ui/PaginatedTable'
-import { PropsWithChildren, Suspense } from 'react'
+import { PropsWithChildren } from 'react'
 import { BeneficiariesListTableRows } from '@mss/web/app/(private)/beneficiaires/(list)/BeneficiariesListTableRows'
-import { Spinner } from '@mss/web/ui/Spinner'
 import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(list)/beneficiariesListTableColumns'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
+import { redirect } from 'next/navigation'
 
 // TODO Generic helper
 export type PaginationParams = {
@@ -19,7 +19,7 @@ export type PaginationParams = {
   ordre?: 'asc' | 'desc'
 }
 
-const itemsPerPage = 1
+const itemsPerPage = 10
 
 const BeneficiariesListPage = async ({
   searchParams,
@@ -49,7 +49,7 @@ const BeneficiariesListPage = async ({
   const take = itemsPerPage
   const skip = (pageNumber - 1) * itemsPerPage
 
-  const totalPages = Math.ceil(beneficiariesCount / itemsPerPage)
+  const totalPages = Math.ceil(beneficiariesCount / itemsPerPage) || 1
 
   // TODO Where to put this logic ?
   const createPageLink = (toPage: number) =>
@@ -58,6 +58,12 @@ const BeneficiariesListPage = async ({
       tri: sortBy === defaultSortBy ? undefined : sortBy,
       ordre: sortDirection === defaultSortDirection ? undefined : sortDirection,
     })
+
+  // TODO where to put this redirect logic ?
+  if (pageNumber > totalPages) {
+    redirect(createPageLink(totalPages))
+    return null
+  }
 
   const createSortLink = (by: string, direction: 'asc' | 'desc') =>
     Routes.Structure.Beneficiaires.Index.pathWithParams({
@@ -87,6 +93,11 @@ const BeneficiariesListPage = async ({
                   sortBy !== label || sortDirection !== 'desc'
                     ? 'fr-icon-arrow-down-line'
                     : 'fr-icon-arrow-up-line'
+                }`}
+                title={`Trier par ${label.toLowerCase()}, ordre ${
+                  sortBy !== label || sortDirection === 'desc'
+                    ? 'croissant'
+                    : 'décroissant'
                 }`}
                 href={createSortLink(
                   label,
