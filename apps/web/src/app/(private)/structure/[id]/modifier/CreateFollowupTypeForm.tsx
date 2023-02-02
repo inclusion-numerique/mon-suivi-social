@@ -20,15 +20,14 @@ export const CreateFollowupTypeForm = ({
   const createFollowupType = trpc.structure.createFollowupType.useMutation()
   const defaultValues = { structureId }
 
-  const form = useForm<CreateFollowupTypeFeatureClient.Data>({
-    resolver: zodResolver(CreateFollowupTypeFeatureClient.dataValidation),
+  const form = useForm<CreateFollowupTypeFeatureClient.Input>({
+    resolver: zodResolver(CreateFollowupTypeFeatureClient.inputValidation),
     defaultValues,
   })
 
   const { handleSubmit, control } = form
 
-  const onSubmit = async (data: CreateFollowupTypeFeatureClient.Data) => {
-    console.log('ON SUBMIT', data)
+  const onSubmit = async (data: CreateFollowupTypeFeatureClient.Input) => {
     try {
       const { followupType } = await createFollowupType.mutateAsync(data)
       form.reset(defaultValues)

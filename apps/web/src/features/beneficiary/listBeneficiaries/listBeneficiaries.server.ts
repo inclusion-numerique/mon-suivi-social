@@ -1,14 +1,11 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { QueryFeature } from '@mss/web/features/feature'
-import { SecurityRuleGrantee } from '@mss/web/security/rules'
 import { ListBeneficiariesFeatureClient } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.client'
 
 const executeQuery = async ({
-  queryInput: { structureId, take, skip, sortBy },
-  user,
+  queryInput: { structureId, take, skip, orderBy },
 }: {
   queryInput: ListBeneficiariesFeatureClient.Input
-  user: SecurityRuleGrantee
 }) => {
   const beneficiaries = await prismaClient.beneficiary.findMany({
     where: { structureId },
@@ -49,7 +46,7 @@ const executeQuery = async ({
     },
     take,
     skip,
-    orderBy: sortBy,
+    orderBy,
   })
 
   return { beneficiaries }

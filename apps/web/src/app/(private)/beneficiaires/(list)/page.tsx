@@ -4,7 +4,6 @@ import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
-import { PropsWithChildren } from 'react'
 import { BeneficiariesListTableRows } from '@mss/web/app/(private)/beneficiaires/(list)/BeneficiariesListTableRows'
 import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(list)/beneficiariesListTableColumns'
 import { redirect } from 'next/navigation'
@@ -101,7 +100,6 @@ const BeneficiariesListPage = async ({
 
   const tableBody = (
     <BeneficiariesListTableRows
-      user={user}
       queryInput={{
         take,
         skip,

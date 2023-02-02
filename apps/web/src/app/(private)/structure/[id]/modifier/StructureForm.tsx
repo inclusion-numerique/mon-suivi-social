@@ -91,8 +91,8 @@ export const StructureForm = withTrpc(
       defaultValues.proposedFollowupTypes,
     )
 
-    const form = useForm<EditStructureFeatureClient.Data>({
-      resolver: zodResolver(EditStructureFeatureClient.dataValidation),
+    const form = useForm<EditStructureFeatureClient.Input>({
+      resolver: zodResolver(EditStructureFeatureClient.inputValidation),
       defaultValues,
     })
 
@@ -139,7 +139,7 @@ export const StructureForm = withTrpc(
       ])
     }
 
-    const onSubmit = async (data: EditStructureFeatureClient.Data) => {
+    const onSubmit = async (data: EditStructureFeatureClient.Input) => {
       try {
         await editStructure.mutateAsync(data)
         setAddedFollowupTypes([])

@@ -1,6 +1,5 @@
 import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(list)/beneficiariesListTableColumns'
 import { ListBeneficiariesFeature } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
-import { SecurityRuleGrantee } from '@mss/web/security/rules'
 import { ListBeneficiariesFeatureClient } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.client'
 import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { Routes } from '@mss/web/app/routing/routes'
@@ -10,14 +9,11 @@ import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 export const BeneficiariesListTableRows = asyncComponent(
   async ({
     queryInput,
-    user,
   }: {
     queryInput: ListBeneficiariesFeatureClient.Input
-    user: SecurityRuleGrantee
   }) => {
     const { beneficiaries } = await ListBeneficiariesFeature.executeQuery({
       queryInput,
-      user,
     })
 
     if (beneficiaries.length === 0) {

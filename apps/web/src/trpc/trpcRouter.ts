@@ -253,22 +253,22 @@ export const beneficiaryRouter = router({
 
 const structureRouter = router({
   edit: protectedProcedure
-    .input(EditStructureFeatureClient.dataValidation)
+    .input(EditStructureFeatureClient.inputValidation)
     .mutation(({ input, ctx: { user } }) =>
       executeMutation(
         {
           user,
-          mutationData: input,
+          input,
           securityParams: {},
         },
         EditStructureFeature,
       ),
     ),
   createFollowupType: protectedProcedure
-    .input(CreateFollowupTypeFeatureClient.dataValidation)
+    .input(CreateFollowupTypeFeatureClient.inputValidation)
     .mutation(({ input, ctx: { user } }) =>
       executeCreationMutation(
-        { user, mutationData: input, securityParams: {} },
+        { user, input, securityParams: {} },
         CreateFollowupTypeFeature,
       ),
     ),
