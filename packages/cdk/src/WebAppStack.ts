@@ -225,6 +225,7 @@ export class WebAppStack extends TerraformStack {
         NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID: isMain
           ? mainInclusionConnectClientId.value
           : previewInclusionConnectClientId.value,
+        NEXT_PUBLIC_SENTRY_ENVIRONMENT: namespace,
       },
       secretEnvironmentVariables: {
         DATABASE_URL: databaseUrl,

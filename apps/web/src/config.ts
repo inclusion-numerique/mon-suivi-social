@@ -43,6 +43,11 @@ export const PublicConfig = {
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? '',
   sirenApiKey: process.env.NEXT_PUBLIC_SIREN_API_KEY ?? '',
 
+  Sentry: {
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN ?? '',
+    environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT ?? 'local',
+  },
+
   InclusionConnect: {
     issuer: process.env.NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER ?? '',
     clientId: process.env.NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID ?? '',

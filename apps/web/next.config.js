@@ -6,6 +6,11 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  sentry: {
+    autoInstrumentServerFunctions: true,
+    autoInstrumentMiddleware: true,
+    tunnelRoute: '/monitoring',
+  },
   eslint: {
     // Lints are done in other parts of the build process
     ignoreDuringBuilds: true,
