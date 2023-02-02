@@ -1,19 +1,12 @@
 import { ListBeneficiariesItem } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
-import { ReactNode } from 'react'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-
-// TODO move to generic
-export type TableColumnDefinition<Item> = {
-  label: string
-  sortable?: unknown
-  content: (item: Item) => ReactNode
-}
+import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
 
 export const beneficiariesListTableColumns = [
   {
     label: 'Nom',
-    sortable: (direction: 'asc' | 'desc') => [
+    sortable: (direction) => [
       { usualName: direction },
       { birthName: direction },
     ],
@@ -22,7 +15,7 @@ export const beneficiariesListTableColumns = [
   },
   {
     label: 'Prénom',
-    sortable: (direction: 'asc' | 'desc') => [{ firstName: direction }],
+    sortable: (direction) => [{ firstName: direction }],
     content: ({ firstName }: ListBeneficiariesItem) => firstName,
   },
   {

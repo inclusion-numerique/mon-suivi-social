@@ -8,7 +8,7 @@ const inputValidation = z.object({
   search: z.string().trim().optional(),
   take: z.number().int().gt(0),
   skip: z.number().int().gte(0),
-  sortBy: z.array(z.object({})).optional(),
+  orderBy: z.array(z.object({})).optional(),
 })
 
 export const ListBeneficiariesFeatureClient = {

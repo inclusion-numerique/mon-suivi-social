@@ -4,12 +4,17 @@ import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
-import { PaginatedTable } from '@mss/web/ui/PaginatedTable'
 import { PropsWithChildren } from 'react'
 import { BeneficiariesListTableRows } from '@mss/web/app/(private)/beneficiaires/(list)/BeneficiariesListTableRows'
 import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(list)/beneficiariesListTableColumns'
-import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { redirect } from 'next/navigation'
+import { Table } from '@mss/web/ui/table/Table'
+import {
+  getColumnOrderBy,
+  SortDirection,
+  Sorting,
+} from '@mss/web/ui/table/TableColumnDefinition'
+import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
 
 // TODO Generic helper
 export type PaginationParams = {
@@ -23,22 +28,27 @@ const itemsPerPage = 10
 
 const BeneficiariesListPage = async ({
   searchParams,
-  children,
-}: PropsWithChildren<{
+}: {
   searchParams?: RoutePathParams<
     typeof Routes.Structure.Beneficiaires.Index.pathWithParams
   >
-}>) => {
+}) => {
   const user = await getAuthenticatedAgent()
   const structureId = user.structureId
 
-  const defaultSortBy = 'Nom'
-  const defaultSortDirection = 'asc'
-
   const pageNumber = searchParams?.page ? parseInt(searchParams.page) : 1
+
+  const defaultSorting: Sorting = {
+    by: 'Nom',
+    direction: 'asc',
+  }
+
+  const currentSorting: Sorting = {
+    by: searchParams?.tri ?? defaultSorting.by,
+    direction: searchParams?.ordre ?? defaultSorting.direction,
+  }
+
   const search = searchParams?.recherche
-  const sortBy = searchParams?.tri ?? defaultSortBy
-  const sortDirection = searchParams?.ordre ?? defaultSortDirection
 
   const where = { structureId }
 
@@ -55,8 +65,12 @@ const BeneficiariesListPage = async ({
   const createPageLink = (toPage: number) =>
     Routes.Structure.Beneficiaires.Index.pathWithParams({
       page: toPage === 1 ? undefined : toPage.toString(),
-      tri: sortBy === defaultSortBy ? undefined : sortBy,
-      ordre: sortDirection === defaultSortDirection ? undefined : sortDirection,
+      tri:
+        currentSorting.by === defaultSorting.by ? undefined : currentSorting.by,
+      ordre:
+        currentSorting.direction === defaultSorting.direction
+          ? undefined
+          : currentSorting.direction,
     })
 
   // TODO where to put this redirect logic ?
@@ -65,54 +79,24 @@ const BeneficiariesListPage = async ({
     return null
   }
 
-  const createSortLink = (by: string, direction: 'asc' | 'desc') =>
+  const createSortLink = (by: string, direction: SortDirection) =>
     Routes.Structure.Beneficiaires.Index.pathWithParams({
       page: pageNumber === 1 ? undefined : pageNumber.toString(),
-      tri: by === defaultSortBy ? undefined : by,
-      ordre: direction === defaultSortDirection ? undefined : direction,
+      tri: by === defaultSorting.by ? undefined : by,
+      ordre: direction === defaultSorting.direction ? undefined : direction,
     })
 
-  // TODO Sorting logic in other components
-  const sortByColumnDefinition = beneficiariesListTableColumns.find(
-    ({ label }) => label === sortBy,
+  const orderBy = getColumnOrderBy(
+    currentSorting,
+    beneficiariesListTableColumns,
   )
-  const sortByParameter =
-    !!sortByColumnDefinition && 'sortable' in sortByColumnDefinition
-      ? sortByColumnDefinition.sortable(sortDirection)
-      : undefined
 
   const tableHead = (
-    <tr>
-      {beneficiariesListTableColumns.map(({ label, sortable }) => (
-        <th key={label}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {nonBreakable(label)}&nbsp;
-            {sortable ? (
-              <Link
-                className={`fr-btn fr-btn--tertiary-no-outline fr-btn--sm ${
-                  sortBy !== label || sortDirection !== 'desc'
-                    ? 'fr-icon-arrow-down-line'
-                    : 'fr-icon-arrow-up-line'
-                }`}
-                title={`Trier par ${label.toLowerCase()}, ordre ${
-                  sortBy !== label || sortDirection === 'desc'
-                    ? 'croissant'
-                    : 'décroissant'
-                }`}
-                href={createSortLink(
-                  label,
-                  sortBy !== label || sortDirection === 'desc' ? 'asc' : 'desc',
-                )}
-                style={{
-                  color:
-                    sortBy !== label ? 'var(--text-disabled-grey)' : undefined,
-                }}
-              />
-            ) : null}
-          </div>
-        </th>
-      ))}
-    </tr>
+    <TableHeadWithSorting
+      columns={beneficiariesListTableColumns}
+      createSortLink={createSortLink}
+      currentSorting={currentSorting}
+    />
   )
 
   const tableBody = (
@@ -123,7 +107,7 @@ const BeneficiariesListPage = async ({
         skip,
         structureId,
         search,
-        sortBy: sortByParameter,
+        orderBy,
       }}
     />
   )
@@ -162,12 +146,10 @@ const BeneficiariesListPage = async ({
               {beneficiariesCount} bénéficiaire
               {beneficiariesCount === 1 ? '' : 's'}
             </p>
-            <PaginatedTable
-              pageNumber={pageNumber}
-              totalPages={totalPages}
+            <Table
               tableHead={tableHead}
               tableBody={tableBody}
-              createPageLink={createPageLink}
+              pagination={{ pageNumber, totalPages, createPageLink }}
             />
           </div>
         </div>
