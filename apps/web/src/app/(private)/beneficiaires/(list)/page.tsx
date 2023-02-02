@@ -10,20 +10,22 @@ import { redirect } from 'next/navigation'
 import { Table } from '@mss/web/ui/table/Table'
 import {
   getColumnOrderBy,
-  SortDirection,
   Sorting,
 } from '@mss/web/ui/table/TableColumnDefinition'
 import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
-
-// TODO Generic helper
-export type PaginationParams = {
-  page?: string
-  recherche?: string
-  tri?: string
-  ordre?: 'asc' | 'desc'
-}
+import { ListBeneficiariesFeatureClient } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.client'
+import {
+  createPageLinkHelper,
+  takeAndSkipFromPagination,
+} from '@mss/web/ui/pagination'
+import { createSortLinkHelper } from '@mss/web/ui/sorting'
 
 const itemsPerPage = 10
+
+const defaultSorting: Sorting = {
+  by: 'Nom',
+  direction: 'asc',
+}
 
 const BeneficiariesListPage = async ({
   searchParams,
@@ -35,60 +37,52 @@ const BeneficiariesListPage = async ({
   const user = await getAuthenticatedAgent()
   const structureId = user.structureId
 
+  // TODO We could put all this in a big list page helper function...
+
+  // Get pagination and sorting info from searchParams
   const pageNumber = searchParams?.page ? parseInt(searchParams.page) : 1
-
-  const defaultSorting: Sorting = {
-    by: 'Nom',
-    direction: 'asc',
-  }
-
   const currentSorting: Sorting = {
     by: searchParams?.tri ?? defaultSorting.by,
     direction: searchParams?.ordre ?? defaultSorting.direction,
   }
 
+  // Get filters info from searchParams
   const search = searchParams?.recherche
 
-  const where = { structureId }
-
   const beneficiariesCount = await prismaClient.beneficiary.count({
-    where,
+    where: { structureId },
   })
 
-  const take = itemsPerPage
-  const skip = (pageNumber - 1) * itemsPerPage
+  // Create pagination parameters
 
   const totalPages = Math.ceil(beneficiariesCount / itemsPerPage) || 1
 
-  // TODO Where to put this logic ?
-  const createPageLink = (toPage: number) =>
-    Routes.Structure.Beneficiaires.Index.pathWithParams({
-      page: toPage === 1 ? undefined : toPage.toString(),
-      tri:
-        currentSorting.by === defaultSorting.by ? undefined : currentSorting.by,
-      ordre:
-        currentSorting.direction === defaultSorting.direction
-          ? undefined
-          : currentSorting.direction,
-    })
+  // Linking logic for pages navigation
+  const createPageLink = createPageLinkHelper(
+    { currentSorting, defaultSorting, search },
+    Routes.Structure.Beneficiaires.Index.pathWithParams,
+  )
 
-  // TODO where to put this redirect logic ?
+  // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > totalPages) {
     redirect(createPageLink(totalPages))
     return null
   }
 
-  const createSortLink = (by: string, direction: SortDirection) =>
-    Routes.Structure.Beneficiaires.Index.pathWithParams({
-      page: pageNumber === 1 ? undefined : pageNumber.toString(),
-      tri: by === defaultSorting.by ? undefined : by,
-      ordre: direction === defaultSorting.direction ? undefined : direction,
-    })
-
-  const orderBy = getColumnOrderBy(
-    currentSorting,
-    beneficiariesListTableColumns,
+  // Linking logic for sorting
+  const createSortLink = createSortLinkHelper(
+    { pageNumber, defaultSorting, search },
+    Routes.Structure.Beneficiaires.Index.pathWithParams,
   )
+
+  // Query input parameters
+
+  const queryInput: ListBeneficiariesFeatureClient.Input = {
+    structureId,
+    search,
+    ...takeAndSkipFromPagination({ itemsPerPage, pageNumber }),
+    orderBy: getColumnOrderBy(currentSorting, beneficiariesListTableColumns),
+  }
 
   const tableHead = (
     <TableHeadWithSorting
@@ -98,17 +92,7 @@ const BeneficiariesListPage = async ({
     />
   )
 
-  const tableBody = (
-    <BeneficiariesListTableRows
-      queryInput={{
-        take,
-        skip,
-        structureId,
-        search,
-        orderBy,
-      }}
-    />
-  )
+  const tableBody = <BeneficiariesListTableRows queryInput={queryInput} />
 
   return (
     <>

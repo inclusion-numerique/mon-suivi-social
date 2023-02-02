@@ -8,7 +8,7 @@ import {
 
 type TableHeadWithSortingProps<Item, SortBy> = {
   columns: TableColumnDefinition<Item>[]
-  createSortLink: (label: string, direction: SortDirection) => string
+  createSortLink: (sorting: Sorting) => string
   currentSorting: Sorting<SortBy>
 }
 
@@ -38,7 +38,7 @@ export function TableHeadWithSorting<Item, SortBy>({
 
 type TableHeadSortLinkProps<Item, SortBy> = {
   column: TableColumnDefinition<Item>
-  createSortLink: (label: string, direction: SortDirection) => string
+  createSortLink: (sorting: Sorting) => string
   currentSorting: Sorting<SortBy>
 }
 function SortLink<Item, SortBy>({
@@ -61,7 +61,10 @@ function SortLink<Item, SortBy>({
     isCurrent && isAsc ? 'décroissant' : 'croissant'
   }`
 
-  const href = createSortLink(label, isCurrent && isAsc ? 'desc' : 'asc')
+  const href = createSortLink({
+    by: label,
+    direction: isCurrent && isAsc ? 'desc' : 'asc',
+  })
 
   return (
     <Link

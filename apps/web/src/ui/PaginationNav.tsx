@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ComponentProps } from 'react'
+import { createPagesNumbersToDisplay } from '@mss/web/ui/pagination'
 
 export type PaginationNavProps = ComponentProps<typeof PaginationNav>
 
@@ -15,7 +16,7 @@ export const PaginationNav = ({
   const isFirstPage = pageNumber <= 1
   const isLastPage = pageNumber >= totalPages
 
-  const linkablePages = createPagesList(totalPages, pageNumber)
+  const linkablePages = createPagesNumbersToDisplay(totalPages, pageNumber)
 
   return (
     <nav role="navigation" aria-label="Pagination" className="fr-pagination">
@@ -118,23 +119,4 @@ export const PaginationNav = ({
       </ul>
     </nav>
   )
-}
-
-// Only display at most 6 pages numbered links
-const createPagesList = (
-  totalPages: number,
-  pageNumber: number,
-): (number | null)[] => {
-  // Small pages numbers, display all pages
-  if (totalPages <= 6) {
-    return Array.from({ length: totalPages }).map((_, index) => index + 1)
-  }
-
-  // Page is at beginning or end of the list, only display one "..."
-  if (pageNumber <= 3 || pageNumber >= totalPages - 2) {
-    return [1, 2, 3, null, totalPages - 2, totalPages - 1, totalPages]
-  }
-
-  // Page is in the middle, display it inside separators
-  return [1, null, pageNumber - 1, pageNumber, pageNumber + 1, null, totalPages]
 }
