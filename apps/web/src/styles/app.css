@@ -13,3 +13,10 @@ textarea {
   /* TODO Overide styles for MSS using css vars ? */
   /* --background-action-high-blue-france: red; */
 }
+
+/* Magic css debug hack 🤓💅 */
+/*
+* {
+  outline: 1px solid red !important;
+}
+*/
