@@ -1,7 +1,7 @@
 import { SecurityRuleGrantee } from '@mss/web/security/rules'
 import { Prisma } from '@prisma/client'
 import { MutationDiff, MutationLogInfo } from '@mss/web/features/mutationLog'
-import { ZodType } from 'zod'
+import { z, ZodType } from 'zod'
 
 // A Mutation is a feature that aims to modify server state
 

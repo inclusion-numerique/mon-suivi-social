@@ -8,6 +8,12 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { v4 } from 'uuid'
 import { computeMutationDiff } from '@mss/web/features/mutationLog'
 
+export const createMutationExecutor =
+  ({}: {}) =>
+  ({}: {}) => {
+    // TODO put this in creation of feature
+  }
+
 export const executeMutation = async <
   Input,
   SecurityParams,
