@@ -1,8 +1,6 @@
 import { NextMiddleware, NextResponse } from 'next/server'
 import { initializeSentry } from '@mss/web/sentry'
 
-initializeSentry()
-
 const middleware: NextMiddleware = (request) => {
   const forwardedProto = request.headers.get('X-Forwarded-Proto')
   const nodeEnv = process.env.NODE_ENV
