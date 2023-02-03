@@ -3,7 +3,6 @@ import { PropsWithChildren } from 'react'
 import { Matomo } from '@mss/web/app/Matomo'
 import { Dsfr } from '@mss/web/app/Dsfr'
 import { EnvironmentInformation } from '@mss/web/app/EnvironmentInformation'
-import { BrowserSentryInit } from '@mss/web/app/BrowserSentryInit'
 
 const fontsToPreload = ['Marianne-Regular', 'Marianne-Bold', 'Marianne-Medium']
 
@@ -41,7 +40,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
         ))}
         <Dsfr />
         <Matomo />
-        <BrowserSentryInit />
       </head>
       <body>
         <EnvironmentInformation />

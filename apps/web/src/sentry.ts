@@ -8,7 +8,10 @@ export const initializeSentry = () => {
 
   Sentry.init({
     dsn: PublicConfig.Sentry.dsn,
-    environment: PublicConfig.Sentry.environment,
+    environment:
+      process.env.NODE_ENV !== 'production'
+        ? 'local'
+        : PublicConfig.Sentry.environment,
     tracesSampleRate: 1.0,
   })
 }
