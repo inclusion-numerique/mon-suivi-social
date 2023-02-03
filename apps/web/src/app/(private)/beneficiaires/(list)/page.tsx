@@ -19,6 +19,7 @@ import {
   takeAndSkipFromPagination,
 } from '@mss/web/ui/pagination'
 import { createSortLinkHelper } from '@mss/web/ui/sorting'
+import { ListBeneficiariesFeatureServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 
 const itemsPerPage = 10
 
@@ -49,9 +50,8 @@ const BeneficiariesListPage = async ({
   // Get filters info from searchParams
   const search = searchParams?.recherche
 
-  const beneficiariesCount = await prismaClient.beneficiary.count({
-    where: { structureId },
-  })
+  const beneficiariesCount =
+    await ListBeneficiariesFeatureServer.executeCountQuery({ structureId })
 
   // Create pagination parameters
 

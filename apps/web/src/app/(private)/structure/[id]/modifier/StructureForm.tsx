@@ -100,6 +100,7 @@ export const StructureForm = withTrpc(
 
     const sortedFollowupTypes = useMemo(
       () => sortFollowupTypes(initiallySelectedFollowupIds, followupTypes),
+      // Volontary missing deps to not recompute if server state has not changed
       [props.serverState],
     )
 

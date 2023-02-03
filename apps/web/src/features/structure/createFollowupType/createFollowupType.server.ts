@@ -1,18 +1,8 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { Prisma } from '@prisma/client'
 import { CreateFollowupTypeFeatureClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
-import { MutationLogInfo } from '@mss/web/features/mutationLog'
 import { CreationMutationFeature } from '@mss/web/features/feature'
 import { SecurityRuleGrantee } from '@mss/web/security/rules'
-
-const mutationLogInfo = (
-  { structureId }: CreateFollowupTypeFeatureClient.Input,
-  { id }: { id: string },
-): MutationLogInfo => ({
-  name: 'structure.createFollowupType',
-  targetId: id,
-  targetStructureId: structureId,
-})
 
 const executeMutation = async ({
   input,
@@ -40,7 +30,6 @@ const executeMutation = async ({
 }
 
 export const CreateFollowupTypeFeatureServer = {
-  mutationLogInfo,
   executeMutation,
 }
 

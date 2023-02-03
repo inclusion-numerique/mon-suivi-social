@@ -18,10 +18,14 @@ export const executeMutation = async <
     user,
     input,
     securityParams,
+    structureId,
+    beneficiaryId,
   }: {
     user: SecurityRuleGrantee
     input: Input
     securityParams: SecurityParams
+    structureId?: string
+    beneficiaryId?: string
   },
   feature: MutationFeature<Input, SecurityParams, ServerState, MutationResult>,
 ) => {
@@ -49,7 +53,13 @@ export const executeMutation = async <
           id: v4(),
           byId: user.id,
           diff: JSON.stringify(diff),
-          ...feature.mutationLogInfo(input, { user }),
+          ...feature.mutationLogInfo({
+            user,
+            structureId,
+            serverState,
+            beneficiaryId,
+            input,
+          }),
         },
       }),
     ]).then(([result]) => result),

@@ -1,9 +1,14 @@
 import { canEditStructure } from '@mss/web/security/rules'
 import z from 'zod'
 import type { EditStructureFeatureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
+import { MutationLogInfo } from '@mss/web/features/mutationLog'
+import { MutationClient, MutationContext } from '@mss/web/features/feature'
 
 const securityCheck = canEditStructure
 
+const name = 'structure.edit'
+
+// TODO validation qui dépend du server state initial
 const inputValidation = z.object({
   structureId: z.string().uuid(),
   name: z.string().min(2),
@@ -40,11 +45,27 @@ const dataFromServerState = ({
   ),
 })
 
+const mutationLogInfo = ({
+  input: { structureId },
+}: MutationContext<
+  EditStructureFeatureClient.Input,
+  EditStructureFeatureClient.ServerState
+>): MutationLogInfo => ({
+  targetId: structureId,
+  targetStructureId: structureId,
+})
+
 export const EditStructureFeatureClient = {
+  name,
   securityCheck,
   inputValidation,
   dataFromServerState,
-}
+  mutationLogInfo,
+} satisfies MutationClient<
+  EditStructureFeatureClient.Input,
+  {},
+  EditStructureFeatureServer.ServerState
+>
 
 export namespace EditStructureFeatureClient {
   export type Input = z.infer<typeof inputValidation>

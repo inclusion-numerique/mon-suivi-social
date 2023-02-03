@@ -6,11 +6,7 @@ export type MutationLogInfo = Pick<
     Parameters<typeof prismaClient.mutationLog.create>[0],
     undefined
   >['data'],
-  | 'name'
-  | 'targetUserId'
-  | 'targetStructureId'
-  | 'targetBeneficiaryId'
-  | 'targetId'
+  'targetUserId' | 'targetStructureId' | 'targetBeneficiaryId' | 'targetId'
 >
 
 export type MutationDiff = DetailedDiff

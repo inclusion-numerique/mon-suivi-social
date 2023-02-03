@@ -81,6 +81,7 @@ model User {
   createdFollowupTypes FollowupType[]
 
   createdBeneficiaries Beneficiary[] @relation(name: "created_beneficiaries")
+  archivedBeneficiaries Beneficiary[] @relation(name: "archived_beneficiaries")
   referentFor          Beneficiary[] @relation(name: "beneficiary_referents")
 
   doneMutations MutationLog[] @relation(name: "mutation_by")
@@ -499,6 +500,11 @@ model Beneficiary {
 
   createdById String? @db.Uuid
   createdBy   User?   @relation(name: "created_beneficiaries", fields: [createdById], references: [id])
+
+  archivedBy User? @relation(name: "archived_beneficiaries", fields: [archivedById], references: [id])
+  archivedById String? @db.Uuid
+  archived DateTime?
+
   referents   User[]  @relation(name: "beneficiary_referents")
 
   aidantConnectAuthorized Boolean @default(false)

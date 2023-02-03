@@ -1,9 +1,9 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { Prisma } from '@prisma/client'
-import { MutationFeature } from '@mss/web/features/feature'
+import { MutationServer } from '@mss/web/features/feature'
 import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { computeArrayDiff } from '@mss/web/utils/diff'
-import { MutationDiff, MutationLogInfo } from '@mss/web/features/mutationLog'
+import { MutationDiff } from '@mss/web/features/mutationLog'
 
 const getServerState = async ({ structureId }: { structureId: string }) => {
   const [structure, followupTypes] = await Promise.all([
@@ -39,14 +39,6 @@ const getServerState = async ({ structureId }: { structureId: string }) => {
 
   return { structure, followupTypes }
 }
-
-const mutationLogInfo = ({
-  structureId,
-}: EditStructureFeatureClient.Input): MutationLogInfo => ({
-  name: 'structure.edit',
-  targetId: structureId,
-  targetStructureId: structureId,
-})
 
 const executeMutation = async ({
   serverState,
@@ -102,9 +94,12 @@ const executeMutation = async ({
 
 export const EditStructureFeatureServer = {
   getServerState,
-  mutationLogInfo,
   executeMutation,
-}
+} satisfies MutationServer<
+  EditStructureFeatureClient.Input,
+  EditStructureFeatureServer.ServerState,
+  EditStructureFeatureServer.MutationResult
+>
 
 export namespace EditStructureFeatureServer {
   export type ServerState = Awaited<ReturnType<typeof getServerState>>
@@ -114,9 +109,4 @@ export namespace EditStructureFeatureServer {
 export const EditStructureFeature = {
   ...EditStructureFeatureClient,
   ...EditStructureFeatureServer,
-} satisfies MutationFeature<
-  EditStructureFeatureClient.Input,
-  {},
-  EditStructureFeatureServer.ServerState,
-  EditStructureFeatureServer.MutationResult
->
+}

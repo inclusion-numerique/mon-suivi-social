@@ -8,7 +8,7 @@ const executeQuery = async ({
   queryInput: ListBeneficiariesFeatureClient.Input
 }) => {
   const beneficiaries = await prismaClient.beneficiary.findMany({
-    where: { structureId },
+    where: { structureId, archived: null },
     select: {
       id: true,
       usualName: true,
@@ -52,11 +52,19 @@ const executeQuery = async ({
   return { beneficiaries }
 }
 
+const executeCountQuery = ({
+  structureId,
+}: Pick<ListBeneficiariesFeatureClient.Input, 'structureId'>) =>
+  prismaClient.beneficiary.count({
+    where: { structureId, archived: null },
+  })
+
 export type ListBeneficiariesItem =
   ListBeneficiariesFeatureServer.QueryResult['beneficiaries'][number]
 
 export const ListBeneficiariesFeatureServer = {
   executeQuery,
+  executeCountQuery,
 }
 
 export namespace ListBeneficiariesFeatureServer {
