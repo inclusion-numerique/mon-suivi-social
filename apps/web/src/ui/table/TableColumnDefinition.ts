@@ -7,7 +7,7 @@ export type TableColumnDefinition<Item = unknown, OrderByCondition = {}> = {
   // Label of the table column, displayed in table header and accessibility labels
   label: string
   // If the column is sortable, provide a function that returns the "orderBy" configuration for the prisma request
-  sortable?: (label: string, direction: SortDirection) => OrderByCondition[]
+  sortable?: (direction: SortDirection) => OrderByCondition[]
   // Content of the "cell" for this column, for a given item.
   content: (item: Item) => ReactNode
 }
@@ -21,5 +21,5 @@ export const getColumnOrderBy = <Item>(
     return undefined
   }
 
-  return column.sortable(column.label, sorting.direction)
+  return column.sortable(sorting.direction)
 }
