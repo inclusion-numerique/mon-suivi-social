@@ -10,14 +10,15 @@ export const AddDocumentButton = ({
       <button
         type="button"
         aria-controls="fr-modal-add-document"
+        data-fr-opened="false"
         className="fr-btn fr-btn--icon-left fr-icon-file-add-line"
       >
         Ajouter un document
       </button>
 
       <dialog
-        aria-labelledby="fr-modal-add-document-title"
         id="fr-modal-add-document"
+        aria-labelledby="fr-modal-add-document-title"
         className="fr-modal"
         role="dialog"
       >

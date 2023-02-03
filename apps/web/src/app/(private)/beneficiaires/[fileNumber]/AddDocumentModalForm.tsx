@@ -115,12 +115,19 @@ export const AddDocumentModalForm = withTrpc(
       reset(defaultValues, { keepDefaultValues: true })
     }
 
+    const uploadHint = `Taille maximale : ${formatByteSize(
+      documentFileMaxSize,
+    )}. Formats supportés : ${documentFileAllowedTypes
+      .map(mime.extension)
+      .join(', ')}`
+
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="fr-modal__header">
           <button
             className="fr-link--close fr-link"
             aria-controls="fr-modal-add-document"
+            type="button"
             ref={closeRef}
           >
             Fermer
@@ -158,11 +165,7 @@ export const AddDocumentModalForm = withTrpc(
           <UploadFormField
             control={control}
             label="Document"
-            hint={`Taille maximale : ${formatByteSize(
-              documentFileMaxSize,
-            )}. Formats supportés : ${documentFileAllowedTypes
-              .map(mime.extension)
-              .join(', ')}`}
+            hint={uploadHint}
             disabled={isLoading}
             accept={documentFileAllowedTypes.join(', ')}
             path="file"
@@ -189,6 +192,7 @@ export const AddDocumentModalForm = withTrpc(
             <li>
               <button
                 disabled={isLoading}
+                type="button"
                 aria-controls="fr-modal-add-document"
                 className="fr-btn  fr-btn--secondary"
                 onClick={onCancel}
