@@ -1,21 +1,15 @@
 import { canListBeneficiaries } from '@mss/web/security/rules'
 import z from 'zod'
+import { createQueryClient } from '@mss/web/features/createQuery'
 
-const securityCheck = canListBeneficiaries
-
-const inputValidation = z.object({
-  structureId: z.string().uuid(),
-  search: z.string().trim().optional(),
-  take: z.number().int().gt(0),
-  skip: z.number().int().gte(0),
-  orderBy: z.array(z.object({})).optional(),
+export const ListBeneficiariesClient = createQueryClient({
+  name: 'beneficiary.list',
+  securityCheck: canListBeneficiaries,
+  inputValidation: z.object({
+    structureId: z.string().uuid(),
+    search: z.string().trim().optional(),
+    page: z.number().int().gt(0).default(1),
+    perPage: z.number().int().gt(0).default(25),
+    orderBy: z.array(z.object({})).optional(),
+  }),
 })
-
-export const ListBeneficiariesFeatureClient = {
-  securityCheck,
-  inputValidation,
-}
-
-export namespace ListBeneficiariesFeatureClient {
-  export type Input = z.infer<typeof inputValidation>
-}

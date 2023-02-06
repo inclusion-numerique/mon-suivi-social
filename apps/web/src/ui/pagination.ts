@@ -20,13 +20,13 @@ export const createPagesNumbersToDisplay = (
 }
 
 export const takeAndSkipFromPagination = ({
-  pageNumber,
-  itemsPerPage,
+  page,
+  perPage,
 }: {
-  pageNumber: number
-  itemsPerPage: number
+  page: number
+  perPage: number
 }): { take: number; skip: number } => {
-  return { take: itemsPerPage, skip: (pageNumber - 1) * itemsPerPage }
+  return { take: perPage, skip: (page - 1) * perPage }
 }
 
 // TODO clean this and factorize with sorting helper for default removal logic that helps cache hits

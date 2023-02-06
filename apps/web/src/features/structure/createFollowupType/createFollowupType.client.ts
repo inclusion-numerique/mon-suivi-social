@@ -1,37 +1,23 @@
 import { canEditStructure } from '@mss/web/security/rules'
 import z from 'zod'
-import { MutationLogInfo } from '@mss/web/features/mutationLog'
-import { CreationMutationContext } from '@mss/web/features/feature'
+import { createMutationClient } from '@mss/web/features/createMutation'
 
-const name = 'structure.createFollowupType'
-
-const securityCheck = canEditStructure
-
-const inputValidation = z.object({
-  name: z
-    .string({
-      invalid_type_error: "Veuillez renseigner le nom de l'accompagnement",
-    })
-    .trim()
-    .min(2, 'Veuillez renseigner au minimum 2 caractères'),
-  structureId: z.string().uuid(),
+export const CreateFollowupTypeClient = createMutationClient({
+  name: 'structure.createFollowupType',
+  inputValidation: z.object({
+    name: z
+      .string({
+        invalid_type_error: "Veuillez renseigner le nom de l'accompagnement",
+      })
+      .trim()
+      .min(2, 'Veuillez renseigner au minimum 2 caractères'),
+    structureId: z.string().uuid(),
+  }),
+  securityCheck: canEditStructure,
+  humanizeInput: {
+    structureId: 'Identifiant de la structure',
+    name: 'Nom',
+  },
 })
 
-const mutationLogInfo = ({
-  id,
-  input: { structureId },
-}: CreationMutationContext<CreateFollowupTypeFeatureClient.Input>): MutationLogInfo => ({
-  targetId: id,
-  targetStructureId: structureId,
-})
-
-export const CreateFollowupTypeFeatureClient = {
-  name,
-  securityCheck,
-  inputValidation,
-  mutationLogInfo,
-}
-
-export namespace CreateFollowupTypeFeatureClient {
-  export type Input = z.infer<typeof inputValidation>
-}
+export type CreateFollowupTypeClient = typeof CreateFollowupTypeClient

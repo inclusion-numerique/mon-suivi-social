@@ -20,14 +20,12 @@ import {
   canDeleteBeneficiaryDocument,
   canViewBeneficiaryDocuments,
 } from '@mss/web/security/rules'
-import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
-import { EditStructureFeature } from '@mss/web/features/structure/editStructure/editStructure.server'
-import { CreateFollowupTypeFeatureClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
-import {
-  executeCreationMutation,
-  executeMutation,
-} from '@mss/web/features/mutationFeature.server'
-import { CreateFollowupTypeFeature } from '@mss/web/features/structure/createFollowupType/createFollowupType.server'
+import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
+import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
+import { CreateFollowupTypeClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
+import { CreateFollowupTypeServer } from '@mss/web/features/structure/createFollowupType/createFollowupType.server'
+import { deleteUploadedFile } from '@mss/web/server/s3/deleteUploadedFile'
+import * as Sentry from '@sentry/nextjs'
 
 const enforceUserHasAccessToStructure = (
   user: SessionUser,
@@ -245,6 +243,9 @@ export const beneficiaryRouter = router({
         // TODO Mutation log
         // TODO Delete from bucket
         await prismaClient.document.delete({ where: { key } })
+        deleteUploadedFile({ key }).catch((err) =>
+          Sentry.captureException(err, { tags: { sensitive: true } }),
+        )
 
         return {}
       }),
@@ -253,24 +254,27 @@ export const beneficiaryRouter = router({
 
 const structureRouter = router({
   edit: protectedProcedure
-    .input(EditStructureFeatureClient.inputValidation)
+    .input(EditStructureClient.inputValidation)
     .mutation(({ input, ctx: { user } }) =>
-      executeMutation(
-        {
-          user,
-          input,
-          securityParams: {},
-        },
-        EditStructureFeature,
-      ),
+      EditStructureServer.execute({
+        input,
+        user,
+        target: input,
+        securityParams: {},
+        getServerStateInput: input,
+        structureId: input.structureId,
+      }),
     ),
   createFollowupType: protectedProcedure
-    .input(CreateFollowupTypeFeatureClient.inputValidation)
+    .input(CreateFollowupTypeClient.inputValidation)
     .mutation(({ input, ctx: { user } }) =>
-      executeCreationMutation(
-        { user, input, securityParams: {} },
-        CreateFollowupTypeFeature,
-      ),
+      CreateFollowupTypeServer.execute({
+        input,
+        user,
+        target: input,
+        securityParams: {},
+        structureId: input.structureId,
+      }),
     ),
 })
 

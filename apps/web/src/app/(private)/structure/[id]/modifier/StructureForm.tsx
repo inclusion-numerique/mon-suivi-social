@@ -6,21 +6,24 @@ import { InputFormField } from '@mss/web/form/InputFormField'
 import { trpc } from '@mss/web/trpc'
 import { useRouter } from 'next/navigation'
 import { withTrpc } from '@mss/web/withTrpc'
-import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
-import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { Option } from '@mss/web/utils/options'
 import { TagsFormField } from '@mss/web/form/TagsFormField'
 import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
-import { CreateFollowupTypeFeatureClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
 import { CreateFollowupTypeForm } from '@mss/web/app/(private)/structure/[id]/modifier/CreateFollowupTypeForm'
 import { useMemo, useState } from 'react'
+import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
+import {
+  MutationInput,
+  MutationServerState,
+} from '@mss/web/features/createMutation'
+import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 
 const followupTypeToOption = ({
   id,
   name,
   _count: { followups, helpRequests },
-}: EditStructureFeatureClient.ServerState['followupTypes'][0]): Option => {
+}: MutationServerState<EditStructureServer>['followupTypes'][number]): Option => {
   const usage = helpRequests + followups
   if (usage === 0) {
     return {
@@ -37,7 +40,7 @@ const followupTypeToOption = ({
 
 const scoreFollowupTypeForSorting = (
   initialValues: Set<string>,
-  followupType: EditStructureFeatureClient.ServerState['followupTypes'][number],
+  followupType: MutationServerState<EditStructureServer>['followupTypes'][number],
 ): number => {
   if (followupType._count.helpRequests + followupType._count.followups > 0) {
     return 2
@@ -52,8 +55,8 @@ const scoreFollowupTypeForSorting = (
 
 const sortFollowupTypes = (
   initialValues: Set<string>,
-  followupTypes: EditStructureFeatureClient.ServerState['followupTypes'],
-): EditStructureFeatureClient.ServerState['followupTypes'] => {
+  followupTypes: MutationServerState<EditStructureServer>['followupTypes'],
+): MutationServerState<EditStructureServer>['followupTypes'] => {
   return followupTypes.sort(
     (a, b) =>
       scoreFollowupTypeForSorting(initialValues, b) -
@@ -67,11 +70,11 @@ export const StructureForm = withTrpc(
       | {
           creation: true
           // TODO CREATION FEATURE
-          serverState: Serialized<EditStructureFeatureClient.ServerState>
+          serverState: Serialized<MutationServerState<EditStructureServer>>
         }
       | {
           creation?: false
-          serverState: Serialized<EditStructureFeatureClient.ServerState>
+          serverState: Serialized<MutationServerState<EditStructureServer>>
         },
   ) => {
     const router = useRouter()
@@ -85,14 +88,14 @@ export const StructureForm = withTrpc(
     const defaultValues = props.creation
       ? // TODO
         { proposedFollowupTypes: [] }
-      : EditStructureFeatureClient.dataFromServerState(serverState)
+      : EditStructureServer.dataFromServerState(serverState)
 
     const initiallySelectedFollowupIds = new Set(
       defaultValues.proposedFollowupTypes,
     )
 
-    const form = useForm<EditStructureFeatureClient.Input>({
-      resolver: zodResolver(EditStructureFeatureClient.inputValidation),
+    const form = useForm<MutationInput<EditStructureClient>>({
+      resolver: zodResolver(EditStructureClient.inputValidation),
       defaultValues,
     })
 
@@ -140,7 +143,7 @@ export const StructureForm = withTrpc(
       ])
     }
 
-    const onSubmit = async (data: EditStructureFeatureClient.Input) => {
+    const onSubmit = async (data: MutationInput<EditStructureClient>) => {
       try {
         await editStructure.mutateAsync(data)
         setAddedFollowupTypes([])

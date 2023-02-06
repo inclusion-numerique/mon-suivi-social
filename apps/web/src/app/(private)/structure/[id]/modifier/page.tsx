@@ -3,9 +3,9 @@ import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { StructureForm } from '@mss/web/app/(private)/structure/[id]/modifier/StructureForm'
 import { serialize } from '@mss/web/utils/serialization'
-import { EditStructureFeatureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
-import { EditStructureFeatureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { notFound } from 'next/navigation'
+import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
+import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 
 export const revalidate = 0
 
@@ -16,12 +16,12 @@ const StructureEditPage = async ({
 }) => {
   const user = await getAuthenticatedAgent()
 
-  if (!EditStructureFeatureClient.securityCheck(user, { structureId })) {
+  if (!EditStructureClient.securityCheck(user, { structureId }, {})) {
     notFound()
     return null
   }
 
-  const serverState = await EditStructureFeatureServer.getServerState({
+  const serverState = await EditStructureServer.getServerState({
     structureId,
   })
   const { structure } = serverState

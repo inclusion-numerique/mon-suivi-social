@@ -3,9 +3,10 @@
 import { trpc } from '@mss/web/trpc'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CreateFollowupTypeFeatureClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
 import { InputFormField } from '@mss/web/form/InputFormField'
 import { useState } from 'react'
+import { CreateFollowupTypeClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
+import { MutationInput } from '@mss/web/features/createMutation'
 
 export const CreateFollowupTypeForm = ({
   structure: { id: structureId },
@@ -20,14 +21,14 @@ export const CreateFollowupTypeForm = ({
   const createFollowupType = trpc.structure.createFollowupType.useMutation()
   const defaultValues = { structureId }
 
-  const form = useForm<CreateFollowupTypeFeatureClient.Input>({
-    resolver: zodResolver(CreateFollowupTypeFeatureClient.inputValidation),
+  const form = useForm<MutationInput<CreateFollowupTypeClient>>({
+    resolver: zodResolver(CreateFollowupTypeClient.inputValidation),
     defaultValues,
   })
 
   const { handleSubmit, control } = form
 
-  const onSubmit = async (data: CreateFollowupTypeFeatureClient.Input) => {
+  const onSubmit = async (data: MutationInput<CreateFollowupTypeClient>) => {
     try {
       const { followupType } = await createFollowupType.mutateAsync(data)
       form.reset(defaultValues)

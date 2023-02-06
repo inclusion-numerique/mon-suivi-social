@@ -3,7 +3,6 @@ import BeneficiariesSearchBar from '@mss/web/app/(private)/beneficiaires/Benefic
 import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { prismaClient } from '@mss/web/prismaClient'
 import { BeneficiariesListTableRows } from '@mss/web/app/(private)/beneficiaires/(list)/BeneficiariesListTableRows'
 import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(list)/beneficiariesListTableColumns'
 import { redirect } from 'next/navigation'
@@ -13,13 +12,9 @@ import {
   Sorting,
 } from '@mss/web/ui/table/TableColumnDefinition'
 import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
-import { ListBeneficiariesFeatureClient } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.client'
-import {
-  createPageLinkHelper,
-  takeAndSkipFromPagination,
-} from '@mss/web/ui/pagination'
+import { createPageLinkHelper } from '@mss/web/ui/pagination'
 import { createSortLinkHelper } from '@mss/web/ui/sorting'
-import { ListBeneficiariesFeatureServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
+import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 
 const itemsPerPage = 10
 
@@ -50,12 +45,17 @@ const BeneficiariesListPage = async ({
   // Get filters info from searchParams
   const search = searchParams?.recherche
 
-  const beneficiariesCount =
-    await ListBeneficiariesFeatureServer.executeCountQuery({ structureId })
-
-  // Create pagination parameters
-
-  const totalPages = Math.ceil(beneficiariesCount / itemsPerPage) || 1
+  const beneficiariesList = await ListBeneficiariesServer.execute({
+    user,
+    input: {
+      perPage: itemsPerPage,
+      page: pageNumber,
+      orderBy: getColumnOrderBy(currentSorting, beneficiariesListTableColumns),
+      structureId,
+      search,
+    },
+    securityParams: { structureId },
+  })
 
   // Linking logic for pages navigation
   const createPageLink = createPageLinkHelper(
@@ -64,8 +64,8 @@ const BeneficiariesListPage = async ({
   )
 
   // Redirect to last page if pageNumber is outside of bounds
-  if (pageNumber > totalPages) {
-    redirect(createPageLink(totalPages))
+  if (pageNumber > beneficiariesList.totalPages) {
+    redirect(createPageLink(beneficiariesList.totalPages))
     return null
   }
 
@@ -77,13 +77,6 @@ const BeneficiariesListPage = async ({
 
   // Query input parameters
 
-  const queryInput: ListBeneficiariesFeatureClient.Input = {
-    structureId,
-    search,
-    ...takeAndSkipFromPagination({ itemsPerPage, pageNumber }),
-    orderBy: getColumnOrderBy(currentSorting, beneficiariesListTableColumns),
-  }
-
   const tableHead = (
     <TableHeadWithSorting
       columns={beneficiariesListTableColumns}
@@ -92,7 +85,11 @@ const BeneficiariesListPage = async ({
     />
   )
 
-  const tableBody = <BeneficiariesListTableRows queryInput={queryInput} />
+  const tableBody = (
+    <BeneficiariesListTableRows
+      beneficiaries={beneficiariesList.beneficiaries}
+    />
+  )
 
   return (
     <>
@@ -125,13 +122,17 @@ const BeneficiariesListPage = async ({
         <div className="fr-card__body">
           <div className="fr-card__content">
             <p className="fr-hint-text fr-mb-0">
-              {beneficiariesCount} bénéficiaire
-              {beneficiariesCount === 1 ? '' : 's'}
+              {beneficiariesList.count} bénéficiaire
+              {beneficiariesList.count === 1 ? '' : 's'}
             </p>
             <Table
               tableHead={tableHead}
               tableBody={tableBody}
-              pagination={{ pageNumber, totalPages, createPageLink }}
+              pagination={{
+                pageNumber,
+                totalPages: beneficiariesList.totalPages,
+                createPageLink,
+              }}
             />
           </div>
         </div>

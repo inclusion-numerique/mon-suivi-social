@@ -7,7 +7,15 @@ const anonymizationFunctions = new Map<string, AnonymizationFunction<any>>()
 export const addMutationLogToBeneficiaryAnonymization = <T>(
   featureName: string,
   anonymization: AnonymizationFunction<T>,
-) => anonymizationFunctions.set(featureName, anonymization)
+) => {
+  if (anonymizationFunctions.has(featureName)) {
+    throw new Error(
+      `Feature ${featureName} already have been declare. Please check that you have distinct feature names`,
+    )
+  }
+
+  anonymizationFunctions.set(featureName, anonymization)
+}
 
 export const getAnonymizationForFeature = (
   featureName: string,

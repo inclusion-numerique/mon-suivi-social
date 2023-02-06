@@ -65,6 +65,16 @@ export const isCreator = (
   grantee.status === 'Active' &&
   allowedRoles.includes(grantee.role)
 
+export type SecurityRule<
+  Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
+  Target = any,
+  SecurityParams = any,
+> = (
+  grantee: Grantee,
+  target: Target,
+  securityParams: SecurityParams,
+) => boolean
+
 // A rule is a syncronous function taking
 // -- grantee (the authenticated user)
 // -- target (aggregate info or scope of the action)

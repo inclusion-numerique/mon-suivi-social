@@ -1,81 +1,72 @@
-import { prismaClient } from '@mss/web/prismaClient'
-import { QueryFeature } from '@mss/web/features/feature'
-import { ListBeneficiariesFeatureClient } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.client'
+import { ListBeneficiariesClient } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.client'
+import { createQueryServer, QueryResult } from '@mss/web/features/createQuery'
+import { takeAndSkipFromPagination } from '@mss/web/ui/pagination'
 
-const executeQuery = async ({
-  queryInput: { structureId, take, skip, orderBy },
-}: {
-  queryInput: ListBeneficiariesFeatureClient.Input
-}) => {
-  const beneficiaries = await prismaClient.beneficiary.findMany({
-    where: { structureId, archived: null },
-    select: {
-      id: true,
-      usualName: true,
-      birthName: true,
-      firstName: true,
-      birthDate: true,
-      streetNumber: true,
-      street: true,
-      zipcode: true,
-      city: true,
-      phone1: true,
-      phone2: true,
-      status: true,
-      fileNumber: true,
-      referents: {
+export const ListBeneficiariesServer = createQueryServer({
+  client: ListBeneficiariesClient,
+  executeQuery: async ({
+    prisma,
+    input: { structureId, page, perPage, orderBy },
+  }) => {
+    const { take, skip } = takeAndSkipFromPagination({
+      perPage,
+      page,
+    })
+
+    const where = { structureId, archived: null }
+
+    const [beneficiaries, count] = await Promise.all([
+      prisma.beneficiary.findMany({
+        where,
         select: {
           id: true,
+          usualName: true,
+          birthName: true,
           firstName: true,
-          lastName: true,
-          name: true,
-          email: true,
+          birthDate: true,
+          streetNumber: true,
+          street: true,
+          zipcode: true,
+          city: true,
+          phone1: true,
+          phone2: true,
+          status: true,
+          fileNumber: true,
+          referents: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              name: true,
+              email: true,
+            },
+          },
+          followups: {
+            select: { type: { select: { id: true, name: true } } },
+            distinct: ['typeId'],
+          },
+          helpRequests: {
+            select: { type: { select: { id: true, name: true } } },
+            distinct: ['typeId'],
+          },
+          _count: {
+            select: { followups: true, helpRequests: true, referents: true },
+          },
         },
-      },
-      followups: {
-        select: { type: { select: { id: true, name: true } } },
-        distinct: ['typeId'],
-      },
-      helpRequests: {
-        select: { type: { select: { id: true, name: true } } },
-        distinct: ['typeId'],
-      },
-      _count: {
-        select: { followups: true, helpRequests: true, referents: true },
-      },
-    },
-    take,
-    skip,
-    orderBy,
-  })
+        take,
+        skip,
+        orderBy,
+      }),
+      prisma.beneficiary.count({
+        where,
+      }),
+    ])
+    const totalPages = Math.ceil(count / perPage) || 1
 
-  return { beneficiaries }
-}
+    return { beneficiaries, count, totalPages }
+  },
+})
 
-const executeCountQuery = ({
-  structureId,
-}: Pick<ListBeneficiariesFeatureClient.Input, 'structureId'>) =>
-  prismaClient.beneficiary.count({
-    where: { structureId, archived: null },
-  })
-
-export type ListBeneficiariesItem =
-  ListBeneficiariesFeatureServer.QueryResult['beneficiaries'][number]
-
-export const ListBeneficiariesFeatureServer = {
-  executeQuery,
-  executeCountQuery,
-}
-
-export namespace ListBeneficiariesFeatureServer {
-  export type QueryResult = Awaited<ReturnType<typeof executeQuery>>
-}
-
-export const ListBeneficiariesFeature = {
-  ...ListBeneficiariesFeatureClient,
-  ...ListBeneficiariesFeatureServer,
-} satisfies QueryFeature<
-  ListBeneficiariesFeatureClient.Input,
-  {},
-  ListBeneficiariesFeatureServer.QueryResult
->
+export type ListBeneficiariesItem = QueryResult<
+  typeof ListBeneficiariesServer
+>['beneficiaries'][number]
