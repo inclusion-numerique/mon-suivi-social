@@ -40,8 +40,6 @@ export class WebAppStack extends TerraformStack {
   constructor(scope: Construct, id: string, branch: string) {
     super(scope, id)
 
-    console.log('ENV', process.env)
-
     const namespace = computeBranchNamespace(branch)
 
     const namespaced = namespacer(namespace)
