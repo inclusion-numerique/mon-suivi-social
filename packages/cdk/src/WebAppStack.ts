@@ -25,10 +25,7 @@ import {
   generateDatabaseUrl,
   namespacer,
 } from './utils'
-import {
-  ObjectBucket,
-  ObjectBucketCorsRuleList,
-} from '../.gen/providers/scaleway/object-bucket'
+import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
 
 const projectSlug = 'mss'
 const databaseInstanceId = '7857e02a-05a5-437a-a46d-5da289559d67'
