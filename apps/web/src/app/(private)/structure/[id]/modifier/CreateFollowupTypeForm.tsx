@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { InputFormField } from '@mss/web/form/InputFormField'
 import { useState } from 'react'
 import { CreateFollowupTypeClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
-import { MutationInput } from '@mss/web/features/createMutation'
+import { MutationInput } from '@mss/web/features/createMutation.client'
 
 export const CreateFollowupTypeForm = ({
   structure: { id: structureId },

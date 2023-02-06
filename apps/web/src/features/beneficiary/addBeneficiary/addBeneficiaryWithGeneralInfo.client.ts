@@ -1,6 +1,6 @@
 import { canCreateBeneficiaryWithGeneralInfo } from '@mss/web/security/rules'
 import z from 'zod'
-import { createMutationClient } from '@mss/web/features/createMutation'
+import { createMutationClient } from '@mss/web/features/createMutation.client'
 import {
   BeneficiaryStatus,
   BeneficiaryTitle,

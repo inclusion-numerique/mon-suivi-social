@@ -12,11 +12,9 @@ import { TagsFormField } from '@mss/web/form/TagsFormField'
 import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
 import { CreateFollowupTypeForm } from '@mss/web/app/(private)/structure/[id]/modifier/CreateFollowupTypeForm'
 import { useMemo, useState } from 'react'
-import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
-import {
-  MutationInput,
-  MutationServerState,
-} from '@mss/web/features/createMutation'
+import type { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
+import type { MutationServerState } from '@mss/web/features/createMutation.server'
+import type { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 
 const followupTypeToOption = ({
@@ -75,6 +73,7 @@ export const StructureForm = withTrpc(
       | {
           creation?: false
           serverState: Serialized<MutationServerState<EditStructureServer>>
+          defaultInput: Serialized<MutationInput<EditStructureClient>>
         },
   ) => {
     const router = useRouter()
@@ -88,7 +87,7 @@ export const StructureForm = withTrpc(
     const defaultValues = props.creation
       ? // TODO
         { proposedFollowupTypes: [] }
-      : EditStructureServer.dataFromServerState(serverState)
+      : deserialize(props.defaultInput)
 
     const initiallySelectedFollowupIds = new Set(
       defaultValues.proposedFollowupTypes,

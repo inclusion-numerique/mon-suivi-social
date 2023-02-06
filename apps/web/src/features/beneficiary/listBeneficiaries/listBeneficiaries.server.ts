@@ -1,6 +1,12 @@
 import { ListBeneficiariesClient } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.client'
-import { createQueryServer, QueryResult } from '@mss/web/features/createQuery'
-import { takeAndSkipFromPagination } from '@mss/web/ui/pagination'
+import {
+  createQueryServer,
+  QueryResult,
+} from '@mss/web/features/createQuery.server'
+import {
+  getTotalPages,
+  takeAndSkipFromPagination,
+} from '@mss/web/ui/pagination'
 
 export const ListBeneficiariesServer = createQueryServer({
   client: ListBeneficiariesClient,
@@ -61,7 +67,7 @@ export const ListBeneficiariesServer = createQueryServer({
         where,
       }),
     ])
-    const totalPages = Math.ceil(count / perPage) || 1
+    const totalPages = getTotalPages({ count, perPage })
 
     return { beneficiaries, count, totalPages }
   },

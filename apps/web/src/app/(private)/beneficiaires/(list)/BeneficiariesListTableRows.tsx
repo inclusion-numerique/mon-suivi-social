@@ -4,7 +4,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
-import { QueryResult } from '@mss/web/features/createQuery'
+import type { QueryResult } from '@mss/web/features/createQuery.server'
 
 export const BeneficiariesListTableRows = asyncComponent(
   async ({

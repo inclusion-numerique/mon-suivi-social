@@ -1,4 +1,4 @@
-import { createMutationServer } from '@mss/web/features/createMutation'
+import { createMutationServer } from '@mss/web/features/createMutation.server'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { v4 } from 'uuid'
 import { generateFileNumber } from '@mss/web/beneficiary/generateFileNumber'

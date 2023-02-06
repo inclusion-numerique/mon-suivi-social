@@ -16,7 +16,7 @@ import { createPageLinkHelper } from '@mss/web/ui/pagination'
 import { createSortLinkHelper } from '@mss/web/ui/sorting'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 
-const itemsPerPage = 10
+const itemsPerPage = 15
 
 const defaultSorting: Sorting = {
   by: 'Nom',
@@ -74,8 +74,6 @@ const BeneficiariesListPage = async ({
     { pageNumber, defaultSorting, search },
     Routes.Structure.Beneficiaires.Index.pathWithParams,
   )
-
-  // Query input parameters
 
   const tableHead = (
     <TableHeadWithSorting

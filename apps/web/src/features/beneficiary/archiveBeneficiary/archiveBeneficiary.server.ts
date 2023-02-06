@@ -5,7 +5,7 @@ import { notfoundError } from '@mss/web/trpc/trpcErrors'
 import { getAnonymizationForFeature } from '@mss/web/features/beneficiary/archiveBeneficiary/mutationLogAnonymization'
 import * as Sentry from '@sentry/nextjs'
 import { deleteUploadedFile } from '@mss/web/server/s3/deleteUploadedFile'
-import { createMutationServerWithInitialState } from '@mss/web/features/createMutation'
+import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 
 export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
   client: ArchiveBeneficiaryClient,

@@ -24,6 +24,7 @@ const StructureEditPage = async ({
   const serverState = await EditStructureServer.getServerState({
     structureId,
   })
+  const defaultInput = EditStructureServer.dataFromServerState(serverState)
   const { structure } = serverState
 
   const page: PageConfig = {
@@ -50,7 +51,10 @@ const StructureEditPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <StructureForm serverState={serialize(serverState)} />
+              <StructureForm
+                serverState={serialize(serverState)}
+                defaultInput={serialize(defaultInput)}
+              />
             </div>
           </div>
         </div>

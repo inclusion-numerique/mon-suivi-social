@@ -111,6 +111,10 @@ export const Routes = {
         title: 'Structures',
         icon: 'building-line',
         path: '/structures',
+        pathWithParams:
+          withSearchParams<PaginationParams<{ recherche?: string }>>(
+            '/structures',
+          ),
       },
     },
     Structure: {

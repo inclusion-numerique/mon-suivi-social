@@ -1,6 +1,6 @@
 import { canDeleteBeneficiary } from '@mss/web/security/rules'
 import z from 'zod'
-import { createMutationClient } from '@mss/web/features/createMutation'
+import { createMutationClient } from '@mss/web/features/createMutation.client'
 
 export const ArchiveBeneficiaryClient = createMutationClient({
   name: 'beneficiary.archive',
