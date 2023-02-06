@@ -55,7 +55,7 @@ function SortLink<Item, SortBy>({
   const isAsc = !isDesc
 
   const icon =
-    isCurrent && isDesc ? 'fr-icon-arrow-down-line' : 'fr-icon-arrow-up-line'
+    isCurrent && isDesc ? 'fr-icon-arrow-up-line' : 'fr-icon-arrow-down-line'
 
   const title = `Trier par ${label.toLowerCase()}, ordre ${
     isCurrent && isAsc ? 'décroissant' : 'croissant'
