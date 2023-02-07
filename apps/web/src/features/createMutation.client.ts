@@ -3,7 +3,7 @@ import { SecurityRule, SecurityRuleGrantee } from '@mss/web/security/rules'
 import { addMutationLogToBeneficiaryAnonymization } from '@mss/web/features/beneficiary/archiveBeneficiary/mutationLogAnonymization'
 
 type AnonymizationFunction<T> = (sensitiveDiff: T) => Partial<T>
-type HumanizeInput<T> = { [key in keyof T]: string }
+type FieldLabels<T> = { [key in keyof T]: string }
 
 export type CreateMutationClientOptions<
   Validation extends ZodType,
@@ -17,7 +17,7 @@ export type CreateMutationClientOptions<
   inputValidation: Validation
   securityCheck: SecurityRule<Grantee, Target, SecurityParams>
   beneficiaryAnonymization?: AnonymizationFunction<Input>
-  humanizeInput?: HumanizeInput<Input>
+  fieldLabels: FieldLabels<Input>
 }
 
 export type MutationClient<

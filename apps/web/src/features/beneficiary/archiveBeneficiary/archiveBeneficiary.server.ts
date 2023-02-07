@@ -1,7 +1,7 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { MutationDiff } from '@mss/web/features/mutationLog'
 import { ArchiveBeneficiaryClient } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.client'
-import { notfoundError } from '@mss/web/trpc/trpcErrors'
+import { invalidError, notfoundError } from '@mss/web/trpc/trpcErrors'
 import { getAnonymizationForFeature } from '@mss/web/features/beneficiary/archiveBeneficiary/mutationLogAnonymization'
 import * as Sentry from '@sentry/nextjs'
 import { deleteUploadedFile } from '@mss/web/server/s3/deleteUploadedFile'
@@ -39,8 +39,12 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
   executeMutation: async ({ serverState, input, transaction, user }) => {
     const { beneficiaryId } = input
     const {
-      beneficiary: { targetForMutations, documents },
+      beneficiary: { archived, targetForMutations, documents },
     } = serverState
+
+    if (archived) {
+      throw invalidError('Ce bénéficiaire est déjà archivé')
+    }
 
     const beneficiaryAnonymization = transaction.beneficiary.update({
       where: { id: beneficiaryId },

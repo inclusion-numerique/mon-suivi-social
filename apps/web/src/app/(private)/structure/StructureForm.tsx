@@ -10,19 +10,30 @@ import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Option } from '@mss/web/utils/options'
 import { TagsFormField } from '@mss/web/form/TagsFormField'
 import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
-import { CreateFollowupTypeForm } from '@mss/web/app/(private)/structure/[id]/modifier/CreateFollowupTypeForm'
 import { useMemo, useState } from 'react'
 import type { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import type { MutationServerState } from '@mss/web/features/createMutation.server'
 import type { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
+import type { FollowupTypesForStructureCreation } from '@mss/web/features/structure/createStructure/createStructure.server'
+import { SelectFormField } from '@mss/web/form/SelectFormField'
+import {
+  CreateStructureClient,
+  structureTypeOptions,
+} from '@mss/web/features/structure/createStructure/createStructure.client'
+import { CreateFollowupTypeForm } from '@mss/web/app/(private)/structure/CreateFollowupTypeForm'
 
-const followupTypeToOption = ({
-  id,
-  name,
-  _count: { followups, helpRequests },
-}: MutationServerState<EditStructureServer>['followupTypes'][number]): Option => {
-  const usage = helpRequests + followups
+const followupTypeToOption = (
+  followupType:
+    | MutationServerState<EditStructureServer>['followupTypes'][number]
+    | FollowupTypesForStructureCreation[number],
+): Option => {
+  const { id, name } = followupType
+  const usage =
+    '_count' in followupType
+      ? followupType._count.helpRequests + followupType._count.followups
+      : 0
+
   if (usage === 0) {
     return {
       name,
@@ -62,13 +73,14 @@ const sortFollowupTypes = (
   )
 }
 
+const FieldLabels = CreateStructureClient.fieldLabels
+
 export const StructureForm = withTrpc(
   (
     props:
       | {
           creation: true
-          // TODO CREATION FEATURE
-          serverState: Serialized<MutationServerState<EditStructureServer>>
+          availableFollowupTypes: Serialized<FollowupTypesForStructureCreation>
         }
       | {
           creation?: false
@@ -78,32 +90,44 @@ export const StructureForm = withTrpc(
   ) => {
     const router = useRouter()
 
-    // Structure edition
+    const addStructure = trpc.structure.add.useMutation()
     const editStructure = trpc.structure.edit.useMutation()
 
-    const serverState = deserialize(props.serverState)
-    const { structure, followupTypes } = serverState
+    const { structure, followupTypes } = props.creation
+      ? {
+          structure: undefined,
+          followupTypes: deserialize(props.availableFollowupTypes),
+        }
+      : deserialize(props.serverState)
 
     const defaultValues = props.creation
-      ? // TODO
-        { proposedFollowupTypes: [] }
+      ? { proposedFollowupTypes: [] }
       : deserialize(props.defaultInput)
 
     const initiallySelectedFollowupIds = new Set(
       defaultValues.proposedFollowupTypes,
     )
 
-    const form = useForm<MutationInput<EditStructureClient>>({
-      resolver: zodResolver(EditStructureClient.inputValidation),
+    const form = useForm<
+      MutationInput<CreateStructureClient> | MutationInput<EditStructureClient>
+    >({
+      resolver: zodResolver(
+        props.creation
+          ? CreateStructureClient.inputValidation
+          : EditStructureClient.inputValidation,
+      ),
       defaultValues,
     })
 
     const { handleSubmit, control } = form
 
     const sortedFollowupTypes = useMemo(
-      () => sortFollowupTypes(initiallySelectedFollowupIds, followupTypes),
+      () =>
+        structure === undefined
+          ? followupTypes
+          : sortFollowupTypes(initiallySelectedFollowupIds, followupTypes),
       // Volontary missing deps to not recompute if server state has not changed
-      [props.serverState],
+      [props],
     )
 
     const { legalFollowupTypes, optionalFollowupTypes } =
@@ -137,14 +161,25 @@ export const StructureForm = withTrpc(
           id,
           name,
           legallyRequired: false,
-          _count: { followups: 0, helpRequests: 0 },
         },
       ])
     }
 
-    const onSubmit = async (data: MutationInput<EditStructureClient>) => {
+    // TODO better typings for multiple onSubmit add/edit ?
+    const onSubmit = async (
+      data:
+        | MutationInput<CreateStructureClient>
+        | MutationInput<EditStructureClient>,
+    ) => {
       try {
-        await editStructure.mutateAsync(data)
+        props.creation
+          ? await addStructure.mutateAsync(
+              data as MutationInput<CreateStructureClient>,
+            )
+          : await editStructure.mutateAsync(
+              data as MutationInput<EditStructureClient>,
+            )
+
         setAddedFollowupTypes([])
         router.refresh()
       } catch (err) {
@@ -160,38 +195,47 @@ export const StructureForm = withTrpc(
       <>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h3>Informations</h3>
+          {props.creation ? (
+            <SelectFormField
+              label={FieldLabels['type']}
+              disabled={fieldsDisabled}
+              control={control}
+              path="type"
+              options={structureTypeOptions}
+            />
+          ) : null}
           <InputFormField
-            label="Raison sociale"
+            label={FieldLabels['name']}
             disabled={fieldsDisabled}
             control={control}
             path="name"
           />
           <InputFormField
-            label="Adresse"
+            label={FieldLabels['address']}
             disabled={fieldsDisabled}
             control={control}
             path="address"
           />
           <InputFormField
-            label="Code postal"
+            label={FieldLabels['zipcode']}
             disabled={fieldsDisabled}
             control={control}
             path="zipcode"
           />
           <InputFormField
-            label="Ville"
+            label={FieldLabels['city']}
             disabled={fieldsDisabled}
             control={control}
             path="city"
           />
           <InputFormField
-            label="Téléphone"
+            label={FieldLabels['phone']}
             disabled={fieldsDisabled}
             control={control}
             path="phone"
           />
           <InputFormField
-            label="Email"
+            label={FieldLabels['email']}
             disabled={fieldsDisabled}
             control={control}
             path="email"
@@ -218,11 +262,13 @@ export const StructureForm = withTrpc(
             path="proposedFollowupTypes"
             options={allOptionalFollowupTypes.map(followupTypeToOption)}
           />
-          <CreateFollowupTypeForm
-            structure={structure}
-            onCreated={onFollowupTypeCreated}
-          />
-
+          {/*Only possible to create owned followup types when structure has been created*/}
+          {structure ? (
+            <CreateFollowupTypeForm
+              structure={structure}
+              onCreated={onFollowupTypeCreated}
+            />
+          ) : null}
           {editStructure.isError ? (
             <p className="fr-error-text">{editStructure.error.message}</p>
           ) : null}
@@ -236,7 +282,7 @@ export const StructureForm = withTrpc(
                   disabled={isLoading}
                   onClick={onCancel}
                 >
-                  Annuler les modifications
+                  {props.creation ? 'Annuler' : 'Annuler les modifications'}
                 </button>
                 <button className="fr-btn" type="submit" disabled={isLoading}>
                   {props.creation

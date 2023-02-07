@@ -77,7 +77,7 @@ export type CreateMutationServerWithInitialStateOptions<
   'executeMutation' | 'mutationLogInfo'
 > & {
   getServerState: GetServerState<GetServerStateInput, ServerState>
-  dataFromServerState: (serverState: ServerState) => Input
+  dataFromServerState: (serverState: ServerState) => Input | undefined
   executeMutation: ExecuteMutationWithServerState<
     ServerState,
     Input,
@@ -321,7 +321,8 @@ export const createMutationServerWithInitialState = <
     return prismaClient.$transaction(async (transaction) => {
       const result = await options.executeMutation({
         serverState,
-        initialInput,
+        // TODO not safe type coercion, see what to do about serversate in creation feature with no initial Input
+        initialInput: initialInput as Input,
         user,
         input,
         transaction,

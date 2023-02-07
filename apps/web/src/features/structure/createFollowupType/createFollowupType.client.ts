@@ -14,7 +14,7 @@ export const CreateFollowupTypeClient = createMutationClient({
     structureId: z.string().uuid(),
   }),
   securityCheck: canEditStructure,
-  humanizeInput: {
+  fieldLabels: {
     structureId: 'Identifiant de la structure',
     name: 'Nom',
   },

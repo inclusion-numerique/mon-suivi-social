@@ -2,8 +2,10 @@ import BeneficiariesSearchBar from '@mss/web/app/(private)/beneficiaires/Benefic
 import Link from 'next/link'
 import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
+import { getSessionUser } from '@mss/web/auth/getSessionUser'
 
 const TableauDeBordPage = async () => {
+  const user = await getSessionUser()
   return (
     <>
       <PageTitle page={Routes.Structure.Index} />
@@ -15,7 +17,7 @@ const TableauDeBordPage = async () => {
               style={{ display: 'flex' }}
             >
               <div className="fr-col-12 fr-col-md-8">
-                <BeneficiariesSearchBar />
+                <BeneficiariesSearchBar structureId={user?.structureId} />
               </div>
               <div className="fr-col-12 fr-col-md-4">
                 <div className="fr-btns-group fr-btns-group--icon-left">

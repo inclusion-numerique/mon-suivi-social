@@ -150,7 +150,7 @@ export const canCreateBeneficiaryWithGeneralInfo = (
     'Referent',
   ])
 
-export const canCreateBeneficiaryWithFullInfo = (
+export const canCreateBeneficiaryWithFullData = (
   grantee: SecurityRuleGrantee,
   target: SecurityTargetWithStructure,
 ): boolean =>

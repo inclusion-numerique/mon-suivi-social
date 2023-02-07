@@ -1,10 +1,10 @@
 import { createMutationServer } from '@mss/web/features/createMutation.server'
-import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { v4 } from 'uuid'
 import { generateFileNumber } from '@mss/web/beneficiary/generateFileNumber'
+import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
 
-export const AddBeneficiaryWithGeneralInfoServer = createMutationServer({
-  client: AddBeneficiaryWithGeneralInfoClient,
+export const AddBeneficiaryWithFullDataServer = createMutationServer({
+  client: AddBeneficiaryWithFullDataClient,
   executeMutation: async ({ input, transaction }) => {
     const { structureId, referents, ...data } = input
 
@@ -37,5 +37,5 @@ export const AddBeneficiaryWithGeneralInfoServer = createMutationServer({
   }),
 })
 
-export type AddBeneficiaryWithGeneralInfoServer =
-  typeof AddBeneficiaryWithGeneralInfoServer
+export type AddBeneficiaryWithFullDataServer =
+  typeof AddBeneficiaryWithFullDataServer

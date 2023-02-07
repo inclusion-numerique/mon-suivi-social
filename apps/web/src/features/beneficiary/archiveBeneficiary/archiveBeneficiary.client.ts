@@ -8,7 +8,8 @@ export const ArchiveBeneficiaryClient = createMutationClient({
   inputValidation: z.object({
     beneficiaryId: z.string().uuid(),
   }),
-  humanizeInput: {
+  fieldLabels: {
     beneficiaryId: 'Identifiant',
   },
 })
+export type ArchiveBeneficiaryClient = typeof ArchiveBeneficiaryClient

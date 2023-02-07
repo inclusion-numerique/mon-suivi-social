@@ -18,7 +18,7 @@ const SearchResult = styled.div`
   }
 `
 
-const BeneficiariesSearchBar = () => {
+const BeneficiariesSearchBar = ({ structureId }: { structureId: string }) => {
   const router = useRouter()
 
   const [query, setQuery] = useState('')
@@ -27,7 +27,7 @@ const BeneficiariesSearchBar = () => {
   const queryEnabled = deferredQuery.trim().length >= 2
 
   const beneficiaries = trpc.beneficiary.search.useQuery(
-    { query: deferredQuery },
+    { query: deferredQuery, structureId },
     { enabled: queryEnabled },
   )
 

@@ -6,54 +6,35 @@ import { notFound } from 'next/navigation'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import { StructureForm } from '@mss/web/app/(private)/structure/StructureForm'
+import StructureEditPage from '@mss/web/app/(private)/structure/[id]/modifier/page'
+import { CreateStructureClient } from '@mss/web/features/structure/createStructure/createStructure.client'
+import { getFollowupTypesForStructureCreation } from '@mss/web/features/structure/createStructure/createStructure.server'
 
 export const revalidate = 0
 
-const StructureEditPage = async ({
-  params: { id: structureId },
-}: {
-  params: RoutePathParams<typeof Routes.Structure.Structure.Index.path>
-}) => {
+const AddStructurePage = async () => {
   const user = await getAuthenticatedAgent()
 
-  if (!EditStructureClient.securityCheck(user, { structureId }, {})) {
+  if (!CreateStructureClient.securityCheck(user, {}, {})) {
     notFound()
     return null
   }
 
-  const serverState = await EditStructureServer.getServerState({
-    structureId,
-  })
-  const defaultInput = EditStructureServer.dataFromServerState(serverState)
-  const { structure } = serverState
-
-  const page: PageConfig = {
-    ...Routes.Structure.Structure.Modifier,
-    title: Routes.Structure.Structure.Modifier.title(structure),
-  }
+  const availableFollowupTypes = await getFollowupTypesForStructureCreation()
 
   return (
     <>
       <PageTitle
-        page={page}
-        parents={[
-          {
-            title: Routes.Structure.Structure.Index.title(structure),
-            path: Routes.Structure.Structure.Index.path({
-              id: structureId,
-            }),
-          },
-        ]}
+        page={Routes.Structure.Structures.Ajouter}
+        parents={[Routes.Structure.Structures.Index]}
       />
-      {/*TODO rendre moins large pour les forms*/}
-
       <div className="fr-grid-row fr-grid-row--center fr-pb-8v">
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
               <StructureForm
-                serverState={serialize(serverState)}
-                defaultInput={serialize(defaultInput)}
+                creation
+                availableFollowupTypes={serialize(availableFollowupTypes)}
               />
             </div>
           </div>

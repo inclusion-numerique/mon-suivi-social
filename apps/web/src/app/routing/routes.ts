@@ -67,6 +67,18 @@ export const Routes = {
           path: ({ fileNumber }: { fileNumber: string }) =>
             `/beneficiaires/${fileNumber}/modifier`,
         },
+        Archiver: {
+          title: (
+            beneficiary: Pick<
+              Beneficiary,
+              'firstName' | 'usualName' | 'birthName' | 'fileNumber'
+            >,
+          ) => `${beneficiaryDisplayName(beneficiary)} · Archiver`,
+          icon: 'user-line',
+          breadcrumbsTitle: 'Archiver',
+          path: ({ fileNumber }: { fileNumber: string }) =>
+            `/beneficiaires/${fileNumber}/archiver`,
+        },
       },
       Nouveau: {
         title: 'Ajouter un·e bénéficiaire',
@@ -115,6 +127,12 @@ export const Routes = {
           withSearchParams<PaginationParams<{ recherche?: string }>>(
             '/structures',
           ),
+      },
+      Ajouter: {
+        title: 'Ajouter une structure',
+        breadcrumbsTitle: 'Ajouter',
+        icon: 'building-line',
+        path: `/structures/ajouter`,
       },
     },
     Structure: {

@@ -1,6 +1,7 @@
 import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
 import { ListStructuresItem } from '@mss/web/features/structure/listStructures/listStructures.server'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
+import { StructureTypeLabels } from '@mss/web/features/structure/createStructure/createStructure.client'
 
 export const structuresListTableColumns = [
   {
@@ -11,8 +12,8 @@ export const structuresListTableColumns = [
   {
     label: 'Type',
     sortable: (direction) => [{ type: direction }],
-    // TODO type labels
-    content: ({ type }: ListStructuresItem) => nonBreakable(type),
+    content: ({ type }: ListStructuresItem) =>
+      nonBreakable(StructureTypeLabels[type]),
   },
   {
     label: 'Utilisateurs',

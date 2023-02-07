@@ -529,6 +529,7 @@ model Beneficiary {
   addressComplement                 String?
   zipcode                           String?
   city                              String?
+  region                              String?
   noPhone                           Boolean?
   phone1                            String?
   phone2                            String?

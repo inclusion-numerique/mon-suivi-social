@@ -14,6 +14,7 @@ import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
 import { structuresListTableColumns } from '@mss/web/app/(private)/structures/(list)/structuresListTableColumns'
 import { StructuresListTableRows } from '@mss/web/app/(private)/structures/(list)/StructuresListTableRows'
 import { Table } from '@mss/web/ui/table/Table'
+import Link from 'next/link'
 
 const itemsPerPage = 15
 
@@ -92,10 +93,25 @@ const StructuresPage = async ({
       <div className="fr-card fr-mt-4v">
         <div className="fr-card__body">
           <div className="fr-card__content">
-            <p className="fr-hint-text fr-mb-0">
-              {count} structure
-              {count === 1 ? '' : 's'}
-            </p>
+            <div className="fr-grid-row">
+              <div className="fr-col-4">
+                <p className="fr-hint-text fr-mb-0">
+                  {count} structure
+                  {count === 1 ? '' : 's'}
+                </p>
+              </div>
+              <div className="fr-col-8 fr-col-md-4">
+                <div className="fr-btns-group fr-btns-group--icon-left">
+                  <Link
+                    className="fr-btn fr-icon-building-line fr-mb-0"
+                    href={Routes.Structure.Structures.Ajouter.path}
+                  >
+                    Ajouter une structure
+                  </Link>
+                </div>
+              </div>
+            </div>
+
             <Table
               tableHead={tableHead}
               tableBody={tableBody}

@@ -12,6 +12,10 @@ import { DocumentsTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/
 import { HistoryTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/HistoryTab'
 import { InfoTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/InfoTab'
 import { CSSProperties, PropsWithChildren } from 'react'
+import {
+  canDeleteBeneficiary,
+  canEditBeneficiaryGeneralInfo,
+} from '@mss/web/security/rules'
 
 export const revalidate = 0
 
@@ -139,6 +143,9 @@ const BeneficiaryPage = async ({
     title: Routes.Structure.Beneficiaires.Beneficiaire.Index.title(beneficiary),
   }
 
+  const canEdit = canEditBeneficiaryGeneralInfo(user, beneficiary)
+  const canArchive = canDeleteBeneficiary(user, beneficiary)
+
   return (
     <>
       <PageTitle page={page} parents={[Routes.Structure.Beneficiaires.Index]} />
@@ -152,22 +159,30 @@ const BeneficiaryPage = async ({
           </li>
           <li>
             Agents référents :{' '}
-            <strong>{referents.map(getUserDisplayName)}</strong>
+            <strong>
+              {referents.length === 0
+                ? 'Aucun'
+                : referents.map(getUserDisplayName)}
+            </strong>
           </li>
         </ul>
       </div>
       <div className="fr-col-12 fr-mt-4v">
         <ul className="fr-btns-group  fr-btns-group--icon-left fr-btns-group--inline fr-btns-group--sm">
-          <li>
-            <Link
-              href={Routes.Structure.Beneficiaires.Beneficiaire.Modifier.path({
-                fileNumber,
-              })}
-              className="fr-btn fr-icon-pencil-line fr-btn--primary"
-            >
-              Modifier le bénéficiaire
-            </Link>
-          </li>
+          {canEdit ? (
+            <li>
+              <Link
+                href={Routes.Structure.Beneficiaires.Beneficiaire.Modifier.path(
+                  {
+                    fileNumber,
+                  },
+                )}
+                className="fr-btn fr-icon-pencil-line fr-btn--primary"
+              >
+                Modifier le bénéficiaire
+              </Link>
+            </li>
+          ) : null}
           <li>
             <Link
               href={Routes.Structure.Accompagnements.Entretien.Nouveau.path({
@@ -189,7 +204,21 @@ const BeneficiaryPage = async ({
             >
               Demande d&apos;aide
             </Link>
-          </li>
+          </li>{' '}
+          {canArchive ? (
+            <li>
+              <Link
+                href={Routes.Structure.Beneficiaires.Beneficiaire.Archiver.path(
+                  {
+                    fileNumber,
+                  },
+                )}
+                className="fr-btn fr-btn--secondary fr-icon-archive-line fr-btn--primary"
+              >
+                Archiver le bénéficiaire
+              </Link>
+            </li>
+          ) : null}
           <li>
             <Link
               href="https://www.mesdroitssociaux.gouv.fr/dd1pnds-ria/#destination/simu-foyer"

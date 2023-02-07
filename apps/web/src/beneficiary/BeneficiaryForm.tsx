@@ -1,12 +1,8 @@
 'use client'
-import { DefaultValues, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { InputFormField } from '@mss/web/form/InputFormField'
-import {
-  BeneficiaryData,
-  BeneficiaryDataValidation,
-  beneficiaryStatusOptions,
-} from '@mss/web/beneficiary/beneficiary'
+import { beneficiaryStatusOptions } from '@mss/web/beneficiary/beneficiary'
 import { Options } from '@mss/web/utils/options'
 import { SelectFormField } from '@mss/web/form/SelectFormField'
 import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
@@ -15,56 +11,85 @@ import { useRouter } from 'next/navigation'
 import { withTrpc } from '@mss/web/withTrpc'
 import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
-import { Beneficiary } from '@prisma/client'
+import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
+import { MutationInput } from '@mss/web/features/createMutation.client'
+import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
+import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
+import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
+import { MultipleBadgeSelectFormField } from '@mss/web/form/MultipleBadgeSelectFormField'
 
-const defaultValueFromBeneficiary = (
-  beneficiary: Beneficiary,
-): DefaultValues<BeneficiaryData> => {
-  const { additionalInformation, ...rest } = beneficiary
-
-  return {
-    additionalInformation: additionalInformation ?? undefined,
-    ...rest,
-  }
-}
-
+/**
+ * This forms permits creation and edition of beneficiaries, with full or general info
+ */
 export const BeneficiaryForm = withTrpc(
   (
     props: { agents: Options } & (
       | {
           creation: true
-          defaultValues?: DefaultValues<BeneficiaryData>
+          full: boolean
+          defaultInput: { structureId: string }
         }
       | {
           creation?: false
-          serializedBeneficiary: Serialized<Beneficiary>
+          full: false
+          defaultInput: Serialized<
+            MutationInput<EditBeneficiaryGeneralInfoClient>
+          >
+        }
+      | {
+          creation?: false
+          full: true
+          defaultInput: Serialized<MutationInput<EditBeneficiaryFullDataClient>>
         }
     ),
   ) => {
     const router = useRouter()
 
-    const addBeneficiary = trpc.beneficiary.add.useMutation()
+    // Hooks can not be called conditionnaly by convention, no performance impact
+    const addWithGeneralInfo = trpc.beneficiary.addWithGeneralInfo.useMutation()
+    const addWithFullData = trpc.beneficiary.addWithFullData.useMutation()
+    const editGeneralInfo = trpc.beneficiary.editGeneralInfo.useMutation()
+    const editFullData = trpc.beneficiary.editFullData.useMutation()
+
+    const mutation = props.creation
+      ? // Creation
+        props.full
+        ? addWithFullData
+        : addWithGeneralInfo
+      : // Edition
+      props.full
+      ? editFullData
+      : editGeneralInfo
+
+    const client = props.creation
+      ? // Creation
+        props.full
+        ? AddBeneficiaryWithFullDataClient
+        : AddBeneficiaryWithGeneralInfoClient
+      : // Edition
+      props.full
+      ? EditBeneficiaryFullDataClient
+      : EditBeneficiaryGeneralInfoClient
 
     const { agents } = props
 
-    const defaultValues: DefaultValues<BeneficiaryData> = props.creation
-      ? props.defaultValues ?? {}
-      : defaultValueFromBeneficiary(deserialize(props.serializedBeneficiary))
+    const defaultValues = props.creation
+      ? props.defaultInput ?? {}
+      : props.full
+      ? deserialize(props.defaultInput)
+      : deserialize(props.defaultInput)
 
-    if (!defaultValues.aidantConnectAuthorized) {
-      defaultValues.aidantConnectAuthorized = false
-    }
-
-    const form = useForm<BeneficiaryData>({
-      resolver: zodResolver(BeneficiaryDataValidation),
+    const form = useForm<MutationInput<typeof client>>({
+      resolver: zodResolver(client.inputValidation),
       defaultValues,
     })
 
     const { handleSubmit, control } = form
 
-    const onSubmit = async (data: BeneficiaryData) => {
+    // TODO Maybe create conditional handlers for strict typing while calling hook ?
+    const onSubmit = async (data: MutationInput<typeof client>) => {
       try {
-        const result = await addBeneficiary.mutateAsync(data)
+        const result = await mutation.mutateAsync(data as any) // Sorry TS gods
         router.push(
           Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
             result.beneficiary,
@@ -75,19 +100,19 @@ export const BeneficiaryForm = withTrpc(
       }
     }
 
-    const { isLoading } = addBeneficiary
+    const { isLoading } = mutation
 
     const fieldsDisabled = isLoading
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <SelectFormField
+        <MultipleBadgeSelectFormField
           label="Agent référent"
           disabled={fieldsDisabled}
           options={agents}
           control={control}
           defaultOption
-          path="agentId"
+          path="referents"
         />
         <CheckboxFormField
           label="Mandat Aidant Connect"
@@ -114,8 +139,8 @@ export const BeneficiaryForm = withTrpc(
           type="textarea"
         />
 
-        {addBeneficiary.isError ? (
-          <p className="fr-error-text">{addBeneficiary.error.message}</p>
+        {mutation.isError ? (
+          <p className="fr-error-text">{mutation.error.message}</p>
         ) : null}
 
         <div className="fr-grid-row fr-grid-row--center">
