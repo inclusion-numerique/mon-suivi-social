@@ -17,7 +17,7 @@ const OptionsList = ({ options }: { options: Options }) => (
 )
 
 // View design options here https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/liste-deroulante/
-export function MultipleBadgeSelectFormField<T extends FieldValues>({
+export function SelectTagsFormField<T extends FieldValues>({
   control,
   label,
   path,
@@ -27,6 +27,7 @@ export function MultipleBadgeSelectFormField<T extends FieldValues>({
   disabled,
   autoFocus,
   defaultOptionLabel = 'Sélectionnez une option',
+  badgeSize,
   ...optionsProps
 }: {
   control: Control<T>
@@ -38,17 +39,18 @@ export function MultipleBadgeSelectFormField<T extends FieldValues>({
   hint?: string
   placeholder?: string
   autoFocus?: boolean
+  badgeSize?: 'sm' | 'md'
 } & (
   | { groups?: false; options: Options }
   | { groups: true; optionGroups: OptionsGroups }
 )) {
-  const id = `select-form-field__${path}`
+  const id = `select-tags-form-field__${path}`
 
   const flattenedOptions: Options = optionsProps.groups
     ? Object.values(optionsProps.optionGroups).flat()
     : optionsProps.options
 
-  // TODO Disabled styles classes
+  // TODO Aria labeled by from id
   return (
     <Controller
       control={control}
@@ -57,11 +59,15 @@ export function MultipleBadgeSelectFormField<T extends FieldValues>({
         field: { onChange, onBlur, value, name, ref },
         fieldState: { invalid, isTouched, error },
       }) => {
-        // Value is an array of option values
+        // We will remove already selected options from the select options
+        const valuesSet = new Set<string>(value ?? [])
+
         const onSelectChange: ChangeEventHandler<HTMLSelectElement> = (
           event,
         ) => {
-          onChange([...value, event.target.value])
+          onChange(
+            value ? [...value, event.target.value] : [event.target.value],
+          )
         }
 
         const selectedOptions = flattenedOptions.filter((option) =>
@@ -69,7 +75,7 @@ export function MultipleBadgeSelectFormField<T extends FieldValues>({
         )
 
         // Remove value on badge click
-        const onSelectedOptionClick = (option: Option) => {
+        const onTagClick = (option: Option) => {
           onChange(
             value.filter(
               (selectedValue: string) => selectedValue !== option.value,
@@ -107,23 +113,36 @@ export function MultipleBadgeSelectFormField<T extends FieldValues>({
               ) : null}
               {optionsProps.groups ? (
                 Object.entries(optionsProps.optionGroups).map(
-                  ([groupLabel, options]) => (
-                    <optgroup key={groupLabel} label={groupLabel}>
-                      <OptionsList options={options} />
-                    </optgroup>
-                  ),
+                  ([groupLabel, options]) => {
+                    const availableOptions = options.filter(
+                      ({ value }) => !valuesSet.has(value),
+                    )
+                    if (availableOptions.length === 0) {
+                      return null
+                    }
+                    return (
+                      <optgroup key={groupLabel} label={groupLabel}>
+                        <OptionsList options={availableOptions} />
+                      </optgroup>
+                    )
+                  },
                 )
               ) : (
-                <OptionsList options={optionsProps.options} />
+                <OptionsList
+                  options={optionsProps.options.filter(
+                    ({ value }) => !valuesSet.has(value),
+                  )}
+                />
               )}
             </select>
             <div className="fr-mt-4v">
-              {selectedOptions.map((option, index) => (
-                <SelectedOptionBadge
+              {selectedOptions.map((option) => (
+                <OptionBadge
                   key={option.value}
                   option={option}
-                  index={index}
-                  onClick={() => onSelectedOptionClick(option)}
+                  disabled={disabled}
+                  size={badgeSize}
+                  onClick={() => onTagClick(option)}
                 />
               ))}
             </div>
@@ -139,31 +158,24 @@ export function MultipleBadgeSelectFormField<T extends FieldValues>({
   )
 }
 
-const optionBadgeColorClasses = [
-  'fr-badge--pink-macaron',
-  'fr-badge--yellow-tournesol',
-  'fr-badge--brown-caramel',
-  'fr-badge--orange-terre-battue',
-]
-
-const SelectedOptionBadge = ({
+const OptionBadge = ({
   option,
   onClick,
-  index,
+  disabled,
+  size,
 }: {
-  index: number
   option: Option
   onClick: MouseEventHandler
-}) => {
-  const colorIndex = index % optionBadgeColorClasses.length
-  return (
-    <div
-      key={option.value}
-      className={`fr-badge fr-mt-2v ${optionBadgeColorClasses[colorIndex]}`}
-      onClick={onClick}
-      style={{ display: 'block', cursor: 'pointer' }}
-    >
-      {option.name} <span className="fr-icon-close-line fr-icon--sm" />
-    </div>
-  )
-}
+  disabled?: boolean
+  size?: 'sm' | 'md'
+}) => (
+  <button
+    type="button"
+    className={`fr-tag fr-mr-2v fr-mb-2v ${size === 'sm' ? 'fr-tag--sm' : ''}`}
+    disabled={disabled || option.disabled}
+    aria-pressed="true"
+    onClick={disabled ? undefined : onClick}
+  >
+    {option.name}
+  </button>
+)

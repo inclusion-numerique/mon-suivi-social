@@ -45,7 +45,7 @@ export const AddBeneficiaryWithGeneralInfoClient = createMutationClient({
     phone2: z.string().optional(),
     email: z.string().email().optional(),
     familySituation: z.nativeEnum(BeneficiaryFamilySituation).optional(),
-    caregiver: z.boolean().optional(),
+    caregiver: z.boolean().default(false),
     minorChildren: z.number().int().gte(0).optional(),
     majorChildren: z.number().int().gte(0).optional(),
     mobility: z.nativeEnum(BeneficiaryMobility).optional(),

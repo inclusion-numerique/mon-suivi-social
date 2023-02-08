@@ -10,6 +10,7 @@ import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
+import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 
 export const revalidate = 0
 
@@ -44,6 +45,12 @@ const EditBeneficiaryPage = async ({
     return null
   }
 
+  const full = EditBeneficiaryFullDataClient.securityCheck(
+    user,
+    beneficiary,
+    {},
+  )
+
   const agents = await getAgentOptions(user)
 
   const serverState = await EditBeneficiaryGeneralInfoServer.getServerState({
@@ -75,13 +82,16 @@ const EditBeneficiaryPage = async ({
           },
         ]}
       />
-      <div className="fr-card">
-        <div className="fr-card__body">
-          <div className="fr-card__content">
-            <BeneficiaryForm
-              agents={agents}
-              defaultInput={serialize(defaultInput)}
-            />
+      <div className="fr-grid-row fr-grid-row--center fr-pb-8v">
+        <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
+          <div className="fr-card">
+            <div className="fr-card__body fr-py-8v">
+              <BeneficiaryForm
+                full={full}
+                agents={agents}
+                defaultInput={serialize(defaultInput)}
+              />
+            </div>
           </div>
         </div>
       </div>

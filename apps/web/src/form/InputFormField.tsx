@@ -37,6 +37,7 @@ export function InputFormField<T extends FieldValues>({
   min,
   step,
   autoFocus,
+  className,
 }: {
   control: Control<T>
   path: FieldPath<T>
@@ -51,6 +52,7 @@ export function InputFormField<T extends FieldValues>({
   max?: number
   step?: number
   autoFocus?: boolean
+  className?: string
 }) {
   const id = `input-form-field__${path}`
 
@@ -66,7 +68,9 @@ export function InputFormField<T extends FieldValues>({
         <div
           className={`fr-input-group ${error ? 'fr-input-group--error' : ''} ${
             disabled ? 'fr-input-group--disabled' : ''
-          } ${isTouched && !invalid ? 'fr-input-group--valid' : ''}`}
+          } ${isTouched && !invalid ? 'fr-input-group--valid' : ''} ${
+            className ?? ''
+          }`}
         >
           <label className="fr-label" htmlFor={id}>
             {label}

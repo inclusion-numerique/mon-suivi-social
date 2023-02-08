@@ -1,11 +1,14 @@
-import { ReactNode } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 
 // Representation of an object attribute
 // Array of [label: string, content: ReactNode|string, options: {...}]
 export type AttributeItem =
   | [string, ReactNode]
   | [string, ReactNode, AttributeItemOptions]
-export type AttributeItemOptions = { inline?: boolean }
+export type AttributeItemOptions = {
+  inline?: boolean
+  verticalAlign?: CSSProperties['alignItems']
+}
 
 export const AttributesList = ({ items }: { items: AttributeItem[] }) => {
   return (
@@ -34,6 +37,7 @@ const AttributesListItem = ({
       className="fr-mt-2v"
       style={{
         display: 'flex',
+        alignItems: options?.verticalAlign,
         flexDirection: options?.inline === false ? 'column' : 'row',
       }}
     >

@@ -2,7 +2,14 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { InputFormField } from '@mss/web/form/InputFormField'
-import { beneficiaryStatusOptions } from '@mss/web/beneficiary/beneficiary'
+import {
+  beneficiaryAccomodationModeOptions,
+  beneficiaryFamilySituationOptions,
+  beneficiaryGenderOptions,
+  beneficiaryMobilityOptions,
+  beneficiaryStatusOptions,
+  beneficiaryTitleOptions,
+} from '@mss/web/beneficiary/beneficiary'
 import { Options } from '@mss/web/utils/options'
 import { SelectFormField } from '@mss/web/form/SelectFormField'
 import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
@@ -16,7 +23,11 @@ import { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
-import { MultipleBadgeSelectFormField } from '@mss/web/form/MultipleBadgeSelectFormField'
+import { SelectTagsFormField } from '@mss/web/form/SelectTagsFormField'
+import { nationalityOptions } from '@mss/web/features/beneficiary/nationality'
+import { useEffect, useRef } from 'react'
+
+const FieldLabels = EditBeneficiaryFullDataClient.fieldLabels
 
 /**
  * This forms permits creation and edition of beneficiaries, with full or general info
@@ -100,38 +111,319 @@ export const BeneficiaryForm = withTrpc(
       }
     }
 
+    // Open sections with errors on submit
+    // TODO create custom hook to cleanup this component
+    const ref = useRef<HTMLFormElement>(null)
+    useEffect(
+      () => {
+        if (form.formState.isSubmitted && !form.formState.isValid) {
+          // Error callback
+          if (!ref.current) {
+            return
+          }
+
+          // Get form accordion sections
+          const sections = ref.current.querySelectorAll('.fr-accordion')
+          for (const section of sections) {
+            const sectionButton = section.querySelector('.fr-accordion__btn')
+            const errors = section.querySelector('.fr-error-text')
+            if (!sectionButton || !errors) {
+              continue
+            }
+
+            sectionButton.setAttribute('aria-expanded', 'true')
+          }
+        }
+      },
+      // This dependency is correctly defined to trigger at each submit
+      [form.formState.submitCount],
+    )
+
+    // TODO before submit is intercepted and after error registrations, or on watch on error keys, expand accordions that contains inputs with an error class
+    // TODO It is more robust than to maintain a list of fields and will not break
+
     const { isLoading } = mutation
 
     const fieldsDisabled = isLoading
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <MultipleBadgeSelectFormField
-          label="Agent référent"
+      <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
+        <SelectTagsFormField
+          label={FieldLabels['referents']}
           disabled={fieldsDisabled}
           options={agents}
           control={control}
+          defaultOptionLabel="Choisissez un référent"
           defaultOption
           path="referents"
         />
         <CheckboxFormField
-          label="Mandat Aidant Connect"
+          checkboxLabel={FieldLabels['aidantConnectAuthorized']}
           disabled={fieldsDisabled}
           control={control}
-          checkboxLabel="Autorisé"
           path="aidantConnectAuthorized"
         />
 
-        <SelectFormField
-          label="Statut du dossier"
-          path="status"
-          disabled={fieldsDisabled}
-          control={control}
-          options={beneficiaryStatusOptions}
-        />
+        <section className="fr-accordion">
+          <h3 className="fr-accordion__title">
+            <button
+              type="button"
+              className="fr-accordion__btn"
+              aria-expanded="false"
+              aria-controls="beneficiary-form-general"
+            >
+              Informations générales
+            </button>
+          </h3>
+          <div className="fr-collapse" id="beneficiary-form-general">
+            <SelectFormField
+              label={FieldLabels['status']}
+              path="status"
+              disabled={fieldsDisabled}
+              control={control}
+              options={beneficiaryStatusOptions}
+              defaultOption
+            />
+            <SelectFormField
+              label={FieldLabels['title']}
+              path="title"
+              disabled={fieldsDisabled}
+              control={control}
+              options={beneficiaryTitleOptions}
+              defaultOption
+            />
+            <InputFormField
+              label={FieldLabels['usualName']}
+              path="usualName"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['birthName']}
+              path="birthName"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['firstName']}
+              path="firstName"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['birthDate']}
+              path="birthDate"
+              type="date"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['birthPlace']}
+              path="birthPlace"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <SelectFormField
+              label={FieldLabels['gender']}
+              path="gender"
+              disabled={fieldsDisabled}
+              control={control}
+              options={beneficiaryGenderOptions}
+              defaultOption
+            />
+            <SelectFormField
+              label={FieldLabels['nationality']}
+              path="nationality"
+              disabled={fieldsDisabled}
+              control={control}
+              options={nationalityOptions}
+              defaultOption
+            />
+            <SelectFormField
+              label={FieldLabels['accomodationMode']}
+              path="accomodationMode"
+              disabled={fieldsDisabled}
+              control={control}
+              options={beneficiaryAccomodationModeOptions}
+              defaultOption
+            />
+            <InputFormField
+              label={FieldLabels['accomodationAdditionalInformation']}
+              path="accomodationAdditionalInformation"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['zipcode']}
+              path="zipcode"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['city']}
+              path="city"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['region']}
+              path="region"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['streetNumber']}
+              path="streetNumber"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['street']}
+              path="street"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['accomodationAdditionalInformation']}
+              hint="Bâtiment, immeuble, escalier et numéro d’appartement"
+              path="accomodationAdditionalInformation"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <CheckboxFormField
+              label={FieldLabels['noPhone']}
+              path="noPhone"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['phone1']}
+              path="phone1"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['phone2']}
+              path="phone2"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['email']}
+              path="email"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <SelectFormField
+              label={FieldLabels['familySituation']}
+              path="familySituation"
+              disabled={fieldsDisabled}
+              control={control}
+              options={beneficiaryFamilySituationOptions}
+              defaultOption
+            />
+            <InputFormField
+              label={FieldLabels['minorChildren']}
+              path="minorChildren"
+              disabled={fieldsDisabled}
+              type="number"
+              min={0}
+              step={1}
+              control={control}
+            />
+            <InputFormField
+              label={FieldLabels['majorChildren']}
+              path="majorChildren"
+              disabled={fieldsDisabled}
+              type="number"
+              min={0}
+              step={1}
+              control={control}
+            />
+            <CheckboxFormField
+              label={FieldLabels['caregiver']}
+              path="caregiver"
+              disabled={fieldsDisabled}
+              control={control}
+            />
+            <SelectFormField
+              label={FieldLabels['mobility']}
+              path="mobility"
+              disabled={fieldsDisabled}
+              control={control}
+              options={beneficiaryMobilityOptions}
+              defaultOption
+            />
+          </div>
+        </section>
+        {props.full ? (
+          <>
+            <section className="fr-accordion">
+              <h3 className="fr-accordion__title">
+                <button
+                  type="button"
+                  className="fr-accordion__btn"
+                  aria-expanded="false"
+                  aria-controls="beneficiary-form-relatives"
+                >
+                  Entourage
+                </button>
+              </h3>
+              <div className="fr-collapse" id="beneficiary-form-relatives">
+                <h2>🐵</h2>
+              </div>
+            </section>
+            <section className="fr-accordion">
+              <h3 className="fr-accordion__title">
+                <button
+                  type="button"
+                  className="fr-accordion__btn"
+                  aria-expanded="false"
+                  aria-controls="beneficiary-form-health"
+                >
+                  Santé
+                </button>
+              </h3>
+              <div className="fr-collapse" id="beneficiary-form-health">
+                <h2>🐵</h2>
+              </div>
+            </section>
+            <section className="fr-accordion">
+              <h3 className="fr-accordion__title">
+                <button
+                  type="button"
+                  className="fr-accordion__btn"
+                  aria-expanded="false"
+                  aria-controls="beneficiary-form-activity"
+                >
+                  Activité et revenu
+                </button>
+              </h3>
+              <div className="fr-collapse" id="beneficiary-form-activity">
+                <h2>🐵</h2>
+              </div>
+            </section>
+            <section className="fr-accordion">
+              <h3 className="fr-accordion__title">
+                <button
+                  type="button"
+                  className="fr-accordion__btn"
+                  aria-expanded="false"
+                  aria-controls="beneficiary-form-external"
+                >
+                  Structures extérieures
+                </button>
+              </h3>
+              <div className="fr-collapse" id="beneficiary-form-external">
+                <h2>🐵</h2>
+              </div>
+            </section>
+          </>
+        ) : null}
 
         <InputFormField
-          label="Informations complémentaires"
+          className="fr-mt-4v"
+          label={FieldLabels['additionalInformation']}
           hint="Il est fortement recommandé de ne stocker que les informations utiles au suivi du bénéficiaire et d'éviter le recueil d'informations sensibles (données de santé, mots de passe, etc)."
           disabled={fieldsDisabled}
           control={control}

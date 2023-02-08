@@ -406,7 +406,7 @@ enum BeneficiaryMobility {
   //Véhicule sans permis
   VehicleWithoutPermit
   //Aucun moyen de transport à disposition
-  Other
+  None
 }
 
 enum BeneficiaryGir {

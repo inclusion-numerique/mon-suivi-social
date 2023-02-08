@@ -16,6 +16,8 @@ import {
   canDeleteBeneficiary,
   canEditBeneficiaryGeneralInfo,
 } from '@mss/web/security/rules'
+import { LabelAndValue } from '@mss/web/ui/LabelAndValue'
+import { AttributesList } from '@mss/web/ui/AttributesList'
 
 export const revalidate = 0
 
@@ -150,22 +152,27 @@ const BeneficiaryPage = async ({
     <>
       <PageTitle page={page} parents={[Routes.Structure.Beneficiaires.Index]} />
       <div className="fr-col-12 fr-col-lg-8 fr-col-xl-9">
-        <ul className="fr-raw-list">
-          <li>
-            N° dossier :{' '}
-            <span className="fr-badge fr-badge--blue-cumulus">
-              {fileNumber}
-            </span>
-          </li>
-          <li>
-            Agents référents :{' '}
-            <strong>
-              {referents.length === 0
+        <AttributesList
+          items={[
+            [
+              'N° dossier',
+              <span className="fr-badge fr-badge--blue-cumulus">
+                {fileNumber}
+              </span>,
+            ],
+            [
+              referents.length === 1 ? 'Agent référent' : 'Agents référents',
+              referents.length === 0
                 ? 'Aucun'
-                : referents.map(getUserDisplayName)}
-            </strong>
-          </li>
-        </ul>
+                : referents
+                    .map(getUserDisplayName)
+                    .map((name) => (
+                      <span className="fr-tag fr-mr-2v">{name}</span>
+                    )),
+              { verticalAlign: 'center' },
+            ],
+          ]}
+        />
       </div>
       <div className="fr-col-12 fr-mt-4v">
         <ul className="fr-btns-group  fr-btns-group--icon-left fr-btns-group--inline fr-btns-group--sm">
@@ -319,6 +326,7 @@ const TabContainer = ({
   <div
     id={`${id}_panel`}
     className={`fr-tabs__panel ${selected ? 'fr-tabs__panel--selected' : ''}`}
+    style={{ backgroundColor: 'white' }}
     role="tabpanel"
     aria-labelledby={id}
     tabIndex={0}
