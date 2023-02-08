@@ -80,9 +80,9 @@ model User {
   createdDocuments     Document[]
   createdFollowupTypes FollowupType[]
 
-  createdBeneficiaries Beneficiary[] @relation(name: "created_beneficiaries")
+  createdBeneficiaries  Beneficiary[] @relation(name: "created_beneficiaries")
   archivedBeneficiaries Beneficiary[] @relation(name: "archived_beneficiaries")
-  referentFor          Beneficiary[] @relation(name: "beneficiary_referents")
+  referentFor           Beneficiary[] @relation(name: "beneficiary_referents")
 
   doneMutations MutationLog[] @relation(name: "mutation_by")
 
@@ -139,9 +139,11 @@ model Document {
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
   beneficiaryId String      @db.Uuid
 
-  created     DateTime @default(now())
-  createdBy   User     @relation(fields: [createdById], references: [id])
-  createdById String   @db.Uuid
+  created       DateTime     @default(now())
+  createdBy     User         @relation(fields: [createdById], references: [id])
+  createdById   String       @db.Uuid
+  followups      Followup[]
+  helpRequests   HelpRequest[]
 }
 
 model FollowupType {
@@ -217,8 +219,8 @@ model Followup {
   medium FollowupMedium
   date   DateTime       @db.Date
 
-  type   FollowupType @relation(fields: [typeId], references: [id])
-  typeId String       @db.Uuid
+  types     FollowupType[]
+  documents Document[]
 
   synthesis String?
 
@@ -282,6 +284,8 @@ model HelpRequest {
 
   type   FollowupType @relation(fields: [typeId], references: [id])
   typeId String       @db.Uuid
+
+  documents Document[]
 
   financialSupport  Boolean
   externalStructure Boolean
@@ -501,11 +505,11 @@ model Beneficiary {
   createdById String? @db.Uuid
   createdBy   User?   @relation(name: "created_beneficiaries", fields: [createdById], references: [id])
 
-  archivedBy User? @relation(name: "archived_beneficiaries", fields: [archivedById], references: [id])
-  archivedById String? @db.Uuid
-  archived DateTime?
+  archivedBy   User?     @relation(name: "archived_beneficiaries", fields: [archivedById], references: [id])
+  archivedById String?   @db.Uuid
+  archived     DateTime?
 
-  referents   User[]  @relation(name: "beneficiary_referents")
+  referents User[] @relation(name: "beneficiary_referents")
 
   aidantConnectAuthorized Boolean @default(false)
 
@@ -529,7 +533,7 @@ model Beneficiary {
   addressComplement                 String?
   zipcode                           String?
   city                              String?
-  region                              String?
+  region                            String?
   noPhone                           Boolean?
   phone1                            String?
   phone2                            String?
@@ -646,8 +650,8 @@ enum MutationSource {
 }
 
 model MutationLog {
-  id     String         @id @db.Uuid
-  date   DateTime @default(now())
+  id   String   @id @db.Uuid
+  date DateTime @default(now())
 
   // User that did the mutation
   by   User?   @relation(name: "mutation_by", fields: [byId], references: [id])

@@ -1,7 +1,32 @@
-import { LabelAndValue } from '@mss/web/ui/LabelAndValue'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import type { BeneficiaryPageSupport } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
+import { AttributeItem, AttributesList } from '@mss/web/ui/AttributesList'
+import { formatBoolean } from '@mss/web/utils/formatBoolean'
+
+const FollowupTypeTag = ({ name }: { name: string }) => (
+  <span className="fr-tag fr-tag--sm fr-mr-2v">{name}</span>
+)
+
+const displayAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
+  support.__type === 'helpRequest'
+    ? [
+        ['Type', "Demande d'aide"],
+        ['Accompagnement', <FollowupTypeTag name={support.type.name} />],
+        ['Statut', support.status],
+        ['Demande financière', formatBoolean(support.financialSupport)],
+      ]
+    : [
+        ['Type', 'Entretien'],
+        [
+          support.types.length === 1 ? 'Accompagnement' : 'Accompagnements',
+          support.types.length === 0
+            ? undefined
+            : support.types.map((type) => <FollowupTypeTag name={type.name} />),
+        ],
+        ['Statut', support.status],
+        ['Redirigé vers', support.structureName],
+      ]
 
 export const HistoryTab = ({
   user,
@@ -28,42 +53,7 @@ export const HistoryTab = ({
                     <div className="fr-card__content fr-py-4v">
                       <div className="fr-grid-row">
                         <div className="fr-col-12 fr-col-md-8">
-                          <ul className="fr-raw-list">
-                            <LabelAndValue
-                              value={
-                                support.__type === 'helpRequest'
-                                  ? "Demande d'aide"
-                                  : 'Entretien'
-                              }
-                            >
-                              Type
-                            </LabelAndValue>
-                            <LabelAndValue value={support.type.name}>
-                              Accompagnement
-                            </LabelAndValue>
-                            <LabelAndValue value={support.status}>
-                              Statut
-                            </LabelAndValue>
-
-                            {support.__type === 'followup' ? (
-                              <>
-                                <LabelAndValue value={support.structureName}>
-                                  Redirigé vers
-                                </LabelAndValue>
-                              </>
-                            ) : null}
-                            {support.__type === 'helpRequest' ? (
-                              <>
-                                <LabelAndValue
-                                  value={
-                                    support.financialSupport ? 'Oui' : 'Non'
-                                  }
-                                >
-                                  Demande financière
-                                </LabelAndValue>
-                              </>
-                            ) : null}
-                          </ul>
+                          <AttributesList items={displayAttributes(support)} />
                         </div>
                         <div
                           className={`fr-col-12 fr-col-md-4 fr-text--bold ${

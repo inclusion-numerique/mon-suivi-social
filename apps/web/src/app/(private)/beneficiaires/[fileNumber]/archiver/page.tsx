@@ -1,11 +1,9 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { getAgentOptions } from '@mss/web/app/(private)/beneficiaires/getAgentOptions'
 import { notFound } from 'next/navigation'
 import { prismaClient } from '@mss/web/prismaClient'
 import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { Routes } from '@mss/web/app/routing/routes'
-import { BeneficiaryForm } from '@mss/web/beneficiary/BeneficiaryForm'
 import { ArchiveBeneficiaryForm } from '@mss/web/beneficiary/ArchiveBeneficiaryForm'
 
 export const revalidate = 0

@@ -27,8 +27,15 @@ export const ListStructuresServer = createQueryServer({
           city: true,
           phone: true,
           followups: {
-            select: { type: { select: { id: true, name: true } } },
-            distinct: ['typeId'],
+            select: {
+              types: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+                distinct: ['id'],
+              },
+            },
           },
           helpRequests: {
             select: { type: { select: { id: true, name: true } } },

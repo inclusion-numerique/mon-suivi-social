@@ -48,8 +48,9 @@ export const ListBeneficiariesServer = createQueryServer({
             },
           },
           followups: {
-            select: { type: { select: { id: true, name: true } } },
-            distinct: ['typeId'],
+            select: {
+              types: { select: { id: true, name: true }, distinct: ['id'] },
+            },
           },
           helpRequests: {
             select: { type: { select: { id: true, name: true } } },

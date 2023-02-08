@@ -12,7 +12,7 @@ export const FollowupRow = ({
 }: {
   serializedFollowup: Serialized<HistoryFollowup>
 }) => {
-  const { beneficiary, id, medium, type, createdBy, status } =
+  const { beneficiary, id, medium, types, createdBy, status } =
     deserialize(serializedFollowup)
   const router = useRouter()
 
@@ -43,7 +43,13 @@ export const FollowupRow = ({
     >
       <td>{statusBadge}</td>
       <td>{medium}</td>
-      <td>{type.name}</td>
+      <td>
+        {types.map((type) => (
+          <span key={type.id} className="fr-tag fr-tag--sm fr-mr-2v">
+            {type.name}
+          </span>
+        ))}
+      </td>
       <td>
         <span className="fr-badge fr-badge--blue-cumulus fr-mr-1w">
           {beneficiary.fileNumber}

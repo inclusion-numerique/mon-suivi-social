@@ -2,6 +2,7 @@ import { ListBeneficiariesItem } from '@mss/web/features/beneficiary/listBenefic
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
+import { getAge } from '@mss/web/utils/age'
 
 export const beneficiariesListTableColumns = [
   {
@@ -21,14 +22,12 @@ export const beneficiariesListTableColumns = [
   {
     label: 'Âge',
     content: ({ birthDate }: ListBeneficiariesItem) =>
-      // TODO age computation
-      birthDate?.toString(),
+      birthDate ? getAge(birthDate) : null,
   },
   {
     label: 'Date de naissance',
     content: ({ birthDate }: ListBeneficiariesItem) =>
-      // TODO format function
-      birthDate?.toString(),
+      birthDate?.toLocaleDateString(),
   },
   {
     label: 'Adresse',
@@ -49,7 +48,7 @@ export const beneficiariesListTableColumns = [
     content: ({ followups, helpRequests }: ListBeneficiariesItem) => {
       const deduplicatedTypesMap = new Map<string, string>(
         [
-          ...followups.map((followup) => followup.type),
+          ...followups.map((followup) => followup.types).flat(),
           ...helpRequests.map((helpRequest) => helpRequest.type),
         ].map(({ id, name }) => [id, name]),
       )

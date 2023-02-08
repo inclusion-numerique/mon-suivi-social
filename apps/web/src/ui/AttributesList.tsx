@@ -10,12 +10,18 @@ export type AttributeItemOptions = {
   verticalAlign?: CSSProperties['alignItems']
 }
 
-export const AttributesList = ({ items }: { items: AttributeItem[] }) => {
+export const AttributesList = ({
+  items,
+}: {
+  items: (AttributeItem | undefined)[]
+}) => {
   return (
     <ul className="fr-raw-list">
-      {items.map((item) => (
-        <AttributesListItem key={item[0]} item={item} />
-      ))}
+      {items
+        .filter((item): item is AttributeItem => !!item)
+        .map((item) => (
+          <AttributesListItem key={item[0]} item={item} />
+        ))}
     </ul>
   )
 }
@@ -30,7 +36,17 @@ const AttributesListItem = ({
 }: {
   item: AttributeItem
 }) => {
-  const valueNode = isScalar(value) ? <strong>{value}</strong> : value
+  const valueNode =
+    value === undefined || value === null ? (
+      // Manual adjustment of hint text vertical alignment to match label baseline
+      <p className="fr-hint-text fr-mb-0" style={{ marginTop: '0.20rem' }}>
+        Non renseigné
+      </p>
+    ) : isScalar(value) ? (
+      <strong>{value}</strong>
+    ) : (
+      value
+    )
 
   return (
     <li

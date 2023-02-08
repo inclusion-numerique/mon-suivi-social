@@ -11,7 +11,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 const getFollowups = (structureId: string) =>
   prismaClient.followup.findMany({
     where: { structureId },
-    include: { type: true, beneficiary: true, createdBy: true },
+    include: { types: true, beneficiary: true, createdBy: true },
     orderBy: [{ date: 'desc' }, { created: 'desc' }],
   })
 export type HistoryFollowup = Awaited<ReturnType<typeof getFollowups>>[0]

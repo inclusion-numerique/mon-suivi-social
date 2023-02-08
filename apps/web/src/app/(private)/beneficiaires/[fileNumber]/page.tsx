@@ -16,7 +16,6 @@ import {
   canDeleteBeneficiary,
   canEditBeneficiaryGeneralInfo,
 } from '@mss/web/security/rules'
-import { LabelAndValue } from '@mss/web/ui/LabelAndValue'
 import { AttributesList } from '@mss/web/ui/AttributesList'
 
 export const revalidate = 0
@@ -35,7 +34,7 @@ const getSupports = async ({
       followups: {
         include: {
           createdBy: true,
-          type: true,
+          types: true,
         },
         orderBy: {
           date: 'desc',
