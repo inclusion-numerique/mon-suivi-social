@@ -4,6 +4,13 @@ import {
   BeneficiaryPageInfo,
 } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { AddDocumentButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/AddDocumentButton'
+import {
+  DocumentTag,
+  documentTagLabels,
+  documentTypeLabels,
+} from '@mss/web/app/(private)/beneficiaires/[fileNumber]/AddDocumentData'
+import { formatByteSize } from '@mss/web/utils/formatByteSize'
+import mime from 'mime-types'
 
 export const DocumentsTab = ({
   user,
@@ -14,11 +21,113 @@ export const DocumentsTab = ({
   documents: BeneficiaryPageDocuments
   beneficiary: Pick<BeneficiaryPageInfo, 'id'>
 }) => {
+  if (documents.length === 0) {
+    return (
+      <>
+        <div className="fr-alert fr-alert--info fr-mb-8v">
+          <p>Aucun document n&apos;a été ajouté.</p>
+        </div>
+        <AddDocumentButton beneficiaryId={beneficiary.id} />
+      </>
+    )
+  }
+
+  const documentsByType = new Map<
+    BeneficiaryPageDocuments[number]['type'],
+    BeneficiaryPageDocuments
+  >()
+  documents.forEach((document) => {
+    const group = documentsByType.get(document.type)
+    if (!group) {
+      documentsByType.set(document.type, [document])
+      return
+    }
+    group.push(document)
+  })
+
   return (
     <>
-      <h4>Documents</h4>
-      <p>Aucun document disponible</p>
-      <AddDocumentButton beneficiaryId={beneficiary.id} />
+      {[...documentsByType.entries()].map(([type, documents]) => (
+        <>
+          <h4 key={type}>{documentTypeLabels[type]}</h4>
+          <div className="fr-grid-row fr-grid-row--gutters">
+            {documents.map((document) => (
+              <DocumentCard key={document.key} document={document} />
+            ))}
+          </div>
+        </>
+      ))}
+      <AddDocumentButton className="fr-mt-8v" beneficiaryId={beneficiary.id} />
     </>
+  )
+}
+
+const DocumentCard = ({
+  document: { key, name, type, size, mimeType, confidential, tags },
+}: {
+  document: BeneficiaryPageDocuments[number]
+}) => {
+  // TODO update
+  // TODO delete
+  // TODO view
+  // TODO Download
+
+  const tagLabels = tags
+    .filter((tag): tag is DocumentTag => tag in documentTagLabels)
+    .map((tag) => documentTagLabels[tag])
+
+  return (
+    <div className="fr-col-12 fr-col-lg-6 fr-col-xl-4">
+      <div className="fr-card fr-p-4v">
+        {tags.length === 0
+          ? null
+          : tagLabels.map((tagLabel) => (
+              <ul className="fr-badges-group fr-badges-group--sm">
+                <li>
+                  <p className="fr-badge fr-badge--blue-ecume">{tagLabel}</p>
+                </li>
+              </ul>
+            ))}
+        <p className="fr-mb-0 fr-text--bold">{name}</p>
+        <p className="fr-hint-text">
+          .{mime.extension(mimeType)} - {formatByteSize(size)}
+        </p>
+
+        <ul className="fr-btns-group fr-btns-group--sm  fr-btns-group--inline fr-btns-group--icon-left">
+          <li>
+            <button
+              type="button"
+              className="fr-btn fr-icon-pencil-line fr-btn--tertiary"
+            >
+              Modifier
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="fr-btn fr-icon-delete-line fr-btn--tertiary"
+            >
+              Supprimer
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="fr-btn fr-icon-eye-line fr-btn--tertiary"
+            >
+              Voir
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="fr-btn fr-icon-download-line fr-btn--tertiary"
+            >
+              Télécharger
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
   )
 }

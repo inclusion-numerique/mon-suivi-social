@@ -2,8 +2,10 @@ import { AddDocumentModalForm } from '@mss/web/app/(private)/beneficiaires/[file
 
 export const AddDocumentButton = ({
   beneficiaryId,
+  className,
 }: {
   beneficiaryId: string
+  className?: string
 }) => {
   return (
     <>
@@ -11,7 +13,9 @@ export const AddDocumentButton = ({
         type="button"
         aria-controls="fr-modal-add-document"
         data-fr-opened="false"
-        className="fr-btn fr-btn--icon-left fr-icon-file-add-line"
+        className={`fr-btn fr-btn--icon-left fr-icon-file-add-line ${
+          className ?? ''
+        }`}
       >
         Ajouter un document
       </button>
