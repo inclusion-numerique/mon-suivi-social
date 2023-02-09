@@ -3,6 +3,7 @@ import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/edi
 import { prismaClient } from '@mss/web/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
+import { computeArrayDiff } from '@mss/web/utils/diff'
 
 export const EditBeneficiaryFullDataServer =
   createMutationServerWithInitialState({
@@ -48,11 +49,15 @@ export const EditBeneficiaryFullDataServer =
     executeMutation: async ({ input, transaction, initialInput }) => {
       const { beneficiaryId, referents, ...data } = input
 
-      // TODO Before and after for referents
+      const referentsDiff = computeArrayDiff(initialInput.referents, referents)
       const beneficiary = await transaction.beneficiary.update({
         where: { id: beneficiaryId },
         data: {
           ...data,
+          referents: {
+            connect: referentsDiff.added.map((id) => ({ id })),
+            disconnect: referentsDiff.removed.map((id) => ({ id })),
+          },
         },
       })
 

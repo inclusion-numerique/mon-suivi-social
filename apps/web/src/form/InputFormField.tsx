@@ -4,23 +4,10 @@ import { HTMLInputTypeAttribute } from 'react'
 import { Control, Controller, FieldValues } from 'react-hook-form'
 import { FieldPath } from 'react-hook-form/dist/types/path'
 import TextareaAutosize from 'react-textarea-autosize'
-
-const getFieldValueAs = (
-  value: string | null | undefined,
-  {
-    valueAsNumber,
-    valueAsDate,
-  }: { valueAsNumber?: boolean; valueAsDate?: boolean },
-) =>
-  value === undefined || value === null
-    ? value
-    : valueAsNumber
-    ? value === ''
-      ? NaN
-      : +value
-    : valueAsDate
-    ? new Date(value)
-    : value
+import {
+  getFieldValueAs,
+  GetFieldValueAsOptions,
+} from '@mss/web/utils/getFieldValueAs'
 
 // View design options here https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/champ-de-saisie
 export function InputFormField<T extends FieldValues>({
@@ -33,6 +20,7 @@ export function InputFormField<T extends FieldValues>({
   disabled,
   valueAsNumber,
   valueAsDate,
+  valueAsBoolean,
   max,
   min,
   step,
@@ -46,14 +34,12 @@ export function InputFormField<T extends FieldValues>({
   hint?: string
   type?: Exclude<HTMLInputTypeAttribute, 'checkbox' | 'radio'> | 'textarea'
   placeholder?: string
-  valueAsNumber?: boolean
-  valueAsDate?: boolean
   min?: number
   max?: number
   step?: number
   autoFocus?: boolean
   className?: string
-}) {
+} & GetFieldValueAsOptions) {
   const id = `input-form-field__${path}`
 
   return (
@@ -105,6 +91,7 @@ export function InputFormField<T extends FieldValues>({
                   getFieldValueAs(event.target.value, {
                     valueAsDate,
                     valueAsNumber,
+                    valueAsBoolean,
                   }),
                 )
               }

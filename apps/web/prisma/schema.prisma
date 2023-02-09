@@ -302,7 +302,8 @@ model HelpRequest {
   paymentDate        DateTime?      @db.Date
   handlingDate       DateTime?      @db.Date
   refusalReason      String?
-  examiningStructure String?
+  prescribingOrganisation String?
+  examiningOrganisation String?
   dispatchDate       DateTime?      @db.Date
 
   synthesis String?
