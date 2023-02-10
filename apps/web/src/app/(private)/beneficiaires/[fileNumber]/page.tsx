@@ -325,7 +325,6 @@ const TabContainer = ({
   <div
     id={`${id}_panel`}
     className={`fr-tabs__panel ${selected ? 'fr-tabs__panel--selected' : ''}`}
-    style={{ backgroundColor: 'white' }}
     role="tabpanel"
     aria-labelledby={id}
     tabIndex={0}

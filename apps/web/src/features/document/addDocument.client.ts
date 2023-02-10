@@ -60,7 +60,7 @@ export const AddDocumentClient = createMutationClient({
       required_error: 'Veuillez renseigner le type du document',
     }),
     tags: z.array(z.enum(DocumentTags)),
-    confidential: z.boolean(),
+    confidential: z.boolean().default(false),
     file: z.object({
       key: z.string({ required_error: 'Veuillez téléverser un document' }),
       mimeType: documentMimeTypeValidation,

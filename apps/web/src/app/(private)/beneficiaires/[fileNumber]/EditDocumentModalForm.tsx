@@ -16,6 +16,7 @@ import {
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditDocumentClient } from '@mss/web/features/document/editDocument.client'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
+import { useRouter } from 'next/navigation'
 
 export const EditDocumentModalForm = withTrpc(
   ({
@@ -29,6 +30,7 @@ export const EditDocumentModalForm = withTrpc(
   }) => {
     const editDocument = trpc.beneficiary.document.edit.useMutation()
     const closeRef = useRef<HTMLButtonElement>(null)
+    const router = useRouter()
 
     const defaultValues = deserialize(serializedDefaultValues)
 
@@ -46,7 +48,7 @@ export const EditDocumentModalForm = withTrpc(
       editDocument.mutate(data, {
         onSuccess: () => {
           closeRef.current?.click()
-          reset(defaultValues)
+          router.refresh()
         },
       })
     }

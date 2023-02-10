@@ -1,51 +1,33 @@
 'use client'
 
-import { DefaultValues, useForm } from 'react-hook-form'
 import { trpc } from '@mss/web/trpc'
 import { withTrpc } from '@mss/web/withTrpc'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { MouseEventHandler, useRef } from 'react'
+import { useRef } from 'react'
 import { Spinner } from '@mss/web/ui/Spinner'
-import { MutationInput } from '@mss/web/features/createMutation.client'
-import { DeleteDocumentClient } from '@mss/web/features/document/deleteDocument.client'
+import { useRouter } from 'next/navigation'
 
 export const DeleteDocumentModalForm = withTrpc(
   ({ documentKey, dialogId }: { documentKey: string; dialogId: string }) => {
     const deleteDocument = trpc.beneficiary.document.delete.useMutation()
     const closeRef = useRef<HTMLButtonElement>(null)
+    const router = useRouter()
 
-    const defaultValues: DefaultValues<MutationInput<DeleteDocumentClient>> = {
-      documentKey,
-    }
-
-    const {
-      control,
-      handleSubmit,
-      reset,
-      setError,
-      formState: { isSubmitting },
-    } = useForm<MutationInput<DeleteDocumentClient>>({
-      defaultValues,
-      resolver: zodResolver(DeleteDocumentClient.inputValidation),
-    })
-
-    const onSubmit = async (data: MutationInput<DeleteDocumentClient>) => {
-      deleteDocument.mutate(data, {
-        onSuccess: () => {
-          closeRef.current?.click()
-          reset(defaultValues)
+    const onSubmit = async () => {
+      deleteDocument.mutate(
+        { documentKey },
+        {
+          onSuccess: () => {
+            closeRef.current?.click()
+            router.refresh()
+          },
         },
-      })
+      )
     }
 
-    const isLoading = isSubmitting || deleteDocument.isLoading
-
-    const onCancel: MouseEventHandler = (event) => {
-      reset(defaultValues, { keepDefaultValues: true })
-    }
+    const { isLoading } = deleteDocument
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <div className="fr-modal__header">
           <button
             className="fr-link--close fr-link"
@@ -89,8 +71,7 @@ export const DeleteDocumentModalForm = withTrpc(
                 disabled={isLoading}
                 type="button"
                 aria-controls={dialogId}
-                className="fr-btn  fr-btn--secondary"
-                onClick={onCancel}
+                className="fr-btn fr-btn--secondary"
               >
                 Annuler
               </button>

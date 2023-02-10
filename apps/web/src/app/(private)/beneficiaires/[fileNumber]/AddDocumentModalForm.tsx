@@ -22,7 +22,7 @@ import {
   documentTypeOptions,
 } from '@mss/web/features/document/addDocument.client'
 import { useRouter } from 'next/navigation'
-import { Routes } from '@mss/web/app/routing/routes'
+import { modalFadeAnimationTime } from '@mss/web/dsfr/dsfr'
 
 export const AddDocumentModalForm = withTrpc(
   ({
@@ -110,15 +110,11 @@ export const AddDocumentModalForm = withTrpc(
           confidential,
         },
         {
-          onSuccess: (result) => {
+          onSuccess: () => {
             closeRef.current?.click()
-            router.push(
-              Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
-                { fileNumber: result.document.beneficiary.fileNumber },
-                { tab: 'documents', document: result.document.key },
-              ),
-            )
-            reset(defaultValues)
+            router.refresh()
+            // Let the time for the animation to finish before reseting
+            setTimeout(() => reset(defaultValues), modalFadeAnimationTime)
           },
         },
       )

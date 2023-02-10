@@ -14,6 +14,7 @@ import {
 import { EditDocumentButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/EditDocumentButton'
 import { DeleteDocumentButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DeleteDocumentButton'
 import { DocumentFileButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DocumentFileButton'
+import { serialize } from '@mss/web/utils/serialization'
 
 export const DocumentsTab = ({
   user,
@@ -89,15 +90,15 @@ const DocumentCard = ({
   return (
     <div className="fr-col-12 fr-col-lg-6 fr-col-xl-4">
       <div className="fr-card fr-px-4v fr-pt-4v">
-        {tags.length === 0
-          ? null
-          : tagLabels.map((tagLabel) => (
-              <ul className="fr-badges-group fr-badges-group--sm">
-                <li>
-                  <p className="fr-badge fr-badge--blue-ecume">{tagLabel}</p>
-                </li>
-              </ul>
+        {tags.length === 0 ? null : (
+          <ul className="fr-badges-group fr-badges-group--sm">
+            {tagLabels.map((tagLabel) => (
+              <li>
+                <p className="fr-badge fr-badge--blue-ecume">{tagLabel}</p>
+              </li>
             ))}
+          </ul>
+        )}
         <p className="fr-mb-0 fr-text--bold">{name}</p>
         <p className="fr-hint-text">
           .{mime.extension(mimeType)} - {formatByteSize(size)}
@@ -112,10 +113,13 @@ const DocumentCard = ({
         </div>
         <div className="fr-grid-row">
           <div className="fr-col-6 fr-pr-1w">
-            <DocumentFileButton document={document} />
+            <DocumentFileButton serializedDocument={serialize(document)} />
           </div>
           <div className="fr-col-6 fr-pl-1w">
-            <DocumentFileButton document={document} download />
+            <DocumentFileButton
+              serializedDocument={serialize(document)}
+              download
+            />
           </div>
         </div>
       </div>

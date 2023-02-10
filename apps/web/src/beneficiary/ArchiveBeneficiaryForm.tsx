@@ -75,7 +75,7 @@ export const ArchiveBeneficiaryForm = withTrpc(
           <h3 className="fr-alert__title">Archivage d&apos;un bénéficiaire</h3>
           <p>
             Conformément à la RGPD, l&apos;archivage d&apos;un bénéficiaire
-            supprime toute ses informations personnelles.
+            supprime toutes ses informations personnelles.
           </p>
           <p>
             Cette opération n&apos;est pas réversible et les données ne pourront

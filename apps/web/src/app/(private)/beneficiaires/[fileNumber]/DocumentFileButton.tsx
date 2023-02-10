@@ -4,15 +4,17 @@ import { trpc } from '@mss/web/trpc'
 import { withTrpc } from '@mss/web/withTrpc'
 import { documentTypeLabels } from '@mss/web/features/document/addDocument.client'
 import Downloader from 'js-file-downloader'
+import { deserialize, Serialized } from '@mss/web/utils/serialization'
 
 export const DocumentFileButton = withTrpc(
   ({
-    document,
+    serializedDocument,
     download,
   }: {
-    document: BeneficiaryPageDocuments[number]
+    serializedDocument: Serialized<BeneficiaryPageDocuments[number]>
     download?: boolean
   }) => {
+    const document = deserialize(serializedDocument)
     const title = download ? 'Télécharger' : 'Voir'
     const icon = download ? 'fr-icon-download-line' : 'fr-icon-eye-line'
 
