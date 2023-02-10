@@ -36,13 +36,11 @@ const BeneficiariesSearchBar = ({ structureId }: { structureId: string }) => {
   }
 
   const navigateToBeneficiary = (params: { fileNumber: string }) => {
-    router.push(Routes.Structure.Beneficiaires.Beneficiaire.Index.path(params))
+    router.push(Routes.Beneficiaires.Beneficiaire.Index.path(params))
   }
 
   const prefetchBeneficiary = (params: { fileNumber: string }) => {
-    router.prefetch(
-      Routes.Structure.Beneficiaires.Beneficiaire.Index.path(params),
-    )
+    router.prefetch(Routes.Beneficiaires.Beneficiaire.Index.path(params))
   }
 
   return (

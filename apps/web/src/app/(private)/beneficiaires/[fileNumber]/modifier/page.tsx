@@ -18,7 +18,7 @@ const EditBeneficiaryPage = async ({
   params: { fileNumber },
 }: {
   params: RoutePathParams<
-    typeof Routes.Structure.Beneficiaires.Beneficiaire.Modifier.path
+    typeof Routes.Beneficiaires.Beneficiaire.Modifier.path
   >
 }) => {
   const user = await getAuthenticatedAgent()
@@ -60,9 +60,8 @@ const EditBeneficiaryPage = async ({
     EditBeneficiaryGeneralInfoServer.dataFromServerState(serverState)
 
   const page: PageConfig = {
-    ...Routes.Structure.Beneficiaires.Beneficiaire.Modifier,
-    title:
-      Routes.Structure.Beneficiaires.Beneficiaire.Modifier.title(beneficiary),
+    ...Routes.Beneficiaires.Beneficiaire.Modifier,
+    title: Routes.Beneficiaires.Beneficiaire.Modifier.title(beneficiary),
   }
 
   return (
@@ -70,13 +69,10 @@ const EditBeneficiaryPage = async ({
       <PageTitle
         page={page}
         parents={[
-          Routes.Structure.Beneficiaires.Index,
+          Routes.Beneficiaires.Index,
           {
-            title:
-              Routes.Structure.Beneficiaires.Beneficiaire.Index.title(
-                beneficiary,
-              ),
-            path: Routes.Structure.Beneficiaires.Beneficiaire.Index.path({
+            title: Routes.Beneficiaires.Beneficiaire.Index.title(beneficiary),
+            path: Routes.Beneficiaires.Beneficiaire.Index.path({
               fileNumber,
             }),
           },

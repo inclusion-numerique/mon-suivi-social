@@ -7,7 +7,7 @@ const UtilisateursPage = async () => {
 
   return (
     <>
-      <PageTitle page={Routes.Structure.Utilisateurs.Index} />
+      <PageTitle page={Routes.Utilisateurs.Index} />
     </>
   )
 }

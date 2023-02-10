@@ -60,7 +60,7 @@ const SignoutPage = () => {
           {/*</li>*/}
         </ul>
         <div className="fr-grid-row fr-grid-row--center">
-          <Link href={Routes.Structure.Index.path}>Retour</Link>
+          <Link href={Routes.Index.path}>Retour</Link>
         </div>
       </AuthCard>
     </>

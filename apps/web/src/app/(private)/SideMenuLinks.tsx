@@ -9,11 +9,11 @@ import { canListStructures } from '@mss/web/security/rules'
 
 type MenuLink = { title: string; path: string; icon: string }
 const mainLinks: MenuLink[] = [
-  Routes.Structure.Index,
-  Routes.Structure.Beneficiaires.Index,
-  Routes.Structure.Accompagnements.Index,
-  Routes.Structure.Statistiques.Index,
-  Routes.Structure.MonCompte.Index,
+  Routes.Index,
+  Routes.Beneficiaires.Index,
+  Routes.Accompagnements.Index,
+  Routes.Statistiques.Index,
+  Routes.MonCompte.Index,
 ]
 
 const MenuLinkItem = ({
@@ -63,13 +63,13 @@ const SideMenuLinks = ({
   if (canListStructures(user)) {
     userSpecificLinks.push({
       title: 'Structures',
-      path: Routes.Structure.Structures.Index.path,
+      path: Routes.Structures.Index.path,
       icon: 'building-line',
     })
   } else if (user.structureId) {
     userSpecificLinks.push({
       title: 'Structure',
-      path: Routes.Structure.Structure.Index.path({
+      path: Routes.Structure.Index.path({
         id: user.structureId,
       }),
       icon: 'building-line',
@@ -77,12 +77,12 @@ const SideMenuLinks = ({
   }
 
   // TODO MSS if admin or structure boss??
-  userSpecificLinks.push(Routes.Structure.Utilisateurs.Index)
+  userSpecificLinks.push(Routes.Utilisateurs.Index)
 
   const menuLinksWithCurrent = [...mainLinks, ...userSpecificLinks].map(
     (link) => ({
       ...link,
-      current: isCurrent(link.path, link.path === Routes.Structure.Index.path),
+      current: isCurrent(link.path, link.path === Routes.Index.path),
     }),
   )
 

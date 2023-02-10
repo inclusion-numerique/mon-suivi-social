@@ -17,7 +17,7 @@ const MonComptePage = async () => {
 
   return (
     <>
-      <PageTitle page={Routes.Structure.MonCompte.Index} />
+      <PageTitle page={Routes.MonCompte.Index} />
       {inclusionConnectAccount ? (
         <div className="fr-grid-row fr-grid-row--gutters">
           <div className="fr-col-12">

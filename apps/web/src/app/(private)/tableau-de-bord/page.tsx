@@ -8,7 +8,7 @@ const TableauDeBordPage = async () => {
   const user = await getSessionUser()
   return (
     <>
-      <PageTitle page={Routes.Structure.Index} />
+      <PageTitle page={Routes.Index} />
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">

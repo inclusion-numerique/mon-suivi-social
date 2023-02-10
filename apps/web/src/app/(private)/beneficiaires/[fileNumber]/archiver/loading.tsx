@@ -5,22 +5,16 @@ import { loadingBeneficiary } from '@mss/web/app/(private)/beneficiaires/loading
 const Loading = () => (
   <PageLoading
     page={{
-      ...Routes.Structure.Beneficiaires.Beneficiaire.Archiver,
+      ...Routes.Beneficiaires.Beneficiaire.Archiver,
       title:
-        Routes.Structure.Beneficiaires.Beneficiaire.Archiver.title(
-          loadingBeneficiary,
-        ),
+        Routes.Beneficiaires.Beneficiaire.Archiver.title(loadingBeneficiary),
     }}
     parents={[
-      Routes.Structure.Beneficiaires.Index,
+      Routes.Beneficiaires.Index,
       {
         title:
-          Routes.Structure.Beneficiaires.Beneficiaire.Index.title(
-            loadingBeneficiary,
-          ),
-        path: Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
-          loadingBeneficiary,
-        ),
+          Routes.Beneficiaires.Beneficiaire.Index.title(loadingBeneficiary),
+        path: Routes.Beneficiaires.Beneficiaire.Index.path(loadingBeneficiary),
       },
     ]}
   />

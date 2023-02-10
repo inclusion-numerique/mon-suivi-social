@@ -32,8 +32,8 @@ const AddBeneficiaryPage = async () => {
   return (
     <>
       <PageTitle
-        page={Routes.Structure.Beneficiaires.Nouveau}
-        parents={[Routes.Structure.Beneficiaires.Index]}
+        page={Routes.Beneficiaires.Nouveau}
+        parents={[Routes.Beneficiaires.Index]}
       />
       <div className="fr-grid-row fr-grid-row--center fr-pb-8v">
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">

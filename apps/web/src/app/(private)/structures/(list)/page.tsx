@@ -26,9 +26,7 @@ const defaultSorting: Sorting = {
 const StructuresPage = async ({
   searchParams,
 }: {
-  searchParams?: RoutePathParams<
-    typeof Routes.Structure.Structures.Index.pathWithParams
-  >
+  searchParams?: RoutePathParams<typeof Routes.Structures.Index.pathWithParams>
 }) => {
   const user = await getAuthenticatedAgent()
   if (!canListStructures(user)) {
@@ -62,7 +60,7 @@ const StructuresPage = async ({
   // Linking logic for pages navigation
   const createPageLink = createPageLinkHelper(
     { currentSorting, defaultSorting, search },
-    Routes.Structure.Structures.Index.pathWithParams,
+    Routes.Structures.Index.pathWithParams,
   )
 
   // Redirect to last page if pageNumber is outside of bounds
@@ -74,7 +72,7 @@ const StructuresPage = async ({
   // Linking logic for sorting
   const createSortLink = createSortLinkHelper(
     { pageNumber, defaultSorting, search },
-    Routes.Structure.Structures.Index.pathWithParams,
+    Routes.Structures.Index.pathWithParams,
   )
 
   const tableHead = (
@@ -89,7 +87,7 @@ const StructuresPage = async ({
 
   return (
     <>
-      <PageTitle page={Routes.Structure.Structures.Index} />
+      <PageTitle page={Routes.Structures.Index} />
       <div className="fr-card fr-mt-4v">
         <div className="fr-card__body">
           <div className="fr-card__content">
@@ -104,7 +102,7 @@ const StructuresPage = async ({
                 <div className="fr-btns-group fr-btns-group--icon-left">
                   <Link
                     className="fr-btn fr-icon-building-line fr-mb-0"
-                    href={Routes.Structure.Structures.Ajouter.path}
+                    href={Routes.Structures.Ajouter.path}
                   >
                     Ajouter une structure
                   </Link>

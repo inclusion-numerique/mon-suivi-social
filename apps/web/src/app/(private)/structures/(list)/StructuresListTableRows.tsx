@@ -22,7 +22,7 @@ export const StructuresListTableRows = asyncComponent(
     return (
       <>
         {structures.map((structure) => {
-          const href = Routes.Structure.Structure.Index.path(structure)
+          const href = Routes.Structure.Index.path(structure)
 
           const title = `Page de la structure ${structure.name}`
 

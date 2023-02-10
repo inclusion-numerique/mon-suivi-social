@@ -27,7 +27,7 @@ const BeneficiariesListPage = async ({
   searchParams,
 }: {
   searchParams?: RoutePathParams<
-    typeof Routes.Structure.Beneficiaires.Index.pathWithParams
+    typeof Routes.Beneficiaires.Index.pathWithParams
   >
 }) => {
   const user = await getAuthenticatedAgent()
@@ -60,7 +60,7 @@ const BeneficiariesListPage = async ({
   // Linking logic for pages navigation
   const createPageLink = createPageLinkHelper(
     { currentSorting, defaultSorting, search },
-    Routes.Structure.Beneficiaires.Index.pathWithParams,
+    Routes.Beneficiaires.Index.pathWithParams,
   )
 
   // Redirect to last page if pageNumber is outside of bounds
@@ -72,7 +72,7 @@ const BeneficiariesListPage = async ({
   // Linking logic for sorting
   const createSortLink = createSortLinkHelper(
     { pageNumber, defaultSorting, search },
-    Routes.Structure.Beneficiaires.Index.pathWithParams,
+    Routes.Beneficiaires.Index.pathWithParams,
   )
 
   const tableHead = (
@@ -91,7 +91,7 @@ const BeneficiariesListPage = async ({
 
   return (
     <>
-      <PageTitle page={Routes.Structure.Beneficiaires.Index} />
+      <PageTitle page={Routes.Beneficiaires.Index} />
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">
@@ -106,9 +106,9 @@ const BeneficiariesListPage = async ({
                 <div className="fr-btns-group fr-btns-group--icon-left">
                   <Link
                     className="fr-btn fr-icon-user-add-line fr-mb-0"
-                    href={Routes.Structure.Beneficiaires.Nouveau.path}
+                    href={Routes.Beneficiaires.Nouveau.path}
                   >
-                    {Routes.Structure.Beneficiaires.Nouveau.title}
+                    {Routes.Beneficiaires.Nouveau.title}
                   </Link>
                 </div>
               </div>

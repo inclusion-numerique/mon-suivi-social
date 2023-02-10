@@ -14,7 +14,7 @@ export const revalidate = 0
 const StructurePage = async ({
   params: { id: structureId },
 }: {
-  params: RoutePathParams<typeof Routes.Structure.Structure.Index.path>
+  params: RoutePathParams<typeof Routes.Structure.Index.path>
 }) => {
   const user = await getAuthenticatedAgent()
 
@@ -38,8 +38,8 @@ const StructurePage = async ({
   })
 
   const page: PageConfig = {
-    ...Routes.Structure.Structure.Index,
-    title: Routes.Structure.Structure.Index.title(structure),
+    ...Routes.Structure.Index,
+    title: Routes.Structure.Index.title(structure),
   }
 
   const { type, address, email, phone, zipcode, city, proposedFollowupTypes } =
@@ -100,7 +100,7 @@ const StructurePage = async ({
           ) ? (
             <li>
               <Link
-                href={Routes.Structure.Structure.Modifier.path({
+                href={Routes.Structure.Modifier.path({
                   structureId: structure.id,
                 })}
                 className="fr-btn fr-icon-pencil-line fr-btn--primary"

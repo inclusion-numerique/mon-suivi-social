@@ -12,7 +12,7 @@ export const revalidate = 0
 const StructureEditPage = async ({
   params: { id: structureId },
 }: {
-  params: RoutePathParams<typeof Routes.Structure.Structure.Index.path>
+  params: RoutePathParams<typeof Routes.Structure.Index.path>
 }) => {
   const user = await getAuthenticatedAgent()
 
@@ -28,8 +28,8 @@ const StructureEditPage = async ({
   const { structure } = serverState
 
   const page: PageConfig = {
-    ...Routes.Structure.Structure.Modifier,
-    title: Routes.Structure.Structure.Modifier.title(structure),
+    ...Routes.Structure.Modifier,
+    title: Routes.Structure.Modifier.title(structure),
   }
 
   return (
@@ -38,8 +38,8 @@ const StructureEditPage = async ({
         page={page}
         parents={[
           {
-            title: Routes.Structure.Structure.Index.title(structure),
-            path: Routes.Structure.Structure.Index.path({
+            title: Routes.Structure.Index.title(structure),
+            path: Routes.Structure.Index.path({
               id: structureId,
             }),
           },

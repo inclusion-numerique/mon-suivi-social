@@ -36,7 +36,7 @@ const AccompagnementsPage = async () => {
 
   return (
     <>
-      <PageTitle page={Routes.Structure.Accompagnements.Index} />
+      <PageTitle page={Routes.Accompagnements.Index} />
       <div className="fr-tabs fr-mt-4v">
         <ul
           className="fr-tabs__list"

@@ -45,9 +45,7 @@ export const ArchiveBeneficiaryForm = withTrpc(
       try {
         const result = await archiveBeneficiary.mutateAsync(data)
         router.push(
-          Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
-            result.beneficiary,
-          ),
+          Routes.Beneficiaires.Beneficiaire.Index.path(result.beneficiary),
         )
       } catch (err) {
         // Error message will be in hook result
@@ -61,10 +59,7 @@ export const ArchiveBeneficiaryForm = withTrpc(
         <div className="fr-alert fr-alert--success fr-mb-8v">
           <h3 className="fr-alert__title">Archivage terminé</h3>
           <p>Le bénéficiaire à bien été archivé.</p>
-          <Link
-            className="fr-btn"
-            href={Routes.Structure.Beneficiaires.Index.path}
-          >
+          <Link className="fr-btn" href={Routes.Beneficiaires.Index.path}>
             Retour aux bénéficiaires
           </Link>
         </div>

@@ -4,7 +4,7 @@ import { PageLoading } from '@mss/web/app/(private)/PageLoading'
 const Loading = () => (
   <PageLoading
     page={{
-      ...Routes.Structure.Structure.Modifier,
+      ...Routes.Structure.Modifier,
       title: '',
     }}
   />

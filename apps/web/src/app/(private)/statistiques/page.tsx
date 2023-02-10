@@ -27,7 +27,7 @@ const StatistiquesPage = async () => {
   return (
     <>
       <ChartJs />
-      <PageTitle page={Routes.Structure.Statistiques.Index} />
+      <PageTitle page={Routes.Statistiques.Index} />
       <SectionTitle>
         <span className="fr-icon-user-line" /> {genderStats.total} bénéficiaires
       </SectionTitle>

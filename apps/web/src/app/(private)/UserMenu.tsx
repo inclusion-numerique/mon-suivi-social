@@ -6,7 +6,7 @@ import { getUserDisplayName } from '@mss/web/utils/user'
 export const UserMenu = ({ user }: { user: SessionUser }) => {
   return (
     <Link
-      href={Routes.Structure.MonCompte.Index.path}
+      href={Routes.MonCompte.Index.path}
       target="_self"
       className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-user-setting-line"
     >

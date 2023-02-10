@@ -16,13 +16,10 @@ export const HelpRequestRow = ({
 
   const helpRequest = deserialize(serializedHelpRequest)
   const { status, id, beneficiary, createdBy, type } = helpRequest
-  const href = Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
-    beneficiary,
-    {
-      tab: 'historique',
-      accompagnement: id,
-    },
-  )
+  const href = Routes.Beneficiaires.Beneficiaire.Index.path(beneficiary, {
+    tab: 'historique',
+    accompagnement: id,
+  })
 
   const statusBadge =
     status === 'Accepted' ? (

@@ -1,8 +1,6 @@
 import { Routes } from '@mss/web/app/routing/routes'
 import { PageLoading } from '@mss/web/app/(private)/PageLoading'
 
-const Loading = () => (
-  <PageLoading page={Routes.Structure.Beneficiaires.Nouveau} />
-)
+const Loading = () => <PageLoading page={Routes.Beneficiaires.Nouveau} />
 
 export default Loading

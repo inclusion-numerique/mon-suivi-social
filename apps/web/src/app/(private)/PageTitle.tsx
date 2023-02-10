@@ -15,7 +15,7 @@ export const PageTitle = ({
   parents?: BreadCrumbParents
 }) => {
   const breadcrumbsParents: BreadCrumbParents = [
-    { title: 'Accueil', path: Routes.Structure.Index.path },
+    { title: 'Accueil', path: Routes.Index.path },
     ...parents,
   ]
 

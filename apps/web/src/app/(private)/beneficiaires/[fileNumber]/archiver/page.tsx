@@ -27,9 +27,8 @@ const EditBeneficiaryPage = async ({
   }
 
   const page: PageConfig = {
-    ...Routes.Structure.Beneficiaires.Beneficiaire.Archiver,
-    title:
-      Routes.Structure.Beneficiaires.Beneficiaire.Archiver.title(beneficiary),
+    ...Routes.Beneficiaires.Beneficiaire.Archiver,
+    title: Routes.Beneficiaires.Beneficiaire.Archiver.title(beneficiary),
   }
 
   return (
@@ -37,13 +36,10 @@ const EditBeneficiaryPage = async ({
       <PageTitle
         page={page}
         parents={[
-          Routes.Structure.Beneficiaires.Index,
+          Routes.Beneficiaires.Index,
           {
-            title:
-              Routes.Structure.Beneficiaires.Beneficiaire.Index.title(
-                beneficiary,
-              ),
-            path: Routes.Structure.Beneficiaires.Beneficiaire.Index.path({
+            title: Routes.Beneficiaires.Beneficiaire.Index.title(beneficiary),
+            path: Routes.Beneficiaires.Beneficiaire.Index.path({
               fileNumber,
             }),
           },

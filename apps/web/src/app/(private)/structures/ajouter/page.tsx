@@ -23,8 +23,8 @@ const AddStructurePage = async () => {
   return (
     <>
       <PageTitle
-        page={Routes.Structure.Structures.Ajouter}
-        parents={[Routes.Structure.Structures.Index]}
+        page={Routes.Structures.Ajouter}
+        parents={[Routes.Structures.Index]}
       />
       <div className="fr-grid-row fr-grid-row--center fr-pb-8v">
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">

@@ -102,9 +102,7 @@ export const BeneficiaryForm = withTrpc(
       try {
         const result = await mutation.mutateAsync(data as any) // Sorry TS gods
         router.push(
-          Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
-            result.beneficiary,
-          ),
+          Routes.Beneficiaires.Beneficiaire.Index.path(result.beneficiary),
         )
       } catch (err) {
         // Error message will be in hook result

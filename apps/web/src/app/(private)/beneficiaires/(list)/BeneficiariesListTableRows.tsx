@@ -23,8 +23,7 @@ export const BeneficiariesListTableRows = asyncComponent(
     return (
       <>
         {beneficiaries.map((beneficiary) => {
-          const href =
-            Routes.Structure.Beneficiaires.Beneficiaire.Index.path(beneficiary)
+          const href = Routes.Beneficiaires.Beneficiaire.Index.path(beneficiary)
 
           const title = `Fiche bénéficiaire ${
             beneficiary.fileNumber

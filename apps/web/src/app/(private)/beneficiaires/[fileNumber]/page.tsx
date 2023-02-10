@@ -114,11 +114,9 @@ const BeneficiaryPage = async ({
   params: { fileNumber },
   searchParams: { tab, accompagnement } = {},
 }: {
-  params: RoutePathParams<
-    typeof Routes.Structure.Beneficiaires.Beneficiaire.Index.path
-  >
+  params: RoutePathParams<typeof Routes.Beneficiaires.Beneficiaire.Index.path>
   searchParams?: RoutePathSearchParams<
-    typeof Routes.Structure.Beneficiaires.Beneficiaire.Index.path
+    typeof Routes.Beneficiaires.Beneficiaire.Index.path
   >
 }) => {
   const user = await getAuthenticatedAgent()
@@ -140,8 +138,8 @@ const BeneficiaryPage = async ({
   const { referents } = beneficiary
 
   const page: PageConfig = {
-    icon: Routes.Structure.Beneficiaires.Beneficiaire.Index.icon,
-    title: Routes.Structure.Beneficiaires.Beneficiaire.Index.title(beneficiary),
+    icon: Routes.Beneficiaires.Beneficiaire.Index.icon,
+    title: Routes.Beneficiaires.Beneficiaire.Index.title(beneficiary),
   }
 
   const canEdit = canEditBeneficiaryGeneralInfo(user, beneficiary)
@@ -149,7 +147,7 @@ const BeneficiaryPage = async ({
 
   return (
     <>
-      <PageTitle page={page} parents={[Routes.Structure.Beneficiaires.Index]} />
+      <PageTitle page={page} parents={[Routes.Beneficiaires.Index]} />
       <div className="fr-col-12 fr-col-lg-8 fr-col-xl-9">
         <AttributesList
           items={[
@@ -178,11 +176,9 @@ const BeneficiaryPage = async ({
           {canEdit ? (
             <li>
               <Link
-                href={Routes.Structure.Beneficiaires.Beneficiaire.Modifier.path(
-                  {
-                    fileNumber,
-                  },
-                )}
+                href={Routes.Beneficiaires.Beneficiaire.Modifier.path({
+                  fileNumber,
+                })}
                 className="fr-btn fr-icon-pencil-line fr-btn--primary"
               >
                 Modifier le bénéficiaire
@@ -191,7 +187,7 @@ const BeneficiaryPage = async ({
           ) : null}
           <li>
             <Link
-              href={Routes.Structure.Accompagnements.Entretien.Nouveau.path({
+              href={Routes.Accompagnements.Entretien.Nouveau.path({
                 dossier: fileNumber,
               })}
               className="fr-btn fr-icon-file-add-line fr-btn--secondary"
@@ -201,11 +197,9 @@ const BeneficiaryPage = async ({
           </li>
           <li>
             <Link
-              href={Routes.Structure.Accompagnements.DemandeDAide.Nouvelle.path(
-                {
-                  dossier: fileNumber,
-                },
-              )}
+              href={Routes.Accompagnements.DemandeDAide.Nouvelle.path({
+                dossier: fileNumber,
+              })}
               className="fr-btn fr-icon-file-add-line fr-btn--secondary"
             >
               Demande d&apos;aide
@@ -214,11 +208,9 @@ const BeneficiaryPage = async ({
           {canArchive ? (
             <li>
               <Link
-                href={Routes.Structure.Beneficiaires.Beneficiaire.Archiver.path(
-                  {
-                    fileNumber,
-                  },
-                )}
+                href={Routes.Beneficiaires.Beneficiaire.Archiver.path({
+                  fileNumber,
+                })}
                 className="fr-btn fr-btn--secondary fr-icon-archive-line fr-btn--primary"
               >
                 Archiver le bénéficiaire
