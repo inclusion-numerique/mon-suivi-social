@@ -232,6 +232,8 @@ export const canAddBeneficiaryDocument = (
   ]) ||
   isReferentFor(grantee, beneficiary)
 
+export const canEditBeneficiaryDocument = canAddBeneficiaryDocument
+
 export const canViewBeneficiaryDocuments = (
   grantee: SecurityRuleGrantee,
   beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,

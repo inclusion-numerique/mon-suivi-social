@@ -66,6 +66,7 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
     const helpRequest = await transaction.helpRequest.update({
       where: { id: helpRequestId },
       data: {
+        updated: new Date(),
         typeId: type,
         documents: {
           connect: documentsDiff.added.map((key) => ({ key })),

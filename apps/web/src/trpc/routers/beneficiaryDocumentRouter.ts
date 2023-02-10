@@ -1,5 +1,4 @@
 import { protectedProcedure, router } from '@mss/web/trpc/trpc'
-import { AddDocumentDataValidation } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/AddDocumentData'
 import {
   beneficiarySecurityTargetInclude,
   getBeneficiarySecurityTarget,
@@ -11,7 +10,6 @@ import {
 } from '@mss/web/trpc/trpcErrors'
 import {
   canAddBeneficiaryDocument,
-  canDeleteBeneficiaryDocument,
   canViewBeneficiaryDocuments,
 } from '@mss/web/security/rules'
 import { prismaClient } from '@mss/web/prismaClient'
@@ -20,41 +18,45 @@ import {
   createSignedGetUrl,
   createSignedUploadUrl,
 } from '@mss/web/server/createSignedUrl'
-import { deleteUploadedFile } from '@mss/web/server/s3/deleteUploadedFile'
-import * as Sentry from '@sentry/nextjs'
+import { AddDocumentClient } from '@mss/web/features/document/addDocument.client'
+import { AddDocumentServer } from '@mss/web/features/document/addDocument.server'
+import { EditDocumentClient } from '@mss/web/features/document/editDocument.client'
+import { EditDocumentServer } from '@mss/web/features/document/editDocument.server'
+import { DeleteDocumentServer } from '@mss/web/features/document/deleteDocument.server'
+import { DeleteDocumentClient } from '@mss/web/features/document/deleteDocument.client'
 
 export const beneficiaryDocumentRouter = router({
   add: protectedProcedure
-    .input(AddDocumentDataValidation)
-    .mutation(
-      async ({
-        input: { type, beneficiaryId, confidential, tags, file },
-        ctx: { user },
-      }) => {
-        const beneficiary = await getBeneficiarySecurityTarget(beneficiaryId)
-
-        if (!beneficiary) {
-          throw invalidError()
-        }
-
-        if (!canAddBeneficiaryDocument(user, beneficiary)) {
-          throw forbiddenError()
-        }
-
-        const document = await prismaClient.document.create({
-          data: {
-            beneficiaryId,
-            type,
-            confidential,
-            tags,
-            createdById: user.id,
-            ...file,
-          },
-        })
-
-        return { document }
-      },
-    ),
+    .input(AddDocumentClient.inputValidation)
+    .mutation(async ({ input, ctx: { user } }) => {
+      const target = await getBeneficiarySecurityTarget(input.beneficiaryId)
+      if (!target) {
+        throw invalidError('Beneficiary not found')
+      }
+      return AddDocumentServer.execute({
+        input,
+        user,
+        target,
+        securityParams: {},
+        structureId: target.structureId,
+      })
+    }),
+  edit: protectedProcedure
+    .input(EditDocumentClient.inputValidation)
+    .mutation(async ({ input, ctx: { user } }) => {
+      const target = await getBeneficiarySecurityTarget(input.beneficiaryId)
+      if (!target) {
+        throw invalidError('Beneficiary not found')
+      }
+      return EditDocumentServer.execute({
+        input,
+        user,
+        target,
+        getServerStateInput: input,
+        securityParams: {},
+        structureId: target.structureId,
+      })
+    }),
   createUploadUrl: protectedProcedure
     .input(
       z.object({
@@ -110,28 +112,22 @@ export const beneficiaryDocumentRouter = router({
       return { url }
     }),
   delete: protectedProcedure
-    .input(z.object({ key: z.string() }))
-    .mutation(async ({ input: { key }, ctx: { user } }) => {
+    .input(DeleteDocumentClient.inputValidation)
+    .mutation(async ({ input, ctx: { user } }) => {
       const document = await prismaClient.document.findUnique({
-        where: { key },
+        where: { key: input.documentKey },
         include: { beneficiary: beneficiarySecurityTargetInclude },
       })
-
       if (!document) {
-        throw notfoundError()
+        throw invalidError('Document not found')
       }
 
-      if (!canDeleteBeneficiaryDocument(user, document.beneficiary)) {
-        throw forbiddenError()
-      }
-
-      // TODO Mutation log
-      // TODO Delete from bucket
-      await prismaClient.document.delete({ where: { key } })
-      deleteUploadedFile({ key }).catch((err) =>
-        Sentry.captureException(err, { tags: { sensitive: true } }),
-      )
-
-      return {}
+      return DeleteDocumentServer.execute({
+        input,
+        user,
+        target: document.beneficiary,
+        securityParams: {},
+        structureId: document.beneficiary.structureId,
+      })
     }),
 })

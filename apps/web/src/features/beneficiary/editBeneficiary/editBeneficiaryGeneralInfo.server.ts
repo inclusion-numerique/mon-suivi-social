@@ -76,6 +76,7 @@ export const EditBeneficiaryGeneralInfoServer =
       const beneficiary = await transaction.beneficiary.update({
         where: { id: beneficiaryId },
         data: {
+          updated: new Date(),
           ...data,
           referents: {
             connect: referentsDiff.added.map((id) => ({ id })),

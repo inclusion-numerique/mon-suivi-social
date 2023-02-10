@@ -45,6 +45,7 @@ export const EditFollowupServer = createMutationServerWithInitialState({
     const followup = await transaction.followup.update({
       where: { id: followupId },
       data: {
+        updated: new Date(),
         types: {
           connect: typesDiff.added.map((id) => ({ id })),
           disconnect: typesDiff.removed.map((id) => ({ id })),

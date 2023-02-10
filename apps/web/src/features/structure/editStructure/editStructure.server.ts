@@ -60,6 +60,7 @@ export const EditStructureServer = createMutationServerWithInitialState({
       where: { id: structureId },
       data: {
         ...data,
+        updated: new Date(),
         proposedFollowupTypes: {
           createMany: {
             data: followupsDiff.added.map((followupTypeId) => ({

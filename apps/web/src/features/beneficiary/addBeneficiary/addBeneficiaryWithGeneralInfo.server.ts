@@ -5,7 +5,7 @@ import { generateFileNumber } from '@mss/web/beneficiary/generateFileNumber'
 
 export const AddBeneficiaryWithGeneralInfoServer = createMutationServer({
   client: AddBeneficiaryWithGeneralInfoClient,
-  executeMutation: async ({ input, transaction }) => {
+  executeMutation: async ({ input, transaction, user }) => {
     const { structureId, referents, ...data } = input
 
     const id = v4()
@@ -19,6 +19,7 @@ export const AddBeneficiaryWithGeneralInfoServer = createMutationServer({
         referents: {
           connect: referents.map((id) => ({ id })),
         },
+        createdById: user.id,
         ...data,
       },
     })

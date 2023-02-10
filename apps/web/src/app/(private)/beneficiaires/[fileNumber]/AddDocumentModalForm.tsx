@@ -2,14 +2,6 @@
 
 import mime from 'mime-types'
 import { DefaultValues, useForm } from 'react-hook-form'
-import {
-  AddDocumentDataValidationWithUpload,
-  AddDocumentDataWithUpload,
-  documentFileAllowedTypes,
-  documentFileMaxSize,
-  documentTagOptions,
-  documentTypeOptions,
-} from '@mss/web/app/(private)/beneficiaires/[fileNumber]/AddDocumentData'
 import { trpc } from '@mss/web/trpc'
 import { withTrpc } from '@mss/web/withTrpc'
 import { SelectFormField } from '@mss/web/form/SelectFormField'
@@ -21,15 +13,32 @@ import { UploadFormField } from '@mss/web/form/UploadFormField'
 import { formatByteSize } from '@mss/web/utils/formatByteSize'
 import axios from 'axios'
 import { Spinner } from '@mss/web/ui/Spinner'
+import {
+  AddDocumentWithBrowserUploadData,
+  AddDocumentWithBrowserUploadValidation,
+  documentFileAllowedTypes,
+  documentFileMaxSize,
+  documentTagOptions,
+  documentTypeOptions,
+} from '@mss/web/features/document/addDocument.client'
+import { useRouter } from 'next/navigation'
+import { Routes } from '@mss/web/app/routing/routes'
 
 export const AddDocumentModalForm = withTrpc(
-  ({ beneficiaryId }: { beneficiaryId: string }) => {
+  ({
+    dialogId,
+    beneficiaryId,
+  }: {
+    dialogId: string
+    beneficiaryId: string
+  }) => {
+    const router = useRouter()
     const addDocument = trpc.beneficiary.document.add.useMutation()
     const createUploadUrl =
       trpc.beneficiary.document.createUploadUrl.useMutation()
     const closeRef = useRef<HTMLButtonElement>(null)
 
-    const defaultValues: DefaultValues<AddDocumentDataWithUpload> = {
+    const defaultValues: DefaultValues<AddDocumentWithBrowserUploadData> = {
       confidential: false,
       tags: [],
       beneficiaryId,
@@ -41,9 +50,9 @@ export const AddDocumentModalForm = withTrpc(
       reset,
       setError,
       formState: { isSubmitting },
-    } = useForm<AddDocumentDataWithUpload>({
+    } = useForm<AddDocumentWithBrowserUploadData>({
       defaultValues,
-      resolver: zodResolver(AddDocumentDataValidationWithUpload),
+      resolver: zodResolver(AddDocumentWithBrowserUploadValidation),
     })
 
     const onSubmit = async ({
@@ -52,7 +61,7 @@ export const AddDocumentModalForm = withTrpc(
       beneficiaryId,
       type,
       tags,
-    }: AddDocumentDataWithUpload) => {
+    }: AddDocumentWithBrowserUploadData) => {
       const signedUrl = await createUploadUrl
         .mutateAsync({
           name: file.name,
@@ -101,8 +110,14 @@ export const AddDocumentModalForm = withTrpc(
           confidential,
         },
         {
-          onSuccess: () => {
+          onSuccess: (result) => {
             closeRef.current?.click()
+            router.push(
+              Routes.Structure.Beneficiaires.Beneficiaire.Index.path(
+                { fileNumber: result.document.beneficiary.fileNumber },
+                { tab: 'documents', document: result.document.key },
+              ),
+            )
             reset(defaultValues)
           },
         },
@@ -126,7 +141,7 @@ export const AddDocumentModalForm = withTrpc(
         <div className="fr-modal__header">
           <button
             className="fr-link--close fr-link"
-            aria-controls="fr-modal-add-document"
+            aria-controls={dialogId}
             type="button"
             ref={closeRef}
           >
@@ -134,7 +149,7 @@ export const AddDocumentModalForm = withTrpc(
           </button>
         </div>
         <div className="fr-modal__content">
-          <h1 id="fr-modal-add-document-title" className="fr-modal__title">
+          <h1 id={`${dialogId}__title`} className="fr-modal__title">
             Ajouter un document
           </h1>
 
@@ -193,7 +208,7 @@ export const AddDocumentModalForm = withTrpc(
               <button
                 disabled={isLoading}
                 type="button"
-                aria-controls="fr-modal-add-document"
+                aria-controls={dialogId}
                 className="fr-btn  fr-btn--secondary"
                 onClick={onCancel}
               >

@@ -4,7 +4,7 @@ import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpReque
 
 export const AddHelpRequestServer = createMutationServer({
   client: AddHelpRequestClient,
-  executeMutation: async ({ input, transaction }) => {
+  executeMutation: async ({ input, transaction, user }) => {
     const { beneficiaryId, structureId, type, documents, ...data } = input
 
     const id = v4()
@@ -18,6 +18,7 @@ export const AddHelpRequestServer = createMutationServer({
         documents: {
           connect: documents.map((key) => ({ key })),
         },
+        createdById: user.id,
         ...data,
       },
     })

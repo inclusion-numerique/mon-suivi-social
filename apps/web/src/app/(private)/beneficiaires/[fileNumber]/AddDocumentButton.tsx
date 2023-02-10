@@ -7,11 +7,12 @@ export const AddDocumentButton = ({
   beneficiaryId: string
   className?: string
 }) => {
+  const dialogId = 'add-document-modal'
   return (
     <>
       <button
         type="button"
-        aria-controls="fr-modal-add-document"
+        aria-controls={dialogId}
         data-fr-opened="false"
         className={`fr-btn fr-btn--icon-left fr-icon-file-add-line ${
           className ?? ''
@@ -21,8 +22,8 @@ export const AddDocumentButton = ({
       </button>
 
       <dialog
-        id="fr-modal-add-document"
-        aria-labelledby="fr-modal-add-document-title"
+        id={dialogId}
+        aria-labelledby={`${dialogId}__title`}
         className="fr-modal"
         role="dialog"
       >
@@ -30,7 +31,10 @@ export const AddDocumentButton = ({
           <div className="fr-grid-row fr-grid-row--center">
             <div className="fr-col-12 fr-col-md-8 fr-col-lg-6">
               <div className="fr-modal__body">
-                <AddDocumentModalForm beneficiaryId={beneficiaryId} />
+                <AddDocumentModalForm
+                  dialogId={dialogId}
+                  beneficiaryId={beneficiaryId}
+                />
               </div>
             </div>
           </div>

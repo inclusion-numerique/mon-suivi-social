@@ -5,7 +5,7 @@ import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/
 
 export const AddBeneficiaryWithFullDataServer = createMutationServer({
   client: AddBeneficiaryWithFullDataClient,
-  executeMutation: async ({ input, transaction }) => {
+  executeMutation: async ({ input, transaction, user }) => {
     const { structureId, referents, ...data } = input
 
     const id = v4()
@@ -19,6 +19,7 @@ export const AddBeneficiaryWithFullDataServer = createMutationServer({
         referents: {
           connect: referents.map((id) => ({ id })),
         },
+        createdById: user.id,
         ...data,
       },
     })

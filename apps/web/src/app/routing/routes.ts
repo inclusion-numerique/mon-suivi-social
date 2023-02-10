@@ -51,6 +51,8 @@ export const Routes = {
               tab?: 'info' | 'documents' | 'historique'
               // ID of item to scroll to in history tab
               accompagnement?: string
+              // Key of the document to highlight
+              document?: string
             },
           ) => withSearchParams(`/beneficiaires/${fileNumber}`)(params),
         },

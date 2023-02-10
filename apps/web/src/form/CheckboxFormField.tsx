@@ -60,8 +60,10 @@ export function CheckboxFormField<T extends FieldValues>({
                   type="checkbox"
                   id={id}
                   onBlur={onBlur}
-                  onChange={onChange}
-                  value={value ?? ''}
+                  onChange={(event) => {
+                    onChange(event.target.checked)
+                  }}
+                  checked={value === true}
                   ref={ref}
                   name={name}
                   autoFocus={autoFocus}
