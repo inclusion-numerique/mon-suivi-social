@@ -53,7 +53,6 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
     serviceProviders: z.string().optional(),
     involvedPartners: z.string().optional(),
   }),
-  // TODO anonymize all identification fields from above
   beneficiaryAnonymization: (input) => {
     // TODO this is not undefined, fix typings to allow usage without checking
     const partiallyAnonymized =
@@ -63,7 +62,31 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
 
     return {
       ...partiallyAnonymized,
-      doctor: '',
+      doctor: undefined,
+      healthAdditionalInformation: undefined,
+      socialSecurityNumber: undefined,
+      insurance: undefined,
+      occupation: undefined,
+      employer: undefined,
+      employerSiret: undefined,
+      mainIncomeSource: undefined,
+      mainIncomeAmount: undefined,
+      partnerMainIncomeSource: undefined,
+      partnerMainIncomeAmount: undefined,
+      majorChildrenMainIncomeSource: undefined,
+      majorChildrenMainIncomeAmount: undefined,
+      unemploymentNumber: undefined,
+      pensionStructure: undefined,
+      cafNumber: undefined,
+      bank: undefined,
+      funeralContract: undefined,
+      protectionMeasure: undefined,
+      representative: undefined,
+      prescribingStructure: undefined,
+      orientationType: undefined,
+      orientationStructure: undefined,
+      serviceProviders: undefined,
+      involvedPartners: undefined,
     }
   },
   fieldLabels: {

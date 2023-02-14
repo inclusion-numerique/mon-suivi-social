@@ -26,11 +26,11 @@ export const AddFollowupClient = createMutationClient({
     dueDate: z.string().optional(),
     thirdPersonName: z.string().optional(),
   }),
-  // TODO anonymize all identification fields from above
-  beneficiaryAnonymization: ({ ...data }) => ({
-    thirdPersonName: '',
-    syntesis: '',
-    privateSynthesis: '',
+  beneficiaryAnonymization: () => ({
+    thirdPersonName: undefined,
+    place: undefined,
+    syntesis: undefined,
+    privateSynthesis: undefined,
   }),
   fieldLabels: {
     structureId: 'Structure',

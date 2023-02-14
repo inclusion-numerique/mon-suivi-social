@@ -37,7 +37,6 @@ export const AddHelpRequestClient = createMutationClient({
     dueDate: z.string().datetime().optional(),
     fullFile: z.boolean().default(false),
   }),
-  // TODO anonymize all identification fields from above
   beneficiaryAnonymization: ({ ...data }) => ({
     refusalReason: '',
     syntesis: '',

@@ -11,10 +11,7 @@ export const EditDocumentClient = createMutationClient({
     .extend({
       key: z.string(),
     }),
-  // TODO review anonymization functions
-  beneficiaryAnonymization: ({ ...data }) => ({
-    ...data,
-  }),
+  beneficiaryAnonymization: () => ({}),
   fieldLabels: {
     key: 'Document',
     ...AddDocumentClient.fieldLabels,

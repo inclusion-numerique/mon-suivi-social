@@ -2,7 +2,10 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { MutationDiff } from '@mss/web/features/mutationLog'
 import { ArchiveBeneficiaryClient } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.client'
 import { invalidError, notfoundError } from '@mss/web/trpc/trpcErrors'
-import { getAnonymizationForFeature } from '@mss/web/features/beneficiary/archiveBeneficiary/mutationLogAnonymization'
+import {
+  applyAnonymization,
+  getAnonymizationForFeature,
+} from '@mss/web/features/beneficiary/archiveBeneficiary/mutationLogAnonymization'
 import * as Sentry from '@sentry/nextjs'
 import { deleteUploadedFile } from '@mss/web/server/s3/deleteUploadedFile'
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
@@ -51,9 +54,61 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
       data: {
         archived: new Date(),
         archivedById: user.id,
+        title: null,
         firstName: null,
+        usualName: null,
         birthName: null,
-        // TODO other fields
+        birthDate: null,
+        birthPlace: null,
+        deathDate: null,
+        gender: null,
+        nationality: null,
+        accomodationMode: null,
+        accomodationName: null,
+        accomodationAdditionalInformation: null,
+        street: null,
+        streetNumber: null,
+        addressComplement: null,
+        zipcode: null,
+        city: null,
+        region: null,
+        noPhone: null,
+        phone1: null,
+        phone2: null,
+        email: null,
+        familySituation: null,
+        caregiver: null,
+        minorChildren: null,
+        majorChildren: null,
+        mobility: null,
+        administration: null,
+        minister: null,
+        additionalInformation: null,
+        doctor: null,
+        healthAdditionalInformation: null,
+        socialSecurityNumber: null,
+        insurance: null,
+        occupation: null,
+        employer: null,
+        employerSiret: null,
+        mainIncomeSource: [],
+        mainIncomeAmount: null,
+        partnerMainIncomeSource: [],
+        partnerMainIncomeAmount: null,
+        majorChildrenMainIncomeSource: [],
+        majorChildrenMainIncomeAmount: null,
+        unemploymentNumber: null,
+        pensionStructure: null,
+        cafNumber: null,
+        bank: null,
+        funeralContract: null,
+        protectionMeasure: null,
+        representative: null,
+        prescribingStructure: null,
+        orientationType: null,
+        orientationStructure: null,
+        serviceProviders: null,
+        involvedPartners: null,
         relatives: {
           updateMany: [
             {
@@ -93,6 +148,7 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
                 synthesis: null,
                 privateSynthesis: null,
                 thirdPersonName: null,
+                place: null,
               },
             },
           ],
@@ -104,6 +160,7 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
               data: {
                 synthesis: null,
                 privateSynthesis: null,
+                refusalReason: null,
               },
             },
           ],
@@ -130,13 +187,9 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
         }
         const sensitiveDiff = diff as any as MutationDiff
         const anonymizedDiff: MutationDiff = {
-          added: sensitiveDiff.added ? anonymization(sensitiveDiff.added) : {},
-          updated: sensitiveDiff.updated
-            ? anonymization(sensitiveDiff.updated)
-            : {},
-          deleted: sensitiveDiff.deleted
-            ? anonymization(sensitiveDiff.deleted)
-            : {},
+          added: applyAnonymization(sensitiveDiff.added, anonymization),
+          updated: applyAnonymization(sensitiveDiff.updated, anonymization),
+          deleted: applyAnonymization(sensitiveDiff.deleted, anonymization),
         }
 
         return transaction.mutationLog.update({
