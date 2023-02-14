@@ -139,11 +139,11 @@ model Document {
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
   beneficiaryId String      @db.Uuid
 
-  created       DateTime     @default(now())
-  createdBy     User         @relation(fields: [createdById], references: [id])
-  createdById   String       @db.Uuid
-  followups      Followup[]
-  helpRequests   HelpRequest[]
+  created      DateTime      @default(now())
+  createdBy    User          @relation(fields: [createdById], references: [id])
+  createdById  String        @db.Uuid
+  followups    Followup[]
+  helpRequests HelpRequest[]
 }
 
 model FollowupType {
@@ -240,14 +240,13 @@ model Followup {
 }
 
 enum HelpRequestStatus {
-  // En attente de justificatifs
-  WaitingForDocuments
-  // En cours d'instruction
-  WaitingForDecision
-  // Accepté
+  WaitingAdditionalInformation
+  InvestigationOngoing
   Accepted
-  // Refusée
-  Denied
+  Refused
+  Adjourned
+  ClosedByBeneficiary
+  Dismissed
 }
 
 enum PaymentMethod {
@@ -299,13 +298,13 @@ model HelpRequest {
 
   allocatedAmount Decimal?
 
-  paymentMethod      PaymentMethod?
-  paymentDate        DateTime?      @db.Date
-  handlingDate       DateTime?      @db.Date
-  refusalReason      String?
+  paymentMethod           PaymentMethod?
+  paymentDate             DateTime?      @db.Date
+  handlingDate            DateTime?      @db.Date
+  refusalReason           String?
   prescribingOrganisation String?
-  examiningOrganisation String?
-  dispatchDate       DateTime?      @db.Date
+  examiningOrganisation   String?
+  dispatchDate            DateTime?      @db.Date
 
   synthesis String?
 
@@ -608,7 +607,7 @@ enum RelativeRelationship {
   //Voisin
   Neighbour
   //Fratrie
-  Fratrie
+  Sibling
   //Tiers
   Tiers
   //Autre membre de la famille
