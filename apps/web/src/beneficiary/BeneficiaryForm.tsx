@@ -137,9 +137,6 @@ export const BeneficiaryForm = withTrpc(
       [form.formState.submitCount],
     )
 
-    // TODO before submit is intercepted and after error registrations, or on watch on error keys, expand accordions that contains inputs with an error class
-    // TODO It is more robust than to maintain a list of fields and will not break
-
     const { isLoading } = mutation
 
     const fieldsDisabled = isLoading

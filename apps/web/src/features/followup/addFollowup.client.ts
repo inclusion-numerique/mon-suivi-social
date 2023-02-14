@@ -1,7 +1,8 @@
 import { canCreateBeneficiaryFollowup } from '@mss/web/security/rules'
 import z from 'zod'
 import { createMutationClient } from '@mss/web/features/createMutation.client'
-import { FollowupMedium, FollowupStatus, Gender } from '@prisma/client'
+import { FollowupMedium, FollowupStatus } from '@prisma/client'
+import { labelsToOptions } from '@mss/web/utils/options'
 
 export const AddFollowupClient = createMutationClient({
   name: 'followup.add',
@@ -14,7 +15,7 @@ export const AddFollowupClient = createMutationClient({
       .min(1, "Veuillez renseigner au moins un type d'accompagnement"),
     documents: z.array(z.string().uuid()).default([]),
     medium: z.nativeEnum(FollowupMedium),
-    date: z.string().datetime(),
+    date: z.string(),
     syntesis: z.string().optional(),
     privateSynthesis: z.string().optional(),
     status: z.nativeEnum(FollowupStatus),
@@ -22,7 +23,7 @@ export const AddFollowupClient = createMutationClient({
     place: z.string().optional(),
     redirected: z.boolean().default(false),
     structureName: z.string().optional(),
-    dueDate: z.string().datetime().optional(),
+    dueDate: z.string().optional(),
     thirdPersonName: z.string().optional(),
   }),
   // TODO anonymize all identification fields from above
@@ -51,3 +52,25 @@ export const AddFollowupClient = createMutationClient({
 })
 
 export type AddFollowupClient = typeof AddFollowupClient
+
+export const followupMediumLabels: { [key in FollowupMedium]: string } = {
+  [FollowupMedium.UnplannedInPerson]: 'Accueil physique spontané',
+  [FollowupMedium.PlannedInPerson]: 'Accueil physique sur rendez-vous',
+  [FollowupMedium.PostalMail]: 'Courrier',
+  [FollowupMedium.ThirdParty]: 'Entretien avec un tiers',
+  [FollowupMedium.PhoneCall]: 'Entretien téléphonique',
+  [FollowupMedium.Email]: 'E-mail',
+  [FollowupMedium.BeneficiaryHouseAppointment]: 'Rendez-vous à domicile',
+  [FollowupMedium.ExternalAppointment]: 'Rendez-vous extérieur',
+  [FollowupMedium.Videoconference]: 'Visioconférence',
+}
+
+export const followupMediumOptions = labelsToOptions(followupMediumLabels)
+
+export const followupStatusLabels: { [key in FollowupStatus]: string } = {
+  [FollowupStatus.Todo]: 'À traiter',
+  [FollowupStatus.InProgress]: 'En cours',
+  [FollowupStatus.Done]: 'Terminé',
+}
+
+export const followupStatusOptions = labelsToOptions(followupStatusLabels)

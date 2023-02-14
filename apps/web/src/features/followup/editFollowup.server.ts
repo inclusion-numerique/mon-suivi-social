@@ -56,6 +56,14 @@ export const EditFollowupServer = createMutationServerWithInitialState({
         },
         ...data,
       },
+      include: {
+        beneficiary: {
+          select: {
+            id: true,
+            fileNumber: true,
+          },
+        },
+      },
     })
 
     return { followup }

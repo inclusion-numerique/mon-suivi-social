@@ -26,6 +26,7 @@ export function InputFormField<T extends FieldValues>({
   step,
   autoFocus,
   className,
+  minRows,
 }: {
   control: Control<T>
   path: FieldPath<T>
@@ -39,6 +40,7 @@ export function InputFormField<T extends FieldValues>({
   step?: number
   autoFocus?: boolean
   className?: string
+  minRows?: number
 } & GetFieldValueAsOptions) {
   const id = `input-form-field__${path}`
 
@@ -69,7 +71,7 @@ export function InputFormField<T extends FieldValues>({
               disabled={disabled}
               id={id}
               placeholder={placeholder}
-              minRows={2}
+              minRows={minRows ?? 2}
               onBlur={onBlur}
               onChange={onChange}
               value={value ?? ''}

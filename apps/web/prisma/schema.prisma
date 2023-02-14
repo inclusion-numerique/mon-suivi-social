@@ -200,6 +200,7 @@ enum FollowupMedium {
 }
 
 enum FollowupStatus {
+  Todo
   InProgress
   Done
 }

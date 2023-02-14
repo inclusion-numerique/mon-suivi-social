@@ -23,6 +23,14 @@ export const AddFollowupServer = createMutationServer({
         createdById: user.id,
         ...data,
       },
+      include: {
+        beneficiary: {
+          select: {
+            id: true,
+            fileNumber: true,
+          },
+        },
+      },
     })
 
     return { followup }

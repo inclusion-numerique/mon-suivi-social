@@ -96,20 +96,52 @@ export const Routes = {
     },
     Entretien: {
       Nouveau: {
-        title: 'Nouvel entretien',
+        title: (
+          beneficiary: Pick<
+            Beneficiary,
+            'firstName' | 'usualName' | 'birthName' | 'fileNumber'
+          >,
+        ) => `Entretien avec ${beneficiaryDisplayName(beneficiary)}`,
         icon: 'folder-2-line',
         path: withSearchParams<{
           dossier: string
         }>('/accompagnements/entretiens/nouveau'),
       },
+      Modifier: {
+        title: (
+          beneficiary: Pick<
+            Beneficiary,
+            'firstName' | 'usualName' | 'birthName' | 'fileNumber'
+          >,
+        ) => `Entretien avec ${beneficiaryDisplayName(beneficiary)}`,
+        icon: 'folder-2-line',
+        path: ({ followupId }: { followupId: string }) =>
+          `/accompagnements/entretiens/${followupId}/modifier`,
+      },
     },
     DemandeDAide: {
       Nouvelle: {
-        title: "Nouvelle demande d'aide",
+        title: (
+          beneficiary: Pick<
+            Beneficiary,
+            'firstName' | 'usualName' | 'birthName' | 'fileNumber'
+          >,
+        ) => `Demande d'aide de ${beneficiaryDisplayName(beneficiary)}`,
         icon: 'folder-2-line',
         path: withSearchParams<{
           dossier: string
         }>('/accompagnements/demande-d-aide/nouvelle'),
+      },
+      Modifier: {
+        title: (
+          beneficiary: Pick<
+            Beneficiary,
+            'firstName' | 'usualName' | 'birthName' | 'fileNumber'
+          >,
+        ) => `Demande d'aide de ${beneficiaryDisplayName(beneficiary)}`,
+        icon: 'folder-2-line',
+        path: ({ helpRequestId }: { helpRequestId: string }) =>
+          `/accompagnements/demande-d-aide/${helpRequestId}/modifier`,
       },
     },
   },
