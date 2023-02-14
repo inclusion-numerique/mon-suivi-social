@@ -24,6 +24,24 @@ const removeNonStandardFields = <T extends Record<string, unknown>>(
 
 export const nextAuthAdapter: Adapter = {
   ...prismaAdapter,
+  // Better handle case of missing session when deleting. It should not crash auth process.
+  deleteSession: async (sessionToken) => {
+    try {
+      await prismaAdapter.deleteSession(sessionToken)
+    } catch (err) {
+      // See https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+      if (
+        !!err &&
+        typeof err === 'object' &&
+        'code' in err &&
+        err.code === 'P2025'
+      ) {
+        // Ok, the session was already destroyed by another process
+        return
+      }
+      throw err
+    }
+  },
   // Custom signup
   createUser: signupUser,
   // Custom link acount
