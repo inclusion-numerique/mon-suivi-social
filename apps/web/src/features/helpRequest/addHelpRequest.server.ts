@@ -7,7 +7,6 @@ export const AddHelpRequestServer = createMutationServer({
   executeMutation: async ({ input, transaction, user }) => {
     const {
       beneficiaryId,
-      structureId,
       type,
       documents,
       financialSupport,
@@ -16,6 +15,12 @@ export const AddHelpRequestServer = createMutationServer({
     } = input
 
     const id = v4()
+
+    // TODO better way to pass along structureId in mutation context extra props
+    const { structureId } = await transaction.beneficiary.findUniqueOrThrow({
+      where: { id: beneficiaryId },
+      select: { structureId: true },
+    })
 
     const helpRequest = await transaction.helpRequest.create({
       data: {
@@ -44,9 +49,9 @@ export const AddHelpRequestServer = createMutationServer({
     return { helpRequest }
   },
   mutationLogInfo: ({
-    input: { structureId, beneficiaryId },
+    input: { beneficiaryId },
     result: {
-      helpRequest: { id },
+      helpRequest: { id, structureId },
     },
   }) => ({
     targetId: id,

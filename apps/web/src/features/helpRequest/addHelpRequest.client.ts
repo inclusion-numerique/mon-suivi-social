@@ -12,7 +12,6 @@ export const AddHelpRequestClient = createMutationClient({
   name: 'helpRequest.add',
   securityCheck: canCreateBeneficiaryHelpRequest,
   inputValidation: z.object({
-    structureId: z.string().uuid(),
     beneficiaryId: z.string().uuid(),
     // TODO datetime validation do not work for date, use other test
     openingDate: z.string(),
@@ -25,8 +24,8 @@ export const AddHelpRequestClient = createMutationClient({
     examinationDate: z.string().optional(),
     decisionDate: z.string().optional(),
     allocatedAmount: z.number().min(0).optional(),
-    paymentMethod: z.nativeEnum(PaymentMethod),
-    reason: z.nativeEnum(HelpRequestReason),
+    paymentMethod: z.nativeEnum(PaymentMethod).optional(),
+    reason: z.nativeEnum(HelpRequestReason).optional(),
     paymentDate: z.string().optional(),
     handlingDate: z.string().optional(),
     refusalReason: z.string().optional(),
@@ -44,7 +43,6 @@ export const AddHelpRequestClient = createMutationClient({
     privateSynthesis: '',
   }),
   fieldLabels: {
-    structureId: 'Structure',
     beneficiaryId: 'Bénéficiaire',
     type: 'Accompagnement',
     openingDate: "Date d'ouverture du dossier",

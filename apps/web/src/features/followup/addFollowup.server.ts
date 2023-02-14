@@ -5,9 +5,15 @@ import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client
 export const AddFollowupServer = createMutationServer({
   client: AddFollowupClient,
   executeMutation: async ({ input, transaction, user }) => {
-    const { beneficiaryId, structureId, types, documents, ...data } = input
+    const { beneficiaryId, types, documents, ...data } = input
 
     const id = v4()
+
+    // TODO better way to pass along structureId in mutation context extra props
+    const { structureId } = await transaction.beneficiary.findUniqueOrThrow({
+      where: { id: beneficiaryId },
+      select: { structureId: true },
+    })
 
     const followup = await transaction.followup.create({
       data: {
@@ -36,9 +42,9 @@ export const AddFollowupServer = createMutationServer({
     return { followup }
   },
   mutationLogInfo: ({
-    input: { structureId, beneficiaryId },
+    input: { beneficiaryId },
     result: {
-      followup: { id },
+      followup: { id, structureId },
     },
   }) => ({
     targetId: id,

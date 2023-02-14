@@ -63,7 +63,11 @@ export const HelpRequestForm = withTrpc(
         EditHelpRequestClient
 
     const defaultValues = props.creation
-      ? { ...props.defaultInput, openingDate: dateToIsoDay(new Date()) }
+      ? {
+          ...props.defaultInput,
+          fullFile: false,
+          openingDate: dateToIsoDay(new Date()),
+        }
       : deserialize(props.defaultInput)
 
     const form = useForm<MutationInput<typeof client>>({
@@ -72,6 +76,8 @@ export const HelpRequestForm = withTrpc(
     })
 
     const { handleSubmit, control } = form
+
+    console.log('ERRORS', form.formState.errors)
 
     // TODO Maybe create conditional handlers for strict typing while calling hook ?
     const onSubmit = async (data: MutationInput<typeof client>) => {

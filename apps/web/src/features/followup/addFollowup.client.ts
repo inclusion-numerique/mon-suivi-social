@@ -8,7 +8,6 @@ export const AddFollowupClient = createMutationClient({
   name: 'followup.add',
   securityCheck: canCreateBeneficiaryFollowup,
   inputValidation: z.object({
-    structureId: z.string().uuid(),
     beneficiaryId: z.string().uuid(),
     types: z
       .array(z.string().uuid())
@@ -34,7 +33,6 @@ export const AddFollowupClient = createMutationClient({
     privateSynthesis: undefined,
   }),
   fieldLabels: {
-    structureId: 'Structure',
     beneficiaryId: 'Bénéficiaire',
     types: 'Accompagnement(s)',
     medium: "Type d'entretien",
