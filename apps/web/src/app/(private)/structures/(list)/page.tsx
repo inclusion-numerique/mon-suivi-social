@@ -23,7 +23,7 @@ const defaultSorting: Sorting = {
   direction: 'asc',
 }
 
-const StructuresPage = async ({
+const StructuresListPage = async ({
   searchParams,
 }: {
   searchParams?: RoutePathParams<typeof Routes.Structures.Index.pathWithParams>
@@ -125,4 +125,4 @@ const StructuresPage = async ({
     </>
   )
 }
-export default StructuresPage
+export default StructuresListPage

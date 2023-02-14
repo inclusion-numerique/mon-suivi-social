@@ -12,6 +12,22 @@ export const fixtureBeneficiaries = [
     birthDate: new Date('1980-04-06'),
     gender: 'Female',
     structureId: fixtureStructure.id,
+    relatives: {
+      createMany: {
+        data: [
+          {
+            id: '54ead032-b22d-4d88-957f-2ed3107472c2',
+            firstName: 'Anne',
+            relationship: 'Neighbour',
+          },
+          {
+            id: 'ef76bac1-fea2-49d3-aa44-68171324104a',
+            firstName: 'Albert',
+            relationship: 'Grandparent',
+          },
+        ],
+      },
+    },
   },
   {
     id: '19131e3c-ece5-4aba-a322-f795c1342287',
@@ -113,6 +129,6 @@ export const fixtureBeneficiaries = [
     structureId: fixtureStructure.id,
   },
 ] satisfies Exclude<
-  Parameters<typeof prismaClient.beneficiary.createMany>[0],
+  Parameters<typeof prismaClient.beneficiary.create>[0],
   undefined
->['data']
+>['data'][]

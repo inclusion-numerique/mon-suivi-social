@@ -10,7 +10,12 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[0].id,
     medium: 'PlannedInPerson',
-    typeId: fixturesProposedFollowupTypes[0].followupTypeId,
+    types: {
+      connect: [
+        { id: fixturesProposedFollowupTypes[0].followupTypeId },
+        { id: fixturesProposedFollowupTypes[1].followupTypeId },
+      ],
+    },
     date: new Date('2022-10-20'),
   },
   {
@@ -19,7 +24,9 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[0].id,
     medium: 'PhoneCall',
-    typeId: fixturesProposedFollowupTypes[1].followupTypeId,
+    types: {
+      connect: [{ id: fixturesProposedFollowupTypes[0].followupTypeId }],
+    },
     date: new Date('2022-10-21'),
   },
   {
@@ -28,7 +35,13 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[2].id,
     medium: 'Videoconference',
-    typeId: fixturesProposedFollowupTypes[2].followupTypeId,
+
+    types: {
+      connect: [
+        { id: fixturesProposedFollowupTypes[2].followupTypeId },
+        { id: fixturesProposedFollowupTypes[1].followupTypeId },
+      ],
+    },
     date: new Date('2022-10-22'),
   },
   {
@@ -37,7 +50,10 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[1].id,
     medium: 'UnplannedInPerson',
-    typeId: fixturesProposedFollowupTypes[2].followupTypeId,
+
+    types: {
+      connect: [{ id: fixturesProposedFollowupTypes[2].followupTypeId }],
+    },
     date: new Date('2022-10-23'),
   },
   {
@@ -46,7 +62,13 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[2].id,
     medium: 'PlannedInPerson',
-    typeId: fixturesProposedFollowupTypes[4].followupTypeId,
+
+    types: {
+      connect: [
+        { id: fixturesProposedFollowupTypes[3].followupTypeId },
+        { id: fixturesProposedFollowupTypes[4].followupTypeId },
+      ],
+    },
     date: new Date('2022-10-24'),
   },
   {
@@ -55,10 +77,13 @@ export const fixtureFollowups = [
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[3].id,
     medium: 'PhoneCall',
-    typeId: fixturesProposedFollowupTypes[4].followupTypeId,
+
+    types: {
+      connect: [{ id: fixturesProposedFollowupTypes[4].followupTypeId }],
+    },
     date: new Date('2022-10-25'),
   },
 ] satisfies Exclude<
-  Parameters<typeof prismaClient.followup.createMany>[0],
+  Parameters<typeof prismaClient.followup.create>[0],
   undefined
->['data']
+>['data'][]

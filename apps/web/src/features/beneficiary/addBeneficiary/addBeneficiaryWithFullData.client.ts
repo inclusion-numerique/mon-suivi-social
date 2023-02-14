@@ -7,8 +7,10 @@ import {
   BeneficiaryProtectionMeasure,
   BeneficiarySocioProfessionalCategory,
   IncomeSource,
+  RelativeRelationship,
 } from '@prisma/client'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
+import { labelsToOptions } from '@mss/web/utils/options'
 
 export const AddBeneficiaryWithFullDataClient = createMutationClient({
   name: 'beneficiary.addWithFullData',
@@ -71,3 +73,21 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
 })
 export type AddBeneficiaryWithFullDataClient =
   typeof AddBeneficiaryWithFullDataClient
+
+export const relativeRelationshipLabels: {
+  [key in RelativeRelationship]: string
+} = {
+  [RelativeRelationship.Conjoint]: 'Conjoint·e',
+  [RelativeRelationship.EnfantMajeur]: 'Enfant majeur',
+  [RelativeRelationship.EnfantMineur]: 'Enfant mineur',
+  [RelativeRelationship.Sibling]: 'Fratrie',
+  [RelativeRelationship.Grandparent]: 'Grand-parent',
+  [RelativeRelationship.Parent]: 'Parent',
+  [RelativeRelationship.Tiers]: 'Tiers',
+  [RelativeRelationship.Neighbour]: 'Voisin·e',
+  [RelativeRelationship.AutreMemberDeLaFamille]: 'Autre membre de la famille',
+}
+
+export const relativeRelationshipOptions = labelsToOptions(
+  relativeRelationshipLabels,
+)

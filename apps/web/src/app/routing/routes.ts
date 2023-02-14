@@ -93,6 +93,10 @@ export const Routes = {
       title: 'Accompagnements',
       icon: 'folder-2-line',
       path: '/accompagnements',
+      pathWithParams:
+        withSearchParams<
+          PaginationParams<{ recherche?: string; tab?: 'demandes-d-aide' }>
+        >('/accompagnements'),
     },
     Entretien: {
       Nouveau: {

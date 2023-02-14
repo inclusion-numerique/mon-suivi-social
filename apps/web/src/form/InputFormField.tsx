@@ -1,6 +1,6 @@
 'use client'
 
-import { HTMLInputTypeAttribute } from 'react'
+import { HTMLInputTypeAttribute, ReactNode } from 'react'
 import { Control, Controller, FieldValues } from 'react-hook-form'
 import { FieldPath } from 'react-hook-form/dist/types/path'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -31,7 +31,7 @@ export function InputFormField<T extends FieldValues>({
   control: Control<T>
   path: FieldPath<T>
   disabled?: boolean
-  label?: string
+  label?: ReactNode
   hint?: string
   type?: Exclude<HTMLInputTypeAttribute, 'checkbox' | 'radio'> | 'textarea'
   placeholder?: string

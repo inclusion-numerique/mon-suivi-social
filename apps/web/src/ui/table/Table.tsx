@@ -7,14 +7,21 @@ export const Table = ({
   tableBody,
   tableFooter,
   pagination,
+  className,
+  opacity,
 }: {
   pagination?: PaginationNavProps
   tableHead: ReactNode
   tableBody: ReactNode
   tableFooter?: ReactNode
+  className?: string
+  opacity?: number
 }) => (
   <>
-    <div className="fr-table fr-table--bordered fr-mb-4v">
+    <div
+      className={`fr-table fr-table--bordered fr-mb-4v ${className ?? ''}`}
+      style={{ opacity }}
+    >
       <table className={styles.table}>
         <thead>{tableHead}</thead>
         <tbody>{tableBody}</tbody>

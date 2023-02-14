@@ -171,7 +171,7 @@ const OptionBadge = ({
 }) => (
   <button
     type="button"
-    className={`fr-tag fr-mr-2v fr-mb-2v ${size === 'sm' ? 'fr-tag--sm' : ''}`}
+    className={`fr-tag fr-mr-1w fr-mb-2v ${size === 'sm' ? 'fr-tag--sm' : ''}`}
     disabled={disabled || option.disabled}
     aria-pressed="true"
     onClick={disabled ? undefined : onClick}

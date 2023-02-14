@@ -93,7 +93,7 @@ const DocumentCard = ({
         {tags.length === 0 ? null : (
           <ul className="fr-badges-group fr-badges-group--sm">
             {tagLabels.map((tagLabel) => (
-              <li>
+              <li key={tagLabel}>
                 <p className="fr-badge fr-badge--blue-ecume">{tagLabel}</p>
               </li>
             ))}

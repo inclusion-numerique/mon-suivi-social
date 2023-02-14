@@ -17,6 +17,7 @@ import {
   canEditBeneficiaryGeneralInfo,
 } from '@mss/web/security/rules'
 import { AttributesList } from '@mss/web/ui/AttributesList'
+import { TabOptions, Tabs } from '@mss/web/ui/tabs/Tabs'
 
 export const revalidate = 0
 
@@ -112,7 +113,7 @@ export type BeneficiaryPageDocuments = Awaited<ReturnType<typeof getDocuments>>
 
 const BeneficiaryPage = async ({
   params: { fileNumber },
-  searchParams: { tab, accompagnement } = {},
+  searchParams,
 }: {
   params: RoutePathParams<typeof Routes.Beneficiaires.Beneficiaire.Index.path>
   searchParams?: RoutePathSearchParams<
@@ -145,6 +146,34 @@ const BeneficiaryPage = async ({
   const canEdit = canEditBeneficiaryGeneralInfo(user, beneficiary)
   const canArchive = canDeleteBeneficiary(user, beneficiary)
 
+  const tab = searchParams?.tab ?? 'info'
+  const tabs = [
+    {
+      id: 'info',
+      icon: 'list-unordered',
+      title: 'Info',
+      content: <InfoTab user={user} beneficiary={beneficiary} />,
+    },
+    {
+      id: 'documents',
+      icon: 'file-line',
+      title: 'Documents',
+      content: (
+        <DocumentsTab
+          user={user}
+          documents={documents}
+          beneficiary={beneficiary}
+        />
+      ),
+    },
+    {
+      id: 'historique',
+      icon: 'folder-2-line',
+      title: 'Historique',
+      content: <HistoryTab user={user} supports={supports} />,
+    },
+  ] satisfies TabOptions<typeof tab>[]
+
   return (
     <>
       <PageTitle page={page} parents={[Routes.Beneficiaires.Index]} />
@@ -164,7 +193,7 @@ const BeneficiaryPage = async ({
                 : referents
                     .map(getUserDisplayName)
                     .map((name) => (
-                      <span className="fr-tag fr-mr-2v">{name}</span>
+                      <span className="fr-tag fr-mr-1w">{name}</span>
                     )),
               { verticalAlign: 'center' },
             ],
@@ -228,63 +257,11 @@ const BeneficiaryPage = async ({
           </li>
         </ul>
       </div>
-      <div className="fr-tabs fr-mt-4v">
-        <ul
-          className="fr-tabs__list"
-          role="tablist"
-          aria-label="Informations bénéficiaire"
-          style={
-            {
-              // TODO need this to match server rendered content
-              '--tab-list-height': '48px;',
-            } as CSSProperties
-          }
-        >
-          <TabButton
-            id="beneficiary-tab-info"
-            icon="list-unordered"
-            selected={!tab || tab === 'info'}
-          >
-            Info
-          </TabButton>
-          <TabButton
-            id="beneficiary-tab-documents"
-            icon="file-line"
-            selected={tab === 'documents'}
-          >
-            Documents
-          </TabButton>
-          <TabButton
-            id="beneficiary-tab-historique"
-            icon="folder-2-line"
-            selected={tab === 'historique'}
-          >
-            Historique
-          </TabButton>
-        </ul>
-        <TabContainer
-          id="beneficiary-tab-info"
-          selected={!tab || tab === 'info'}
-        >
-          <InfoTab user={user} beneficiary={beneficiary} />
-        </TabContainer>
-        <TabContainer
-          id="beneficiary-tab-documents"
-          selected={tab === 'documents'}
-        >
-          <DocumentsTab
-            user={user}
-            documents={documents}
-            beneficiary={beneficiary}
-          />
-        </TabContainer>
-        <TabContainer
-          id="beneficiary-tab-historique"
-          selected={tab === 'historique'}
-        >
-          <HistoryTab user={user} supports={supports} />
-        </TabContainer>
-      </div>
+      <Tabs
+        ariaLabel="Informations du bénéficiaire"
+        current={tab}
+        tabs={tabs}
+      />
     </>
   )
 }

@@ -38,8 +38,7 @@ const AttributesListItem = ({
 }) => {
   const valueNode =
     value === undefined || value === null ? (
-      // Manual adjustment of hint text vertical alignment to match label baseline
-      <p className="fr-hint-text fr-mb-0" style={{ marginTop: '0.20rem' }}>
+      <p className="fr-mb-0" style={{ color: 'var(--text-mention-grey)' }}>
         Non renseigné
       </p>
     ) : isScalar(value) ? (

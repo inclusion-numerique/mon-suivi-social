@@ -3,9 +3,18 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import type { BeneficiaryPageSupport } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { AttributeItem, AttributesList } from '@mss/web/ui/AttributesList'
 import { formatBoolean } from '@mss/web/utils/formatBoolean'
+import {
+  followupStatusClasses,
+  followupStatusLabels,
+} from '@mss/web/features/followup/addFollowup.client'
+import {
+  helpRequestStatusBadgeClasses,
+  helpRequestStatusLabels,
+} from '@mss/web/features/helpRequest/addHelpRequest.client'
+import { nonBreakable } from '@mss/web/utils/nonBreakable'
 
 const FollowupTypeTag = ({ name }: { name: string }) => (
-  <span className="fr-tag fr-tag--sm fr-mr-2v">{name}</span>
+  <span className="fr-tag fr-tag--sm fr-mr-1w">{name}</span>
 )
 
 const displayAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
@@ -13,7 +22,16 @@ const displayAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
     ? [
         ['Type', "Demande d'aide"],
         ['Accompagnement', <FollowupTypeTag name={support.type.name} />],
-        ['Statut', support.status],
+        [
+          'Statut',
+          <span
+            className={`fr-badge fr-badge--sm ${
+              helpRequestStatusBadgeClasses[support.status]
+            }`}
+          >
+            {helpRequestStatusLabels[support.status]}
+          </span>,
+        ],
         ['Demande financière', formatBoolean(support.financialSupport)],
       ]
     : [
@@ -24,7 +42,16 @@ const displayAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
             ? undefined
             : support.types.map((type) => <FollowupTypeTag name={type.name} />),
         ],
-        ['Statut', support.status],
+        [
+          'Statut',
+          <span
+            className={`fr-badge fr-badge--sm ${
+              followupStatusClasses[support.status]
+            }`}
+          >
+            {followupStatusLabels[support.status]}
+          </span>,
+        ],
         ['Redirigé vers', support.structureName],
       ]
 

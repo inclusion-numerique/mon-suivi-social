@@ -13,7 +13,7 @@ export const StructuresListTableRows = asyncComponent(
       return (
         <tr>
           <td colSpan={structuresListTableColumns.length}>
-            Aucune structure ne correspond à vore recherche
+            Aucune structure ne correspond à votre recherche
           </td>
         </tr>
       )

@@ -28,14 +28,20 @@ export const loadCommonFixtures = async () => {
       data: userFixtures,
       skipDuplicates: true,
     }),
-    prismaClient.beneficiary.createMany({
-      data: fixtureBeneficiaries,
-      skipDuplicates: true,
-    }),
-    prismaClient.followup.createMany({
-      data: fixtureFollowups,
-      skipDuplicates: true,
-    }),
+    ...fixtureBeneficiaries.map(({ id, ...data }) =>
+      prismaClient.beneficiary.upsert({
+        create: { id, ...data },
+        where: { id },
+        update: {},
+      }),
+    ),
+    ...fixtureFollowups.map(({ id, ...data }) =>
+      prismaClient.followup.upsert({
+        create: { id, ...data },
+        where: { id },
+        update: {},
+      }),
+    ),
     prismaClient.helpRequest.createMany({
       data: fixturesHelpRequests,
       skipDuplicates: true,

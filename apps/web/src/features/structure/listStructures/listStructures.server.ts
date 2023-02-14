@@ -53,10 +53,7 @@ export const ListStructuresServer = createQueryServer({
         },
         take,
         skip,
-        // orderBy,
-        orderBy: {
-          users: { _count: 'asc' },
-        },
+        orderBy,
       }),
       prisma.structure.count({}),
     ])

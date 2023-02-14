@@ -16,7 +16,7 @@ export const fixturesHelpRequests = [
   },
   {
     id: '4aad5e90-7a9e-4aeb-90f1-1c986664f47f',
-    status: 'WaitingForDecision',
+    status: 'InvestigationOngoing',
     typeId: fixturesProposedFollowupTypes[3].followupTypeId,
     structureId: fixtureStructure.id,
     beneficiaryId: fixtureBeneficiaries[2].id,

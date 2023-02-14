@@ -161,7 +161,12 @@ export const FollowupForm = withTrpc(
           minRows={15}
         />
         <InputFormField
-          label={FieldLabels['privateSynthesis']}
+          label={
+            <>
+              <span className="fr-icon-lock-line fr-mr-1w" />
+              {FieldLabels['privateSynthesis']}
+            </>
+          }
           hint="Le compte rendu privé est uniquement visible et modifiable par l'agent qui crée la synthèse d'entretien."
           disabled={fieldsDisabled}
           control={control}
