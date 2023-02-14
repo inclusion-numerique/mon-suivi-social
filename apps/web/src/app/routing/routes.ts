@@ -134,7 +134,7 @@ export const Routes = {
         icon: 'folder-2-line',
         path: withSearchParams<{
           dossier: string
-        }>('/accompagnements/demande-d-aide/nouvelle'),
+        }>('/accompagnements/demandes-d-aide/nouvelle'),
       },
       Modifier: {
         title: (
@@ -145,7 +145,7 @@ export const Routes = {
         ) => `Demande d'aide de ${beneficiaryDisplayName(beneficiary)}`,
         icon: 'folder-2-line',
         path: ({ helpRequestId }: { helpRequestId: string }) =>
-          `/accompagnements/demande-d-aide/${helpRequestId}/modifier`,
+          `/accompagnements/demandes-d-aide/${helpRequestId}/modifier`,
       },
     },
   },

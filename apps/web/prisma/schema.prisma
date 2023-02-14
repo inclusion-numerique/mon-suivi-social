@@ -287,8 +287,8 @@ model HelpRequest {
 
   documents Document[]
 
-  financialSupport  Boolean
-  externalStructure Boolean
+  financialSupport  Boolean?
+  externalStructure Boolean?
   status            HelpRequestStatus
 
   askedAmount Decimal?

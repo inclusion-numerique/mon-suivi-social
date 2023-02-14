@@ -12,6 +12,7 @@ import {
   helpRequestStatusLabels,
 } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
+import { stringToBoolean } from '@mss/web/utils/booleanString'
 
 const FollowupTypeTag = ({ name }: { name: string }) => (
   <span className="fr-tag fr-tag--sm fr-mr-1w">{name}</span>
@@ -32,7 +33,12 @@ const displayAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
             {helpRequestStatusLabels[support.status]}
           </span>,
         ],
-        ['Demande financière', formatBoolean(support.financialSupport)],
+        [
+          'Demande financière',
+          support.financialSupport === null
+            ? null
+            : formatBoolean(support.financialSupport),
+        ],
       ]
     : [
         ['Type', 'Entretien'],

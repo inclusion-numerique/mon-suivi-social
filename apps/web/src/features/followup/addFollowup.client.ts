@@ -15,6 +15,7 @@ export const AddFollowupClient = createMutationClient({
       .min(1, "Veuillez renseigner au moins un type d'accompagnement"),
     documents: z.array(z.string().uuid()).default([]),
     medium: z.nativeEnum(FollowupMedium),
+    // TODO datetime validation do not work for date, use other test
     date: z.string(),
     syntesis: z.string().optional(),
     privateSynthesis: z.string().optional(),

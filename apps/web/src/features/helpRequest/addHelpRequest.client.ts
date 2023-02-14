@@ -14,27 +14,28 @@ export const AddHelpRequestClient = createMutationClient({
   inputValidation: z.object({
     structureId: z.string().uuid(),
     beneficiaryId: z.string().uuid(),
-    openingDate: z.string().datetime(),
+    // TODO datetime validation do not work for date, use other test
+    openingDate: z.string(),
     type: z.string().uuid(),
     documents: z.array(z.string().uuid()).default([]),
-    financialSupport: z.boolean().default(false),
-    externalStructure: z.boolean().default(false),
+    financialSupport: z.enum(['true', 'false']).optional(),
+    externalStructure: z.enum(['true', 'false']).optional(),
     status: z.nativeEnum(HelpRequestStatus),
     askedAmount: z.number().min(0).optional(),
-    examinationDate: z.string().datetime().optional(),
-    decisionDate: z.string().datetime().optional(),
+    examinationDate: z.string().optional(),
+    decisionDate: z.string().optional(),
     allocatedAmount: z.number().min(0).optional(),
     paymentMethod: z.nativeEnum(PaymentMethod),
     reason: z.nativeEnum(HelpRequestReason),
-    paymentDate: z.string().datetime().optional(),
-    handlingDate: z.string().datetime().optional(),
+    paymentDate: z.string().optional(),
+    handlingDate: z.string().optional(),
     refusalReason: z.string().optional(),
     prescribingOrganisation: z.string().optional(),
     examiningOrganisation: z.string().optional(),
-    dispatchDate: z.string().datetime().optional(),
+    dispatchDate: z.string().optional(),
     synthesis: z.string().optional(),
     privateSynthesis: z.string().optional(),
-    dueDate: z.string().datetime().optional(),
+    dueDate: z.string().optional(),
     fullFile: z.boolean().default(false),
   }),
   beneficiaryAnonymization: ({ ...data }) => ({
@@ -105,7 +106,7 @@ export const financialSupportOptions: Options = [
   { value: 'false', name: 'Non' },
 ]
 
-export const externalOrganisationoptions: Options = [
+export const externalOrganisationOptions: Options = [
   { value: 'false', name: 'En interne' },
   { value: 'true', name: 'Par une organisation extérieure' },
 ]

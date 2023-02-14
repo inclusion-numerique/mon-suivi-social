@@ -4,6 +4,7 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
+import { booleanToString, stringToBoolean } from '@mss/web/utils/booleanString'
 
 export const EditHelpRequestServer = createMutationServerWithInitialState({
   client: EditHelpRequestClient,
@@ -27,6 +28,8 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
     handlingDate,
     dispatchDate,
     dueDate,
+    financialSupport,
+    externalStructure,
     askedAmount,
     allocatedAmount,
     ...data
@@ -35,6 +38,8 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
       helpRequestId: id,
       type: type.id,
       documents: documents.map(({ key }) => key),
+      financialSupport: booleanToString(financialSupport) ?? undefined,
+      externalStructure: booleanToString(externalStructure) ?? undefined,
       // TODO helper to cast all optional dates to isostrings?
       openingDate: openingDate?.toISOString(),
       examinationDate: examinationDate?.toISOString(),
@@ -55,6 +60,8 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
       structureId,
       type,
       documents,
+      financialSupport,
+      externalStructure,
       ...data
     } = input
 
@@ -68,11 +75,21 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
       data: {
         updated: new Date(),
         typeId: type,
+        financialSupport: stringToBoolean(financialSupport),
+        externalStructure: stringToBoolean(externalStructure),
         documents: {
           connect: documentsDiff.added.map((key) => ({ key })),
           disconnect: documentsDiff.removed.map((key) => ({ key })),
         },
         ...data,
+      },
+      include: {
+        beneficiary: {
+          select: {
+            id: true,
+            fileNumber: true,
+          },
+        },
       },
     })
 
