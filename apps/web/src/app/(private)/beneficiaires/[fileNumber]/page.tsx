@@ -177,6 +177,19 @@ const BeneficiaryPage = async ({
   return (
     <>
       <PageTitle page={page} parents={[Routes.Beneficiaires.Index]} />
+      {beneficiary.archived ? (
+        <div className="fr-alert fr-alert--warning fr-mb-8v">
+          <h3 className="fr-alert__title">Bénéficiaire archivé</h3>
+          <p>
+            Ce bénéficiaire a été archivé le{' '}
+            {beneficiary.archived.toLocaleDateString()}
+          </p>
+          <p>
+            Conformément à la RGPD, ses données personnelles ont été
+            définitivement supprimées.
+          </p>
+        </div>
+      ) : null}
       <div className="fr-col-12 fr-col-lg-8 fr-col-xl-9">
         <AttributesList
           items={[
@@ -201,61 +214,63 @@ const BeneficiaryPage = async ({
         />
       </div>
       <div className="fr-col-12 fr-mt-4v">
-        <ul className="fr-btns-group  fr-btns-group--icon-left fr-btns-group--inline fr-btns-group--sm">
-          {canEdit ? (
+        {beneficiary.archived ? null : (
+          <ul className="fr-btns-group  fr-btns-group--icon-left fr-btns-group--inline fr-btns-group--sm">
+            {canEdit ? (
+              <li>
+                <Link
+                  href={Routes.Beneficiaires.Beneficiaire.Modifier.path({
+                    fileNumber,
+                  })}
+                  className="fr-btn fr-icon-pencil-line fr-btn--primary"
+                >
+                  Modifier le bénéficiaire
+                </Link>
+              </li>
+            ) : null}
             <li>
               <Link
-                href={Routes.Beneficiaires.Beneficiaire.Modifier.path({
-                  fileNumber,
+                href={Routes.Accompagnements.Entretien.Nouveau.path({
+                  dossier: fileNumber,
                 })}
-                className="fr-btn fr-icon-pencil-line fr-btn--primary"
+                className="fr-btn fr-icon-file-add-line fr-btn--secondary"
               >
-                Modifier le bénéficiaire
+                Synthèse d&apos;entretien
               </Link>
             </li>
-          ) : null}
-          <li>
-            <Link
-              href={Routes.Accompagnements.Entretien.Nouveau.path({
-                dossier: fileNumber,
-              })}
-              className="fr-btn fr-icon-file-add-line fr-btn--secondary"
-            >
-              Synthèse d&apos;entretien
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={Routes.Accompagnements.DemandeDAide.Nouvelle.path({
-                dossier: fileNumber,
-              })}
-              className="fr-btn fr-icon-file-add-line fr-btn--secondary"
-            >
-              Demande d&apos;aide
-            </Link>
-          </li>{' '}
-          {canArchive ? (
             <li>
               <Link
-                href={Routes.Beneficiaires.Beneficiaire.Archiver.path({
-                  fileNumber,
+                href={Routes.Accompagnements.DemandeDAide.Nouvelle.path({
+                  dossier: fileNumber,
                 })}
-                className="fr-btn fr-btn--secondary fr-icon-archive-line fr-btn--primary"
+                className="fr-btn fr-icon-file-add-line fr-btn--secondary"
               >
-                Archiver le bénéficiaire
+                Demande d&apos;aide
+              </Link>
+            </li>{' '}
+            {canArchive ? (
+              <li>
+                <Link
+                  href={Routes.Beneficiaires.Beneficiaire.Archiver.path({
+                    fileNumber,
+                  })}
+                  className="fr-btn fr-btn--secondary fr-icon-archive-line fr-btn--primary"
+                >
+                  Archiver le bénéficiaire
+                </Link>
+              </li>
+            ) : null}
+            <li>
+              <Link
+                href="https://www.mesdroitssociaux.gouv.fr/dd1pnds-ria/#destination/simu-foyer"
+                target="_blank"
+                className="fr-btn fr-btn--tertiary-no-outline"
+              >
+                Simulation de droits sociaux
               </Link>
             </li>
-          ) : null}
-          <li>
-            <Link
-              href="https://www.mesdroitssociaux.gouv.fr/dd1pnds-ria/#destination/simu-foyer"
-              target="_blank"
-              className="fr-btn fr-btn--tertiary-no-outline"
-            >
-              Simulation de droits sociaux
-            </Link>
-          </li>
-        </ul>
+          </ul>
+        )}
       </div>
       <Tabs
         ariaLabel="Informations du bénéficiaire"

@@ -137,7 +137,7 @@ export const beneficiaryRouter = router({
         input,
         user,
         target: beneficiary,
-        getServerStateInput: beneficiary,
+        getServerStateInput: input,
         securityParams: {},
         structureId: beneficiary.structureId,
         beneficiaryId: input.beneficiaryId,

@@ -12,7 +12,7 @@ import { createMutationServerWithInitialState } from '@mss/web/features/createMu
 
 export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
   client: ArchiveBeneficiaryClient,
-  getServerState: async ({ input: { beneficiaryId } }) => {
+  getServerState: async ({ beneficiaryId }: { beneficiaryId: string }) => {
     const beneficiary = await prismaClient.beneficiary.findUnique({
       where: { id: beneficiaryId },
       include: {

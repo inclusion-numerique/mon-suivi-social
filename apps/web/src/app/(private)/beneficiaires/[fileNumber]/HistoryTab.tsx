@@ -40,7 +40,9 @@ const displayAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
           support.types.length === 1 ? 'Accompagnement' : 'Accompagnements',
           support.types.length === 0
             ? undefined
-            : support.types.map((type) => <FollowupTypeTag name={type.name} />),
+            : support.types.map((type) => (
+                <FollowupTypeTag name={nonBreakable(type.name)} />
+              )),
         ],
         [
           'Statut',

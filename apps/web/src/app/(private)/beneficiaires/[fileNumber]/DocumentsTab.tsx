@@ -23,7 +23,7 @@ export const DocumentsTab = ({
 }: {
   user: SessionUser
   documents: BeneficiaryPageDocuments
-  beneficiary: Pick<BeneficiaryPageInfo, 'id'>
+  beneficiary: Pick<BeneficiaryPageInfo, 'id' | 'archived'>
 }) => {
   if (documents.length === 0) {
     return (
@@ -31,7 +31,9 @@ export const DocumentsTab = ({
         <div className="fr-alert fr-alert--info fr-mb-8v">
           <p>Aucun document n&apos;a été ajouté.</p>
         </div>
-        <AddDocumentButton beneficiaryId={beneficiary.id} />
+        {beneficiary.archived ? null : (
+          <AddDocumentButton beneficiaryId={beneficiary.id} />
+        )}
       </>
     )
   }
@@ -66,7 +68,12 @@ export const DocumentsTab = ({
           </div>
         </>
       ))}
-      <AddDocumentButton className="fr-mt-8v" beneficiaryId={beneficiary.id} />
+      {beneficiary.archived ? null : (
+        <AddDocumentButton
+          className="fr-mt-8v"
+          beneficiaryId={beneficiary.id}
+        />
+      )}
     </>
   )
 }
