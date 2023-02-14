@@ -77,8 +77,6 @@ export const HelpRequestForm = withTrpc(
 
     const { handleSubmit, control } = form
 
-    console.log('ERRORS', form.formState.errors)
-
     // TODO Maybe create conditional handlers for strict typing while calling hook ?
     const onSubmit = async (data: MutationInput<typeof client>) => {
       try {

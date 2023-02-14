@@ -12,6 +12,7 @@ import { EditFollowupClient } from '@mss/web/features/followup/editFollowup.clie
 import {
   AddFollowupClient,
   followupMediumOptions,
+  followupStatusOptions,
 } from '@mss/web/features/followup/addFollowup.client'
 import { dateToIsoDay } from '@mss/web/utils/dateToIsoDay'
 import { SelectFormField } from '@mss/web/form/SelectFormField'
@@ -144,6 +145,14 @@ export const FollowupForm = withTrpc(
           control={control}
           path="structureName"
         />
+        <SelectFormField
+          label={FieldLabels['status']}
+          disabled={fieldsDisabled}
+          control={control}
+          path="status"
+          defaultOption
+          options={followupStatusOptions}
+        />
         <InputFormField
           label={FieldLabels['dueDate']}
           disabled={fieldsDisabled}
@@ -152,11 +161,11 @@ export const FollowupForm = withTrpc(
           type="date"
         />
         <InputFormField
-          label={FieldLabels['syntesis']}
+          label={FieldLabels['synthesis']}
           hint="Il est fortement recommandé de ne stocker que les informations utiles au suivi du bénéficiaire et d'éviter le recueil d'informations sensibles (données de santé, mots de passe, etc)."
           disabled={fieldsDisabled}
           control={control}
-          path="syntesis"
+          path="synthesis"
           type="textarea"
           minRows={15}
         />

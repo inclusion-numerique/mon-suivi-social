@@ -5,7 +5,7 @@ import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client
 export const AddFollowupServer = createMutationServer({
   client: AddFollowupClient,
   executeMutation: async ({ input, transaction, user }) => {
-    const { beneficiaryId, types, documents, ...data } = input
+    const { beneficiaryId, types, documents, date, dueDate, ...data } = input
 
     const id = v4()
 
@@ -20,6 +20,9 @@ export const AddFollowupServer = createMutationServer({
         id,
         structureId,
         beneficiaryId,
+        // TODO Helper for date string => Date
+        date: new Date(date),
+        dueDate: dueDate ? new Date(dueDate) : null,
         types: {
           connect: types.map((id) => ({ id })),
         },

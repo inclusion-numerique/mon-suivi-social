@@ -39,7 +39,7 @@ export const AddHelpRequestClient = createMutationClient({
   }),
   beneficiaryAnonymization: ({ ...data }) => ({
     refusalReason: '',
-    syntesis: '',
+    synthesis: '',
     privateSynthesis: '',
   }),
   fieldLabels: {

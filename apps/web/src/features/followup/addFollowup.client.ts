@@ -16,7 +16,7 @@ export const AddFollowupClient = createMutationClient({
     medium: z.nativeEnum(FollowupMedium),
     // TODO datetime validation do not work for date, use other test
     date: z.string(),
-    syntesis: z.string().optional(),
+    synthesis: z.string().optional(),
     privateSynthesis: z.string().optional(),
     status: z.nativeEnum(FollowupStatus),
     helpRequested: z.boolean().default(false),
@@ -29,7 +29,7 @@ export const AddFollowupClient = createMutationClient({
   beneficiaryAnonymization: () => ({
     thirdPersonName: undefined,
     place: undefined,
-    syntesis: undefined,
+    synthesis: undefined,
     privateSynthesis: undefined,
   }),
   fieldLabels: {
@@ -43,7 +43,7 @@ export const AddFollowupClient = createMutationClient({
     place: 'Lieu',
     thirdPersonName: 'Tierce personne',
     structureName: 'Organisme prescripteur',
-    syntesis: 'Compte rendu',
+    synthesis: 'Compte rendu',
     privateSynthesis: 'Compte rendu privé',
     redirected: "Réorienté après l'entretien",
     helpRequested: "Instruction de demande d'aide",

@@ -11,6 +11,13 @@ export const AddHelpRequestServer = createMutationServer({
       documents,
       financialSupport,
       externalStructure,
+      dueDate,
+      openingDate,
+      decisionDate,
+      handlingDate,
+      dispatchDate,
+      paymentDate,
+      examinationDate,
       ...data
     } = input
 
@@ -30,6 +37,14 @@ export const AddHelpRequestServer = createMutationServer({
         typeId: type,
         financialSupport: financialSupport === 'true',
         externalStructure: externalStructure === 'true',
+        // TODO Helper for date string => Date
+        dueDate: dueDate ? new Date(dueDate) : null,
+        openingDate: new Date(openingDate),
+        decisionDate: decisionDate ? new Date(decisionDate) : null,
+        handlingDate: handlingDate ? new Date(handlingDate) : null,
+        dispatchDate: dispatchDate ? new Date(dispatchDate) : null,
+        paymentDate: paymentDate ? new Date(paymentDate) : null,
+        examinationDate: examinationDate ? new Date(examinationDate) : null,
         documents: {
           connect: documents.map((key) => ({ key })),
         },
