@@ -5,6 +5,7 @@ import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficia
 
 export const EditBeneficiaryGeneralInfoClient = createMutationClient({
   name: 'beneficiary.editGeneralInfo',
+  title: 'Modification de bénéficiaire',
   securityCheck: canEditBeneficiaryGeneralInfo,
   inputValidation: AddBeneficiaryWithGeneralInfoClient.inputValidation.extend({
     beneficiaryId: z.string().uuid(),

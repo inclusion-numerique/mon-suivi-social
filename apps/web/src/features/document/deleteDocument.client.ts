@@ -4,6 +4,7 @@ import { canDeleteBeneficiaryDocument } from '@mss/web/security/rules'
 
 export const DeleteDocumentClient = createMutationClient({
   name: 'document.delete',
+  title: 'Supression de document',
   securityCheck: canDeleteBeneficiaryDocument,
   inputValidation: z.object({
     documentKey: z.string(),

@@ -11,7 +11,7 @@ export const addMutationLogToBeneficiaryAnonymization = <T>(
 ) => {
   if (anonymizationFunctions.has(featureName)) {
     throw new Error(
-      `Feature ${featureName} already have been declare. Please check that you have distinct feature names`,
+      `Feature ${featureName} already have been declared. Please check that you have distinct feature names`,
     )
   }
 

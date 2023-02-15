@@ -4,6 +4,7 @@ import { createMutationClient } from '@mss/web/features/createMutation.client'
 
 export const ArchiveBeneficiaryClient = createMutationClient({
   name: 'beneficiary.archive',
+  title: 'Archivage de bénéficiaire',
   securityCheck: canDeleteBeneficiary,
   inputValidation: z.object({
     beneficiaryId: z.string().uuid(),

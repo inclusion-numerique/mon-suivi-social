@@ -22,6 +22,9 @@ export const EditFollowupServer = createMutationServerWithInitialState({
     documents,
     date,
     dueDate,
+    created,
+    updated,
+    createdById,
     ...data
   }): MutationInput<EditFollowupClient> => {
     return {
@@ -68,7 +71,12 @@ export const EditFollowupServer = createMutationServerWithInitialState({
 
     return { followup }
   },
-  mutationLogInfo: ({ input: { structureId, beneficiaryId, followupId } }) => ({
+  mutationLogInfo: ({
+    input: { beneficiaryId, followupId },
+    result: {
+      followup: { structureId },
+    },
+  }) => ({
     targetId: followupId,
     targetStructureId: structureId,
     targetBeneficiaryId: beneficiaryId,

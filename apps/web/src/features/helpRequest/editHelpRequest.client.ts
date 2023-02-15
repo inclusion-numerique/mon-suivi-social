@@ -5,6 +5,7 @@ import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpReque
 
 export const EditHelpRequestClient = createMutationClient({
   name: 'helpRequest.edit',
+  title: "Modification de demande d'aide",
   securityCheck: canEditBeneficiaryHelpRequest,
   inputValidation: AddHelpRequestClient.inputValidation.extend({
     helpRequestId: z.string().uuid(),

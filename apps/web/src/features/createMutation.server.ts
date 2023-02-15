@@ -220,7 +220,7 @@ export const createMutationServer = <
       throw forbiddenError()
     }
 
-    const diff = computeMutationDiff({}, input as Object)
+    const diff = computeMutationDiff({}, input as Object) as Prisma.JsonObject
 
     return prismaClient.$transaction(async (transaction) => {
       const result = await options.executeMutation({
@@ -234,7 +234,7 @@ export const createMutationServer = <
           name: options.client.name,
           id: v4(),
           byId: user.id,
-          diff: JSON.stringify(diff),
+          diff,
           ...options.mutationLogInfo({
             structureId,
             beneficiaryId,
@@ -316,7 +316,10 @@ export const createMutationServerWithInitialState = <
 
     const initialInput = options.dataFromServerState(serverState)
 
-    const diff = computeMutationDiff(initialInput as Object, input as Object)
+    const diff = computeMutationDiff(
+      initialInput as Object,
+      input as Object,
+    ) as Prisma.JsonObject
 
     return prismaClient.$transaction(async (transaction) => {
       const result = await options.executeMutation({
@@ -333,7 +336,7 @@ export const createMutationServerWithInitialState = <
           name: options.client.name,
           id: v4(),
           byId: user.id,
-          diff: JSON.stringify(diff),
+          diff,
           ...options.mutationLogInfo({
             structureId,
             serverState,

@@ -6,6 +6,7 @@ import { labelsToOptions } from '@mss/web/utils/options'
 
 export const CreateStructureClient = createMutationClient({
   name: 'structure.create',
+  title: 'Création de structure',
   securityCheck: (grantee) => isAdministrator(grantee),
   inputValidation: z.object({
     type: z.nativeEnum(StructureType),

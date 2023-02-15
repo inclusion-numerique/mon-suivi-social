@@ -11,13 +11,13 @@ import {
 import { DocumentsTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DocumentsTab'
 import { HistoryTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/HistoryTab'
 import { InfoTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/InfoTab'
-import { CSSProperties, PropsWithChildren } from 'react'
 import {
   canDeleteBeneficiary,
   canEditBeneficiaryGeneralInfo,
 } from '@mss/web/security/rules'
 import { AttributesList } from '@mss/web/ui/AttributesList'
 import { TabOptions, Tabs } from '@mss/web/ui/tabs/Tabs'
+import { MutationLog } from '@mss/web/app/(private)/MutationLog'
 
 export const revalidate = 0
 
@@ -277,44 +277,13 @@ const BeneficiaryPage = async ({
         current={tab}
         tabs={tabs}
       />
+      <MutationLog
+        targetStructureId={beneficiary.structureId}
+        targetBeneficiaryId={beneficiary.id}
+        className="fr-my-8v"
+      />
     </>
   )
 }
-
-const TabButton = ({
-  id,
-  selected,
-  children,
-  icon,
-}: PropsWithChildren<{ id: string; icon: string; selected?: boolean }>) => (
-  <li role="presentation">
-    <button
-      id={id}
-      className={`fr-tabs__tab fr-icon-${icon} fr-tabs__tab--icon-left`}
-      tabIndex={-1}
-      role="tab"
-      aria-selected={selected ? 'true' : 'false'}
-      aria-controls={`${id}_panel`}
-    >
-      {children}
-    </button>
-  </li>
-)
-
-const TabContainer = ({
-  id,
-  selected,
-  children,
-}: PropsWithChildren<{ id: string; selected?: boolean }>) => (
-  <div
-    id={`${id}_panel`}
-    className={`fr-tabs__panel ${selected ? 'fr-tabs__panel--selected' : ''}`}
-    role="tabpanel"
-    aria-labelledby={id}
-    tabIndex={0}
-  >
-    {children}
-  </div>
-)
 
 export default BeneficiaryPage

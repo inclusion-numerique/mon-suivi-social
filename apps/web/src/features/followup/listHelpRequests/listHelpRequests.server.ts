@@ -18,6 +18,11 @@ export const ListHelpRequestsServer = createQueryServer({
 
     const [helpRequests, count] = await Promise.all([
       prisma.helpRequest.findMany({
+        where: {
+          beneficiary: {
+            archived: null,
+          },
+        },
         select: {
           id: true,
           status: true,

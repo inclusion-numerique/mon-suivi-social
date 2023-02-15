@@ -18,6 +18,11 @@ export const ListFollowupsServer = createQueryServer({
 
     const [followups, count] = await Promise.all([
       prisma.followup.findMany({
+        where: {
+          beneficiary: {
+            archived: null,
+          },
+        },
         select: {
           id: true,
           status: true,

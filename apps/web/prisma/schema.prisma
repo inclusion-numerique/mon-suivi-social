@@ -568,7 +568,7 @@ model Beneficiary {
   majorChildrenMainIncomeSource IncomeSource[]
   majorChildrenMainIncomeAmount Decimal?
   unemploymentNumber            String?
-  pensionStructure              String?
+  pensionStructure              String[]
   cafNumber                     String?
   bank                          String?
   funeralContract               String?

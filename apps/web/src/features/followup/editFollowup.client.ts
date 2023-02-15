@@ -5,6 +5,7 @@ import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client
 
 export const EditFollowupClient = createMutationClient({
   name: 'followup.edit',
+  title: "Modification d'entretien",
   securityCheck: canEditBeneficiaryFollowup,
   inputValidation: AddFollowupClient.inputValidation.extend({
     followupId: z.string().uuid(),

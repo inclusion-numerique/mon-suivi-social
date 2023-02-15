@@ -14,44 +14,45 @@ import { labelsToOptions } from '@mss/web/utils/options'
 
 export const AddBeneficiaryWithFullDataClient = createMutationClient({
   name: 'beneficiary.addWithFullData',
+  title: 'Ajout de bénéficiaire',
   securityCheck: canCreateBeneficiaryWithFullData,
   inputValidation: AddBeneficiaryWithGeneralInfoClient.inputValidation.extend({
     // Health
-    gir: z.nativeEnum(BeneficiaryGir).optional(),
-    doctor: z.string().optional(),
-    healthAdditionalInformation: z.string().optional(),
-    socialSecurityNumber: z.string().optional(),
-    insurance: z.string().optional(),
+    gir: z.nativeEnum(BeneficiaryGir).nullish(),
+    doctor: z.string().nullish(),
+    healthAdditionalInformation: z.string().nullish(),
+    socialSecurityNumber: z.string().nullish(),
+    insurance: z.string().nullish(),
 
     // Occupation
     socioProfessionalCategory: z
       .nativeEnum(BeneficiarySocioProfessionalCategory)
-      .optional(),
-    occupation: z.string().optional(),
-    employer: z.string().optional(),
-    employerSiret: z.string().optional(),
+      .nullish(),
+    occupation: z.string().nullish(),
+    employer: z.string().nullish(),
+    employerSiret: z.string().nullish(),
     mainIncomeSource: z.array(z.nativeEnum(IncomeSource)).optional(),
-    mainIncomeAmount: z.number().optional(),
+    mainIncomeAmount: z.number().nullish(),
     partnerMainIncomeSource: z.array(z.nativeEnum(IncomeSource)).optional(),
-    partnerMainIncomeAmount: z.number().optional(),
+    partnerMainIncomeAmount: z.number().nullish(),
     majorChildrenMainIncomeSource: z
       .array(z.nativeEnum(IncomeSource))
       .optional(),
-    majorChildrenMainIncomeAmount: z.number().optional(),
-    unemploymentNumber: z.string().optional(),
-    pensionStructure: z.string().optional(),
-    cafNumber: z.string().optional(),
-    bank: z.string().optional(),
-    funeralContract: z.string().optional(),
+    majorChildrenMainIncomeAmount: z.number().nullish(),
+    unemploymentNumber: z.string().nullish(),
+    pensionStructure: z.array(z.string()).optional(),
+    cafNumber: z.string().nullish(),
+    bank: z.string().nullish(),
+    funeralContract: z.string().nullish(),
 
     // External Structures
-    protectionMeasure: z.nativeEnum(BeneficiaryProtectionMeasure).optional(),
-    representative: z.string().optional(),
-    prescribingStructure: z.string().optional(),
-    orientationType: z.nativeEnum(BeneficiaryOrientationType).optional(),
-    orientationStructure: z.string().optional(),
-    serviceProviders: z.string().optional(),
-    involvedPartners: z.string().optional(),
+    protectionMeasure: z.nativeEnum(BeneficiaryProtectionMeasure).nullish(),
+    representative: z.string().nullish(),
+    prescribingStructure: z.string().nullish(),
+    orientationType: z.nativeEnum(BeneficiaryOrientationType).nullish(),
+    orientationStructure: z.string().nullish(),
+    serviceProviders: z.string().nullish(),
+    involvedPartners: z.string().nullish(),
   }),
   beneficiaryAnonymization: (input) => {
     // TODO this is not undefined, fix typings to allow usage without checking
@@ -91,7 +92,29 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
   },
   fieldLabels: {
     ...AddBeneficiaryWithGeneralInfoClient.fieldLabels,
-    // TODO Other field labels
+    gir: 'GIR',
+    doctor: 'Médecin traitant',
+    healthAdditionalInformation: 'Autres informations de santé',
+    socialSecurityNumber: 'N° Sécurité Sociale',
+    insurance: 'Mutuelle',
+    socioProfessionalCategory: 'Catégorie socio-professionnelle',
+    occupation: 'Profession(s)',
+    employer: 'Employeur',
+    employerSiret: "SIRET de l'employeur",
+    mainIncomeSource: 'Natures des ressources',
+    mainIncomeAmount: 'Montant des ressources',
+    unemploymentNumber: 'N° Pôle Emploi',
+    pensionStructure: 'Organismes de retraite',
+    cafNumber: 'N° CAF',
+    bank: 'Banque',
+    funeralContract: 'Contrat obsèques',
+    protectionMeasure: 'Mesures de protection',
+    representative: 'Nom, prénom, coordonées du mandataire',
+    prescribingStructure: 'Organisme prescripteur',
+    orientationType: "Mode d'orientation",
+    orientationStructure: "Organisme d'orientation",
+    serviceProviders: 'Prestataires',
+    involvedPartners: 'Partenaires intervenants',
   },
 })
 export type AddBeneficiaryWithFullDataClient =

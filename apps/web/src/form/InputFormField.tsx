@@ -73,7 +73,15 @@ export function InputFormField<T extends FieldValues>({
               placeholder={placeholder}
               minRows={minRows ?? 2}
               onBlur={onBlur}
-              onChange={onChange}
+              onChange={(event) =>
+                onChange(
+                  getFieldValueAs(event.target.value, {
+                    valueAsDate,
+                    valueAsNumber,
+                    valueAsBoolean,
+                  }),
+                )
+              }
               value={value ?? ''}
               ref={ref}
               name={name}

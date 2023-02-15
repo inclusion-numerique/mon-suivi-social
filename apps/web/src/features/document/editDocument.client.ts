@@ -5,6 +5,7 @@ import { canEditBeneficiaryDocument } from '@mss/web/security/rules'
 
 export const EditDocumentClient = createMutationClient({
   name: 'document.edit',
+  title: 'Modification de document',
   securityCheck: canEditBeneficiaryDocument,
   inputValidation: AddDocumentClient.inputValidation
     .omit({ file: true })

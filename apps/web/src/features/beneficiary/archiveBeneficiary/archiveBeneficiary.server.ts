@@ -9,6 +9,7 @@ import {
 import * as Sentry from '@sentry/nextjs'
 import { deleteUploadedFile } from '@mss/web/server/s3/deleteUploadedFile'
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
+import { Prisma } from '@prisma/client'
 
 export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
   client: ArchiveBeneficiaryClient,
@@ -98,7 +99,7 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
         majorChildrenMainIncomeSource: [],
         majorChildrenMainIncomeAmount: null,
         unemploymentNumber: null,
-        pensionStructure: null,
+        pensionStructure: [],
         cafNumber: null,
         bank: null,
         funeralContract: null,
@@ -186,16 +187,16 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
           return name
         }
         const sensitiveDiff = diff as any as MutationDiff
-        const anonymizedDiff: MutationDiff = {
+        const anonymizedDiff: Prisma.JsonObject = {
           added: applyAnonymization(sensitiveDiff.added, anonymization),
           updated: applyAnonymization(sensitiveDiff.updated, anonymization),
           deleted: applyAnonymization(sensitiveDiff.deleted, anonymization),
-        }
+        } satisfies MutationDiff
 
         return transaction.mutationLog.update({
           where: { id },
           data: {
-            diff: JSON.stringify(anonymizedDiff),
+            diff: anonymizedDiff,
           },
         })
       },

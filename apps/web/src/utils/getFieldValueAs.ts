@@ -8,6 +8,10 @@ export const getFieldValueAs = (
   value: string | null | undefined,
   { valueAsNumber, valueAsDate, valueAsBoolean }: GetFieldValueAsOptions,
 ) => {
+  if (typeof value === 'string' && value.trim() === '') {
+    return null
+  }
+
   if (!valueAsNumber && !valueAsDate && !valueAsBoolean) {
     return value
   }
@@ -16,6 +20,7 @@ export const getFieldValueAs = (
     return value
   }
 
+  // TODO useful ?
   if (value === '') {
     return undefined
   }

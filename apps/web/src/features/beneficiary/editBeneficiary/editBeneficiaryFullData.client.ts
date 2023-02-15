@@ -5,6 +5,7 @@ import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/
 
 export const EditBeneficiaryFullDataClient = createMutationClient({
   name: 'beneficiary.editFullData',
+  title: 'Modification de bénéficiaire',
   securityCheck: canEditBeneficiaryFullInfo,
   inputValidation: AddBeneficiaryWithFullDataClient.inputValidation.extend({
     beneficiaryId: z.string().uuid(),

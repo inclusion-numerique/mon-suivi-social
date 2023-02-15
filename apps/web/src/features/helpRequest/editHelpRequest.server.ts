@@ -32,6 +32,9 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
     externalStructure,
     askedAmount,
     allocatedAmount,
+    created,
+    updated,
+    createdById,
     ...data
   }): MutationInput<EditHelpRequestClient> => {
     return {
@@ -57,7 +60,6 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
     const {
       helpRequestId,
       beneficiaryId,
-      structureId,
       type,
       documents,
       financialSupport,
@@ -96,7 +98,10 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
     return { helpRequest }
   },
   mutationLogInfo: ({
-    input: { structureId, beneficiaryId, helpRequestId },
+    input: { beneficiaryId, helpRequestId },
+    result: {
+      helpRequest: { structureId },
+    },
   }) => ({
     targetId: helpRequestId,
     targetStructureId: structureId,

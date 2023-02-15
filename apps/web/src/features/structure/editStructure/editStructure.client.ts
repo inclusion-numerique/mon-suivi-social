@@ -5,6 +5,7 @@ import { CreateStructureClient } from '@mss/web/features/structure/createStructu
 
 export const EditStructureClient = createMutationClient({
   name: 'structure.edit',
+  title: 'Modification de structure',
   inputValidation: CreateStructureClient.inputValidation
     .omit({ type: true })
     .extend({

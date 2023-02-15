@@ -6,6 +6,7 @@ import { labelsToOptions } from '@mss/web/utils/options'
 
 export const AddFollowupClient = createMutationClient({
   name: 'followup.add',
+  title: "Ajout d'entretien",
   securityCheck: canCreateBeneficiaryFollowup,
   inputValidation: z.object({
     beneficiaryId: z.string().uuid(),
@@ -16,15 +17,15 @@ export const AddFollowupClient = createMutationClient({
     medium: z.nativeEnum(FollowupMedium),
     // TODO datetime validation do not work for date, use other test
     date: z.string(),
-    synthesis: z.string().optional(),
-    privateSynthesis: z.string().optional(),
+    synthesis: z.string().nullish(),
+    privateSynthesis: z.string().nullish(),
     status: z.nativeEnum(FollowupStatus),
     helpRequested: z.boolean().default(false),
-    place: z.string().optional(),
+    place: z.string().nullish(),
     redirected: z.boolean().default(false),
-    structureName: z.string().optional(),
-    dueDate: z.string().optional(),
-    thirdPersonName: z.string().optional(),
+    structureName: z.string().nullish(),
+    dueDate: z.string().nullish(),
+    thirdPersonName: z.string().nullish(),
   }),
   beneficiaryAnonymization: () => ({
     thirdPersonName: undefined,

@@ -53,6 +53,7 @@ export type DocumentTag = (typeof DocumentTags)[number]
 
 export const AddDocumentClient = createMutationClient({
   name: 'document.add',
+  title: 'Ajout de document',
   securityCheck: canAddBeneficiaryDocument,
   inputValidation: z.object({
     beneficiaryId: z.string(),

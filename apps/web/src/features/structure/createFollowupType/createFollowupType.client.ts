@@ -4,6 +4,7 @@ import { createMutationClient } from '@mss/web/features/createMutation.client'
 
 export const CreateFollowupTypeClient = createMutationClient({
   name: 'structure.createFollowupType',
+  title: "Création de type d'accompagnement",
   inputValidation: z.object({
     name: z
       .string({
