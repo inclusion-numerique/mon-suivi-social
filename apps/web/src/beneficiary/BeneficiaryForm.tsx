@@ -6,9 +6,14 @@ import {
   beneficiaryAccomodationModeOptions,
   beneficiaryFamilySituationOptions,
   beneficiaryGenderOptions,
+  beneficiaryGirOptions,
   beneficiaryMobilityOptions,
+  beneficiaryOrientationTypeOptions,
+  beneficiaryProtectionMeasureOptions,
+  beneficiarySocioProfessionalCategoryOptions,
   beneficiaryStatusOptions,
   beneficiaryTitleOptions,
+  incomeSourceOptions,
 } from '@mss/web/beneficiary/beneficiary'
 import { Options } from '@mss/web/utils/options'
 import { SelectFormField } from '@mss/web/form/SelectFormField'
@@ -85,7 +90,7 @@ export const BeneficiaryForm = withTrpc(
     const { agents } = props
 
     const defaultValues = props.creation
-      ? props.defaultInput ?? {}
+      ? props.defaultInput
       : props.full
       ? deserialize(props.defaultInput)
       : deserialize(props.defaultInput)
@@ -365,7 +370,9 @@ export const BeneficiaryForm = withTrpc(
                 </button>
               </h3>
               <div className="fr-collapse" id="beneficiary-form-relatives">
-                <h2>🐵</h2>
+                <div className="fr-alert fr-alert--info">
+                  <p>Cette section est en cours de développement 🚧</p>
+                </div>
               </div>
             </section>
             <section className="fr-accordion">
@@ -380,7 +387,38 @@ export const BeneficiaryForm = withTrpc(
                 </button>
               </h3>
               <div className="fr-collapse" id="beneficiary-form-health">
-                <h2>🐵</h2>
+                <SelectFormField
+                  label={FieldLabels['gir']}
+                  path="gir"
+                  disabled={fieldsDisabled}
+                  control={control}
+                  options={beneficiaryGirOptions}
+                  defaultOption
+                />
+                <InputFormField
+                  label={FieldLabels['doctor']}
+                  path="doctor"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['healthAdditionalInformation']}
+                  path="healthAdditionalInformation"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['socialSecurityNumber']}
+                  path="socialSecurityNumber"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['insurance']}
+                  path="insurance"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
               </div>
             </section>
             <section className="fr-accordion">
@@ -395,7 +433,85 @@ export const BeneficiaryForm = withTrpc(
                 </button>
               </h3>
               <div className="fr-collapse" id="beneficiary-form-activity">
-                <h2>🐵</h2>
+                <SelectFormField
+                  label={FieldLabels['socioProfessionalCategory']}
+                  path="socioProfessionalCategory"
+                  disabled={fieldsDisabled}
+                  control={control}
+                  options={beneficiarySocioProfessionalCategoryOptions}
+                  defaultOption
+                />
+                <InputFormField
+                  label={FieldLabels['occupation']}
+                  path="occupation"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['employer']}
+                  path="employer"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['employerSiret']}
+                  path="employerSiret"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <SelectFormField
+                  label={FieldLabels['mainIncomeSource']}
+                  path="mainIncomeSource"
+                  disabled={fieldsDisabled}
+                  control={control}
+                  options={incomeSourceOptions}
+                  defaultOption
+                />
+                <InputFormField
+                  label={FieldLabels['mainIncomeAmount']}
+                  path="mainIncomeAmount"
+                  disabled={fieldsDisabled}
+                  control={control}
+                  type="number"
+                  min={0}
+                />
+                <InputFormField
+                  label={FieldLabels['unemploymentNumber']}
+                  path="unemploymentNumber"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <SelectTagsFormField
+                  label={FieldLabels['pensionStructure']}
+                  disabled={fieldsDisabled}
+                  options={[
+                    // TODO pension options
+                    { value: '', name: '🚧 en cours de développement' },
+                    { value: ' ', name: '🚧 en cours de développement' },
+                  ]}
+                  control={control}
+                  defaultOptionLabel="Choisissez un référent"
+                  defaultOption
+                  path="pensionStructure"
+                />
+                <InputFormField
+                  label={FieldLabels['cafNumber']}
+                  path="cafNumber"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['bank']}
+                  path="bank"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['funeralContract']}
+                  path="funeralContract"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
               </div>
             </section>
             <section className="fr-accordion">
@@ -410,7 +526,53 @@ export const BeneficiaryForm = withTrpc(
                 </button>
               </h3>
               <div className="fr-collapse" id="beneficiary-form-external">
-                <h2>🐵</h2>
+                <SelectFormField
+                  label={FieldLabels['protectionMeasure']}
+                  path="protectionMeasure"
+                  disabled={fieldsDisabled}
+                  control={control}
+                  options={beneficiaryProtectionMeasureOptions}
+                  defaultOption
+                />
+                <InputFormField
+                  label={FieldLabels['representative']}
+                  path="representative"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['prescribingStructure']}
+                  path="prescribingStructure"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <SelectFormField
+                  label={FieldLabels['orientationType']}
+                  path="orientationType"
+                  disabled={fieldsDisabled}
+                  control={control}
+                  options={beneficiaryOrientationTypeOptions}
+                  defaultOption
+                />
+                <InputFormField
+                  label={FieldLabels['orientationStructure']}
+                  path="orientationStructure"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['serviceProviders']}
+                  hint="Repas à domicile, aide à domicile, ..."
+                  path="cafNumber"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
+                <InputFormField
+                  label={FieldLabels['involvedPartners']}
+                  path="involvedPartners"
+                  disabled={fieldsDisabled}
+                  control={control}
+                />
               </div>
             </section>
           </>

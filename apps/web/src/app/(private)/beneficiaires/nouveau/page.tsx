@@ -43,7 +43,7 @@ const AddBeneficiaryPage = async () => {
                 creation
                 full={full}
                 agents={agents}
-                defaultValues={{ structureId: user.structureId }}
+                defaultInput={{ structureId: user.structureId }}
               />
             </div>
           </div>

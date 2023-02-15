@@ -31,7 +31,7 @@ export function SelectTagsFormField<T extends FieldValues>({
   ...optionsProps
 }: {
   control: Control<T>
-  label: string
+  label?: string
   path: FieldPath<T>
   disabled?: boolean
   defaultOption?: boolean
