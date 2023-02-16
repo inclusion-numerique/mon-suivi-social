@@ -18,6 +18,7 @@ import {
 import { AttributesList } from '@mss/web/ui/AttributesList'
 import { TabOptions, Tabs } from '@mss/web/ui/tabs/Tabs'
 import { MutationLog } from '@mss/web/app/(private)/MutationLog'
+import { formatDate } from '@mss/web/utils/formatDate'
 
 export const revalidate = 0
 
@@ -170,7 +171,15 @@ const BeneficiaryPage = async ({
       id: 'historique',
       icon: 'folder-2-line',
       title: 'Historique',
-      content: <HistoryTab user={user} supports={supports} />,
+      content: (
+        <HistoryTab
+          user={user}
+          supports={supports}
+          scrollToItem={
+            tab === 'historique' ? searchParams?.accompagnement : undefined
+          }
+        />
+      ),
     },
   ] satisfies TabOptions<typeof tab>[]
 
@@ -181,8 +190,7 @@ const BeneficiaryPage = async ({
         <div className="fr-alert fr-alert--warning fr-mb-8v">
           <h3 className="fr-alert__title">Bénéficiaire archivé</h3>
           <p>
-            Ce bénéficiaire a été archivé le{' '}
-            {beneficiary.archived.toLocaleDateString()}
+            Ce bénéficiaire a été archivé le {formatDate(beneficiary.archived)}
           </p>
           <p>
             Conformément à la RGPD, ses données personnelles ont été

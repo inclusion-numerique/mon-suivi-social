@@ -4,18 +4,4 @@
     tbody, thead {
         background-color: var(--background-default-grey);
     }
-
-    tbody tr {
-        background-color: var(--background-default-grey);
-        cursor: pointer;
-
-        &:hover {
-            background-color: var(--background-default-grey-hover);
-        }
-
-        &:focus-within{
-            background-color: var(--background-default-grey-hover);
-            outline-style: solid;
-        }
-    }
 }

@@ -12,12 +12,14 @@ export function UploadFormField<T extends FieldValues>({
   placeholder,
   hint,
   disabled,
+  required,
   accept,
   autoFocus,
 }: {
   control: Control<T>
   path: FieldPath<T>
   disabled?: boolean
+  required?: boolean
   label?: string
   hint?: string
   placeholder?: string
@@ -43,6 +45,7 @@ export function UploadFormField<T extends FieldValues>({
         >
           <label className="fr-label" htmlFor={id}>
             {label}
+            {required ? ' *' : null}
             {hint ? <span className="fr-hint-text">{hint}</span> : null}
           </label>
 

@@ -7,6 +7,7 @@ import {
   PaymentMethod,
 } from '@prisma/client'
 import { labelsToOptions, Options } from '@mss/web/utils/options'
+import { errorMessages } from '@mss/web/utils/zod'
 
 export const AddHelpRequestClient = createMutationClient({
   name: 'helpRequest.add',
@@ -15,12 +16,12 @@ export const AddHelpRequestClient = createMutationClient({
   inputValidation: z.object({
     beneficiaryId: z.string().uuid(),
     // TODO datetime validation do not work for date, use other test
-    openingDate: z.string(),
-    type: z.string().uuid(),
+    openingDate: z.string(errorMessages),
+    type: z.string(errorMessages).uuid(),
     documents: z.array(z.string().uuid()).default([]),
     financialSupport: z.enum(['true', 'false']).nullish(),
     externalStructure: z.enum(['true', 'false']).nullish(),
-    status: z.nativeEnum(HelpRequestStatus),
+    status: z.nativeEnum(HelpRequestStatus, errorMessages),
     askedAmount: z.number().min(0).nullish(),
     examinationDate: z.string().nullish(),
     decisionDate: z.string().nullish(),

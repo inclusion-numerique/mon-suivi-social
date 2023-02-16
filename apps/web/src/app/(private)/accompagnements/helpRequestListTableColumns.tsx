@@ -7,6 +7,7 @@ import {
   helpRequestStatusBadgeClasses,
   helpRequestStatusLabels,
 } from '@mss/web/features/helpRequest/addHelpRequest.client'
+import { formatDate } from '@mss/web/utils/formatDate'
 
 export const helpRequestListTableColumns = [
   {
@@ -28,8 +29,7 @@ export const helpRequestListTableColumns = [
   {
     label: "Date d'échéance",
     sortable: (direction) => [{ dueDate: direction }],
-    content: ({ dueDate }: ListHelpRequestsItem) =>
-      dueDate?.toLocaleDateString(),
+    content: ({ dueDate }: ListHelpRequestsItem) => formatDate(dueDate),
   },
   {
     label: 'Bénéficiaire',
@@ -50,7 +50,7 @@ export const helpRequestListTableColumns = [
     label: 'Date de passage en commission',
     sortable: (direction) => [{ examinationDate: direction }],
     content: ({ examinationDate }: ListHelpRequestsItem) =>
-      examinationDate?.toLocaleDateString(),
+      formatDate(examinationDate),
   },
   {
     label: 'Montant demandé',
@@ -66,14 +66,13 @@ export const helpRequestListTableColumns = [
   {
     label: 'Date du paiement',
     sortable: (direction) => [{ paymentDate: direction }],
-    content: ({ paymentDate }: ListHelpRequestsItem) =>
-      paymentDate?.toLocaleDateString(),
+    content: ({ paymentDate }: ListHelpRequestsItem) => formatDate(paymentDate),
   },
   {
     label: 'Date de fin de prise en charge',
     sortable: (direction) => [{ handlingDate: direction }],
     content: ({ handlingDate }: ListHelpRequestsItem) =>
-      handlingDate?.toLocaleDateString(),
+      formatDate(handlingDate),
   },
   {
     label: 'Agent',

@@ -3,6 +3,7 @@ import z from 'zod'
 import { createMutationClient } from '@mss/web/features/createMutation.client'
 import { FollowupMedium, FollowupStatus } from '@prisma/client'
 import { labelsToOptions } from '@mss/web/utils/options'
+import { errorMessages } from '@mss/web/utils/zod'
 
 export const AddFollowupClient = createMutationClient({
   name: 'followup.add',
@@ -11,15 +12,18 @@ export const AddFollowupClient = createMutationClient({
   inputValidation: z.object({
     beneficiaryId: z.string().uuid(),
     types: z
-      .array(z.string().uuid())
+      .array(z.string().uuid(), {
+        ...errorMessages,
+        required_error: "Veuillez renseigner au moins un type d'accompagnement",
+      })
       .min(1, "Veuillez renseigner au moins un type d'accompagnement"),
-    documents: z.array(z.string().uuid()).default([]),
-    medium: z.nativeEnum(FollowupMedium),
+    documents: z.array(z.string().uuid(), errorMessages).default([]),
+    medium: z.nativeEnum(FollowupMedium, errorMessages),
     // TODO datetime validation do not work for date, use other test
-    date: z.string(),
+    date: z.string(errorMessages),
     synthesis: z.string().nullish(),
     privateSynthesis: z.string().nullish(),
-    status: z.nativeEnum(FollowupStatus),
+    status: z.nativeEnum(FollowupStatus, errorMessages),
     helpRequested: z.boolean().default(false),
     place: z.string().nullish(),
     redirected: z.boolean().default(false),

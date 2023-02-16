@@ -10,11 +10,13 @@ export function RadioFormField<T extends FieldValues>({
   control,
   hint,
   disabled,
+  required,
 }: {
   control: Control<T>
   path: FieldPath<T>
   options: Options
   disabled?: boolean
+  required?: boolean
   label?: string
   hint?: string
 }) {
@@ -38,6 +40,7 @@ export function RadioFormField<T extends FieldValues>({
           >
             <legend className="fr-fieldset__legend" id={`${id}__legend`}>
               {label}
+              {required ? ' *' : null}
               {hint ? <span className="fr-hint-text">{hint}</span> : null}
             </legend>
             <div className="fr-fieldset__content">

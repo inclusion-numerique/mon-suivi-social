@@ -8,6 +8,7 @@ import {
 } from '@mss/web/features/followup/addFollowup.client'
 import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'
+import { formatDate } from '@mss/web/utils/formatDate'
 
 export const followupListTableColumns = [
   {
@@ -28,19 +29,19 @@ export const followupListTableColumns = [
   {
     label: "Types d'accompagnement",
     content: ({ types }: ListFollowupsItem) => (
-      <>
+      <div style={{ marginTop: '-0.25rem', marginLeft: '-0.25rem' }}>
         {types.map(({ name }) => (
-          <span className="fr-tag fr-tag--sm fr-mr-1w">
+          <span className="fr-tag fr-tag--sm fr-mt-1v fr-ml-1v">
             {nonBreakable(name)}
           </span>
         ))}
-      </>
+      </div>
     ),
   },
   {
     label: "Date d'échéance",
     sortable: (direction) => [{ dueDate: direction }],
-    content: ({ dueDate }: ListFollowupsItem) => dueDate?.toLocaleDateString(),
+    content: ({ dueDate }: ListFollowupsItem) => formatDate(dueDate),
   },
   {
     label: 'Bénéficiaire',

@@ -3,6 +3,7 @@ import { getUserDisplayName } from '@mss/web/utils/user'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
 import { getAge } from '@mss/web/utils/age'
+import { formatDate } from '@mss/web/utils/formatDate'
 
 export const beneficiariesListTableColumns = [
   {
@@ -12,7 +13,7 @@ export const beneficiariesListTableColumns = [
       { birthName: direction },
     ],
     content: (beneficiary: ListBeneficiariesItem) =>
-      beneficiary.usualName ?? beneficiary.birthName,
+      beneficiary.usualName ? beneficiary.usualName : beneficiary.birthName,
   },
   {
     label: 'Prénom',
@@ -26,8 +27,7 @@ export const beneficiariesListTableColumns = [
   },
   {
     label: 'Date de naissance',
-    content: ({ birthDate }: ListBeneficiariesItem) =>
-      birthDate?.toLocaleDateString(),
+    content: ({ birthDate }: ListBeneficiariesItem) => formatDate(birthDate),
   },
   {
     label: 'Adresse',

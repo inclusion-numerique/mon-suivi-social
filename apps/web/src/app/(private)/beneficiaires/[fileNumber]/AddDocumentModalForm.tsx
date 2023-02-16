@@ -62,6 +62,9 @@ export const AddDocumentModalForm = withTrpc(
       type,
       tags,
     }: AddDocumentWithBrowserUploadData) => {
+      // TODO Debug confidential checkbox
+      console.log('DATA', { confidential, file })
+
       const signedUrl = await createUploadUrl
         .mutateAsync({
           name: file.name,

@@ -18,6 +18,7 @@ export function InputFormField<T extends FieldValues>({
   type = 'text',
   hint,
   disabled,
+  required,
   valueAsNumber,
   valueAsDate,
   valueAsBoolean,
@@ -31,6 +32,7 @@ export function InputFormField<T extends FieldValues>({
   control: Control<T>
   path: FieldPath<T>
   disabled?: boolean
+  required?: boolean
   label?: ReactNode
   hint?: string
   type?: Exclude<HTMLInputTypeAttribute, 'checkbox' | 'radio'> | 'textarea'
@@ -62,6 +64,7 @@ export function InputFormField<T extends FieldValues>({
         >
           <label className="fr-label" htmlFor={id}>
             {label}
+            {required ? ' *' : null}
             {hint ? <span className="fr-hint-text">{hint}</span> : null}
           </label>
           {type === 'textarea' ? (

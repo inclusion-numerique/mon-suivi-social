@@ -3,6 +3,7 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import type { BeneficiaryPageInfo } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { AttributesList } from '@mss/web/ui/AttributesList'
 import { beneficiaryTitleLabels } from '@mss/web/beneficiary/beneficiary'
+import { formatDate } from '@mss/web/utils/formatDate'
 
 export const InfoTab = ({
   user,
@@ -23,7 +24,7 @@ export const InfoTab = ({
           ['Nom usuel', beneficiary.usualName],
           ['Nom de naissance', beneficiary.birthName],
           ['Age', beneficiary.birthDate ? getAge(beneficiary.birthDate) : null],
-          ['Date de naissance', beneficiary.birthDate?.toLocaleDateString()],
+          ['Date de naissance', formatDate(beneficiary.birthDate)],
         ]}
       />
     </>

@@ -14,6 +14,7 @@ export function TagsFormField<T extends FieldValues>({
   hint,
   defaultOption,
   disabled,
+  required,
   autoFocus,
   badgeSize,
   ...optionsProps
@@ -22,6 +23,7 @@ export function TagsFormField<T extends FieldValues>({
   label: string
   path: FieldPath<T>
   disabled?: boolean
+  required?: boolean
   defaultOption?: boolean
   defaultOptionLabel?: string
   hint?: string
@@ -76,6 +78,7 @@ export function TagsFormField<T extends FieldValues>({
                 id={`${id}__legend`}
               >
                 {label}
+                {required ? ' *' : null}
                 {hint ? (
                   <span className="fr-hint-text fr-mt-0">{hint}</span>
                 ) : null}

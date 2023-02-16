@@ -1,10 +1,23 @@
-.cell {
-    height: 100%;
-}
-.cellLink {
-    /* TODO Responsive styles */
-    display: block;
-    height: 100%;
-    min-height: 40px;
+.clickableRow {
+  background-color: var(--background-default-grey);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--background-default-grey-hover) !important;
+  }
+
+  &:focus-within {
+    background-color: var(--background-default-grey-hover) !important;
+  }
 }
 
+.cell {
+  height: 100%;
+}
+
+.cellLink {
+  /* TODO Responsive styles */
+  display: block;
+  height: 100%;
+  min-height: 40px;
+}

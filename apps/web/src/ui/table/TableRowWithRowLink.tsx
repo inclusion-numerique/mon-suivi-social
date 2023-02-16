@@ -15,7 +15,7 @@ export function TableRowWithRowLink<Item extends Record<string, unknown>>({
   title: string
 }) {
   return (
-    <tr className={styles.row}>
+    <tr className={styles.clickableRow}>
       {columns.map(({ content, label }, index) => (
         // Only allow tab navigation row to row so you can navigate with tab and enter
         // We use Links for accessibility, open in new tab, keyboard nav, ... that onClick does not provide

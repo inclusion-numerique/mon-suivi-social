@@ -102,12 +102,11 @@ export const HelpRequestForm = withTrpc(
     const isExternal = externalStructure === 'true'
 
     // TODO Field conditions depends on status and other fields
-    // TODO conditional display
     // TODO use same logic for conditional display to nullify fields on edition
 
-    const { isLoading } = mutation
+    const { isLoading, isSuccess } = mutation
 
-    const fieldsDisabled = isLoading
+    const fieldsDisabled = isLoading || isSuccess
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -117,6 +116,7 @@ export const HelpRequestForm = withTrpc(
           control={control}
           path="openingDate"
           type="date"
+          required
         />
         <SelectFormField
           label={FieldLabels['type']}
@@ -125,6 +125,7 @@ export const HelpRequestForm = withTrpc(
           path="type"
           defaultOption
           options={props.followupTypeOptions}
+          required
         />
         <InputFormField
           label={FieldLabels['prescribingOrganisation']}
@@ -139,6 +140,7 @@ export const HelpRequestForm = withTrpc(
           path="status"
           defaultOption
           options={helpRequestStatusOptions}
+          required
         />
         <CheckboxFormField
           checkboxLabel={FieldLabels['fullFile']}
@@ -338,11 +340,9 @@ export const HelpRequestForm = withTrpc(
         {mutation.isError ? (
           <p className="fr-error-text">{mutation.error.message}</p>
         ) : null}
-        <div className="fr-grid-row fr-grid-row--center">
-          <button className="fr-btn" type="submit" disabled={isLoading}>
-            Enregistrer l&apos;entretien
-          </button>
-        </div>
+        <button className="fr-btn" type="submit" disabled={isLoading}>
+          Enregistrer l&apos;entretien
+        </button>
       </form>
     )
   },

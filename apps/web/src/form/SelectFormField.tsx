@@ -28,6 +28,7 @@ export function SelectFormField<T extends FieldValues>({
   hint,
   defaultOption,
   disabled,
+  required,
   autoFocus,
   boolean,
   valueAsBoolean,
@@ -39,6 +40,7 @@ export function SelectFormField<T extends FieldValues>({
   label?: string
   path: FieldPath<T>
   disabled?: boolean
+  required?: boolean
   defaultOption?: boolean
   hint?: string
   placeholder?: string
@@ -70,6 +72,7 @@ export function SelectFormField<T extends FieldValues>({
         >
           <label className="fr-label" htmlFor={id}>
             {label}
+            {required ? ' *' : null}
             {hint ? <span className="fr-hint-text">{hint}</span> : null}
           </label>
           <select

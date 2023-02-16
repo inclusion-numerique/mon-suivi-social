@@ -8,12 +8,14 @@ export function CheckboxFormField<T extends FieldValues>({
   disabled,
   label,
   checkboxLabel,
+  required,
   hint,
   autoFocus,
 }: {
   control: Control<T>
   path: FieldPath<T>
   disabled?: boolean
+  required?: boolean
   label?: string
   checkboxLabel?: string
   hint?: string
@@ -42,6 +44,7 @@ export function CheckboxFormField<T extends FieldValues>({
               id={`${id}__legend`}
             >
               {label}
+              {required ? ' *' : null}
               {hint ? (
                 <span className="fr-hint-text fr-mt-0">{hint}</span>
               ) : null}
@@ -61,7 +64,13 @@ export function CheckboxFormField<T extends FieldValues>({
                   id={id}
                   onBlur={onBlur}
                   onChange={(event) => {
-                    onChange(event.target.checked)
+                    console.log('ON CHANGE', {
+                      value,
+                      notValue: !value,
+                      checked: event.target.checked,
+                      elemValue: event.target.value,
+                    })
+                    onChange(!value)
                   }}
                   checked={value === true}
                   ref={ref}

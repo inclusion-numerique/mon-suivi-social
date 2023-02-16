@@ -91,9 +91,9 @@ export const FollowupForm = withTrpc(
       }
     }
 
-    const { isLoading } = mutation
+    const { isLoading, isSuccess } = mutation
 
-    const fieldsDisabled = isLoading
+    const fieldsDisabled = isLoading || isSuccess
 
     const medium = form.watch('medium')
 
@@ -105,6 +105,7 @@ export const FollowupForm = withTrpc(
           control={control}
           path="date"
           type="date"
+          required
         />
         <SelectFormField
           label={FieldLabels['medium']}
@@ -112,6 +113,7 @@ export const FollowupForm = withTrpc(
           control={control}
           path="medium"
           defaultOption
+          required
           options={followupMediumOptions}
         />
         {medium === 'ThirdParty' ? (
@@ -137,6 +139,7 @@ export const FollowupForm = withTrpc(
           control={control}
           defaultOptionLabel="Choisissez un accompagnement"
           defaultOption
+          required
           path="types"
         />
         <InputFormField
@@ -150,6 +153,7 @@ export const FollowupForm = withTrpc(
           disabled={fieldsDisabled}
           control={control}
           path="status"
+          required
           defaultOption
           options={followupStatusOptions}
         />
@@ -205,7 +209,7 @@ export const FollowupForm = withTrpc(
         {mutation.isError ? (
           <p className="fr-error-text">{mutation.error.message}</p>
         ) : null}
-        <div className="fr-grid-row fr-grid-row--center">
+        <div className="fr-grid-row">
           <button className="fr-btn" type="submit" disabled={isLoading}>
             Enregistrer l&apos;entretien
           </button>

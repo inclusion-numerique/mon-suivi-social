@@ -25,6 +25,7 @@ export function SelectTagsFormField<T extends FieldValues>({
   hint,
   defaultOption,
   disabled,
+  required,
   autoFocus,
   defaultOptionLabel = 'Sélectionnez une option',
   badgeSize,
@@ -34,6 +35,7 @@ export function SelectTagsFormField<T extends FieldValues>({
   label?: string
   path: FieldPath<T>
   disabled?: boolean
+  required?: boolean
   defaultOption?: boolean
   defaultOptionLabel?: string
   hint?: string
@@ -93,6 +95,7 @@ export function SelectTagsFormField<T extends FieldValues>({
           >
             <label className="fr-label" htmlFor={id}>
               {label}
+              {required ? ' *' : null}
               {hint ? <span className="fr-hint-text">{hint}</span> : null}
             </label>
             <select
