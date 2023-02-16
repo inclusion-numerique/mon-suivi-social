@@ -54,13 +54,13 @@ export const beneficiariesListTableColumns = [
       )
 
       return (
-        <>
+        <div style={{ marginTop: '-0.25rem', marginLeft: '-0.25rem' }}>
           {[...deduplicatedTypesMap.values()].sort().map((label) => (
-            <div key={label} className="fr-tag fr-tag--sm">
+            <div key={label} className="fr-tag fr-tag--sm fr-mt-1v fr-ml-1v">
               {nonBreakable(label)}
             </div>
           ))}
-        </>
+        </div>
       )
     },
   },

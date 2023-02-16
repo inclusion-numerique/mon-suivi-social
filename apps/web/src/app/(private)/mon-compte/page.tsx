@@ -2,6 +2,7 @@ import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { getAuthenticatedSessionUser } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
 import {
+  getInclusionConnectChangePasswordUrl,
   getInclusionConnectLogoutUrl,
   inclusionConnectProviderId,
 } from '@mss/web/auth/inclusionConnect'
@@ -24,15 +25,33 @@ const MonComptePage = async () => {
             <Card>
               <h4>Inclusion Connect</h4>
               <p>
-                Votre compte {user.email} est lié à votre compte Inclusion
-                Connect.
+                Votre compte <strong>{user.email}</strong> est lié à votre
+                compte Inclusion Connect.
               </p>
-              <p>
-                Vous pouvez vous déconnecter de tous les autres services
-                utilisant votre compte Inclusion Connect en suivant ce lien :
+              {/*<Link*/}
+              {/*  className="fr-link"*/}
+              {/*  href={getInclusionConnectProfilePageUrl()}*/}
+              {/*  target="_blank"*/}
+              {/*  rel="noreferrer"*/}
+              {/*  style={{ margin: '0 auto 0 0' }}*/}
+              {/*>*/}
+              {/*  Voir mon profil Inclusion Connect*/}
+              {/*</Link>*/}
+              {/*<br />*/}
+              <Link
+                className="fr-link"
+                href={getInclusionConnectChangePasswordUrl()}
+                target="_blank"
+                rel="noreferrer"
+                style={{ margin: '0 auto 0 0' }}
+              >
+                Changer mon mot de passe
+              </Link>
+              <br />
+              <p className="fr-mt-4v">
+                Vous pouvez vous déconnecter de votre compte Inclusion Connect
+                en suivant ce lien :
               </p>
-
-              {/*TODO MSS ALSO LOGOUT ? */}
               <Link
                 className="fr-btn"
                 href={getInclusionConnectLogoutUrl()}

@@ -1,17 +1,68 @@
 @import url("/dsfr/dsfr.min.css");
 @import url("/dsfr/utility/utility.min.css");
 
+/* Layout setup */
 html, body, body > div:not(#environment-information) {
   min-height: 100% !important;
   height: 100%;
 }
-
 textarea {
   resize: none;
 }
+
+/**
+ *  DSFR Overrides
+ */
 :root {
-  /* TODO Overide styles for MSS using css vars ? */
-  /* --background-action-high-blue-france: red; */
+  /* Our custom variables */
+  --mss-primary: #4550e5;
+  --mss-primary-hover: #6c74e3;
+  --mss-primary-inverted-hover: #7a7edf;
+
+  --mss-border-radius: 1.5rem;
+  --mss-border-radius-sm: 1rem;
+  --mss-border-radius-xs: .5rem;
+  --mss-border-radius-2xs: .25rem;
+
+  --blue-france-975-75: #f5f5fe;
+  --blue-france-975-75-hover: #dcdcfc;
+  --blue-france-975-75-active: #cbcbfa;
+  --blue-france-950-100: #ececfe;
+  --blue-france-950-100-hover: #cecefc;
+  --blue-france-950-100-active: #bbbbfc;
+  --blue-france-sun-113-625: var(--mss-primary);
+  --blue-france-sun-113-625-hover: var(--mss-primary-hover);
+  --blue-france-sun-113-625-active: #2323ff;
+  --blue-france-925-125: #e3e3fd;
+  --blue-france-925-125-hover: #c1c1fb;
+  --blue-france-925-125-active: #adadf9;
+  --blue-france-975-sun-113: #f5f5fe;
+  --blue-france-main-525: #6a6af4;
+  --blue-france-850-200: #cacafb;
+}
+
+
+
+.fr-btn {
+  border-radius: var(--mss-border-radius);
+  padding: 0.5rem 1.25rem;
+  &.fr-btn--sm{
+    border-radius: var(--mss-border-radius-sm);
+    padding: 0.25rem 1rem;
+  }
+}
+.fr-btns-group--sm{
+  .fr-btn {
+    border-radius: var(--mss-border-radius-sm);
+    padding: 0.25rem 1rem;
+  }
+}
+.fr-pagination__link {
+  border-radius: var(--mss-border-radius-2xs);
+}
+
+.fr-card {
+  border-radius: var(--mss-border-radius-2xs)
 }
 
 /* Magic css debug hack 🤓💅 */

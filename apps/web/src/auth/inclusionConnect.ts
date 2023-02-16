@@ -10,3 +10,6 @@ export const getInclusionConnectProfilePageUrl = (): string =>
 
 export const getInclusionConnectProfileIssuerUrl = (): string =>
   `${PublicConfig.InclusionConnect.issuer}/.well-known/openid-configuration`
+
+export const getInclusionConnectChangePasswordUrl = (): string =>
+  `${PublicConfig.InclusionConnect.issuer}/login-actions/reset-credentials?client_id=monsuivisocial`

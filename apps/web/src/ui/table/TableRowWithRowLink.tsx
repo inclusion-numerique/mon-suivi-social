@@ -22,10 +22,10 @@ export function TableRowWithRowLink<Item extends Record<string, unknown>>({
         // <a> tag inside tr or outside tr are not valid html so we are required to put <a> tags inside each cell
         // There are other tricks that work for a single <a> tag per row, but they are javascript or css hacks with have
         // tradeoffs on accessibility
-        <td key={label} className="fr-p-0">
+        <td key={label} className={styles.cellWithLink}>
           <Link
             tabIndex={index > 0 ? -1 : undefined}
-            className={`fr-raw-link fr-p-2v ${styles.cellLink}`}
+            className={`fr-raw-link fr-p-2v`}
             title={title}
             href={href}
           >

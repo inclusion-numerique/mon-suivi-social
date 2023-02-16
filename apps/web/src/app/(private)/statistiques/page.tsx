@@ -8,7 +8,7 @@ import {
   getGenderStats,
   getSupportStats,
 } from '@mss/web/stats/stats'
-import { PropsWithChildren, ReactNode } from 'react'
+import { CSSProperties, PropsWithChildren, ReactNode } from 'react'
 import { FamilySituationChart } from '@mss/web/app/(private)/statistiques/FamilySituationChart'
 import { AgeChart } from '@mss/web/app/(private)/statistiques/AgeChart'
 import { ChartJs } from '@mss/web/app/(private)/statistiques/ChartJs'
@@ -69,7 +69,7 @@ const StatistiquesPage = async () => {
       </SectionTitle>
       <div className="fr-grid-row fr-grid-row--gutters">
         <StatCard
-          cols={{ xl: 6 }}
+          contentStyle={{ minHeight: 400 }}
           title={
             <>
               <span className="fr-icon-folder-2-line fr-mr-1w" />
@@ -99,6 +99,7 @@ const StatCard = ({
   cols = {},
   title,
   children,
+  contentStyle,
 }: PropsWithChildren<{
   title: ReactNode
   cols?: {
@@ -108,6 +109,7 @@ const StatCard = ({
     lg?: number
     xl?: number
   }
+  contentStyle?: CSSProperties
 }>) => (
   <div
     className={`fr-col-${cols?.default ?? 12} ${
@@ -123,7 +125,12 @@ const StatCard = ({
             {title}
           </h3>
           <div className="fr-card__desc fr-pt-4v">
-            <div className="fr-grid-row fr-grid-row--center"> {children}</div>
+            <div
+              className="fr-grid-row fr-grid-row--center"
+              style={contentStyle}
+            >
+              {children}
+            </div>
           </div>
         </div>
       </div>

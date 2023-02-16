@@ -1,0 +1,10 @@
+.sideMenu {
+    background-color: var(--mss-primary);
+    padding: 0;
+    * {
+        color: white;
+    }
+    a[href]:hover {
+            background-color: var(--mss-primary-inverted-hover);
+    }
+}

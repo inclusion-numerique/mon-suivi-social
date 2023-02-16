@@ -11,13 +11,19 @@
   }
 }
 
-.cell {
-  height: 100%;
-}
-
-.cellLink {
-  /* TODO Responsive styles */
-  display: block;
-  height: 100%;
-  min-height: 40px;
+td.cellWithLink {
+  /* Ugly hack, do you have a better idea ? https://stackoverflow.com/questions/3542090/how-to-make-div-fill-td-height */
+  /* The link inside has to be full height */
+  min-height: 1px;
+  height: 1px;
+  padding: 0;
+  > a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    min-height: 40px;
+      &:active {
+          background-color: transparent;
+      }
+  }
 }

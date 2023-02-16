@@ -19,13 +19,16 @@ export const SupportChart = ({
   ])
 
   const data: ChartData<'bar'> = {
-    labels: [...pick(supportStats.stats, 'name'), 'Total'],
+    labels: [
+      ...pick(supportStats.stats, 'name'),
+      // 'Total'
+    ],
     datasets: [
       {
         label: "Demandes d'aide",
         data: [
           ...supportStats.stats.map(({ _count }) => _count.helpRequests),
-          supportStats.total.helpRequests,
+          // supportStats.total.helpRequests,
         ],
         backgroundColor: colors[0],
       },
@@ -33,7 +36,7 @@ export const SupportChart = ({
         label: 'Entretiens',
         data: [
           ...supportStats.stats.map(({ _count }) => _count.followups),
-          supportStats.total.followups,
+          // supportStats.total.followups,
         ],
         backgroundColor: colors[1],
       },
@@ -43,7 +46,7 @@ export const SupportChart = ({
           ...supportStats.stats.map(
             ({ _count }) => _count.followups + _count.helpRequests,
           ),
-          supportStats.total.total,
+          // supportStats.total.total,
         ],
         backgroundColor: colors[2],
       },

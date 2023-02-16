@@ -2,6 +2,7 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import SideMenuLinks from '@mss/web/app/(private)/SideMenuLinks'
 import { FunctionComponent, ReactNode } from 'react'
 import { serialize } from '@mss/web/utils/serialization'
+import styles from './PrivateLayoutContent.module.css'
 
 const PrivateLayoutContent: FunctionComponent<{
   user: SessionUser
@@ -23,10 +24,7 @@ const PrivateLayoutContent: FunctionComponent<{
             role="navigation"
             aria-label="Menu de navigation"
           >
-            <div
-              className="fr-sidemenu__inner"
-              style={{ backgroundColor: 'white' }}
-            >
+            <div className={`fr-sidemenu__inner ${styles.sideMenu}`}>
               <button
                 className="fr-sidemenu__btn"
                 hidden

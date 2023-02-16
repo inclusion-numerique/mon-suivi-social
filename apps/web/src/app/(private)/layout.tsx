@@ -4,7 +4,6 @@ import PrivateLayoutContent from '@mss/web/app/(private)/PrivateLayoutContent'
 import OnboardingWithoutStructure from '@mss/web/app/(private)/OnboardingWithoutStructure'
 import { redirect } from 'next/navigation'
 import { Routes } from '@mss/web/app/routing/routes'
-import PublicFooter from '@mss/web/app/(public)/PublicFooter'
 import PublicLayout from '@mss/web/app/(public)/layout'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import PrivateHeader from '@mss/web/app/(private)/PrivateHeader'
@@ -57,7 +56,6 @@ const PrivateLayout = async ({ children }: PropsWithChildren) => {
         >
           <PrivateLayoutContent user={user}>{children}</PrivateLayoutContent>
         </div>
-        <PublicFooter />
       </div>
     </>
   )
