@@ -1,10 +1,16 @@
 .sideMenu {
     background-color: var(--mss-primary);
-    padding: 0;
+    padding: 0 1rem;
     * {
         color: white;
     }
-    a[href]:hover {
+    a[href]:hover, button:not(:disabled):hover {
             background-color: var(--mss-primary-inverted-hover);
+    }
+    .fr-sidemenu__btn {
+        background-color: var(--mss-primary);
+        &:hover {
+            background-color: var(--mss-primary-inverted-hover);
+        }
     }
 }

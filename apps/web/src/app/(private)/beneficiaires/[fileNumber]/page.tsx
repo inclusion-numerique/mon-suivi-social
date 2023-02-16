@@ -147,18 +147,28 @@ const BeneficiaryPage = async ({
   const canEdit = canEditBeneficiaryGeneralInfo(user, beneficiary)
   const canArchive = canDeleteBeneficiary(user, beneficiary)
 
+  console.log('Search params', searchParams)
+
   const tab = searchParams?.tab ?? 'info'
   const tabs = [
     {
       id: 'info',
       icon: 'list-unordered',
       title: 'Info',
+      href: Routes.Beneficiaires.Beneficiaire.Index.path(
+        { fileNumber },
+        tab === 'info' ? searchParams : {},
+      ),
       content: <InfoTab user={user} beneficiary={beneficiary} />,
     },
     {
       id: 'documents',
       icon: 'file-line',
       title: 'Documents',
+      href: Routes.Beneficiaires.Beneficiaire.Index.path(
+        { fileNumber },
+        tab === 'documents' ? searchParams : { tab: 'documents' },
+      ),
       content: (
         <DocumentsTab
           user={user}
@@ -171,6 +181,10 @@ const BeneficiaryPage = async ({
       id: 'historique',
       icon: 'folder-2-line',
       title: 'Historique',
+      href: Routes.Beneficiaires.Beneficiaire.Index.path(
+        { fileNumber },
+        tab === 'historique' ? searchParams : { tab: 'historique' },
+      ),
       content: (
         <HistoryTab
           user={user}

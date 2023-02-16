@@ -24,21 +24,21 @@ textarea {
   --mss-border-radius-xs: .5rem;
   --mss-border-radius-2xs: .25rem;
 
-  --blue-france-975-75: #f5f5fe;
-  --blue-france-975-75-hover: #dcdcfc;
-  --blue-france-975-75-active: #cbcbfa;
-  --blue-france-950-100: #ececfe;
-  --blue-france-950-100-hover: #cecefc;
-  --blue-france-950-100-active: #bbbbfc;
+  --blue-france-975-75: #f5f5ff;
+  --blue-france-975-75-hover: #dadcff;
+  --blue-france-975-75-active: #cbcffc;
+  --blue-france-950-100: #ececf1;
+  --blue-france-950-100-hover: #ced0fa;
+  --blue-france-950-100-active: #bcbcee;
   --blue-france-sun-113-625: var(--mss-primary);
   --blue-france-sun-113-625-hover: var(--mss-primary-hover);
-  --blue-france-sun-113-625-active: #2323ff;
-  --blue-france-925-125: #e3e3fd;
-  --blue-france-925-125-hover: #c1c1fb;
-  --blue-france-925-125-active: #adadf9;
-  --blue-france-975-sun-113: #f5f5fe;
-  --blue-france-main-525: #6a6af4;
-  --blue-france-850-200: #cacafb;
+  --blue-france-sun-113-625-active: #3843d3;
+  --blue-france-925-125: #e4e4ef;
+  --blue-france-925-125-hover: #c3c9f3;
+  --blue-france-925-125-active: #adb4ec;
+  --blue-france-975-sun-113: #f5f5ff;
+  --blue-france-main-525: var(--mss-primary-hover);
+  --blue-france-850-200: #caccef;
 }
 
 

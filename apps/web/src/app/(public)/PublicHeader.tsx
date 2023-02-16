@@ -87,6 +87,8 @@ const PublicHeader = ({
                     id="fr-btn-menu-mobile"
                     aria-controls="modal-menu-mobile"
                     aria-haspopup="menu"
+                    data-fr-opened="false"
+                    data-fr-js-modal-button="true"
                     title="Menu"
                     className="fr-btn--menu fr-btn"
                   >

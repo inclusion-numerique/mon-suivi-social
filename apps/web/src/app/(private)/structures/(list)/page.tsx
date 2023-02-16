@@ -91,23 +91,17 @@ const StructuresListPage = async ({
       <div className="fr-card fr-mt-4v">
         <div className="fr-card__body">
           <div className="fr-card__content">
-            <div className="fr-grid-row">
-              <div className="fr-col-4">
-                <p className="fr-hint-text fr-mb-0">
-                  {count} structure
-                  {count === 1 ? '' : 's'}
-                </p>
-              </div>
-              <div className="fr-col-8 fr-col-md-4">
-                <div className="fr-btns-group fr-btns-group--icon-left">
-                  <Link
-                    className="fr-btn fr-icon-building-line fr-mb-0"
-                    href={Routes.Structures.Ajouter.path}
-                  >
-                    Ajouter une structure
-                  </Link>
-                </div>
-              </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <p className="fr-hint-text fr-mb-0">
+                {count} structure
+                {count === 1 ? '' : 's'}
+              </p>
+              <Link
+                className="fr-btn fr-btn--icon-left fr-icon-building-line fr-mb-0"
+                href={Routes.Structures.Ajouter.path}
+              >
+                Ajouter une structure
+              </Link>
             </div>
 
             <Table
