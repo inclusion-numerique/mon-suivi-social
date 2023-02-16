@@ -4,7 +4,6 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { StructureForm } from '@mss/web/app/(private)/structure/StructureForm'
-import StructureEditPage from '@mss/web/app/(private)/structure/[id]/modifier/page'
 import { CreateStructureClient } from '@mss/web/features/structure/createStructure/createStructure.client'
 import { getFollowupTypesForStructureCreation } from '@mss/web/features/structure/createStructure/createStructure.server'
 
@@ -41,4 +40,4 @@ const AddStructurePage = async () => {
     </>
   )
 }
-export default StructureEditPage
+export default AddStructurePage

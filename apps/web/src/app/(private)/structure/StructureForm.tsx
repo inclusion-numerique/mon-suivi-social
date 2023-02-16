@@ -187,10 +187,6 @@ export const StructureForm = withTrpc(
       }
     }
 
-    const onCancel = () => {
-      form.reset(defaultValues)
-    }
-
     return (
       <>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -202,6 +198,8 @@ export const StructureForm = withTrpc(
               control={control}
               path="type"
               options={structureTypeOptions}
+              defaultOption
+              required
             />
           ) : null}
           <InputFormField
@@ -209,30 +207,35 @@ export const StructureForm = withTrpc(
             disabled={fieldsDisabled}
             control={control}
             path="name"
+            required
           />
           <InputFormField
             label={FieldLabels['address']}
             disabled={fieldsDisabled}
             control={control}
             path="address"
+            required
           />
           <InputFormField
             label={FieldLabels['zipcode']}
             disabled={fieldsDisabled}
             control={control}
             path="zipcode"
+            required
           />
           <InputFormField
             label={FieldLabels['city']}
             disabled={fieldsDisabled}
             control={control}
             path="city"
+            required
           />
           <InputFormField
             label={FieldLabels['phone']}
             disabled={fieldsDisabled}
             control={control}
             path="phone"
+            required
           />
           <InputFormField
             label={FieldLabels['email']}
@@ -240,6 +243,7 @@ export const StructureForm = withTrpc(
             control={control}
             path="email"
             type="email"
+            required
           />
 
           <h3 className="fr-mt-8v">Accompagnements proposés</h3>
@@ -276,14 +280,6 @@ export const StructureForm = withTrpc(
           <div className="fr-grid-row fr-mt-12v">
             <div className="fr-col-12">
               <div className="fr-btns-group--inline fr-btns-group">
-                <button
-                  className="fr-btn fr-btn--secondary"
-                  type="button"
-                  disabled={isLoading}
-                  onClick={onCancel}
-                >
-                  {props.creation ? 'Annuler' : 'Annuler les modifications'}
-                </button>
                 <button className="fr-btn" type="submit" disabled={isLoading}>
                   {props.creation
                     ? 'Créer la structure'

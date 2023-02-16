@@ -33,12 +33,12 @@ textarea {
   --blue-france-sun-113-625: var(--mss-primary);
   --blue-france-sun-113-625-hover: var(--mss-primary-hover);
   --blue-france-sun-113-625-active: #3843d3;
-  --blue-france-925-125: #e4e4ef;
-  --blue-france-925-125-hover: #c3c9f3;
-  --blue-france-925-125-active: #adb4ec;
+  --blue-france-925-125: #eeeef6;
+  --blue-france-925-125-hover: #d3d7f6;
+  --blue-france-925-125-active: #bdc1ee;
   --blue-france-975-sun-113: #f5f5ff;
   --blue-france-main-525: var(--mss-primary-hover);
-  --blue-france-850-200: #caccef;
+  --blue-france-850-200: #6c74e3;
 }
 
 
