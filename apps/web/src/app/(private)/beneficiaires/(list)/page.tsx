@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import BeneficiariesSearchBar from '@mss/web/app/(private)/beneficiaires/BeneficiariesSearchBar'
 import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
@@ -15,6 +14,7 @@ import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
 import { createPageLinkHelper } from '@mss/web/ui/pagination'
 import { createSortLinkHelper } from '@mss/web/ui/sorting'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
+import { BeneficiariesSearchBar } from '@mss/web/app/(private)/beneficiaires/BeneficiariesSearchBar'
 
 const itemsPerPage = 15
 
@@ -100,7 +100,7 @@ const BeneficiariesListPage = async ({
               style={{ display: 'flex' }}
             >
               <div className="fr-col-12 fr-col-md-8">
-                <BeneficiariesSearchBar />
+                <BeneficiariesSearchBar structureId={structureId} />
               </div>
               <div className="fr-col-12 fr-col-md-4">
                 <div className="fr-btns-group fr-btns-group--icon-left">

@@ -1,8 +1,8 @@
-import BeneficiariesSearchBar from '@mss/web/app/(private)/beneficiaires/BeneficiariesSearchBar'
 import Link from 'next/link'
 import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
+import { BeneficiariesSearchBar } from '@mss/web/app/(private)/beneficiaires/BeneficiariesSearchBar'
 
 const TableauDeBordPage = async () => {
   const user = await getSessionUser()
@@ -23,7 +23,7 @@ const TableauDeBordPage = async () => {
                 <div className="fr-btns-group fr-btns-group--icon-left">
                   <Link
                     className="fr-btn fr-icon-user-add-line fr-mb-0"
-                    href="/beneficiaries/add"
+                    href={Routes.Beneficiaires.Nouveau.path}
                   >
                     Ajouter un·e bénéficiaire
                   </Link>

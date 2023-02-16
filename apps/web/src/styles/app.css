@@ -15,6 +15,7 @@ textarea {
  */
 :root {
   /* Our custom variables */
+
   --mss-primary: #4550e5;
   --mss-primary-hover: #6c74e3;
   --mss-primary-inverted-hover: #7a7edf;
@@ -61,11 +62,12 @@ textarea {
   border-radius: var(--mss-border-radius-2xs);
 }
 
-.fr-card {
+.fr-card, .fr-tabs, .fr-tabs__panel {
   border-radius: var(--mss-border-radius-2xs)
 }
 
-/* Magic css debug hack 🤓💅 */
+
+/* Css debug hack 🤓💅 */
 /*
 * {
   outline: 1px solid red !important;

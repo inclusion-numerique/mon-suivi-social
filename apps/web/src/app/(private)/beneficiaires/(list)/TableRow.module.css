@@ -1,5 +1,9 @@
+.row {
+  background-color: var(--background-default-grey) !important;
+}
+
 .clickableRow {
-  background-color: var(--background-default-grey);
+  background-color: var(--background-default-grey) !important;
   cursor: pointer;
 
   &:hover {

@@ -4,6 +4,7 @@ import { DocumentType } from '@prisma/client'
 import { canAddBeneficiaryDocument } from '@mss/web/security/rules'
 import { labelsToOptions } from '@mss/web/utils/options'
 import { formatByteSize } from '@mss/web/utils/formatByteSize'
+import { errorMessages } from '@mss/web/utils/zod'
 
 // Max size in bytes
 export const documentFileMaxSize = 15_000_000
@@ -56,12 +57,13 @@ export const AddDocumentClient = createMutationClient({
   title: 'Ajout de document',
   securityCheck: canAddBeneficiaryDocument,
   inputValidation: z.object({
-    beneficiaryId: z.string(),
+    beneficiaryId: z.string(errorMessages),
     type: z.nativeEnum(DocumentType, {
+      ...errorMessages,
       required_error: 'Veuillez renseigner le type du document',
     }),
     tags: z.array(z.enum(DocumentTags)),
-    confidential: z.boolean(),
+    confidential: z.boolean().default(false),
     file: z.object({
       key: z.string({ required_error: 'Veuillez téléverser un document' }),
       mimeType: documentMimeTypeValidation,
@@ -99,11 +101,17 @@ export const AddDocumentWithBrowserUploadValidation =
         'Veuillez choisir un document',
       )
       .refine(
-        (value) => documentSizeValidation.safeParse(value.size).success,
+        (value) =>
+          !!value &&
+          value instanceof File &&
+          documentSizeValidation.safeParse(value.size).success,
         documentSizeValidationErrorMessage,
       )
       .refine(
-        (value) => documentMimeTypeValidation.safeParse(value.type).success,
+        (value) =>
+          !!value &&
+          value instanceof File &&
+          documentMimeTypeValidation.safeParse(value.type).success,
         documentMimeTypeValidationErrorMessage,
       ),
   })

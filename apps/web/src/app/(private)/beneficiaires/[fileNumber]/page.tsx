@@ -147,8 +147,6 @@ const BeneficiaryPage = async ({
   const canEdit = canEditBeneficiaryGeneralInfo(user, beneficiary)
   const canArchive = canDeleteBeneficiary(user, beneficiary)
 
-  console.log('Search params', searchParams)
-
   const tab = searchParams?.tab ?? 'info'
   const tabs = [
     {

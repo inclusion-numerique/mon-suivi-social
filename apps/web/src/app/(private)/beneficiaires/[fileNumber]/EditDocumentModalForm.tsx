@@ -83,6 +83,7 @@ export const EditDocumentModalForm = withTrpc(
             defaultOption
             options={documentTypeOptions}
             disabled={isLoading}
+            required
           />
 
           <CheckboxFormField

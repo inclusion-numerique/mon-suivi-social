@@ -14,6 +14,7 @@ import { formatByteSize } from '@mss/web/utils/formatByteSize'
 import axios from 'axios'
 import { Spinner } from '@mss/web/ui/Spinner'
 import {
+  AddDocumentClient,
   AddDocumentWithBrowserUploadData,
   AddDocumentWithBrowserUploadValidation,
   documentFileAllowedTypes,
@@ -23,6 +24,7 @@ import {
 } from '@mss/web/features/document/addDocument.client'
 import { useRouter } from 'next/navigation'
 import { modalFadeAnimationTime } from '@mss/web/dsfr/dsfr'
+import * as Sentry from '@sentry/nextjs'
 
 export const AddDocumentModalForm = withTrpc(
   ({
@@ -39,7 +41,6 @@ export const AddDocumentModalForm = withTrpc(
     const closeRef = useRef<HTMLButtonElement>(null)
 
     const defaultValues: DefaultValues<AddDocumentWithBrowserUploadData> = {
-      confidential: false,
       tags: [],
       beneficiaryId,
     }
@@ -49,6 +50,7 @@ export const AddDocumentModalForm = withTrpc(
       handleSubmit,
       reset,
       setError,
+      watch,
       formState: { isSubmitting },
     } = useForm<AddDocumentWithBrowserUploadData>({
       defaultValues,
@@ -62,9 +64,6 @@ export const AddDocumentModalForm = withTrpc(
       type,
       tags,
     }: AddDocumentWithBrowserUploadData) => {
-      // TODO Debug confidential checkbox
-      console.log('DATA', { confidential, file })
-
       const signedUrl = await createUploadUrl
         .mutateAsync({
           name: file.name,
@@ -72,7 +71,9 @@ export const AddDocumentModalForm = withTrpc(
           beneficiaryId,
         })
         .catch((err) => {
-          // TODO SENTRY
+          Sentry.captureException(err, {
+            extra: { feature: AddDocumentClient.name },
+          })
           setError('file', {
             message:
               'Une erreur est survenue lors du téléversement. Merci de réessayer',
@@ -89,7 +90,9 @@ export const AddDocumentModalForm = withTrpc(
           },
         })
         .catch((err) => {
-          // TODO SENTRY
+          Sentry.captureException(err, {
+            extra: { feature: AddDocumentClient.name },
+          })
           setError('file', {
             message:
               'Une erreur est survenue lors du téléversement. Merci de réessayer',
@@ -126,8 +129,12 @@ export const AddDocumentModalForm = withTrpc(
     const isLoading = isSubmitting || addDocument.isLoading
 
     const onCancel: MouseEventHandler = (event) => {
-      reset(defaultValues, { keepDefaultValues: true })
+      reset(defaultValues)
     }
+
+    const type = watch('type')
+    const confidential = watch('confidential')
+    console.log('WATCH', { confidential, type })
 
     const uploadHint = `Taille maximale : ${formatByteSize(
       documentFileMaxSize,
@@ -159,6 +166,7 @@ export const AddDocumentModalForm = withTrpc(
             defaultOption
             options={documentTypeOptions}
             disabled={isLoading}
+            required
           />
 
           <CheckboxFormField
@@ -183,6 +191,7 @@ export const AddDocumentModalForm = withTrpc(
             disabled={isLoading}
             accept={documentFileAllowedTypes.join(', ')}
             path="file"
+            required
           />
 
           {addDocument.isError ? (
