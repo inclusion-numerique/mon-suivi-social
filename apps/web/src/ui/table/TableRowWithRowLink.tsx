@@ -1,4 +1,4 @@
-import styles from '@mss/web/app/(private)/beneficiaires/(list)/TableRow.module.css'
+import styles from '@mss/web/app/(private)/beneficiaires/(liste)/TableRow.module.css'
 import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
 import Link from 'next/link'
 

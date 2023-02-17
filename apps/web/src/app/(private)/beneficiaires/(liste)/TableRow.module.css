@@ -2,6 +2,13 @@
   background-color: var(--background-default-grey) !important;
 }
 
+.cellContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
 .clickableRow {
   background-color: var(--background-default-grey) !important;
   cursor: pointer;
@@ -21,13 +28,15 @@ td.cellWithLink {
   min-height: 1px;
   height: 1px;
   padding: 0;
+
   > a {
     display: flex;
     align-items: center;
     height: 100%;
     min-height: 40px;
-      &:active {
-          background-color: transparent;
-      }
+
+    &:active {
+      background-color: transparent;
+    }
   }
 }

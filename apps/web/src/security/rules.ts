@@ -85,6 +85,11 @@ export const canCreateUser = (
   target: SecurityTargetWithStructure,
 ): boolean => isAdministrator(grantee) || isStructureManager(grantee, target)
 
+export const canEditUser = (
+  grantee: SecurityRuleGrantee,
+  target: SecurityTargetWithStructure,
+): boolean => isAdministrator(grantee) || isStructureManager(grantee, target)
+
 export const canDeleteUser = (
   grantee: SecurityRuleGrantee,
   target: SecurityTargetWithStructure,

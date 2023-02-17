@@ -3,7 +3,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 import type { QueryResult } from '@mss/web/features/createQuery.server'
 import { ListStructuresServer } from '@mss/web/features/structure/listStructures/listStructures.server'
-import { structuresListTableColumns } from '@mss/web/app/(private)/structures/(list)/structuresListTableColumns'
+import { structuresListTableColumns } from '@mss/web/app/(private)/structures/(liste)/structuresListTableColumns'
 
 export const StructuresListTableRows = asyncComponent(
   async ({

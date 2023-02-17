@@ -192,6 +192,23 @@ export const Routes = {
       title: 'Utilisateurs',
       icon: 'team-line',
       path: '/utilisateurs',
+      pathWithParams:
+        withSearchParams<PaginationParams<{ recherche?: string }>>(
+          '/utilisateurs',
+        ),
+    },
+    Ajouter: {
+      title: 'Ajouter un utilisateur',
+      breadcrumbsTitle: 'Ajouter',
+      icon: 'team-line',
+      path: `/utilisateur/ajouter`,
+    },
+    Modifier: {
+      title: ({ name }: { name: string }) => `${name} · Modification`,
+      breadcrumbsTitle: 'Modification',
+      icon: 'team-line',
+      path: ({ userId }: { userId: string }) =>
+        `/utilisateur/${userId}/modifier`,
     },
   },
 }

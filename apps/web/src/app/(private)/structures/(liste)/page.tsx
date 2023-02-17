@@ -11,8 +11,8 @@ import { ListStructuresServer } from '@mss/web/features/structure/listStructures
 import { createPageLinkHelper } from '@mss/web/ui/pagination'
 import { createSortLinkHelper } from '@mss/web/ui/sorting'
 import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
-import { structuresListTableColumns } from '@mss/web/app/(private)/structures/(list)/structuresListTableColumns'
-import { StructuresListTableRows } from '@mss/web/app/(private)/structures/(list)/StructuresListTableRows'
+import { structuresListTableColumns } from '@mss/web/app/(private)/structures/(liste)/structuresListTableColumns'
+import { StructuresListTableRows } from '@mss/web/app/(private)/structures/(liste)/StructuresListTableRows'
 import { Table } from '@mss/web/ui/table/Table'
 import Link from 'next/link'
 

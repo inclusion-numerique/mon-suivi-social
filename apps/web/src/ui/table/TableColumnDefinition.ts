@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 
 export type SortDirection = 'asc' | 'desc'
 export type Sorting<By = string> = { by: By; direction: SortDirection }
@@ -10,6 +10,10 @@ export type TableColumnDefinition<Item = unknown, OrderByCondition = {}> = {
   sortable?: (direction: SortDirection) => OrderByCondition[]
   // Content of the "cell" for this column, for a given item.
   content: (item: Item) => ReactNode
+  options?: {
+    justify?: CSSProperties['justifyContent']
+    containerClassName?: string
+  }
 }
 
 export const getColumnOrderBy = <Item>(

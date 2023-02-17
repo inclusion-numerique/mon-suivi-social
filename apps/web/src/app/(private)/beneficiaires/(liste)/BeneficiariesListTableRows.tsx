@@ -1,4 +1,4 @@
-import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(list)/beneficiariesListTableColumns'
+import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(liste)/beneficiariesListTableColumns'
 import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { Routes } from '@mss/web/app/routing/routes'
 import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'

@@ -177,6 +177,7 @@ const OptionBadge = ({
     className={`fr-tag fr-mr-1w fr-mb-2v ${size === 'sm' ? 'fr-tag--sm' : ''}`}
     disabled={disabled || option.disabled}
     onClick={disabled ? undefined : onClick}
+    aria-label={`Retirer ${option.name}`}
   >
     {option.name}
     <span className="fr-icon-close-line fr-ml-1w fr-icon--sm" />

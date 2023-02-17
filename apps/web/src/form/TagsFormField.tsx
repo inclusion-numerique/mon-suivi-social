@@ -130,6 +130,7 @@ const OptionBadge = ({
     disabled={disabled || option.disabled}
     aria-pressed={selected ? 'true' : 'false'}
     onClick={disabled ? undefined : onClick}
+    aria-label={`Retirer ${option.name}`}
   >
     {option.name}
   </button>
