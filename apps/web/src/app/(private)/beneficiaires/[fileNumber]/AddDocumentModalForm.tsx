@@ -132,10 +132,6 @@ export const AddDocumentModalForm = withTrpc(
       reset(defaultValues)
     }
 
-    const type = watch('type')
-    const confidential = watch('confidential')
-    console.log('WATCH', { confidential, type })
-
     const uploadHint = `Taille maximale : ${formatByteSize(
       documentFileMaxSize,
     )}. Formats supportés : ${documentFileAllowedTypes

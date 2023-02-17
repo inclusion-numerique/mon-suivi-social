@@ -64,13 +64,7 @@ export function CheckboxFormField<T extends FieldValues>({
                   id={id}
                   onBlur={onBlur}
                   onChange={(event) => {
-                    console.log('ON CHANGE', {
-                      value,
-                      notValue: !value,
-                      checked: event.target.checked,
-                      elemValue: event.target.value,
-                    })
-                    onChange(!value)
+                    onChange(event.target.checked)
                   }}
                   checked={value === true}
                   ref={ref}
