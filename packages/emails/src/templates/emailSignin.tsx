@@ -17,7 +17,7 @@ import { PublicConfig } from '@mss/web/config'
 import { emailAssetUrl } from '@mss/emails/emailAssetUrl'
 import { MjmlAll, MjmlAttributes, MjmlFont, MjmlSpacer } from 'mjml-react'
 
-const brandColor = '#000091'
+const brandColor = '#4550e5'
 const backgroundColor = '#F6F6F6'
 
 export const emailSignin = {
@@ -34,13 +34,13 @@ export const emailSignin = {
             <MjmlSection backgroundColor="white" />
             <MjmlButton
               backgroundColor={brandColor}
-              borderRadius={0}
+              borderRadius={24}
               fontSize="16px"
               lineHeight="24px"
-              fontWeight={300}
+              fontWeight={400}
               innerPadding="8px 16px"
             />
-            <MjmlText fontSize="16px" lineHeight="24px" fontWeight={300} />
+            <MjmlText fontSize="16px" lineHeight="24px" fontWeight={400} />
           </MjmlAttributes>
           <MjmlTitle>{`Connexion à ${PublicConfig.productTitle}`}</MjmlTitle>
           <MjmlPreview>
@@ -70,7 +70,7 @@ export const emailSignin = {
           </MjmlSection>
           <MjmlSection paddingTop={0}>
             <MjmlColumn>
-              <MjmlText fontWeight={500} fontSize="28px" color={brandColor}>
+              <MjmlText fontWeight={600} fontSize="28px" color={brandColor}>
                 Connexion à {PublicConfig.productTitle}
               </MjmlText>
               <MjmlSpacer height="16px" />
@@ -86,6 +86,8 @@ export const emailSignin = {
               </MjmlText>
             </MjmlColumn>
           </MjmlSection>
+          {/*Section used for a bit of padding at the bottom*/}
+          <MjmlSection backgroundColor={backgroundColor} />
         </MjmlBody>
       </Mjml>,
     ),
