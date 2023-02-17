@@ -7,17 +7,27 @@ export const removeNullUndefinedAndEmptyValues = <T>(
   data: T,
 ): NoUndefinedField<T> => {
   return Object.fromEntries(
-    Object.entries(data as Record<string, unknown>).filter(
-      ([_, value]) =>
-        // Remove null and undefined
-        value !== null &&
-        value !== undefined &&
-        // Remove empty object {}
-        (typeof value !== 'object' || Object.keys(value).length > 1) &&
-        // Remove empty array []
-        (!Array.isArray(value) || value.length > 1) &&
-        // Remove empty string '  '
-        (typeof value !== 'string' || value.trim() !== ''),
-    ),
+    Object.entries(data as Record<string, unknown>).filter(([_, value]) => {
+      // Remove null and undefined
+      if (value === null || value === undefined) {
+        return false
+      }
+      // Remove empty array []
+      if (Array.isArray(value)) {
+        return value.length > 0
+      }
+
+      // Remove empty object {}
+      if (typeof value === 'object') {
+        return Object.keys(value).length > 0
+      }
+
+      // Remove empty string '  '
+      if (typeof value === 'string') {
+        return value.trim() !== ''
+      }
+
+      return true
+    }),
   ) as NoUndefinedField<T>
 }
