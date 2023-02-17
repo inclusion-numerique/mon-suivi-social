@@ -201,14 +201,15 @@ export const Routes = {
       title: 'Ajouter un utilisateur',
       breadcrumbsTitle: 'Ajouter',
       icon: 'team-line',
-      path: `/utilisateur/ajouter`,
+      path: `/utilisateurs/ajouter`,
     },
     Modifier: {
-      title: ({ name }: { name: string }) => `${name} · Modification`,
+      title: ({ name }: { name: string | null }) =>
+        name ? `${name} · Modification` : 'Modification',
       breadcrumbsTitle: 'Modification',
       icon: 'team-line',
       path: ({ userId }: { userId: string }) =>
-        `/utilisateur/${userId}/modifier`,
+        `/utilisateurs/${userId}/modifier`,
     },
   },
 }

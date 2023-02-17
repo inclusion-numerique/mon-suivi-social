@@ -32,7 +32,7 @@ export const AddBeneficiaryWithGeneralInfoServer = createMutationServer({
       beneficiary: { id },
     },
   }) => ({
-    targetId: structureId,
+    targetId: id,
     targetStructureId: structureId,
     targetBeneficiaryId: id,
   }),

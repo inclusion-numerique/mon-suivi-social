@@ -1,9 +1,9 @@
-import { removeNullUndefinedAndEmptyStringValues } from '@mss/web/utils/removeNullUndefinedAndEmptyStringValues'
+import { removeNullUndefinedAndEmptyValues } from '@mss/web/utils/removeNullUndefinedAndEmptyValues'
 
 describe('removeNullUndefinedAndEmptyStringValues', () => {
   it('Removes null, undefined, and empty string values', () => {
     expect(
-      removeNullUndefinedAndEmptyStringValues({
+      removeNullUndefinedAndEmptyValues({
         a: '',
         b: 0,
         c: {},

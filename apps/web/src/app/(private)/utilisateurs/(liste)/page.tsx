@@ -12,8 +12,6 @@ import { createSortLinkHelper } from '@mss/web/ui/sorting'
 import { ListUsersServer } from '@mss/web/features/user/listUsers/listUsers.server'
 import { usersListTableColumns } from '@mss/web/app/(private)/utilisateurs/(liste)/usersListTableColumns'
 import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
-import { structuresListTableColumns } from '@mss/web/app/(private)/structures/(liste)/structuresListTableColumns'
-import { StructuresListTableRows } from '@mss/web/app/(private)/structures/(liste)/StructuresListTableRows'
 import Link from 'next/link'
 import { Table } from '@mss/web/ui/table/Table'
 import { UsersListTableRows } from '@mss/web/app/(private)/utilisateurs/(liste)/UsersListTableRows'
@@ -107,7 +105,6 @@ const ListeDesUtilisateursPage = async ({
                 Ajouter un utilisateur
               </Link>
             </div>
-
             <Table
               tableHead={tableHead}
               tableBody={tableBody}

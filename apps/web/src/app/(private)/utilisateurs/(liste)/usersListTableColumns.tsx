@@ -2,8 +2,6 @@ import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { ListUsersItem } from '@mss/web/features/user/listUsers/listUsers.server'
 import { UserRoleLabels } from '@mss/web/features/user/createUser/createUser.client'
-import Link from 'next/link'
-import { Routes } from '@mss/web/app/routing/routes'
 
 export const usersListTableColumns: TableColumnDefinition<ListUsersItem>[] = [
   {
@@ -28,7 +26,7 @@ export const usersListTableColumns: TableColumnDefinition<ListUsersItem>[] = [
   },
   {
     label: 'Bénéficiaires',
-    sortable: (direction) => [{ _count: { referentFor: direction } }],
+    sortable: (direction) => [{ referentFor: { _count: direction } }],
     content: ({ _count: { referentFor } }) => referentFor,
     options: { justify: 'flex-end', containerClassName: 'fr-pr-5w' },
   },
@@ -48,16 +46,5 @@ export const usersListTableColumns: TableColumnDefinition<ListUsersItem>[] = [
           Révoqué
         </span>
       ),
-  },
-  {
-    label: '',
-    content: ({ id }) => (
-      <Link
-        className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-edit-line"
-        href={Routes.Utilisateurs.Modifier.path({ userId: id })}
-      >
-        Modifier
-      </Link>
-    ),
   },
 ]

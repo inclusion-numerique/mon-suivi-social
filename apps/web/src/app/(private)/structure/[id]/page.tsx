@@ -8,6 +8,7 @@ import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTy
 import Link from 'next/link'
 import { AttributeItem, AttributesList } from '@mss/web/ui/AttributesList'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
+import { MutationLog } from '@mss/web/app/(private)/MutationLog'
 
 export const revalidate = 0
 
@@ -116,6 +117,12 @@ const StructurePage = async ({
           <AttributesList items={attributes} />
         </div>
       </div>
+
+      <MutationLog
+        className="fr-my-8v"
+        targetStructureId={structureId}
+        targetId={structureId}
+      />
     </>
   )
 }

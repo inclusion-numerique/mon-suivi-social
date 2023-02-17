@@ -133,9 +133,12 @@ export const StructureForm = withTrpc(
     const { legalFollowupTypes, optionalFollowupTypes } =
       groupFollowupTypesByLegality(sortedFollowupTypes)
 
-    const isLoading = editStructure.isLoading
+    const isLoading = editStructure.isLoading || addStructure.isLoading
+    const isSuccess = editStructure.isSuccess || addStructure.isSuccess
+    const error = editStructure.error || addStructure.error
+    const isError = !!error
 
-    const fieldsDisabled = isLoading
+    const fieldsDisabled = isLoading || isSuccess
 
     const [addedFollowupTypes, setAddedFollowupTypes] = useState<
       typeof optionalFollowupTypes
@@ -273,9 +276,7 @@ export const StructureForm = withTrpc(
               onCreated={onFollowupTypeCreated}
             />
           ) : null}
-          {editStructure.isError ? (
-            <p className="fr-error-text">{editStructure.error.message}</p>
-          ) : null}
+          {isError ? <p className="fr-error-text">{error.message}</p> : null}
 
           <div className="fr-grid-row fr-mt-12v">
             <div className="fr-col-12">

@@ -76,7 +76,7 @@ export const EditBeneficiaryFullDataServer =
         beneficiary: { structureId },
       },
     }) => ({
-      targetId: structureId,
+      targetId: beneficiaryId,
       targetStructureId: structureId,
       targetBeneficiaryId: beneficiaryId,
     }),

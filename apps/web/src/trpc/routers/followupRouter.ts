@@ -30,7 +30,7 @@ export const followupRouter = router({
       if (!target) {
         throw invalidError('Beneficiary not found')
       }
-      const document = await prismaClient.followup.findUniqueOrThrow({
+      const followup = await prismaClient.followup.findUniqueOrThrow({
         where: { id: input.followupId },
         select: { createdById: true },
       })
@@ -40,7 +40,7 @@ export const followupRouter = router({
         user,
         target,
         getServerStateInput: input,
-        securityParams: document,
+        securityParams: followup,
         structureId: target.structureId,
       })
     }),

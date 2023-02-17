@@ -2,7 +2,11 @@ import { canCreateUser } from '@mss/web/security/rules'
 import z from 'zod'
 import { createMutationClient } from '@mss/web/features/createMutation.client'
 import { labelsToOptions } from '@mss/web/utils/options'
-import { errorMessages } from '@mss/web/utils/zod'
+import {
+  errorMessages,
+  minStringLengthMessage,
+  validEmailMessage,
+} from '@mss/web/utils/zod'
 import { UserRole } from '@prisma/client'
 
 const { Administrator, ...otherRoles } = UserRole
@@ -15,10 +19,13 @@ export const CreateUserClient = createMutationClient({
   securityCheck: canCreateUser,
   inputValidation: z.object({
     structureId: z.string(errorMessages).uuid(),
-    firstName: z.string(errorMessages).min(2, errorMessages.invalid_type_error),
-    lastName: z.string(errorMessages).min(2, errorMessages.invalid_type_error),
-    email: z.string(errorMessages).email(errorMessages.invalid_type_error),
-    role: z.nativeEnum(NonAdminUserRole, errorMessages),
+    firstName: z.string(errorMessages).min(2, minStringLengthMessage(2)),
+    lastName: z.string(errorMessages).min(2, minStringLengthMessage(2)),
+    email: z.string(errorMessages).email(validEmailMessage),
+    role: z.nativeEnum(NonAdminUserRole, {
+      ...errorMessages,
+      required_error: 'Veuillez renseigner le rôle',
+    }),
   }),
   fieldLabels: {
     structureId: 'Structure',

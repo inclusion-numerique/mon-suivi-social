@@ -29,7 +29,6 @@ import '@mss/web/features/helpRequest/editHelpRequest.client'
 import '@mss/web/features/structure/createStructure/createStructure.client'
 import '@mss/web/features/structure/editStructure/editStructure.client'
 import '@mss/web/features/structure/createFollowupType/createFollowupType.client'
-import { formatDateTime } from '@mss/web/utils/formatDateTime'
 import { formatDate } from '@mss/web/utils/formatDate'
 
 const getMutationLogs = ({

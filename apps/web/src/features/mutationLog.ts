@@ -1,6 +1,6 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { detailedDiff, DetailedDiff } from 'deep-object-diff'
-import { removeNullUndefinedAndEmptyStringValues } from '@mss/web/utils/removeNullUndefinedAndEmptyStringValues'
+import { removeNullUndefinedAndEmptyValues } from '@mss/web/utils/removeNullUndefinedAndEmptyValues'
 
 export type MutationLogInfo = Pick<
   Exclude<
@@ -19,8 +19,8 @@ export const computeMutationDiff = <T extends Object>(
   initialInput: T,
   input: T,
 ): MutationDiff => {
-  const cleanInitial = removeNullUndefinedAndEmptyStringValues(initialInput)
-  const cleanInput = removeNullUndefinedAndEmptyStringValues(input)
+  const cleanInitial = removeNullUndefinedAndEmptyValues(initialInput)
+  const cleanInput = removeNullUndefinedAndEmptyValues(input)
   const diff = detailedDiff(cleanInitial, cleanInput)
 
   // detailedDiff put undefined as a value for every deleted key.

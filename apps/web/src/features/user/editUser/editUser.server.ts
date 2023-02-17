@@ -53,9 +53,9 @@ export const EditUserServer = createMutationServerWithInitialState({
       user: { structureId },
     },
   }) => ({
-    structureId,
     targetId: userId,
     targetUserId: userId,
+    targetStructureId: structureId,
   }),
 })
 

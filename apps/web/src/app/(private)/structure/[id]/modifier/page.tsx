@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import { StructureForm } from '@mss/web/app/(private)/structure/StructureForm'
+import { MutationLog } from '@mss/web/app/(private)/MutationLog'
 
 export const revalidate = 0
 
@@ -57,6 +58,12 @@ const StructureEditPage = async ({
           </div>
         </div>
       </div>
+
+      <MutationLog
+        className="fr-mb-8v"
+        targetStructureId={structureId}
+        targetId={structureId}
+      />
     </>
   )
 }
