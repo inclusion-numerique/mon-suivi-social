@@ -16,23 +16,23 @@
     "node": "^18.13"
   },
   "dependencies": {
-    "@storybook/addon-docs": "^7.0.0-beta.47",
-    "@storybook/addon-essentials": "^7.0.0-beta.47",
-    "@storybook/addon-interactions": "^7.0.0-beta.47",
-    "@storybook/addon-links": "^7.0.0-beta.47",
-    "@storybook/blocks": "^7.0.0-beta.47",
-    "@storybook/nextjs": "^7.0.0-beta.47",
-    "@storybook/react": "^7.0.0-beta.47",
+    "@storybook/addon-docs": "^7.0.0-beta.49",
+    "@storybook/addon-essentials": "^7.0.0-beta.49",
+    "@storybook/addon-interactions": "^7.0.0-beta.49",
+    "@storybook/addon-links": "^7.0.0-beta.49",
+    "@storybook/blocks": "^7.0.0-beta.49",
+    "@storybook/nextjs": "^7.0.0-beta.49",
+    "@storybook/react": "^7.0.0-beta.49",
     "@storybook/testing-library": "^0.0.14-next.1",
     "chromatic": "^6.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.0.0-beta.47"
+    "storybook": "^7.0.0-beta.49"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
     "eslint": "^8.34.0",
-    "jest": "^29.4.2",
+    "jest": "^29.4.3",
     "typescript": "^4.9.5"
   }
 }
