@@ -10,7 +10,7 @@ import {
   Gender,
 } from '@prisma/client'
 import { Nationalities } from '@mss/web/features/beneficiary/nationality'
-import { zodEnumFromObjectKeys } from '@mss/web/utils/zod'
+import { errorMessages, zodEnumFromObjectKeys } from '@mss/web/utils/zod'
 
 export const AddBeneficiaryWithGeneralInfoClient = createMutationClient({
   name: 'beneficiary.addWithGeneralInfo',
@@ -20,10 +20,13 @@ export const AddBeneficiaryWithGeneralInfoClient = createMutationClient({
     // General information
     structureId: z.string().uuid(),
     referents: z
-      .array(z.string().uuid())
+      .array(z.string().uuid(), {
+        ...errorMessages,
+        required_error: 'Veuillez renseigner au moins un agent référent',
+      })
       .min(1, 'Veuillez renseigner au moins un agent référent'),
     aidantConnectAuthorized: z.boolean().default(false),
-    status: z.nativeEnum(BeneficiaryStatus),
+    status: z.nativeEnum(BeneficiaryStatus, errorMessages),
     title: z.nativeEnum(BeneficiaryTitle).nullish(),
     firstName: z.string().nullish(),
     usualName: z.string().nullish(),

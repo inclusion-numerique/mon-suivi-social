@@ -37,9 +37,9 @@ export const beneficiaryDisplayName = ({
   }
 
   if (usualName) {
-    return `${firstName} ${usualName}`.trim()
+    return `${firstName ?? ''} ${usualName ?? ''}`.trim()
   }
-  return `${firstName} ${birthName}`.trim()
+  return `${firstName ?? ''} ${birthName ?? ''}`.trim()
 }
 
 export const beneficiaryTitleLabels: { [key in BeneficiaryTitle]: string } = {

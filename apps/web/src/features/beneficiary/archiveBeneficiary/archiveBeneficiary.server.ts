@@ -99,7 +99,7 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
         majorChildrenMainIncomeSource: [],
         majorChildrenMainIncomeAmount: null,
         unemploymentNumber: null,
-        pensionStructure: [],
+        pensionOrganisations: [],
         cafNumber: null,
         bank: null,
         funeralContract: null,

@@ -5,6 +5,7 @@ import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
 import { Nationalities } from '@mss/web/features/beneficiary/nationality'
+import { PensionOrganisation } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
 
 export const EditBeneficiaryFullDataServer =
   createMutationServerWithInitialState({
@@ -12,7 +13,6 @@ export const EditBeneficiaryFullDataServer =
     getServerState: async ({ beneficiaryId }: { beneficiaryId: string }) =>
       prismaClient.beneficiary.findUniqueOrThrow({
         where: { id: beneficiaryId },
-        // Only select general info
         include: {
           referents: {
             select: {
@@ -24,16 +24,19 @@ export const EditBeneficiaryFullDataServer =
               role: true,
             },
           },
+          relatives: true,
         },
       }),
     dataFromServerState: ({
       id,
+      fileNumber,
       referents,
       birthDate,
       deathDate,
       mainIncomeAmount,
       partnerMainIncomeAmount,
       majorChildrenMainIncomeAmount,
+      pensionOrganisations,
       nationality,
       created,
       updated,
@@ -44,6 +47,7 @@ export const EditBeneficiaryFullDataServer =
         beneficiaryId: id,
         referents: referents.map(({ id }) => id),
         nationality: nationality as keyof typeof Nationalities,
+        pensionOrganisations: pensionOrganisations as PensionOrganisation[],
         birthDate: birthDate?.toISOString(),
         mainIncomeAmount: mainIncomeAmount?.toNumber(),
         partnerMainIncomeAmount: partnerMainIncomeAmount?.toNumber(),

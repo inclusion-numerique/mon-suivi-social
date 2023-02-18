@@ -10,7 +10,28 @@ import {
   RelativeRelationship,
 } from '@prisma/client'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
-import { labelsToOptions } from '@mss/web/utils/options'
+import { arrayToOptions, labelsToOptions } from '@mss/web/utils/options'
+import { errorMessages } from '@mss/web/utils/zod'
+
+export const PensionOrganisations = [
+  'AGIRC ARRCO',
+  'AG2R',
+  'CNAV/CARSAT',
+  'CIPAV',
+  'CNRACL',
+  'EDF',
+  'IRCANTEC',
+  'KLESIA',
+  'SRE',
+  'SSI (ex-RSI)',
+  'Malakoff Humanis',
+  'MSA',
+  'ProBTP',
+  'Retraite des mines',
+  'Autre(s)',
+] as const
+export type PensionOrganisation = (typeof PensionOrganisations)[number]
+export const pensionOrganisationOptions = arrayToOptions(PensionOrganisations)
 
 export const AddBeneficiaryWithFullDataClient = createMutationClient({
   name: 'beneficiary.addWithFullData',
@@ -31,16 +52,22 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
     occupation: z.string().nullish(),
     employer: z.string().nullish(),
     employerSiret: z.string().nullish(),
-    mainIncomeSource: z.array(z.nativeEnum(IncomeSource)).optional(),
+    mainIncomeSource: z
+      .array(z.nativeEnum(IncomeSource, errorMessages))
+      .optional(),
     mainIncomeAmount: z.number().nullish(),
-    partnerMainIncomeSource: z.array(z.nativeEnum(IncomeSource)).optional(),
+    partnerMainIncomeSource: z
+      .array(z.nativeEnum(IncomeSource, errorMessages))
+      .optional(),
     partnerMainIncomeAmount: z.number().nullish(),
     majorChildrenMainIncomeSource: z
-      .array(z.nativeEnum(IncomeSource))
+      .array(z.nativeEnum(IncomeSource, errorMessages))
       .optional(),
     majorChildrenMainIncomeAmount: z.number().nullish(),
     unemploymentNumber: z.string().nullish(),
-    pensionStructure: z.array(z.string()).optional(),
+    pensionOrganisations: z
+      .array(z.enum(PensionOrganisations, errorMessages))
+      .optional(),
     cafNumber: z.string().nullish(),
     bank: z.string().nullish(),
     funeralContract: z.string().nullish(),
@@ -77,7 +104,7 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
       majorChildrenMainIncomeSource: undefined,
       majorChildrenMainIncomeAmount: undefined,
       unemploymentNumber: undefined,
-      pensionStructure: undefined,
+      pensionOrganisations: undefined,
       cafNumber: undefined,
       bank: undefined,
       funeralContract: undefined,
@@ -104,7 +131,7 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
     mainIncomeSource: 'Natures des ressources',
     mainIncomeAmount: 'Montant des ressources',
     unemploymentNumber: 'N° Pôle Emploi',
-    pensionStructure: 'Organismes de retraite',
+    pensionOrganisations: 'Organismes de retraite',
     cafNumber: 'N° CAF',
     bank: 'Banque',
     funeralContract: 'Contrat obsèques',

@@ -27,7 +27,10 @@ import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
-import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
+import {
+  AddBeneficiaryWithFullDataClient,
+  pensionOrganisationOptions,
+} from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
 import { SelectTagsFormField } from '@mss/web/form/SelectTagsFormField'
 import { nationalityOptions } from '@mss/web/features/beneficiary/nationality'
 import { useEffect, useRef } from 'react'
@@ -142,9 +145,9 @@ export const BeneficiaryForm = withTrpc(
       [form.formState.submitCount],
     )
 
-    const { isLoading } = mutation
+    const { isLoading, isSuccess } = mutation
 
-    const fieldsDisabled = isLoading
+    const fieldsDisabled = isLoading || isSuccess
 
     return (
       <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
@@ -156,6 +159,7 @@ export const BeneficiaryForm = withTrpc(
           defaultOptionLabel="Choisissez un référent"
           defaultOption
           path="referents"
+          required
         />
         <CheckboxFormField
           checkboxLabel={FieldLabels['aidantConnectAuthorized']}
@@ -183,6 +187,7 @@ export const BeneficiaryForm = withTrpc(
               control={control}
               options={beneficiaryStatusOptions}
               defaultOption
+              required
             />
             <SelectFormField
               label={FieldLabels['title']}
@@ -482,17 +487,12 @@ export const BeneficiaryForm = withTrpc(
                   control={control}
                 />
                 <SelectTagsFormField
-                  label={FieldLabels['pensionStructure']}
+                  label={FieldLabels['pensionOrganisations']}
                   disabled={fieldsDisabled}
-                  options={[
-                    // TODO pension options
-                    { value: '', name: '🚧 en cours de développement' },
-                    { value: ' ', name: '🚧 en cours de développement' },
-                  ]}
+                  options={pensionOrganisationOptions}
                   control={control}
-                  defaultOptionLabel="Choisissez un référent"
                   defaultOption
-                  path="pensionStructure"
+                  path="pensionOrganisations"
                 />
                 <InputFormField
                   label={FieldLabels['cafNumber']}
