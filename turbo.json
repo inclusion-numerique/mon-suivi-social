@@ -5,10 +5,6 @@
       "inputs": ["prisma/schema.prisma"],
       "cache": true
     },
-    "db-push": {
-      "inputs": ["prisma/schema.prisma"],
-      "cache": false
-    },
     "dev": {
       "dependsOn": ["^prisma:generate"],
       "cache": false
