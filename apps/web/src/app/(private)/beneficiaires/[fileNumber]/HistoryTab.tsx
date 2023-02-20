@@ -13,16 +13,24 @@ import {
   helpRequestStatusLabels,
 } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import { stringToBoolean } from '@mss/web/utils/booleanString'
 import { formatDate } from '@mss/web/utils/formatDate'
 import { ScrollToSupportItem } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/ScrollToSupportItem'
+import {
+  canViewBeneficiaryFollowupPrivateSynthesis,
+  canViewBeneficiaryFollowupSynthesis,
+  canViewBeneficiaryHelpRequestPrivateSynthesis,
+  canViewBeneficiaryHelpRequestSynthesis,
+} from '@mss/web/security/rules'
+import { BeneficiaryPageInfo } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 
 export const HistoryTab = ({
   user,
+  beneficiary,
   supports,
   scrollToItem,
 }: {
   user: SessionUser
+  beneficiary: BeneficiaryPageInfo
   supports: BeneficiaryPageSupport[]
   scrollToItem?: string
 }) => {
@@ -33,6 +41,7 @@ export const HistoryTab = ({
         {supports.map((support) => (
           <SupportCard
             key={support.id}
+            beneficiary={beneficiary}
             support={support}
             user={user}
             scrollToItem={scrollToItem}
@@ -45,10 +54,12 @@ export const HistoryTab = ({
 }
 
 const SupportCard = ({
+  beneficiary,
   support,
   user,
   scrollToItem,
 }: {
+  beneficiary: BeneficiaryPageInfo
   support: BeneficiaryPageSupport
   user: SessionUser
   scrollToItem?: string
@@ -75,6 +86,16 @@ const SupportCard = ({
     scrollToItem === support.id
       ? { backgroundColor: 'var(--blue-france-975-75)' }
       : undefined
+
+  // This is a server component so private data in supports are not available to the browser unless passed to a client component
+  // Be careful when passing data to client component
+  const canSeeSynthesis = isHelpRequest
+    ? canViewBeneficiaryHelpRequestSynthesis(user, beneficiary, support)
+    : canViewBeneficiaryFollowupSynthesis(user, beneficiary, support)
+  const canSeePrivateSynthesis = isHelpRequest
+    ? canViewBeneficiaryHelpRequestPrivateSynthesis(user, beneficiary, support)
+    : canViewBeneficiaryFollowupPrivateSynthesis(user, beneficiary, support)
+  const synthesisAccordionId = `support-card-${support.id}`
 
   return (
     <div
@@ -123,6 +144,47 @@ const SupportCard = ({
                 <div className="fr-col-12 fr-col-md-8">
                   <AttributesList items={supportAttributes(support)} />
                 </div>
+                {canSeeSynthesis ? (
+                  <section
+                    className="fr-accordion  fr-mt-4v"
+                    style={{ width: '100%' }}
+                  >
+                    <h3 className="fr-accordion__title">
+                      <button
+                        className="fr-accordion__btn"
+                        aria-expanded="false"
+                        aria-controls={synthesisAccordionId}
+                      >
+                        Voir le compte rendu
+                      </button>
+                    </h3>
+                    <div
+                      className="fr-collapse fr-py-0"
+                      id={synthesisAccordionId}
+                    >
+                      <p className="fr-background-alt--grey fr-mt-2v fr-py-2v fr-px-2w">
+                        {support.synthesis ?? (
+                          <i>Aucun compte rendu n&apos;a été renseigné</i>
+                        )}
+                      </p>
+                      {canSeePrivateSynthesis ? (
+                        <>
+                          <p className="fr-text--bold">
+                            <span className="fr-icon-lock-line fr-mr-1w" />
+                            Compte rendu privé :
+                          </p>
+                          <p className="fr-background-alt--grey fr-mt-2v fr-py-2v fr-px-2w">
+                            {support.privateSynthesis ?? (
+                              <i>
+                                Aucun compte rendu privé n&apos;a été renseigné
+                              </i>
+                            )}
+                          </p>
+                        </>
+                      ) : null}
+                    </div>
+                  </section>
+                ) : null}
               </div>
             </div>
           </div>

@@ -303,6 +303,33 @@ export const canViewBeneficiaryFollowup = (
   isCreator(grantee, followup, ['ReceptionAgent']) ||
   isReferentFor(grantee, beneficiary)
 
+export const canViewBeneficiaryFollowupSynthesis = (
+  grantee: SecurityRuleGrantee,
+  beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,
+  followup: SecurityTargetWithCreator,
+): boolean =>
+  isAdministrator(grantee) ||
+  isInSameStructureAs(grantee, beneficiary, [
+    'StructureManager',
+    'SocialWorker',
+  ]) ||
+  isCreator(grantee, followup, ['Instructor']) ||
+  isReferentFor(grantee, beneficiary)
+
+export const canViewBeneficiaryFollowupPrivateSynthesis = (
+  grantee: SecurityRuleGrantee,
+  beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,
+  followup: SecurityTargetWithCreator,
+): boolean =>
+  isCreator(grantee, followup, [
+    'Administrator',
+    'StructureManager',
+    'SocialWorker',
+    'Instructor',
+    'ReceptionAgent',
+    'Referent',
+  ])
+
 export const canEditBeneficiaryFollowup = (
   grantee: SecurityRuleGrantee,
   beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,
@@ -355,7 +382,7 @@ export const canListBeneficiaryHelpRequests = (
   ]) ||
   isReferentFor(grantee, beneficiary)
 
-export const canViewBeneficiaryHelpRequest = (
+export const canViewBeneficiaryHelpRequestSynthesis = (
   grantee: SecurityRuleGrantee,
   beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,
   helpRequest: SecurityTargetWithCreator,
@@ -367,6 +394,19 @@ export const canViewBeneficiaryHelpRequest = (
   ]) ||
   isCreator(grantee, helpRequest, ['Instructor']) ||
   isReferentFor(grantee, beneficiary)
+
+export const canViewBeneficiaryHelpRequestPrivateSynthesis = (
+  grantee: SecurityRuleGrantee,
+  beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,
+  helpRequest: SecurityTargetWithCreator,
+): boolean =>
+  isCreator(grantee, helpRequest, [
+    'Administrator',
+    'StructureManager',
+    'SocialWorker',
+    'Instructor',
+    'ReceptionAgent',
+  ])
 
 export const canEditBeneficiaryHelpRequest = (
   grantee: SecurityRuleGrantee,

@@ -19,6 +19,17 @@ export const AttributesList = ({
     <ul className="fr-raw-list">
       {items
         .filter((item): item is AttributeItem => !!item)
+        // Remove empty attributes
+        .filter(([_, node]) => {
+          // remove null, undefined and empty strings
+          if (!node) {
+            return false
+          }
+          if (typeof node === 'string' && node.trim() === '') {
+            return false
+          }
+          return true
+        })
         .map((item) => (
           <AttributesListItem key={item[0]} item={item} />
         ))}
