@@ -14,7 +14,7 @@ export const revalidate = 0
 const AddHelpRequestPage = async ({
   searchParams,
 }: {
-  searchParams: RoutePathParams<
+  searchParams?: RoutePathParams<
     typeof Routes.Accompagnements.DemandeDAide.Nouvelle.path
   >
 }) => {

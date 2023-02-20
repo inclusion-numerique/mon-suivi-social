@@ -14,7 +14,7 @@ export const revalidate = 0
 const AddFollowupPage = async ({
   searchParams,
 }: {
-  searchParams: RoutePathParams<
+  searchParams?: RoutePathParams<
     typeof Routes.Accompagnements.Entretien.Nouveau.path
   >
 }) => {
