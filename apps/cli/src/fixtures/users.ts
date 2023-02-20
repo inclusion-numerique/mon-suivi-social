@@ -66,7 +66,7 @@ export const previewUserFixtures = [
     email: 'thibaud.malbert@beta.gouv.fr',
     structureId: fixtureStructure.id,
     status: 'Active',
-    role: 'Administrator',
+    role: 'ReceptionAgent',
   },
   {
     id: 'b6781f4c-f5b9-4724-8509-5e62f52b0d02',
@@ -86,7 +86,7 @@ export const previewUserFixtures = [
     email: 'vanessa.barbosa@grandautunoismorvan.fr',
     structureId: fixtureStructure.id,
     status: 'Active',
-    role: 'Administrator',
+    role: 'StructureManager',
   },
   {
     id: 'da869512-f402-44f3-98d8-ac4c62ed0b90',
@@ -96,7 +96,7 @@ export const previewUserFixtures = [
     email: 'caroline.fournier@beta.gouv.fr',
     structureId: fixtureStructure.id,
     status: 'Active',
-    role: 'Administrator',
+    role: 'Instructor',
   },
   {
     id: 'f214acdc-14d7-449a-9d49-ea17cf173769',
@@ -106,7 +106,7 @@ export const previewUserFixtures = [
     email: 'julie.ripa@anct.gouv.fr',
     structureId: fixtureStructure.id,
     status: 'Active',
-    role: 'Administrator',
+    role: 'StructureManager',
   },
   {
     id: 'f5722d8a-da1e-431f-b8d7-6cc69a3cf688',
@@ -136,7 +136,7 @@ export const previewUserFixtures = [
     email: 'sylvain.aubry@beta.gouv.fr',
     structureId: fixtureStructure.id,
     status: 'Active',
-    role: 'Administrator',
+    role: 'StructureManager',
   },
   {
     id: '9086905d-e1df-43ff-885b-1144788608ac',
