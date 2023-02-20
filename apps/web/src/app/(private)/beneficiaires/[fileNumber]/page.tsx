@@ -112,6 +112,27 @@ const getDocuments = ({
 
 export type BeneficiaryPageDocuments = Awaited<ReturnType<typeof getDocuments>>
 
+const getBeneficiaryFollowupTypes = ({
+  beneficiaryId,
+}: {
+  beneficiaryId: string
+}) =>
+  prismaClient.followupType.findMany({
+    where: {
+      OR: [
+        {
+          followups: { some: { beneficiaryId } },
+        },
+        {
+          helpRequests: { some: { beneficiaryId } },
+        },
+      ],
+    },
+  })
+export type BeneficiaryFollowupTypes = Awaited<
+  ReturnType<typeof getBeneficiaryFollowupTypes>
+>
+
 const BeneficiaryPage = async ({
   params: { fileNumber },
   searchParams,
@@ -127,15 +148,19 @@ const BeneficiaryPage = async ({
     fileNumber,
     structureId: user.structureId,
   })
-  const supports = await getSupports({
-    beneficiaryId: beneficiary.id,
-    agentId: user.id,
-  })
-
-  const documents = await getDocuments({
-    beneficiaryId: beneficiary.id,
-    userId: user.id,
-  })
+  const [supports, documents, followupTypes] = await Promise.all([
+    getSupports({
+      beneficiaryId: beneficiary.id,
+      agentId: user.id,
+    }),
+    getDocuments({
+      beneficiaryId: beneficiary.id,
+      userId: user.id,
+    }),
+    getBeneficiaryFollowupTypes({
+      beneficiaryId: beneficiary.id,
+    }),
+  ])
 
   const { referents } = beneficiary
 
@@ -157,7 +182,13 @@ const BeneficiaryPage = async ({
         { fileNumber },
         tab === 'info' ? searchParams : {},
       ),
-      content: <InfoTab user={user} beneficiary={beneficiary} />,
+      content: (
+        <InfoTab
+          user={user}
+          beneficiary={beneficiary}
+          followupTypes={followupTypes}
+        />
+      ),
     },
     {
       id: 'documents',
@@ -187,6 +218,7 @@ const BeneficiaryPage = async ({
         <HistoryTab
           user={user}
           supports={supports}
+          beneficiary={beneficiary}
           scrollToItem={
             tab === 'historique' ? searchParams?.accompagnement : undefined
           }

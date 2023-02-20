@@ -143,6 +143,7 @@ const SupportCard = ({
                 </div>
                 <div className="fr-col-12 fr-col-md-8">
                   <AttributesList items={supportAttributes(support)} />
+                  <p className="fr-mt-2v">🚧 en cours de développement</p>
                 </div>
                 {canSeeSynthesis ? (
                   <section
