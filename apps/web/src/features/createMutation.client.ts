@@ -1,9 +1,11 @@
 import { z, ZodType } from 'zod'
 import { SecurityRule, SecurityRuleGrantee } from '@mss/web/security/rules'
-import { addMutationLogToBeneficiaryAnonymization } from '@mss/web/features/beneficiary/archiveBeneficiary/mutationLogAnonymization'
+import {
+  addMutationLogToBeneficiaryAnonymization,
+  AnonymizationFunction,
+} from '@mss/web/features/beneficiary/archiveBeneficiary/mutationLogAnonymization'
 import { registerMutation } from '@mss/web/features/mutationClients'
 
-type AnonymizationFunction<T> = (sensitiveDiff: T) => Partial<T>
 type FieldLabels<T> = { [key in keyof T]: string }
 
 export type CreateMutationClientOptions<

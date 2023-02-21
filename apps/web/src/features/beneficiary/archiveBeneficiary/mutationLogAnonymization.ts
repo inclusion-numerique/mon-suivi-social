@@ -1,7 +1,9 @@
 export type AnonymizedObject<T> = Partial<T>
 
 // An anonymization function returns only the "redacted" fields
-export type AnonymizationFunction<T> = (input: T) => AnonymizedObject<T>
+export type AnonymizationFunction<T> = (
+  input: Partial<T>,
+) => AnonymizedObject<T>
 
 const anonymizationFunctions = new Map<string, AnonymizationFunction<any>>()
 
