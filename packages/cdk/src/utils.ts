@@ -24,3 +24,16 @@ export const generateDatabaseUrl = ({
   name: string
 }) =>
   `postgres://${user}:${encodeURIComponent(password)}@${host}:${port}/${name}`
+
+export const createPreviewSubdomain = (
+  namespace: string,
+  previewDomain: string,
+) => {
+  // DNS record has to be 63 chars or shorter
+  // We will add a ".", so 62
+  const maxNamespaceLength = 62 - previewDomain.length
+  if (namespace.length > maxNamespaceLength) {
+    return `${namespace.slice(0, maxNamespaceLength)}.${previewDomain}`
+  }
+  return `${namespace}.${previewDomain}`
+}
