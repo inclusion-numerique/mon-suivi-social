@@ -2,6 +2,7 @@
 
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
+import { inclusionConnectProviderId } from '@mss/web/auth/inclusionConnect'
 
 export const InclusionConnectSigninButton = () => {
   return (
@@ -12,7 +13,7 @@ export const InclusionConnectSigninButton = () => {
         style={{ background: '#000638' }}
         title="S'identifier avec Inclusion Connect"
         onClick={() => {
-          signIn('inclusion-connect')
+          signIn(inclusionConnectProviderId)
         }}
       >
         <Image

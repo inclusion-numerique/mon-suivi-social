@@ -16,15 +16,24 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@mss/web/*": ["apps/web/src/*"],
       "@mss/cli/*": ["apps/cli/src/*"],
-      "@mss/e2e/*": ["e2e/cypress/*"],
+      "@mss/web/*": ["apps/web/src/*"],
       "@mss/cdk/*": ["packages/cdk/src/*"],
-      "@mss/scaleway/*": ["packages/cdk/.gen/providers/scaleway/*"]
-    }
+      "@mss/e2e/*": ["packages/e2e/src/*"],
+      "@mss/emails/*": ["packages/emails/src/*"],
+      "@mss/lint/*": ["packages/lint/src/*"],
+      "@mss/scaleway/*": ["packages/cdk/.gen/providers/scaleway/*"],
+      "@mss/storybook/*": ["packages/storybook/src/*"],
+      "@mss/test/*": ["packages/test/src/*"]
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./packages/test/node_modules/@types"
+    ]
   },
-  "include": ["jest/jest.setup.ts"],
-  "exclude": ["node_modules", "e2e"],
+  "include": ["./packages/test/src/jest.setup.ts"],
+  "files": ["./packages/test/node_modules/jest-extended/types/index.d.ts"],
+  "exclude": ["node_modules"],
   "ts-node": {
     // these options are overrides used only by ts-node
     "compilerOptions": {

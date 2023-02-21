@@ -34,8 +34,26 @@ const isAuthenticated = t.middleware(({ ctx, next }) => {
     },
   })
 })
+/**
+ * Reusable middleware to ensure
+ * users are active
+ */
+const isActive = t.middleware(({ ctx, next }) => {
+  if (ctx.user?.status !== 'Active') {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'User status non active',
+    })
+  }
+  return next({
+    ctx: {
+      // infers the user as non-nullable
+      user: ctx.user,
+    },
+  })
+})
 
 /**
  * Protected procedure
  **/
-export const protectedProcedure = t.procedure.use(isAuthenticated)
+export const protectedProcedure = t.procedure.use(isAuthenticated).use(isActive)

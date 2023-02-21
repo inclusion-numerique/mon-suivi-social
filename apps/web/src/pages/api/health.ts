@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prismaClient } from '@mss/web/prismaClient'
+import { PublicConfig } from '@mss/web/config'
 
 export default async function health(
   req: NextApiRequest,
@@ -13,10 +14,24 @@ export default async function health(
 
   res
     .status(status === 'ok' ? 200 : 503)
-    .json({ status, database, headers, host, containerImage })
+    .json({
+      status,
+      database,
+      headers,
+      host,
+      containerImage,
+      sentry: sentryStatus,
+    })
 }
 
 const dbStatus = () =>
   prismaClient.$queryRaw`SELECT 1`
     .then(() => ({ status: 'ok' }))
     .catch((error) => ({ status: 'error', error }))
+
+const sentryStatus = PublicConfig.Sentry.dsn
+  ? {
+      enabled: true,
+      environment: PublicConfig.Sentry.environment,
+    }
+  : { enabled: false }

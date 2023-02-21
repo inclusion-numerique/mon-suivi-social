@@ -46,10 +46,9 @@ const ConfidentialityPage = () => {
           <h2>Responsable du traitement</h2>
 
           <p>
-            Le Ministère de la
-            Cohésion des territoires et des Relations avec les collectivités
-            territoriales est responsables du traitement de vos données à
-            caractère personnel.
+            Le Ministère de la Cohésion des territoires et des Relations avec
+            les collectivités territoriales est responsables du traitement de
+            vos données à caractère personnel.
           </p>
 
           <p>Ils sont situés Tour Sequoia, 1 place Carpeaux, 92800 Puteaux.</p>
@@ -87,8 +86,8 @@ const ConfidentialityPage = () => {
             strictes de confidentialité, d’usage et de protection des données.
           </p>
 
-          <div className="fr-table" data-fr-js-table="true">
-            <table className="data-table" data-fr-js-table-element="true">
+          <div className="fr-table">
+            <table className="data-table">
               <thead>
                 <tr>
                   <th scope="col">Partenaire</th>
@@ -161,9 +160,11 @@ const ConfidentialityPage = () => {
           <h2>Finalités du traitement</h2>
 
           <p>
-            La finalité du traitement de données réalisé par {PublicConfig.productTitle} est de faciliter la connaissance et l&apos;accès aux
-            aides financières et en ingénierie pour permettre aux collectivités
-            et acteurs du territoire de réaliser leurs projets.
+            La finalité du traitement de données réalisé par{' '}
+            {PublicConfig.productTitle} est de faciliter la connaissance et
+            l&apos;accès aux aides financières et en ingénierie pour permettre
+            aux collectivités et acteurs du territoire de réaliser leurs
+            projets.
           </p>
 
           <h2>Liste des traitements</h2>
@@ -174,8 +175,8 @@ const ConfidentialityPage = () => {
             nécessitant recueil de données à caractère personnel.
           </p>
 
-          <div className="fr-table" data-fr-js-table="true">
-            <table className="data-table" data-fr-js-table-element="true">
+          <div className="fr-table">
+            <table className="data-table">
               <tbody>
                 <tr>
                   <th>Traitement&nbsp;→</th>
@@ -194,8 +195,8 @@ const ConfidentialityPage = () => {
                   <td>envoi régulier ( mensuel) d’une lettre d’info</td>
                   <td>envoi d’emails</td>
                   <td>
-                    demande adressée à l’équipe Mon Suivi Social, en vue
-                    d’une réponse personnalisée
+                    demande adressée à l’équipe Mon Suivi Social, en vue d’une
+                    réponse personnalisée
                   </td>
                 </tr>
                 <tr>

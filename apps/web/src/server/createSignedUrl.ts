@@ -12,7 +12,10 @@ export const createSignedGetUrl = async ({
   // Signed URL
   const url = await getSignedUrl(
     s3,
-    new GetObjectCommand({ Key: key, Bucket: PrivateConfig.S3.bucketId }),
+    new GetObjectCommand({
+      Key: key,
+      Bucket: PrivateConfig.S3.uploadsBucketId,
+    }),
     {
       expiresIn: 600,
     },
@@ -29,15 +32,14 @@ export const createSignedUploadUrl = async ({
   type: string
   directory: string
 }): Promise<{ url: string; key: string }> => {
-  // TODO current git branch and more info on user
-  const key = `${PrivateConfig.NodeEnv}/${directory}/${nanoid()}_${name}`
+  const key = `${directory}/${nanoid()}_${name}`
 
   // Signed URL
   const url = await getSignedUrl(
     s3,
     new PutObjectCommand({
       Key: key,
-      Bucket: PrivateConfig.S3.bucketId,
+      Bucket: PrivateConfig.S3.uploadsBucketId,
       ContentType: type,
     }),
     { expiresIn: 3600 },

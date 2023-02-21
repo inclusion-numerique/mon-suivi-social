@@ -5,20 +5,22 @@
       "inputs": ["prisma/schema.prisma"],
       "cache": true
     },
-    "db-push": {
-      "inputs": ["prisma/schema.prisma"],
-      "cache": false
-    },
     "dev": {
       "dependsOn": ["^prisma:generate"],
       "cache": false
     },
     "build": {
       "dependsOn": ["^build", "^prisma:generate"],
-      "outputs": [".next/**"]
+      "outputs": [".next/**"],
+      "cache": false
     },
     "lint": {
-      "outputs": []
+      "outputs": [],
+      "cache": false
+    },
+    "test": {
+      "outputs": [],
+      "cache": false
     },
     "clean": {
       "cache": false
@@ -35,6 +37,7 @@
     "CHROMATIC_APP_ID",
     "DATABASE_URL",
     "BRANCH",
+    "CDK_FORCE_BRANCH",
     "NAMESPACE",
     "NEXTAUTH_SECRET",
     "NEXTAUTH_URL",
@@ -47,26 +50,25 @@
     "NEXT_PUBLIC_SIREN_API_KEY",
     "NEXT_PUBLIC_CONTACT_EMAIL",
     "SIREN_ACCESS_TOKEN",
+    "SCW_DEFAULT_REGION",
     "SCW_SECRET_KEY",
     "SCW_ACCESS_KEY",
     "SCW_S3_BUCKET_LOCATION",
-    "SCW_BUCKET_ID",
+    "UPLOADS_BUCKET_ID",
     "SCW_S3_HOST",
+    "SCW_ORGANIZATION_ID",
+    "SCW_PROJECT_ID",
     "MSS_WEB_IMAGE",
-    "INCLUSION_CONNECT_REALM",
-    "INCLUSION_CONNECT_BASE_URL",
-    "INCLUSION_CONNECT_CLIENT_ID",
+    "NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER",
+    "NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID",
+    "NEXT_PUBLIC_SENTRY_DSN",
+    "NEXT_PUBLIC_SENTRY_ENVIRONMENT",
     "INCLUSION_CONNECT_CLIENT_SECRET",
-    "INCLUSION_CONNECT_ISSUER",
     "GRIST_TABLE_ID",
     "GRIST_DOCUMENT_ID",
     "GRIST_API_KEY",
     "EMAIL_FROM_ADDRESS",
     "EMAIL_FROM_NAME",
-    "SCW_SECRET_KEY",
-    "SCW_SECRET_KEY",
-    "SCW_ORGANIZATION_ID",
-    "SCW_PROJECT_ID",
     "SMTP_USERNAME",
     "SMTP_SERVER",
     "SMTP_PORT"

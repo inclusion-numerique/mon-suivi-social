@@ -52,7 +52,7 @@ const PublicHeader = ({
   return (
     <header role="banner" className="fr-header">
       <div className="fr-header__body">
-        <div className={fullWidth ? 'fr-pl-4v' : 'fr-container'}>
+        <div className={fullWidth ? 'fr-ml-4v fr-mr-4v' : 'fr-container'}>
           <div className="fr-header__body-row">
             <div className="fr-header__brand fr-enlarge-link">
               <div className="fr-header__brand-top">
@@ -85,12 +85,12 @@ const PublicHeader = ({
                 <div className="fr-header__navbar">
                   <button
                     id="fr-btn-menu-mobile"
-                    data-fr-opened="false"
                     aria-controls="modal-menu-mobile"
                     aria-haspopup="menu"
+                    data-fr-opened="false"
+                    data-fr-js-modal-button="true"
                     title="Menu"
                     className="fr-btn--menu fr-btn"
-                    data-fr-js-modal-button="true"
                   >
                     Menu
                   </button>
@@ -101,12 +101,7 @@ const PublicHeader = ({
           </div>
         </div>
       </div>
-      <div
-        id="modal-menu-mobile"
-        className="fr-header__menu fr-modal"
-        data-fr-js-modal="true"
-        data-fr-js-header-modal="true"
-      >
+      <div id="modal-menu-mobile" className="fr-header__menu fr-modal">
         <div className="fr-container">
           <button
             aria-controls="modal-menu-mobile"

@@ -19,7 +19,7 @@ executors:
 parameters:
   cache_version:
     type: string
-    default: '20230106-01'
+    default: '20230123-01'
   virtual_store_dir:
     type: string
     default: './.pnpm'
@@ -68,7 +68,7 @@ workflows:
       - deploy_web:
           requires:
             - lint_and_test
-            - chromatic
+#            - chromatic
             - build_web
             # - test_e2e
 
@@ -91,8 +91,12 @@ jobs:
             - ./node_modules
             - ./apps/web/node_modules
             - ./apps/cli/node_modules
-            - ./packages/e2e/node_modules
             - ./packages/cdk/node_modules
+            - ./packages/e2e/node_modules
+            - ./packages/emails/node_modules
+            - ./packages/lint/node_modules
+            - ./packages/storybook/node_modules
+            - ./packages/test/node_modules
 
   prepare_web_prod_dependencies:
     executor: node
@@ -121,6 +125,9 @@ jobs:
       - run:
           name: 'Lint'
           command: pnpm lint
+      - run:
+          name: 'Monorepo manypkg check'
+          command: pnpm manypkg check
       - run:
           name: 'Prisma generate'
           command: pnpm -F @mss/web prisma:generate
@@ -185,7 +192,7 @@ jobs:
           command: pnpm -F @mss/web setup:dsfr
       - run:
           name: 'Build storybook and test components'
-          command: pnpm -F @mss/web chromatic
+          command: pnpm -F @mss/storybook chromatic
 
   test_e2e:
     executor: node-browsers

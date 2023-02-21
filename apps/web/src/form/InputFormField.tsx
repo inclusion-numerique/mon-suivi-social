@@ -1,26 +1,13 @@
 'use client'
 
-import { HTMLInputTypeAttribute } from 'react'
+import { HTMLInputTypeAttribute, ReactNode } from 'react'
 import { Control, Controller, FieldValues } from 'react-hook-form'
 import { FieldPath } from 'react-hook-form/dist/types/path'
 import TextareaAutosize from 'react-textarea-autosize'
-
-const getFieldValueAs = (
-  value: string | null | undefined,
-  {
-    valueAsNumber,
-    valueAsDate,
-  }: { valueAsNumber?: boolean; valueAsDate?: boolean },
-) =>
-  value === undefined || value === null
-    ? value
-    : valueAsNumber
-    ? value === ''
-      ? NaN
-      : +value
-    : valueAsDate
-    ? new Date(value)
-    : value
+import {
+  getFieldValueAs,
+  GetFieldValueAsOptions,
+} from '@mss/web/utils/getFieldValueAs'
 
 // View design options here https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/champ-de-saisie
 export function InputFormField<T extends FieldValues>({
@@ -31,27 +18,32 @@ export function InputFormField<T extends FieldValues>({
   type = 'text',
   hint,
   disabled,
+  required,
   valueAsNumber,
   valueAsDate,
+  valueAsBoolean,
   max,
   min,
   step,
   autoFocus,
+  className,
+  minRows,
 }: {
   control: Control<T>
   path: FieldPath<T>
   disabled?: boolean
-  label?: string
+  required?: boolean
+  label?: ReactNode
   hint?: string
   type?: Exclude<HTMLInputTypeAttribute, 'checkbox' | 'radio'> | 'textarea'
   placeholder?: string
-  valueAsNumber?: boolean
-  valueAsDate?: boolean
   min?: number
   max?: number
   step?: number
   autoFocus?: boolean
-}) {
+  className?: string
+  minRows?: number
+} & GetFieldValueAsOptions) {
   const id = `input-form-field__${path}`
 
   return (
@@ -66,10 +58,13 @@ export function InputFormField<T extends FieldValues>({
         <div
           className={`fr-input-group ${error ? 'fr-input-group--error' : ''} ${
             disabled ? 'fr-input-group--disabled' : ''
-          } ${isTouched && !invalid ? 'fr-input-group--valid' : ''}`}
+          } ${isTouched && !invalid ? 'fr-input-group--valid' : ''} ${
+            className ?? ''
+          }`}
         >
           <label className="fr-label" htmlFor={id}>
             {label}
+            {required ? ' *' : null}
             {hint ? <span className="fr-hint-text">{hint}</span> : null}
           </label>
           {type === 'textarea' ? (
@@ -79,9 +74,17 @@ export function InputFormField<T extends FieldValues>({
               disabled={disabled}
               id={id}
               placeholder={placeholder}
-              minRows={2}
+              minRows={minRows ?? 2}
               onBlur={onBlur}
-              onChange={onChange}
+              onChange={(event) =>
+                onChange(
+                  getFieldValueAs(event.target.value, {
+                    valueAsDate,
+                    valueAsNumber,
+                    valueAsBoolean,
+                  }),
+                )
+              }
               value={value ?? ''}
               ref={ref}
               name={name}
@@ -101,6 +104,7 @@ export function InputFormField<T extends FieldValues>({
                   getFieldValueAs(event.target.value, {
                     valueAsDate,
                     valueAsNumber,
+                    valueAsBoolean,
                   }),
                 )
               }

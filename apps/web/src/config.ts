@@ -22,9 +22,9 @@ export const PrivateConfig = {
     tableId: process.env.GRIST_TABLE_ID ?? '',
   },
   S3: {
+    uploadsBucketId: process.env.UPLOADS_BUCKET_ID ?? '',
     host: process.env.SCW_S3_HOST ?? '',
-    bucketId: `${process.env.SCW_BUCKET_ID}`,
-    bucketLocation: process.env.SCW_S3_BUCKET_LOCATION ?? '',
+    region: process.env.SCW_DEFAULT_REGION ?? '',
     accessKey: process.env.SCW_ACCESS_KEY ?? '',
     secretKey: process.env.SCW_SECRET_KEY ?? '',
   },
@@ -32,12 +32,7 @@ export const PrivateConfig = {
     sirenAccessToken: process.env.SIREN_ACCESS_TOKEN,
   },
   InclusionConnect: {
-    realm: process.env.INCLUSION_CONNECT_REALM ?? '',
-    baseUrl: process.env.INCLUSION_CONNECT_BASE_URL ?? '',
-    clientId: process.env.INCLUSION_CONNECT_CLIENT_ID ?? '',
     clientSecret: process.env.INCLUSION_CONNECT_CLIENT_SECRET ?? '',
-    issuer: process.env.INCLUSION_CONNECT_ISSUER ?? '',
-    from: 'monsuivisocial',
   },
 }
 
@@ -47,4 +42,15 @@ export const PublicConfig = {
   repository: 'https://github.com/inclusion-numerique/mon-suivi-social',
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? '',
   sirenApiKey: process.env.NEXT_PUBLIC_SIREN_API_KEY ?? '',
+
+  Sentry: {
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN ?? '',
+    environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT ?? 'local',
+  },
+
+  InclusionConnect: {
+    issuer: process.env.NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER ?? '',
+    clientId: process.env.NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID ?? '',
+    from: 'monsuivisocial',
+  },
 }

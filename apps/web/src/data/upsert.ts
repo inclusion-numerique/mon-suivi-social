@@ -1,6 +1,5 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { mockProviders } from 'next-auth/client/__tests__/helpers/mocks'
-import type = mockProviders.github.type
 
 const doubleQuoted = (value: string) => `"${value}"`
 

@@ -1,0 +1,42 @@
+.row {
+  background-color: var(--background-default-grey) !important;
+}
+
+.cellContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.clickableRow {
+  background-color: var(--background-default-grey) !important;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--background-default-grey-hover) !important;
+  }
+
+  &:focus-within {
+    background-color: var(--background-default-grey-hover) !important;
+  }
+}
+
+td.cellWithLink {
+  /* Ugly hack, do you have a better idea ? https://stackoverflow.com/questions/3542090/how-to-make-div-fill-td-height */
+  /* The link inside has to be full height */
+  min-height: 1px;
+  height: 1px;
+  padding: 0;
+
+  > a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    min-height: 40px;
+
+    &:active {
+      background-color: transparent;
+    }
+  }
+}

@@ -1,9 +1,7 @@
-import * as dotenv from 'dotenv'
-import { resolve } from 'path'
-dotenv.config({ path: resolve(__dirname, '../../.env') })
+import { testDotenvConfig } from '../../packages/test/src/packageJestConfig'
+import { createNodeModulesTransformIgnorePattern } from '../../packages/test/src/transformIgnore'
 
-// Next config does not work with es modules
-// nextJest()()().then((config) => console.log('NEXT CONFIG', config, config.transform))
+testDotenvConfig()
 
 /**
  * If you have a babel error in jest test environment
@@ -23,17 +21,14 @@ const transformIgnorePackages = [
   'axios',
 ]
 
-const packagesNamesPattern = transformIgnorePackages.join('|')
-
-const nodeModulesTransformIgnorePattern = `node_modules/(?!${packagesNamesPattern})`
-
+// TODO Try the next env config
 const config = {
   moduleFileExtensions: ['js', 'ts', 'tsx'],
   transformIgnorePatterns: [
-    nodeModulesTransformIgnorePattern,
+    createNodeModulesTransformIgnorePattern(transformIgnorePackages),
     '^.+\\.module\\.(css|sass|scss)$',
   ],
-  setupFilesAfterEnv: ['<rootDir>/../../jest/jest.setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/../../packages/test/src/jest.setup.ts'],
   testMatch: [
     '**/*.spec.ts',
     '**/*.spec.tsx',
@@ -54,6 +49,7 @@ const config = {
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   watchPathIgnorePatterns: ['/.next/'],
 
+  // TODO Remove ts-jest and test a tsx composant
   globals: {
     'ts-jest': {
       tsconfig: {

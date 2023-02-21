@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+  previewFeatures = ["fullTextSearch", "filteredRelationCount"]
   binaryTargets   = ["native", "debian-openssl-1.1.x"]
 }
 
@@ -47,9 +47,10 @@ enum UserStatus {
 enum UserRole {
   Administrator
   StructureManager
-  Referent
+  SocialWorker
   Instructor
   ReceptionAgent
+  Referent
 }
 
 model User {
@@ -57,7 +58,7 @@ model User {
   firstName     String?
   lastName      String?
   name          String?
-  email         String    @unique
+  email         String     @unique
   emailVerified DateTime?
   image         String?
   role          UserRole
@@ -69,19 +70,26 @@ model User {
   accounts    Account[]
   sessions    Session[]
 
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
-  mutationLogs MutationLog[]
+  created DateTime @default(now())
+  updated DateTime @default(now())
 
-  organisation   Organisation? @relation(fields: [organisationId], references: [id])
-  organisationId String?       @db.Uuid
-  followups      Followup[]
-  helpRequests   HelpRequest[]
+  structure            Structure?     @relation(fields: [structureId], references: [id])
+  structureId          String?        @db.Uuid
+  createdFollowups     Followup[]     @relation(name: "created_followups")
+  createdHelpRequests  HelpRequest[]  @relation(name: "created_help_requests")
+  createdDocuments     Document[]
+  createdFollowupTypes FollowupType[]
 
-  Beneficiary Beneficiary[]
+  createdBeneficiaries  Beneficiary[] @relation(name: "created_beneficiaries")
+  archivedBeneficiaries Beneficiary[] @relation(name: "archived_beneficiaries")
+  referentFor           Beneficiary[] @relation(name: "beneficiary_referents")
+
+  doneMutations MutationLog[] @relation(name: "mutation_by")
+
+  targetForMutations MutationLog[] @relation(name: "mutation_target")
 }
 
-enum OrganisationType {
+enum StructureType {
   Ccas
   Cias
   Commune
@@ -89,40 +97,85 @@ enum OrganisationType {
   Ministere
 }
 
-model Organisation {
-  id            String           @id @db.Uuid
-  type          OrganisationType
-  name          String
-  zipcode       String
-  city          String
-  address       String
-  phone         String
-  email         String
-  followupTypes FollowupType[]
-  users         User[]
-  helpRequests  HelpRequest[]
-  followups     Followup[]
+model Structure {
+  id                    String                 @id @db.Uuid
+  type                  StructureType
+  name                  String
+  zipcode               String
+  city                  String
+  address               String
+  phone                 String
+  email                 String
+  followupTypes         FollowupType[]
+  users                 User[]
+  helpRequests          HelpRequest[]
+  followups             Followup[]
+  proposedFollowupTypes ProposedFollowupType[]
 
-  Beneficiary Beneficiary[]
+  beneficiaries Beneficiary[]
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created            DateTime      @default(now())
+  updated            DateTime      @default(now())
+  targetForMutations MutationLog[]
 }
 
-enum FollowupTypeType {
-  Legal
-  Optional
+enum DocumentType {
+  Cerfa
+  HistoriqueCourrier
+  Justificatifs
+  Rapports
+}
+
+model Document {
+  key          String       @id
+  mimeType     String
+  name         String
+  type         DocumentType
+  // Size in bytes
+  size         Int
+  tags         String[]
+  confidential Boolean
+
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
+  beneficiaryId String      @db.Uuid
+
+  created      DateTime      @default(now())
+  createdBy    User          @relation(fields: [createdById], references: [id])
+  createdById  String        @db.Uuid
+  followups    Followup[]
+  helpRequests HelpRequest[]
 }
 
 model FollowupType {
-  id            String           @id @db.Uuid
-  name          String           @unique
-  type          FollowupTypeType
-  default       Boolean
-  organisations Organisation[]
-  followups     Followup[]
-  helpRequests  HelpRequest[]
+  id              String  @id @db.Uuid
+  name            String
+  legallyRequired Boolean
+
+  created     DateTime @default(now())
+  createdBy   User?    @relation(fields: [createdById], references: [id])
+  createdById String?  @db.Uuid
+
+  followups    Followup[]
+  helpRequests HelpRequest[]
+
+  proposedFollowupTypes ProposedFollowupType[]
+
+  ownedByStructure   Structure? @relation(fields: [ownedByStructureId], references: [id])
+  ownedByStructureId String?    @db.Uuid
+
+  @@unique([name, ownedByStructureId])
+}
+
+model ProposedFollowupType {
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String    @db.Uuid
+
+  followupType   FollowupType @relation(fields: [followupTypeId], references: [id])
+  followupTypeId String       @db.Uuid
+
+  created DateTime @default(now())
+
+  @@id([structureId, followupTypeId])
 }
 
 enum FollowupMedium {
@@ -147,52 +200,53 @@ enum FollowupMedium {
 }
 
 enum FollowupStatus {
+  Todo
   InProgress
   Done
 }
 
 model Followup {
-  id      String @id @db.Uuid
-  agent   User   @relation(fields: [agentId], references: [id])
-  agentId String @db.Uuid
+  id String @id @db.Uuid
 
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String       @db.Uuid
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String    @db.Uuid
 
-  beneficiary   Beneficiary    @relation(fields: [beneficiaryId], references: [id])
-  beneficiaryId String         @db.Uuid
-  medium        FollowupMedium
-  date          DateTime       @db.Date
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
+  beneficiaryId String      @db.Uuid
 
-  type   FollowupType @relation(fields: [typeId], references: [id])
-  typeId String       @db.Uuid
+  createdById String? @db.Uuid
+  createdBy   User?   @relation(name: "created_followups", fields: [createdById], references: [id])
+
+  medium FollowupMedium
+  date   DateTime       @db.Date
+
+  types     FollowupType[]
+  documents Document[]
 
   synthesis String?
 
   status           FollowupStatus
   privateSynthesis String?
 
-  helpRequested    Boolean?
-  place            String?
-  redirected       Boolean?
-  organisationName String?
-  dueDate          DateTime? @db.Date
-  thirdPersonName  String?
+  helpRequested   Boolean?
+  place           String?
+  redirected      Boolean?
+  structureName   String?
+  dueDate         DateTime? @db.Date
+  thirdPersonName String?
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created DateTime @default(now())
+  updated DateTime @default(now())
 }
 
 enum HelpRequestStatus {
-  // En attente de justificatifs
-  WaitingForDocuments
-  // En cours d'instruction
-  WaitingForDecision
-  // Accepté
+  WaitingAdditionalInformation
+  InvestigationOngoing
   Accepted
-  // Refusée
-  Denied
+  Refused
+  Adjourned
+  ClosedByBeneficiary
+  Dismissed
 }
 
 enum PaymentMethod {
@@ -215,24 +269,27 @@ enum HelpRequestReason {
 }
 
 model HelpRequest {
-  id      String @id @db.Uuid
-  agent   User   @relation(fields: [agentId], references: [id])
-  agentId String @db.Uuid
+  id String @id @db.Uuid
 
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String       @db.Uuid
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String    @db.Uuid
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
   beneficiaryId String      @db.Uuid
+
+  createdById String? @db.Uuid
+  createdBy   User?   @relation(name: "created_help_requests", fields: [createdById], references: [id])
 
   openingDate DateTime @db.Date
 
   type   FollowupType @relation(fields: [typeId], references: [id])
   typeId String       @db.Uuid
 
-  financialSupport     Boolean
-  externalOrganisation Boolean
-  status               HelpRequestStatus
+  documents Document[]
+
+  financialSupport  Boolean?
+  externalStructure Boolean?
+  status            HelpRequestStatus
 
   askedAmount Decimal?
 
@@ -241,12 +298,13 @@ model HelpRequest {
 
   allocatedAmount Decimal?
 
-  paymentMethod         PaymentMethod?
-  paymentDate           DateTime?      @db.Date
-  handlingDate          DateTime?      @db.Date
-  refusalReason         String?
-  examiningOrganisation String?
-  dispatchDate          DateTime?      @db.Date
+  paymentMethod           PaymentMethod?
+  paymentDate             DateTime?      @db.Date
+  handlingDate            DateTime?      @db.Date
+  refusalReason           String?
+  prescribingOrganisation String?
+  examiningOrganisation   String?
+  dispatchDate            DateTime?      @db.Date
 
   synthesis String?
 
@@ -257,9 +315,8 @@ model HelpRequest {
   fullFile Boolean?
   reason   HelpRequestReason?
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created DateTime @default(now())
+  updated DateTime @default(now())
 }
 
 enum BeneficiaryStatus {
@@ -354,7 +411,7 @@ enum BeneficiaryMobility {
   //Véhicule sans permis
   VehicleWithoutPermit
   //Aucun moyen de transport à disposition
-  Other
+  None
 }
 
 enum BeneficiaryGir {
@@ -443,11 +500,17 @@ enum BeneficiaryOrientationType {
 model Beneficiary {
   id String @id @db.Uuid
 
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String       @db.Uuid
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String    @db.Uuid
 
-  agent   User   @relation(fields: [agentId], references: [id])
-  agentId String @db.Uuid
+  createdById String? @db.Uuid
+  createdBy   User?   @relation(name: "created_beneficiaries", fields: [createdById], references: [id])
+
+  archivedBy   User?     @relation(name: "archived_beneficiaries", fields: [archivedById], references: [id])
+  archivedById String?   @db.Uuid
+  archived     DateTime?
+
+  referents User[] @relation(name: "beneficiary_referents")
 
   aidantConnectAuthorized Boolean @default(false)
 
@@ -471,6 +534,7 @@ model Beneficiary {
   addressComplement                 String?
   zipcode                           String?
   city                              String?
+  region                            String?
   noPhone                           Boolean?
   phone1                            String?
   phone2                            String?
@@ -504,28 +568,29 @@ model Beneficiary {
   majorChildrenMainIncomeSource IncomeSource[]
   majorChildrenMainIncomeAmount Decimal?
   unemploymentNumber            String?
-  pensionOrganisation           String?
+  pensionOrganisations          String[]
   cafNumber                     String?
   bank                          String?
   funeralContract               String?
 
-  // External Organisations
-  protectionMeasure       BeneficiaryProtectionMeasure?
-  representative          String?
-  prescribingOrganisation String?
-  orientationType         BeneficiaryOrientationType?
-  orientationOrganisation String?
-  serviceProviders        String?
-  involvedPartners        String?
+  // External Structures
+  protectionMeasure    BeneficiaryProtectionMeasure?
+  representative       String?
+  prescribingStructure String?
+  orientationType      BeneficiaryOrientationType?
+  orientationStructure String?
+  serviceProviders     String?
+  involvedPartners     String?
 
   additionalInformation String?
 
+  documents    Document[]
   followups    Followup[]
   helpRequests HelpRequest[]
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created            DateTime      @default(now())
+  updated            DateTime      @default(now())
+  targetForMutations MutationLog[]
 }
 
 enum RelativeRelationship {
@@ -542,7 +607,7 @@ enum RelativeRelationship {
   //Voisin
   Neighbour
   //Fratrie
-  Fratrie
+  Sibling
   //Tiers
   Tiers
   //Autre membre de la famille
@@ -567,9 +632,8 @@ model BeneficiaryRelative {
 
   additionalInformation String?
 
-
-  created      DateTime      @default(now())
-  updated      DateTime      @default(now())
+  created DateTime @default(now())
+  updated DateTime @default(now())
 }
 
 model VerificationToken {
@@ -587,14 +651,31 @@ enum MutationSource {
 }
 
 model MutationLog {
-  id     String         @id @db.Uuid
-  date   DateTime
-  source MutationSource
-  // If user is deleted, we keep history. If system did a mutation this is empty
-  by     User?          @relation(fields: [byId], references: [id], onDelete: SetNull)
-  byId   String?        @db.Uuid
-  // Uuid of the object target of the mutation, if applicable
-  aggregateId   String?        @db.Uuid
-  data   Json
-}
+  id   String   @id @db.Uuid
+  date DateTime @default(now())
 
+  // User that did the mutation
+  by   User?   @relation(name: "mutation_by", fields: [byId], references: [id])
+  byId String? @db.Uuid
+
+  // Name of the mutation or feature
+  name String
+
+  // If the mutation impacts a user
+  targetUser   User?   @relation(name: "mutation_target", fields: [targetUserId], references: [id])
+  targetUserId String? @db.Uuid
+
+  // If the mutation impacts an aggregate owned by a structure (applies to beneficiaries, ...)
+  targetStructure   Structure? @relation(fields: [targetStructureId], references: [id])
+  targetStructureId String?    @db.Uuid
+
+  // If the mutation impacts an aggregate owned by a beneficiary (applies to followups, documents...)
+  targetBeneficiary   Beneficiary? @relation(fields: [targetBeneficiaryId], references: [id])
+  targetBeneficiaryId String?      @db.Uuid
+
+  // Id of the object target of the mutation, if applicable (can be a document id or followup id...)
+  targetId String?
+
+  // Data diff intent of the mutation
+  diff Json
+}

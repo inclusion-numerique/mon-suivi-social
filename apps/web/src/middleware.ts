@@ -23,12 +23,19 @@ const middleware: NextMiddleware = (request) => {
   }
 
   const response = NextResponse.next()
+
+  if (nodeEnv === 'development') {
+    response.headers.append('Access-Control-Allow-Headers', '*')
+    response.headers.append('Access-Control-Allow-Origin', '*')
+  }
+
   response.headers.append('X-Frame-Options', 'DENY')
   response.headers.append('X-Content-Type-Options', 'nosniff')
   response.headers.append('X-XSS-Protection', '1; mode=block')
   response.headers.delete('X-Powered-By')
 
   // TODO This CSP policy is too restrictive an account has been created in report-uri.com. Make this in another deployment.
+  // TODO use https://www.npmjs.com/package/csp-header
   // https://report-uri.com
   // response.headers.append(
   //   'Content-Security-Policy',

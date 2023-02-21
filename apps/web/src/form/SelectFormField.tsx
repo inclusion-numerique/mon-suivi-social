@@ -3,6 +3,10 @@
 import { Control, Controller, FieldValues } from 'react-hook-form'
 import { FieldPath } from 'react-hook-form/dist/types/path'
 import { Options, OptionsGroups } from '@mss/web/utils/options'
+import {
+  getFieldValueAs,
+  GetFieldValueAsOptions,
+} from '@mss/web/utils/getFieldValueAs'
 
 const OptionsList = ({ options }: { options: Options }) => (
   <>
@@ -24,21 +28,30 @@ export function SelectFormField<T extends FieldValues>({
   hint,
   defaultOption,
   disabled,
+  required,
   autoFocus,
+  boolean,
+  valueAsBoolean,
+  valueAsNumber,
+  valueAsDate,
   ...optionsProps
 }: {
   control: Control<T>
-  label: string
+  label?: string
   path: FieldPath<T>
   disabled?: boolean
+  required?: boolean
   defaultOption?: boolean
   hint?: string
   placeholder?: string
   autoFocus?: boolean
+  // Cast value as boolean
+  boolean?: boolean
 } & (
   | { groups?: false; options: Options }
   | { groups: true; optionGroups: OptionsGroups }
-)) {
+) &
+  GetFieldValueAsOptions) {
   const id = `select-form-field__${path}`
 
   // TODO Disabled styles classes
@@ -48,8 +61,7 @@ export function SelectFormField<T extends FieldValues>({
       name={path}
       render={({
         field: { onChange, onBlur, value, name, ref },
-        fieldState: { invalid, isTouched, isDirty, error },
-        formState,
+        fieldState: { invalid, isTouched, error },
       }) => (
         <div
           className={`fr-select-group ${
@@ -60,6 +72,7 @@ export function SelectFormField<T extends FieldValues>({
         >
           <label className="fr-label" htmlFor={id}>
             {label}
+            {required ? ' *' : null}
             {hint ? <span className="fr-hint-text">{hint}</span> : null}
           </label>
           <select
@@ -69,7 +82,15 @@ export function SelectFormField<T extends FieldValues>({
             placeholder={placeholder}
             disabled={disabled}
             onBlur={onBlur}
-            onChange={onChange}
+            onChange={(event) =>
+              onChange(
+                getFieldValueAs(event.target.value, {
+                  valueAsDate,
+                  valueAsNumber,
+                  valueAsBoolean,
+                }),
+              )
+            }
             value={value ?? ''}
             ref={ref}
             name={name}

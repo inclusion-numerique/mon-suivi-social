@@ -6,7 +6,6 @@ import {
 } from 'cdktf'
 import { Construct } from 'constructs'
 import { ScalewayProvider } from '../.gen/providers/scaleway/provider'
-import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
 import { RdbDatabase } from '../.gen/providers/scaleway/rdb-database'
 import { DataScalewayRdbInstance } from '../.gen/providers/scaleway/data-scaleway-rdb-instance'
 import { RdbUser } from '../.gen/providers/scaleway/rdb-user'
@@ -26,6 +25,7 @@ import {
   generateDatabaseUrl,
   namespacer,
 } from './utils'
+import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
 
 const projectSlug = 'mss'
 const databaseInstanceId = '7857e02a-05a5-437a-a46d-5da289559d67'
@@ -72,12 +72,29 @@ export class WebAppStack extends TerraformStack {
 
     // Configuring env variables
     const webContainerImage = envVariable('webContainerImage')
+    const previewInclusionConnectIssuer = envVariable(
+      'previewInclusionConnectIssuer',
+    )
+    const mainInclusionConnectIssuer = envVariable('mainInclusionConnectIssuer')
+    const previewInclusionConnectClientId = envVariable(
+      'previewInclusionConnectClientId',
+    )
+    const mainInclusionConnectClientId = envVariable(
+      'mainInclusionConnectClientId',
+    )
+
     // Configuring env secrets
     const accessKey = sensitiveEnvVariable('accessKey')
     const secretKey = sensitiveEnvVariable('secretKey')
     const organizationId = sensitiveEnvVariable('organizationId')
     const projectId = sensitiveEnvVariable('projectId')
     const databasePasswordSalt = sensitiveEnvVariable('databasePasswordSalt')
+    const previewInclusionConnectClientSecret = envVariable(
+      'previewInclusionConnectClientSecret',
+    )
+    const mainInclusionConnectClientSecret = envVariable(
+      'mainInclusionConnectClientSecret',
+    )
 
     // Configuring provider that will be used for the rest of the stack
     new ScalewayProvider(this, 'provider', {
@@ -91,10 +108,8 @@ export class WebAppStack extends TerraformStack {
     // State of deployed infrastructure for each branch will be stored in the
     // same 'mss-terraform' bucket
     new S3Backend(this, {
-      // TODO MIGRATE WHEN UPLOAD IS FIXED
-      // bucket: `${projectSlug}-terraform-state`,
-      bucket: `mec-terraform`,
-      key: `${projectSlug}-${namespaced('state')}.tfstate`,
+      bucket: `${projectSlug}-web-tfstate`,
+      key: `${projectSlug}-web-${namespaced('state')}.tfstate`,
       // Credentials are provided with AWS_*** env variables
       endpoint: 'https://s3.fr-par.scw.cloud',
       skipCredentialsValidation: true,
@@ -143,6 +158,15 @@ export class WebAppStack extends TerraformStack {
 
     const uploadsBucket = new ObjectBucket(this, 'uploads', {
       name: namespaced(`${projectSlug}-uploads`),
+      corsRule: [
+        {
+          allowedHeaders: ['*'],
+          allowedMethods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE'],
+          maxAgeSeconds: 3000,
+          exposeHeaders: ['Etag'],
+          allowedOrigins: [`https://${hostname}`],
+        },
+      ],
     })
 
     output('uploadsBucketName', uploadsBucket.name)
@@ -185,12 +209,24 @@ export class WebAppStack extends TerraformStack {
         EMAIL_FROM_ADDRESS: emailFromAddress,
         EMAIL_FROM_NAME: emailFromName,
         MSS_WEB_IMAGE: webContainerImage.value,
+        UPLOADS_BUCKET_ID: uploadsBucket.id,
         BASE_URL: hostname,
         BRANCH: branch,
         NAMESPACE: namespace,
+        SCW_DEFAULT_REGION: region,
+        NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER: isMain
+          ? mainInclusionConnectIssuer.value
+          : previewInclusionConnectIssuer.value,
+        NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID: isMain
+          ? mainInclusionConnectClientId.value
+          : previewInclusionConnectClientId.value,
+        NEXT_PUBLIC_SENTRY_ENVIRONMENT: namespace,
       },
       secretEnvironmentVariables: {
         DATABASE_URL: databaseUrl,
+        INCLUSION_CONNECT_CLIENT_SECRET: isMain
+          ? mainInclusionConnectClientSecret.value
+          : previewInclusionConnectClientSecret.value,
       },
       name: containerName,
       minScale: isMain ? 2 : 0,
