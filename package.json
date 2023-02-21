@@ -21,6 +21,8 @@
     "scw": "pnpm with-env scw",
     "manypkg": "manypkg",
     "start:web": "npm -w @mss/web start",
+    "db-start": "docker-compose -f ./docker-compose.dev.yml up --build -d",
+    "db-stop": "docker-compose -f ./docker-compose.dev.yml down",
     "docker:build:web": "docker buildx build --platform linux/amd64 -t rg.fr-par.scw.cloud/mec-web/mec-web-dev:latest -f docker/web/Dockerfile .",
     "docker:build:web:debug": "DOCKER_BUILDKIT=0 docker build -t mec-web/mec-web-dev:debug -f docker/web/Dockerfile ."
   },

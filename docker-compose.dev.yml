@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:12.14-alpine
+    container_name: mon-suivi-social_pg
+    environment:
+      - POSTGRES_DB=mss
+      - POSTGRES_USER=mss
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5433:5432'
+    volumes:
+      - mss-pgdata:/var/lib/postgresql/data
+    networks:
+      - mss-network
+    restart: always
+
+volumes:
+  mss-pgdata:
+    name: mss_pgdata
+
+networks:
+  mss-network:
+    external: false
+    name: mss-network
+
