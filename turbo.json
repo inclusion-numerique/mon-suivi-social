@@ -70,6 +70,7 @@
     "EMAIL_FROM_ADDRESS",
     "EMAIL_FROM_NAME",
     "SMTP_USERNAME",
+    "SMTP_PASSWORD",
     "SMTP_SERVER",
     "SMTP_PORT"
   ]
