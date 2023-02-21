@@ -72,12 +72,14 @@ export const AddDocumentClient = createMutationClient({
     }),
   }),
   beneficiaryAnonymization: ({ file }) => ({
-    file: {
-      key: '',
-      name: '',
-      size: file.size,
-      mimeType: file.mimeType,
-    },
+    file: file
+      ? {
+          key: '',
+          name: '',
+          size: file.size,
+          mimeType: file.mimeType,
+        }
+      : undefined,
   }),
   fieldLabels: {
     beneficiaryId: 'Bénéficiaire',
