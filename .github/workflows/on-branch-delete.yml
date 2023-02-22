@@ -1,0 +1,11 @@
+on:
+  delete
+jobs:
+  trigger-circleci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger pipeline on Circle CI
+        id: scrap_preview_environment
+        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0.6
+        env:
+          CCI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}
