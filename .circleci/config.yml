@@ -94,7 +94,9 @@ workflows:
         - equal: [ scrap_preview_environment, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
-      - scrap_preview_environment
+      - scrap_preview_environment:
+          requires:
+            - prepare_workspace_dependencies
 
 jobs:
   prepare_workspace_dependencies:
