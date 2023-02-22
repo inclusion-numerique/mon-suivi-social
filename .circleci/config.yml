@@ -44,6 +44,10 @@ parameters:
   trigger_workflow:
     type: string
     default: "lint_test_build_deploy"
+  # Name of the environment to scrap
+  scrap_environment_for_branch:
+    type: string
+    default: ""
 
 workflows:
   version: 2
@@ -78,11 +82,15 @@ workflows:
             # - test_e2e
 
   scrap_preview_environment:
-    # This workflow should never run on main branch, it would destroy production env
+    # This workflow exclusively runs on the dev branch, with target env to destroy as parameter
+    # It should never run with main as a parameter
     when:
       and:
         - not:
             equal: [ main, << pipeline.git.branch >> ]
+        - not:
+            equal: [ main, << pipeline.parameters.scrap_environment_for_branch >>]
+        - << pipeline.parameters.scrap_environment_for_branch >>
         - equal: [ scrap_preview_environment, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
@@ -289,6 +297,13 @@ jobs:
     executor: node
     resource_class: large
     steps:
+      - when:
+          condition:
+            not: << pipeline.parameters.scrap_environment_for_branch >>
+          steps:
+            - run: |
+                echo "No scrap_environment_for_branch specified, canceling job"
+                exit 1
       - checkout
       - install_dependencies
       - install_terraform
@@ -297,7 +312,7 @@ jobs:
       - run:
           name: 'Destroy stack'
           command: |
-            pnpm -F @mss/cdk cdktf destroy web --auto-approve
+            CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm -F @mss/cdk cdktf destroy web --auto-approve
 
 commands:
   install_pnpm:

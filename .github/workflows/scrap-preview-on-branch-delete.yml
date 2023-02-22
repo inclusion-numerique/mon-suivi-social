@@ -7,12 +7,11 @@ jobs:
     name: Trigger CircleCI scrap_preview_environment workflow
     runs-on: ubuntu-latest
     steps:
-      - name: Capture triggering branch name
-        run: echo "BRANCH_NAME=${{ github.event.ref }}" >> $GITHUB_ENV
       - name: Trigger CircleCI workflow
         uses: promiseofcake/circleci-trigger-action@v1
         with:
           user-token: ${{ secrets.CIRCLE_CI_TOKEN }}
           project-slug: inclusion-numerique/mon-suivi-social
-          branch: ${{ env.BRANCH_NAME }}
-          payload: '{"trigger_workflow": "scrap_preview_environment"}'
+          # Branch from environment has been deleted, workflow will run from branch dev
+          branch: dev
+          payload: '{"trigger_workflow": "scrap_preview_environment", "scrap_environment_for_branch": "${{ github.event.ref }}"}'
