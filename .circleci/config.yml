@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   skip: theodo/skip@0.1.2
   queue: eddiewebb/queue@1.8.4
-
+  gh: circleci/github-cli@2.2.0
 executors:
   node:
     docker:
@@ -55,6 +55,7 @@ workflows:
     when:
       equal: [ lint_test_build_deploy, << pipeline.parameters.trigger_workflow >> ]
     jobs:
+      - debug_github_api
       - prepare_workspace_dependencies
       - prepare_web_prod_dependencies
       - lint_and_test:
@@ -99,6 +100,27 @@ workflows:
             - prepare_workspace_dependencies
 
 jobs:
+
+  debug_github_api:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - gh/install
+      - run:
+          name: Create Pending Deployment
+          command: >
+            gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              /repos/:owner/:repo/deployments \
+              -f ref='${CIRCLE_TAG:-$CIRCLE_SHA1}' \
+              -f auto_merge='false' \
+              -f payload='{ "deploy": "migrate" }' \
+              -f description='Pending deployment from Circle CI'
+         
+
   prepare_workspace_dependencies:
     executor: node
     resource_class: large
