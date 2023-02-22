@@ -41,6 +41,19 @@ parameters:
   e2e_version:
     type: string
     default: e2e
+  # These GHA_* parameters will be present if workflow is triggered via Github Actions
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
 
 workflows:
   version: 2
@@ -57,9 +70,9 @@ workflows:
             - prepare_workspace_dependencies
             - prepare_web_prod_dependencies
 
-#      - chromatic:
-#          requires:
-#            - prepare_workspace_dependencies
+      #      - chromatic:
+      #          requires:
+      #            - prepare_workspace_dependencies
 
       - test_e2e:
           requires:
@@ -68,9 +81,20 @@ workflows:
       - deploy_web:
           requires:
             - lint_and_test
-#            - chromatic
+            #            - chromatic
             - build_web
             # - test_e2e
+
+  scrap_preview_environment:
+    when: << pipeline.parameters.GHA_Action >>
+    jobs:
+      - prepare_workspace_dependencies
+      - debug_gha
+      - hold:
+          type: approval
+          requires:
+            - prepare_workspace_dependencies
+      - scrap_preview_environment
 
 jobs:
   prepare_workspace_dependencies:
@@ -234,12 +258,7 @@ jobs:
       - install_dependencies
       - setup_remote_docker:
           docker_layer_caching: true
-      - run:
-          name: 'Install Terraform'
-          command: |
-            wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
-            echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-            sudo apt update && sudo apt install terraform
+      - install_terraform
       - run:
           name: 'Generate Prisma client for this platform'
           command: |
@@ -267,6 +286,27 @@ jobs:
           name: 'Load fixtures'
           command: |
             pnpm -F @mss/cli fixtures:load
+  debug_gha:
+    executor: node
+    resource_class: large
+    steps:
+      - run:
+          name: 'Debug GHA environment'
+          command: env | grep GHA
+
+  scrap_preview_environment:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - install_terraform
+      - queue/until_front_of_line:
+          time: '5'
+      - run:
+          name: 'Destroy stack'
+          command: |
+            pnpm -F @mss/cdk cdktf destroy web --auto-approve
 
 commands:
   install_pnpm:
@@ -274,6 +314,15 @@ commands:
       - run:
           name: 'Install pnpm'
           command: sudo corepack enable && corepack prepare pnpm@latest --activate
+
+  install_terraform:
+    steps:
+      - run:
+          name: 'Install Terraform'
+          command: |
+            wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+            echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+            sudo apt update && sudo apt install terraform
 
   install_dependencies:
     steps:
