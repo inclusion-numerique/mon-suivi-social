@@ -94,13 +94,7 @@ workflows:
         - equal: [ scrap_preview_environment, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
-      - hold:
-          type: approval
-          requires:
-            - prepare_workspace_dependencies
-      - scrap_preview_environment:
-          requires:
-            - hold
+      - scrap_preview_environment
 
 jobs:
   prepare_workspace_dependencies:
@@ -297,18 +291,21 @@ jobs:
     executor: node
     resource_class: large
     steps:
-      - when:
-          condition:
-            not: << pipeline.parameters.scrap_environment_for_branch >>
-          steps:
-            - run: |
-                echo "No scrap_environment_for_branch specified, canceling job"
-                exit 1
       - checkout
       - install_dependencies
       - install_terraform
-      - queue/until_front_of_line:
-          time: '5'
+      - when:
+          condition:
+            or:
+              - not: << pipeline.parameters.scrap_environment_for_branch >>
+              - equal: [ main, << pipeline.parameters.scrap_environment_for_branch >> ]
+              - equal: [ dev, << pipeline.parameters.scrap_environment_for_branch >> ]
+          steps:
+            - run:
+                name: 'Canceling job, invalid configuration << pipeline.parameters.scrap_environment_for_branch >>'
+                command: |
+                  echo "No scrap_environment_for_branch specified, or invalid one. Canceling job"
+                  exit 1
       - run:
           name: 'Destroy stack'
           command: |
