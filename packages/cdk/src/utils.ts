@@ -34,7 +34,12 @@ export const createPreviewSubdomain = (
   // We will add a ".", also remove 1
   const maxNamespaceLength = maxRecordLength - 1 - previewDomain.length
 
-  const subdomain = namespace.slice(0, maxNamespaceLength)
+  let subdomain = namespace.slice(0, maxNamespaceLength)
+
+  // Remove trailing hyphen
+  if (subdomain[subdomain.length - 1] === '-') {
+    subdomain = subdomain.slice(0, -1)
+  }
 
   return { hostname: `${subdomain}.${previewDomain}`, subdomain }
 }

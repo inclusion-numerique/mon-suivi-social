@@ -10,6 +10,7 @@
   "packageManager": "pnpm@7.25.1",
   "scripts": {
     "build": "turbo build",
+    "cli": "./apps/cli/node_modules/.bin/ts-node apps/cli/src/index.ts",
     "clean": "rm -rf node_modules",
     "clean:workspaces": "turbo clean",
     "dev": "turbo dev --parallel",

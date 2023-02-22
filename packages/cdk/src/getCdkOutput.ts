@@ -20,14 +20,21 @@ export type CdkOutput = {
 export const getCdkOutput = async (): Promise<CdkOutput> => {
   const outputFile = resolve(__dirname, '../cdk.out.json')
   const outputContents = await readFile(outputFile, 'utf-8')
-  // Outputs are prefixed by output_
   const rawOutput = JSON.parse(outputContents)
-  // output_blah -> blah
+
+  // Outputs are prefixed by web_output and suffixed by _{hash}
+  // web_outputuploadsBucketName_14BB6D15 -> uploadsBucketName
+
   const output = Object.fromEntries(
-    Object.entries(rawOutput['web']).map(([key, value]) => [
-      key.substring(7),
-      value,
-    ]),
+    Object.entries(rawOutput['web']).map(([key, value]) => {
+      const parts = key.split('_')
+      parts.pop()
+
+      const prefixedVariable = parts.join('_')
+      const variable = prefixedVariable.substring(10)
+
+      return [variable, value]
+    }),
   )
 
   return output as CdkOutput

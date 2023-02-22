@@ -29,8 +29,8 @@ import {
 import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
 
 const projectSlug = 'mss'
-const databaseInstanceId = '7857e02a-05a5-437a-a46d-5da289559d67'
-const containerNamespaceId = 'ec549573-e3c9-4688-8e85-d1cb247095e2'
+const databaseInstanceName = 'incnum-prod'
+const containerNamespaceName = 'mss-web'
 const region = 'fr-par'
 const mainDomain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
 const previewDomain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
@@ -122,7 +122,7 @@ export class WebAppStack extends TerraformStack {
     // The database instance is shared for each namespace/branch we refer to it (DataScaleway)
     // but do not manage it through this stack
     const dbInstance = new DataScalewayRdbInstance(this, 'dbInstance', {
-      instanceId: databaseInstanceId,
+      name: databaseInstanceName,
     })
 
     output('databaseHost', dbInstance.endpointIp)
@@ -178,7 +178,7 @@ export class WebAppStack extends TerraformStack {
     const containerNamespace = new DataScalewayContainerNamespace(
       this,
       'containerNamespace',
-      { namespaceId: containerNamespaceId },
+      { name: containerNamespaceName },
     )
 
     const emailFromAddress = isMain
