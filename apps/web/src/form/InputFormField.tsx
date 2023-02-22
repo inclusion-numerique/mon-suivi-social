@@ -8,6 +8,33 @@ import {
   getFieldValueAs,
   GetFieldValueAsOptions,
 } from '@mss/web/utils/getFieldValueAs'
+import { dateAsIsoDay } from '@mss/web/utils/dateAsIsoDay'
+
+type InputFormFieldType =
+  | Exclude<HTMLInputTypeAttribute, 'checkbox' | 'radio'>
+  | 'textarea'
+
+const formatValueToInput = (
+  value: number | string | Date | null | undefined,
+  type: InputFormFieldType,
+): string => {
+  if (value === null || value === undefined) {
+    return ''
+  }
+
+  if (typeof value === 'number') {
+    return value.toString(10)
+  }
+
+  if (type === 'date' && value instanceof Date) {
+    return dateAsIsoDay(value)
+  }
+  if (type === 'datetime-local' && value instanceof Date) {
+    return value?.toISOString()
+  }
+
+  return value as string
+}
 
 // View design options here https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/champ-de-saisie
 export function InputFormField<T extends FieldValues>({
@@ -35,7 +62,7 @@ export function InputFormField<T extends FieldValues>({
   required?: boolean
   label?: ReactNode
   hint?: string
-  type?: Exclude<HTMLInputTypeAttribute, 'checkbox' | 'radio'> | 'textarea'
+  type?: InputFormFieldType
   placeholder?: string
   min?: number
   max?: number
@@ -85,7 +112,7 @@ export function InputFormField<T extends FieldValues>({
                   }),
                 )
               }
-              value={value ?? ''}
+              value={formatValueToInput(value, type)}
               ref={ref}
               name={name}
               autoFocus={autoFocus}
@@ -108,7 +135,7 @@ export function InputFormField<T extends FieldValues>({
                   }),
                 )
               }
-              value={value ?? ''}
+              value={formatValueToInput(value, type)}
               ref={ref}
               name={name}
               min={min}

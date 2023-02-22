@@ -29,7 +29,7 @@ import '@mss/web/features/helpRequest/editHelpRequest.client'
 import '@mss/web/features/structure/createStructure/createStructure.client'
 import '@mss/web/features/structure/editStructure/editStructure.client'
 import '@mss/web/features/structure/createFollowupType/createFollowupType.client'
-import { formatDate } from '@mss/web/utils/formatDate'
+import { dateAsDay } from '@mss/web/utils/dateAsDay'
 
 const getMutationLogs = ({
   targetStructureId,
@@ -69,7 +69,7 @@ export const mutationLogTableColumns: TableColumnDefinition<MutationLogItem>[] =
   [
     {
       label: 'Date',
-      content: ({ date }) => formatDate(date),
+      content: ({ date }) => dateAsDay(date),
     },
     {
       label: 'Opération',

@@ -8,26 +8,39 @@ import { booleanToString, stringToBoolean } from '@mss/web/utils/booleanString'
 
 export const EditHelpRequestServer = createMutationServerWithInitialState({
   client: EditHelpRequestClient,
-  getServerState: async ({ helpRequestId }: { helpRequestId: string }) =>
-    prismaClient.helpRequest.findUniqueOrThrow({
+  getServerState: async ({
+    helpRequestId,
+    includeSynthesis,
+    includePrivateSynthesis,
+  }: {
+    helpRequestId: string
+    includeSynthesis: boolean
+    includePrivateSynthesis: boolean
+  }) => {
+    const helpRequest = await prismaClient.helpRequest.findUniqueOrThrow({
       where: { id: helpRequestId },
       // Only select general info
       include: {
         type: true,
         documents: true,
       },
-    }),
+    })
+
+    if (!includeSynthesis) {
+      helpRequest.synthesis = null
+    }
+    if (!includePrivateSynthesis) {
+      helpRequest.privateSynthesis = null
+    }
+
+    return helpRequest
+  },
   dataFromServerState: ({
     id,
     type,
+    typeId,
+    structureId,
     documents,
-    openingDate,
-    examinationDate,
-    decisionDate,
-    paymentDate,
-    handlingDate,
-    dispatchDate,
-    dueDate,
     financialSupport,
     externalStructure,
     askedAmount,
@@ -43,14 +56,6 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
       documents: documents.map(({ key }) => key),
       financialSupport: booleanToString(financialSupport) ?? undefined,
       externalStructure: booleanToString(externalStructure) ?? undefined,
-      // TODO helper to cast all optional dates to isostrings?
-      openingDate: openingDate?.toISOString(),
-      examinationDate: examinationDate?.toISOString(),
-      decisionDate: decisionDate?.toISOString(),
-      paymentDate: paymentDate?.toISOString(),
-      handlingDate: handlingDate?.toISOString(),
-      dispatchDate: dispatchDate?.toISOString(),
-      dueDate: dueDate?.toISOString(),
       askedAmount: askedAmount?.toNumber(),
       allocatedAmount: allocatedAmount?.toNumber(),
       ...removeNullAndUndefinedValues(data),

@@ -6,6 +6,10 @@ import { AddHelpRequestServer } from '@mss/web/features/helpRequest/addHelpReque
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
 import { EditHelpRequestServer } from '@mss/web/features/helpRequest/editHelpRequest.server'
 import { prismaClient } from '@mss/web/prismaClient'
+import {
+  canViewBeneficiaryFollowupPrivateSynthesis,
+  canViewBeneficiaryFollowupSynthesis,
+} from '@mss/web/security/rules'
 
 export const helpRequestRouter = router({
   add: protectedProcedure
@@ -30,17 +34,38 @@ export const helpRequestRouter = router({
       if (!target) {
         throw invalidError('Beneficiary not found')
       }
-      const document = await prismaClient.helpRequest.findUniqueOrThrow({
+      const helpRequest = await prismaClient.helpRequest.findUniqueOrThrow({
         where: { id: input.helpRequestId },
         select: { createdById: true },
       })
+
+      const includeSynthesis = canViewBeneficiaryFollowupSynthesis(
+        user,
+        target,
+        helpRequest,
+      )
+      const includePrivateSynthesis =
+        canViewBeneficiaryFollowupPrivateSynthesis(user, target, helpRequest)
+
+      // TODO What would be a way to validate input with zod depending on canViewBeneficiaryFollowupSynthesis ?
+
+      if (!includeSynthesis && input.synthesis) {
+        throw invalidError()
+      }
+      if (!includePrivateSynthesis && input.privateSynthesis) {
+        throw invalidError()
+      }
 
       return EditHelpRequestServer.execute({
         input,
         user,
         target,
-        getServerStateInput: input,
-        securityParams: document,
+        getServerStateInput: {
+          ...input,
+          includeSynthesis,
+          includePrivateSynthesis,
+        },
+        securityParams: helpRequest,
         structureId: target.structureId,
       })
     }),

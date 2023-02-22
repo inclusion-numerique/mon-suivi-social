@@ -6,10 +6,14 @@ import { notFound } from 'next/navigation'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { prismaClient } from '@mss/web/prismaClient'
-import { EditHelpRequestServer } from '@mss/web/features/helpRequest/editHelpRequest.server'
 import { HelpRequestForm } from '@mss/web/app/(private)/accompagnements/demandes-d-aide/HelpRequestForm'
 import { getStructureFollowupTypes } from '@mss/web/structure/getStructureFollowupTypes'
 import { Options } from '@mss/web/utils/options'
+import {
+  canViewBeneficiaryHelpRequestPrivateSynthesis,
+  canViewBeneficiaryHelpRequestSynthesis,
+} from '@mss/web/security/rules'
+import { EditHelpRequestServer } from '@mss/web/features/helpRequest/editHelpRequest.server'
 
 export const revalidate = 0
 
@@ -26,6 +30,7 @@ const EditHelpRequestPage = async ({
       id: helpRequestId,
     },
     select: {
+      structureId: true,
       createdById: true,
       beneficiary: {
         select: {
@@ -35,6 +40,9 @@ const EditHelpRequestPage = async ({
           usualName: true,
           email: true,
           fileNumber: true,
+          documents: {
+            select: { key: true, type: true, name: true },
+          },
         },
       },
     },
@@ -54,19 +62,17 @@ const EditHelpRequestPage = async ({
     return null
   }
 
-  const serverState = await EditHelpRequestServer.getServerState({
-    helpRequestId,
-  })
-  const defaultInput = EditHelpRequestServer.dataFromServerState(serverState)
-
   const followupTypes = await getStructureFollowupTypes({
-    structureId: serverState.structureId,
+    structureId: helpRequest.structureId,
   })
   const followupTypeOptions: Options = followupTypes.map(
     ({ followupType: { name, id } }) => ({
       name,
       value: id,
     }),
+  )
+  const documentOptions: Options = helpRequest.beneficiary.documents.map(
+    ({ name, type, key }) => ({ name: `${type} - ${name}`, value: key }),
   )
 
   const page: PageConfig = {
@@ -75,6 +81,23 @@ const EditHelpRequestPage = async ({
       helpRequest.beneficiary,
     ),
   }
+
+  const canViewSynthesis = canViewBeneficiaryHelpRequestSynthesis(
+    user,
+    helpRequest.beneficiary,
+    helpRequest,
+  )
+  const canViewPrivateSynthesis = canViewBeneficiaryHelpRequestPrivateSynthesis(
+    user,
+    helpRequest.beneficiary,
+    helpRequest,
+  )
+  const serverState = await EditHelpRequestServer.getServerState({
+    helpRequestId,
+    includeSynthesis: canViewSynthesis,
+    includePrivateSynthesis: canViewPrivateSynthesis,
+  })
+  const defaultInput = EditHelpRequestServer.dataFromServerState(serverState)
 
   return (
     <>
@@ -85,6 +108,9 @@ const EditHelpRequestPage = async ({
             <div className="fr-card__body fr-py-8v">
               <HelpRequestForm
                 followupTypeOptions={followupTypeOptions}
+                documentOptions={documentOptions}
+                synthesisField={canViewSynthesis}
+                privateSynthesisField={canViewPrivateSynthesis}
                 defaultInput={serialize(defaultInput)}
               />
             </div>

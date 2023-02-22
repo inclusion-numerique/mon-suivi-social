@@ -7,9 +7,11 @@ export const EditBeneficiaryFullDataClient = createMutationClient({
   name: 'beneficiary.editFullData',
   title: 'Modification de bénéficiaire',
   securityCheck: canEditBeneficiaryFullInfo,
-  inputValidation: AddBeneficiaryWithFullDataClient.inputValidation.extend({
-    beneficiaryId: z.string().uuid(),
-  }),
+  inputValidation: AddBeneficiaryWithFullDataClient.inputValidation
+    .extend({
+      beneficiaryId: z.string().uuid(),
+    })
+    .omit({ structureId: true }),
   beneficiaryAnonymization:
     AddBeneficiaryWithFullDataClient.beneficiaryAnonymization,
   fieldLabels: {

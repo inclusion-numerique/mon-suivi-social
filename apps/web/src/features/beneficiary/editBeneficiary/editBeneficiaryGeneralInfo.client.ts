@@ -7,9 +7,11 @@ export const EditBeneficiaryGeneralInfoClient = createMutationClient({
   name: 'beneficiary.editGeneralInfo',
   title: 'Modification de bénéficiaire',
   securityCheck: canEditBeneficiaryGeneralInfo,
-  inputValidation: AddBeneficiaryWithGeneralInfoClient.inputValidation.extend({
-    beneficiaryId: z.string().uuid(),
-  }),
+  inputValidation: AddBeneficiaryWithGeneralInfoClient.inputValidation
+    .extend({
+      beneficiaryId: z.string().uuid(),
+    })
+    .omit({ structureId: true }),
   beneficiaryAnonymization:
     AddBeneficiaryWithGeneralInfoClient.beneficiaryAnonymization,
   fieldLabels: {

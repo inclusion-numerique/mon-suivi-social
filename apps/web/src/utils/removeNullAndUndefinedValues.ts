@@ -1,5 +1,5 @@
 type NoUndefinedField<T> = {
-  [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>
+  [P in keyof T]-?: NonNullable<T[P]>
 }
 
 export const removeNullAndUndefinedValues = <T>(

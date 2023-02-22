@@ -6,7 +6,7 @@ import type {
 } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { AttributesList } from '@mss/web/ui/AttributesList'
 import { beneficiaryTitleLabels } from '@mss/web/beneficiary/beneficiary'
-import { formatDate } from '@mss/web/utils/formatDate'
+import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { isEmptyValue } from '@mss/web/utils/isEmptyValue'
 
 export const InfoTab = ({
@@ -39,7 +39,7 @@ export const InfoTab = ({
               'Age',
               beneficiary.birthDate ? getAge(beneficiary.birthDate) : null,
             ],
-            ['Date de naissance', formatDate(beneficiary.birthDate)],
+            ['Date de naissance', dateAsDay(beneficiary.birthDate)],
           ]}
         />
         <p className="fr-mt-4v">🚧 en cours de développement</p>

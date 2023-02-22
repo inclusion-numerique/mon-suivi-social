@@ -8,7 +8,7 @@ import {
 } from '@mss/web/features/followup/addFollowup.client'
 import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'
-import { formatDate } from '@mss/web/utils/formatDate'
+import { dateAsDay } from '@mss/web/utils/dateAsDay'
 
 export const followupListTableColumns = [
   {
@@ -41,7 +41,7 @@ export const followupListTableColumns = [
   {
     label: "Date d'échéance",
     sortable: (direction) => [{ dueDate: direction }],
-    content: ({ dueDate }: ListFollowupsItem) => formatDate(dueDate),
+    content: ({ dueDate }: ListFollowupsItem) => dateAsDay(dueDate),
   },
   {
     label: 'Bénéficiaire',

@@ -77,7 +77,7 @@ export type CreateMutationServerWithInitialStateOptions<
   'executeMutation' | 'mutationLogInfo'
 > & {
   getServerState: GetServerState<GetServerStateInput, ServerState>
-  dataFromServerState: (serverState: ServerState) => Input | undefined
+  dataFromServerState: (serverState: ServerState) => Input
   executeMutation: ExecuteMutationWithServerState<
     ServerState,
     Input,

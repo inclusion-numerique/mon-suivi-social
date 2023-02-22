@@ -14,7 +14,6 @@ import {
   followupMediumOptions,
   followupStatusOptions,
 } from '@mss/web/features/followup/addFollowup.client'
-import { dateToIsoDay } from '@mss/web/utils/dateToIsoDay'
 import { SelectFormField } from '@mss/web/form/SelectFormField'
 import { SelectTagsFormField } from '@mss/web/form/SelectTagsFormField'
 import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
@@ -37,6 +36,8 @@ export const FollowupForm = withTrpc(
         }
       | {
           creation?: false
+          synthesisField: boolean
+          privateSynthesisField: boolean
           defaultInput: Serialized<MutationInput<EditFollowupClient>>
         }
     ),
@@ -60,7 +61,7 @@ export const FollowupForm = withTrpc(
         EditFollowupClient
 
     const defaultValues = props.creation
-      ? { ...props.defaultInput, date: dateToIsoDay(new Date()) }
+      ? { ...props.defaultInput, date: new Date() }
       : deserialize(props.defaultInput)
 
     const form = useForm<MutationInput<typeof client>>({
@@ -105,6 +106,7 @@ export const FollowupForm = withTrpc(
           control={control}
           path="date"
           type="date"
+          valueAsDate
           required
         />
         <SelectFormField
@@ -163,30 +165,35 @@ export const FollowupForm = withTrpc(
           control={control}
           path="dueDate"
           type="date"
+          valueAsDate
         />
-        <InputFormField
-          label={FieldLabels['synthesis']}
-          hint="Il est fortement recommandé de ne stocker que les informations utiles au suivi du bénéficiaire et d'éviter le recueil d'informations sensibles (données de santé, mots de passe, etc)."
-          disabled={fieldsDisabled}
-          control={control}
-          path="synthesis"
-          type="textarea"
-          minRows={15}
-        />
-        <InputFormField
-          label={
-            <>
-              <span className="fr-icon-lock-line fr-mr-1w" />
-              {FieldLabels['privateSynthesis']}
-            </>
-          }
-          hint="Le compte rendu privé est uniquement visible et modifiable par l'agent qui crée la synthèse d'entretien."
-          disabled={fieldsDisabled}
-          control={control}
-          path="privateSynthesis"
-          type="textarea"
-          minRows={4}
-        />
+        {props.creation || props.synthesisField ? (
+          <InputFormField
+            label={FieldLabels['synthesis']}
+            hint="Il est fortement recommandé de ne stocker que les informations utiles au suivi du bénéficiaire et d'éviter le recueil d'informations sensibles (données de santé, mots de passe, etc)."
+            disabled={fieldsDisabled}
+            control={control}
+            path="synthesis"
+            type="textarea"
+            minRows={15}
+          />
+        ) : null}
+        {props.creation || props.privateSynthesisField ? (
+          <InputFormField
+            label={
+              <>
+                <span className="fr-icon-lock-line fr-mr-1w" />
+                {FieldLabels['privateSynthesis']}
+              </>
+            }
+            hint="Le compte rendu privé est uniquement visible et modifiable par l'agent qui crée la synthèse d'entretien."
+            disabled={fieldsDisabled}
+            control={control}
+            path="privateSynthesis"
+            type="textarea"
+            minRows={4}
+          />
+        ) : null}
         <CheckboxFormField
           checkboxLabel={FieldLabels['redirected']}
           control={control}

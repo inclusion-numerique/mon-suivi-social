@@ -7,7 +7,6 @@ import {
 } from '@trpc/client'
 import { getUrl } from '@mss/web/utils/baseUrl'
 import { trpc } from '@mss/web/trpc'
-import { withProvider } from '@mss/web/utils/withProvider'
 import { type AppRouter } from '@mss/web/trpc/trpcRouter'
 import { transformer } from '@mss/web/utils/serialization'
 import { create } from 'zustand'
@@ -47,4 +46,14 @@ export const TrpcProvider = ({ children }: PropsWithChildren) => {
 }
 
 // HOC for using trpc in a subtree of client components
-export const withTrpc = withProvider(TrpcProvider)
+export const withTrpc =
+  <P, C>(component: (props: P) => C): ((props: P) => C) =>
+  (props) => {
+    const Component = component as any
+
+    return (
+      <TrpcProvider>
+        <Component {...props} />
+      </TrpcProvider>
+    ) as C
+  }

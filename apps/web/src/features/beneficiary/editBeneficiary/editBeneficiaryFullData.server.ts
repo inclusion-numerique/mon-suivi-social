@@ -29,10 +29,9 @@ export const EditBeneficiaryFullDataServer =
       }),
     dataFromServerState: ({
       id,
+      structureId,
       fileNumber,
       referents,
-      birthDate,
-      deathDate,
       mainIncomeAmount,
       partnerMainIncomeAmount,
       majorChildrenMainIncomeAmount,
@@ -48,7 +47,6 @@ export const EditBeneficiaryFullDataServer =
         referents: referents.map(({ id }) => id),
         nationality: nationality as keyof typeof Nationalities,
         pensionOrganisations: pensionOrganisations as PensionOrganisation[],
-        birthDate: birthDate?.toISOString(),
         mainIncomeAmount: mainIncomeAmount?.toNumber(),
         partnerMainIncomeAmount: partnerMainIncomeAmount?.toNumber(),
         majorChildrenMainIncomeAmount:

@@ -59,7 +59,6 @@ export const EditBeneficiaryGeneralInfoServer =
     dataFromServerState: ({
       id,
       referents,
-      birthDate,
       nationality,
       ...data
     }): MutationInput<EditBeneficiaryGeneralInfoClient> => {
@@ -67,7 +66,6 @@ export const EditBeneficiaryGeneralInfoServer =
         beneficiaryId: id,
         nationality: nationality as keyof typeof Nationalities,
         referents: referents.map(({ id }) => id),
-        birthDate: birthDate?.toISOString(),
         ...removeNullAndUndefinedValues(data),
       }
     },

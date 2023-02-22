@@ -142,6 +142,7 @@ export const BeneficiaryForm = withTrpc(
         }
       },
       // This dependency is correctly defined to trigger at each submit
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [form.formState.submitCount],
     )
 
@@ -219,6 +220,7 @@ export const BeneficiaryForm = withTrpc(
               label={FieldLabels['birthDate']}
               path="birthDate"
               type="date"
+              valueAsDate
               disabled={fieldsDisabled}
               control={control}
             />
@@ -464,7 +466,7 @@ export const BeneficiaryForm = withTrpc(
                   disabled={fieldsDisabled}
                   control={control}
                 />
-                <SelectFormField
+                <SelectTagsFormField
                   label={FieldLabels['mainIncomeSource']}
                   path="mainIncomeSource"
                   disabled={fieldsDisabled}
