@@ -22,6 +22,7 @@ import {
 import { ContainerDomain } from '../.gen/providers/scaleway/container-domain'
 import {
   computeBranchNamespace,
+  createPreviewSubdomain,
   generateDatabaseUrl,
   namespacer,
 } from './utils'
@@ -31,7 +32,8 @@ const projectSlug = 'mss'
 const databaseInstanceId = '7857e02a-05a5-437a-a46d-5da289559d67'
 const containerNamespaceId = 'ec549573-e3c9-4688-8e85-d1cb247095e2'
 const region = 'fr-par'
-const domain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
+const mainDomain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
+const previewDomain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
 
 export class WebAppStack extends TerraformStack {
   constructor(scope: Construct, id: string, branch: string) {
@@ -43,8 +45,9 @@ export class WebAppStack extends TerraformStack {
 
     const isMain = namespace === 'main'
 
-    const subDomain = namespace
-    const hostname = isMain ? domain : `${subDomain}.${domain}`
+    const hostname = isMain
+      ? mainDomain
+      : createPreviewSubdomain(namespace, previewDomain)
 
     // Output helper function
     // ⚠️ When calling this function, do not forget to update typings in src/getCdkOutput.ts
@@ -179,8 +182,8 @@ export class WebAppStack extends TerraformStack {
     )
 
     const emailFromAddress = isMain
-      ? `bot@${domain}`
-      : `bot+${namespace}@${domain}`
+      ? `bot@${mainDomain}`
+      : `bot+${namespace}@${mainDomain}`
 
     const emailFromName = isMain
       ? 'Mon Suivi Social'
@@ -237,7 +240,7 @@ export class WebAppStack extends TerraformStack {
     })
 
     const rootZone = new DataScalewayDomainZone(this, 'dnsZone', {
-      domain,
+      domain: isMain ? mainDomain : previewDomain,
     })
 
     const webDnsRecordConfig: DomainRecordConfig = isMain

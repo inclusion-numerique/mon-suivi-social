@@ -59,10 +59,10 @@ export const ArchiveBeneficiaryForm = withTrpc(
         <div className="fr-alert fr-alert--success fr-mb-8v">
           <h3 className="fr-alert__title">Archivage terminé</h3>
           <p>Le bénéficiaire à bien été archivé.</p>
-          <Link className="fr-btn" href={Routes.Beneficiaires.Index.path}>
-            Retour aux bénéficiaires
-          </Link>
         </div>
+        <Link className="fr-btn" href={Routes.Beneficiaires.Index.path}>
+          Retour aux bénéficiaires
+        </Link>
       </>
     ) : (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -91,15 +91,13 @@ export const ArchiveBeneficiaryForm = withTrpc(
             <p>Veuillez réesayer ultérieurement</p>
           </div>
         ) : null}
-        <div className="fr-grid-row">
-          <button
-            className="fr-btn fr-btn--icon-left fr-icon-archive-line"
-            type="submit"
-            disabled={isLoading}
-          >
-            Archiver le bénéficiaire
-          </button>
-        </div>
+        <button
+          className="fr-btn fr-btn--icon-left fr-icon-archive-line"
+          type="submit"
+          disabled={isLoading}
+        >
+          Archiver le bénéficiaire
+        </button>
       </form>
     )
   },
