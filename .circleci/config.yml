@@ -41,23 +41,15 @@ parameters:
   e2e_version:
     type: string
     default: e2e
-  # These GHA_* parameters will be present if workflow is triggered via Github Actions
-  GHA_Actor:
+  trigger_workflow:
     type: string
-    default: ""
-  GHA_Action:
-    type: string
-    default: ""
-  GHA_Event:
-    type: string
-    default: ""
-  GHA_Meta:
-    type: string
-    default: ""
+    default: "lint_test_build_deploy"
 
 workflows:
   version: 2
   lint_test_build_deploy:
+    when:
+      equal: [ lint_test_build_deploy, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
       - prepare_web_prod_dependencies
@@ -86,15 +78,21 @@ workflows:
             # - test_e2e
 
   scrap_preview_environment:
-    when: << pipeline.parameters.GHA_Action >>
+    # This workflow should never run on main branch, it would destroy production env
+    when:
+      and:
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ scrap_preview_environment, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
-      - debug_gha
       - hold:
           type: approval
           requires:
             - prepare_workspace_dependencies
-      - scrap_preview_environment
+      - scrap_preview_environment:
+          requires:
+            - hold
 
 jobs:
   prepare_workspace_dependencies:
@@ -286,13 +284,6 @@ jobs:
           name: 'Load fixtures'
           command: |
             pnpm -F @mss/cli fixtures:load
-  debug_gha:
-    executor: node
-    resource_class: large
-    steps:
-      - run:
-          name: 'Debug GHA environment'
-          command: env | grep GHA
 
   scrap_preview_environment:
     executor: node
