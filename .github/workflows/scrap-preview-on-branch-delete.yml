@@ -3,11 +3,12 @@ on:
   delete
 jobs:
   trigger-circleci:
+    if: github.event.ref_type == 'branch'
     name: Trigger CircleCI scrap_preview_environment workflow
     runs-on: ubuntu-latest
     steps:
       - name: Capture triggering branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=${{ github.event.ref }}" >> $GITHUB_ENV
       - name: Trigger CircleCI workflow
         uses: promiseofcake/circleci-trigger-action@v1
         with:
