@@ -45,8 +45,8 @@ export class WebAppStack extends TerraformStack {
 
     const isMain = namespace === 'main'
 
-    const hostname = isMain
-      ? mainDomain
+    const { hostname, subdomain } = isMain
+      ? { hostname: mainDomain, subdomain: '' }
       : createPreviewSubdomain(namespace, previewDomain)
 
     // Output helper function
@@ -198,7 +198,7 @@ export class WebAppStack extends TerraformStack {
     })
 
     // Changing the name will recreate a new container
-    // The names failes with max length so we shorten it
+    // The names fails with max length so we shorten it
     const maxContainerNameLength = 34
     const containerName =
       namespace.length > maxContainerNameLength
@@ -256,7 +256,7 @@ export class WebAppStack extends TerraformStack {
         {
           type: 'CNAME',
           dnsZone: rootZone.domain,
-          name: namespace,
+          name: subdomain,
           data: `${container.domainName}.`,
           ttl: 60 * 5,
         }

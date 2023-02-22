@@ -7,10 +7,10 @@ describe('utils', () => {
         'a-quite-long-branch-name',
         'a-very-long.subdomain.with-a-lot-of-things.dev',
       )
-      expect(result.length).toEqual(63)
-      expect(result).toEqual(
-        'a-quite-long-bra.a-very-long.subdomain.with-a-lot-of-things.dev',
+      expect(result.hostName).toEqual(
+        'a-quite-long.a-very-long.subdomain.with-a-lot-of-things.dev',
       )
+      expect(result.subdomain).toEqual('a-quite-long')
     })
 
     it('No-ops short domain names', () => {
@@ -18,11 +18,10 @@ describe('utils', () => {
         'feat-short',
         'a-very-long.subdomain.with-a-lot-of-things.dev',
       )
-      console.log('result', result)
-      expect(result.length).toBeLessThan(63)
-      expect(result).toEqual(
+      expect(result.hostName).toEqual(
         'feat-short.a-very-long.subdomain.with-a-lot-of-things.dev',
       )
+      expect(result.subdomain).toEqual('feat-short')
     })
   })
 })
