@@ -90,7 +90,6 @@ export const beneficiaryRouter = router({
         getServerStateInput: input,
         target,
         securityParams: {},
-        structureId: input.structureId,
         beneficiaryId: input.beneficiaryId,
       })
     }),
@@ -119,7 +118,6 @@ export const beneficiaryRouter = router({
         target,
         securityParams: {},
         getServerStateInput: input,
-        structureId: input.structureId,
         beneficiaryId: input.beneficiaryId,
       })
     }),

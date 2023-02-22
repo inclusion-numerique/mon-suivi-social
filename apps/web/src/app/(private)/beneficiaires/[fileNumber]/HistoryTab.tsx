@@ -13,15 +13,19 @@ import {
   helpRequestStatusLabels,
 } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import { formatDate } from '@mss/web/utils/formatDate'
+import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { ScrollToSupportItem } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/ScrollToSupportItem'
 import {
+  canEditBeneficiaryFollowup,
+  canEditBeneficiaryHelpRequest,
   canViewBeneficiaryFollowupPrivateSynthesis,
   canViewBeneficiaryFollowupSynthesis,
   canViewBeneficiaryHelpRequestPrivateSynthesis,
   canViewBeneficiaryHelpRequestSynthesis,
 } from '@mss/web/security/rules'
 import { BeneficiaryPageInfo } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
+import { Routes } from '@mss/web/app/routing/routes'
+import Link from 'next/link'
 
 export const HistoryTab = ({
   user,
@@ -97,6 +101,16 @@ const SupportCard = ({
     : canViewBeneficiaryFollowupPrivateSynthesis(user, beneficiary, support)
   const synthesisAccordionId = `support-card-${support.id}`
 
+  const canEdit = isHelpRequest
+    ? canEditBeneficiaryHelpRequest(user, beneficiary, support)
+    : canEditBeneficiaryFollowup(user, beneficiary, support)
+
+  const editHref = isHelpRequest
+    ? Routes.Accompagnements.DemandeDAide.Modifier.path({
+        helpRequestId: support.id,
+      })
+    : Routes.Accompagnements.Entretien.Modifier.path({ followupId: support.id })
+
   return (
     <div
       key={support.id}
@@ -116,7 +130,7 @@ const SupportCard = ({
                   }}
                 >
                   <p className="fr-text--bold fr-mb-2v">
-                    {formatDate(support.historyDate)}
+                    {dateAsDay(support.historyDate)}
                   </p>
                   <p
                     className={`fr-text--bold  fr-mb-2v ${
@@ -141,7 +155,7 @@ const SupportCard = ({
                     />
                   ))}
                 </div>
-                <div className="fr-col-12 fr-col-md-8">
+                <div className="fr-col-12">
                   <AttributesList items={supportAttributes(support)} />
                   <p className="fr-mt-2v">🚧 en cours de développement</p>
                 </div>
@@ -185,6 +199,17 @@ const SupportCard = ({
                       ) : null}
                     </div>
                   </section>
+                ) : null}
+                {canEdit ? (
+                  <div className="fr-col-12 fr-pt-4v">
+                    <Link
+                      href={editHref}
+                      className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-edit-line"
+                      title="Modifier cet accompagnement"
+                    >
+                      Modifier
+                    </Link>
+                  </div>
                 ) : null}
               </div>
             </div>

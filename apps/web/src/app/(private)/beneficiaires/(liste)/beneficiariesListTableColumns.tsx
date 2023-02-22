@@ -3,7 +3,7 @@ import { getUserDisplayName } from '@mss/web/utils/user'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
 import { getAge } from '@mss/web/utils/age'
-import { formatDate } from '@mss/web/utils/formatDate'
+import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { beneficiaryStatusLabels } from '@mss/web/beneficiary/beneficiary'
 
 export const beneficiariesListTableColumns = [
@@ -28,7 +28,7 @@ export const beneficiariesListTableColumns = [
   },
   {
     label: 'Date de naissance',
-    content: ({ birthDate }: ListBeneficiariesItem) => formatDate(birthDate),
+    content: ({ birthDate }: ListBeneficiariesItem) => dateAsDay(birthDate),
   },
   {
     label: 'Adresse',

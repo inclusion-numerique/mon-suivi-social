@@ -7,21 +7,37 @@ import { computeArrayDiff } from '@mss/web/utils/diff'
 
 export const EditFollowupServer = createMutationServerWithInitialState({
   client: EditFollowupClient,
-  getServerState: async ({ followupId }: { followupId: string }) =>
-    prismaClient.followup.findUniqueOrThrow({
+  getServerState: async ({
+    followupId,
+    includeSynthesis,
+    includePrivateSynthesis,
+  }: {
+    followupId: string
+    includeSynthesis: boolean
+    includePrivateSynthesis: boolean
+  }) => {
+    const followup = await prismaClient.followup.findUniqueOrThrow({
       where: { id: followupId },
-      // Only select general info
       include: {
         types: true,
         documents: true,
       },
-    }),
+    })
+
+    if (!includeSynthesis) {
+      followup.synthesis = null
+    }
+    if (!includePrivateSynthesis) {
+      followup.privateSynthesis = null
+    }
+
+    return followup
+  },
   dataFromServerState: ({
     id,
     types,
+    structureId,
     documents,
-    date,
-    dueDate,
     created,
     updated,
     createdById,
@@ -31,8 +47,6 @@ export const EditFollowupServer = createMutationServerWithInitialState({
       followupId: id,
       types: types.map(({ id }) => id),
       documents: documents.map(({ key }) => key),
-      date: date?.toISOString(),
-      dueDate: dueDate?.toISOString(),
       ...removeNullAndUndefinedValues(data),
     }
   },

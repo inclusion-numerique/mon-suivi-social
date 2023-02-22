@@ -31,10 +31,9 @@ export const AddBeneficiaryWithGeneralInfoClient = createMutationClient({
     firstName: z.string().nullish(),
     usualName: z.string().nullish(),
     birthName: z.string().nullish(),
-    // TODO datetime validation do not work for date, use other test
-    birthDate: z.string().nullish(),
+    birthDate: z.date(errorMessages).nullish(),
     birthPlace: z.string().nullish(),
-    deathDate: z.date().nullish(),
+    deathDate: z.date(errorMessages).nullish(),
     gender: z.nativeEnum(Gender).nullish(),
     // nationality: z.enum(zodEnumFromObjectKeys(Nationalities)).nullish(),
     nationality: z.enum(zodEnumFromObjectKeys(Nationalities)).nullish(),

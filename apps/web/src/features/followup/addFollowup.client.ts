@@ -17,10 +17,9 @@ export const AddFollowupClient = createMutationClient({
         required_error: "Veuillez renseigner au moins un type d'accompagnement",
       })
       .min(1, "Veuillez renseigner au moins un type d'accompagnement"),
-    documents: z.array(z.string().uuid(), errorMessages).default([]),
+    documents: z.array(z.string(), errorMessages).default([]),
     medium: z.nativeEnum(FollowupMedium, errorMessages),
-    // TODO datetime validation do not work for date, use other test
-    date: z.string(errorMessages),
+    date: z.date(errorMessages),
     synthesis: z.string().nullish(),
     privateSynthesis: z.string().nullish(),
     status: z.nativeEnum(FollowupStatus, errorMessages),
@@ -28,7 +27,7 @@ export const AddFollowupClient = createMutationClient({
     place: z.string().nullish(),
     redirected: z.boolean().default(false),
     structureName: z.string().nullish(),
-    dueDate: z.string().nullish(),
+    dueDate: z.date(errorMessages).nullish(),
     thirdPersonName: z.string().nullish(),
   }),
   beneficiaryAnonymization: () => ({

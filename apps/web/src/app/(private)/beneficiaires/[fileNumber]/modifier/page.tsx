@@ -8,9 +8,9 @@ import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { BeneficiaryForm } from '@mss/web/beneficiary/BeneficiaryForm'
 import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
+import { EditBeneficiaryFullDataServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.server'
 
 export const revalidate = 0
 
@@ -24,7 +24,6 @@ const EditBeneficiaryPage = async ({
   const user = await getAuthenticatedAgent()
 
   // TODO put this in feature file
-  // TODO Put this kind of data for structure followup in feature file and NOT in server state as it has no impact on mutation diff
   const beneficiary = await prismaClient.beneficiary.findFirst({
     where: { fileNumber, archived: null },
     select: {
@@ -45,19 +44,33 @@ const EditBeneficiaryPage = async ({
     return null
   }
 
-  const full = EditBeneficiaryFullDataClient.securityCheck(
+  const agents = await getAgentOptions(user)
+
+  const formProps = EditBeneficiaryFullDataClient.securityCheck(
     user,
     beneficiary,
     {},
   )
-
-  const agents = await getAgentOptions(user)
-
-  const serverState = await EditBeneficiaryGeneralInfoServer.getServerState({
-    beneficiaryId: beneficiary.id,
-  })
-  const defaultInput =
-    EditBeneficiaryGeneralInfoServer.dataFromServerState(serverState)
+    ? await EditBeneficiaryFullDataServer.getServerState({
+        beneficiaryId: beneficiary.id,
+      }).then(
+        (serverState) =>
+          ({
+            full: true,
+            defaultInput:
+              EditBeneficiaryFullDataServer.dataFromServerState(serverState),
+          } as const),
+      )
+    : await EditBeneficiaryGeneralInfoServer.getServerState({
+        beneficiaryId: beneficiary.id,
+      }).then(
+        (serverState) =>
+          ({
+            full: false,
+            defaultInput:
+              EditBeneficiaryGeneralInfoServer.dataFromServerState(serverState),
+          } as const),
+      )
 
   const page: PageConfig = {
     ...Routes.Beneficiaires.Beneficiaire.Modifier,
@@ -82,11 +95,19 @@ const EditBeneficiaryPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <BeneficiaryForm
-                full={full}
-                agents={agents}
-                defaultInput={serialize(defaultInput)}
-              />
+              {formProps.full ? (
+                <BeneficiaryForm
+                  full={formProps.full}
+                  agents={agents}
+                  defaultInput={serialize(formProps.defaultInput)}
+                />
+              ) : (
+                <BeneficiaryForm
+                  full={formProps.full}
+                  agents={agents}
+                  defaultInput={serialize(formProps.defaultInput)}
+                />
+              )}
             </div>
           </div>
         </div>

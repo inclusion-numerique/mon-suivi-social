@@ -11,6 +11,10 @@ superjson.registerCustom<Decimal, string>(
   'decimal.js',
 )
 
+/** ⚠️ When serializing server data to pass to client components it becomes available to the browser.
+ * Always check what is included in the data you serialize before passing it to a client component.
+ */
+
 // Helper type to obfuscate serialized data
 export type Serialized<T> = { __serialized: Symbol }
 

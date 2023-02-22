@@ -8,6 +8,12 @@ import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiar
 import { prismaClient } from '@mss/web/prismaClient'
 import { EditFollowupServer } from '@mss/web/features/followup/editFollowup.server'
 import { FollowupForm } from '@mss/web/app/(private)/accompagnements/entretiens/FollowupForm'
+import { getStructureFollowupTypes } from '@mss/web/structure/getStructureFollowupTypes'
+import { Options } from '@mss/web/utils/options'
+import {
+  canViewBeneficiaryFollowupPrivateSynthesis,
+  canViewBeneficiaryFollowupSynthesis,
+} from '@mss/web/security/rules'
 
 export const revalidate = 0
 
@@ -23,6 +29,7 @@ const EditFollowupPage = async ({
     },
     select: {
       createdById: true,
+      structureId: true,
       beneficiary: {
         select: {
           ...beneficiarySecurityTargetSelect,
@@ -31,6 +38,9 @@ const EditFollowupPage = async ({
           usualName: true,
           email: true,
           fileNumber: true,
+          documents: {
+            select: { key: true, type: true, name: true },
+          },
         },
       },
     },
@@ -50,8 +60,33 @@ const EditFollowupPage = async ({
     return null
   }
 
+  const followupTypes = await getStructureFollowupTypes({
+    structureId: followup.structureId,
+  })
+  const followupTypeOptions: Options = followupTypes.map(
+    ({ followupType: { name, id } }) => ({
+      name,
+      value: id,
+    }),
+  )
+  const documentOptions: Options = followup.beneficiary.documents.map(
+    ({ name, type, key }) => ({ name: `${type} - ${name}`, value: key }),
+  )
+
+  const canViewSynthesis = canViewBeneficiaryFollowupSynthesis(
+    user,
+    followup.beneficiary,
+    followup,
+  )
+  const canViewPrivateSynthesis = canViewBeneficiaryFollowupPrivateSynthesis(
+    user,
+    followup.beneficiary,
+    followup,
+  )
   const serverState = await EditFollowupServer.getServerState({
     followupId,
+    includeSynthesis: canViewSynthesis,
+    includePrivateSynthesis: canViewPrivateSynthesis,
   })
   const defaultInput = EditFollowupServer.dataFromServerState(serverState)
 
@@ -69,7 +104,13 @@ const EditFollowupPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <FollowupForm defaultInput={serialize(defaultInput)} />
+              <FollowupForm
+                followupTypeOptions={followupTypeOptions}
+                documentOptions={documentOptions}
+                synthesisField={canViewSynthesis}
+                privateSynthesisField={canViewPrivateSynthesis}
+                defaultInput={serialize(defaultInput)}
+              />
             </div>
           </div>
         </div>

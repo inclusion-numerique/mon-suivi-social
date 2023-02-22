@@ -126,7 +126,8 @@ export const StructureForm = withTrpc(
         structure === undefined
           ? followupTypes
           : sortFollowupTypes(initiallySelectedFollowupIds, followupTypes),
-      // Volontary missing deps to not recompute if server state has not changed
+      // Volontary missing deps to NOT recompute if server state has not changed
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [props],
     )
 
