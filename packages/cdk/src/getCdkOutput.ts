@@ -22,20 +22,32 @@ export const getCdkOutput = async (): Promise<CdkOutput> => {
   const outputContents = await readFile(outputFile, 'utf-8')
   const rawOutput = JSON.parse(outputContents)
 
-  // Outputs are prefixed by web_output and suffixed by _{hash}
-  // web_outputuploadsBucketName_14BB6D15 -> uploadsBucketName
-
   const output = Object.fromEntries(
-    Object.entries(rawOutput['web']).map(([key, value]) => {
-      const parts = key.split('_')
-      parts.pop()
-
-      const prefixedVariable = parts.join('_')
-      const variable = prefixedVariable.substring(10)
-
-      return [variable, value]
-    }),
+    Object.entries(rawOutput['web']).map(([key, value]) => [
+      normalizeCdkOutputKey(key),
+      value,
+    ]),
   )
 
   return output as CdkOutput
+}
+
+// Outputs are prefixed by web_output and suffixed by _{hash}
+// Sometimes (in CI, I don't know why, maybe depending on terraform version), they are just prefixed with output_
+// web_outputuploadsBucketName_14BB6D15 -> uploadsBucketName
+// output_uploadsBucketName -> uploadsBucketName
+export const normalizeCdkOutputKey = (key: string): string => {
+  let withoutPrefix: string
+  if (key.startsWith('web_output')) {
+    withoutPrefix = key.substring('web_output'.length)
+  } else {
+    withoutPrefix = key.substring('output_'.length)
+  }
+
+  const parts = withoutPrefix.split('_')
+  if (parts.length > 1) {
+    parts.pop()
+  }
+
+  return parts.join('_')
 }
