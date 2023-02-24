@@ -331,6 +331,9 @@ jobs:
           name: 'Destroy stack'
           command: |
             TF_VAR_web_webContainerImage_C5B2590D='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm -F @mss/cdk cdktf destroy web --auto-approve
+      - run:
+          name: Deactivate Github deployments
+          command: pnpm --silent cli github:deployment:deactivate << pipeline.parameters.scrap_environment_for_branch >>
 
 commands:
   install_pnpm:
