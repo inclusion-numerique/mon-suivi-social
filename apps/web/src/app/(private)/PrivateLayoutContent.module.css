@@ -13,4 +13,11 @@
             background-color: var(--mss-primary-inverted-hover);
         }
     }
+    /* TODO FIXME This style is not applied, so we cannot see the small mark on the left of currently selected menu item */
+    .fr-sidemenu__btn[aria-current]:before,
+    .fr-sidemenu__link[aria-current]:before {
+        --hover: white !important;
+        --active: white !important;
+        background-color: white !important;
+    }
 }
