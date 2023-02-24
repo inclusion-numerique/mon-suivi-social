@@ -1,77 +1,39 @@
 import Link from 'next/link'
-import { ReactNode } from 'react'
 import { Routes } from '@mss/web/app/routing/routes'
 
-const PublicHeader = ({
-  hideRepublic,
-  hideSigninButton,
-  fullWidth,
-  rootPath = '/',
-  headerTools = (
-    <div className="fr-header__tools">
-      <div className="fr-header__tools-links">
-        <ul className="fr-btns-group">
-          {hideSigninButton ? null : (
-            <li>
-              <a
-                className="fr-btn fr-btn--tertiary fr-icon-user-setting-line"
-                href={Routes.Connexion.Login}
-              >
-                Se connecter
-              </a>
-            </li>
-          )}
-        </ul>
-      </div>
-    </div>
-  ),
-  mobileMenuLinks = (
-    <div className="fr-header__menu-links">
-      <ul className="fr-btns-group">
-        {hideSigninButton ? null : (
-          <li>
-            <Link
-              className="fr-btn fr-btn--icon-left fr-icon-user-setting-line"
-              href={Routes.Connexion.Login}
-            >
-              Se connecter
-            </Link>
-          </li>
-        )}
-      </ul>
-    </div>
-  ),
-}: {
-  hideRepublic?: boolean
-  rootPath?: string
-  hideSigninButton?: boolean
-  fullWidth?: boolean
-  headerTools?: ReactNode
-  mobileMenuLinks?: ReactNode
-}) => {
+const PublicHeader = ({ hideSigninButton }: { hideSigninButton?: boolean }) => {
+  const links = hideSigninButton
+    ? []
+    : [
+        <Link
+          className="fr-btn fr-btn--icon-left fr-icon-user-setting-line"
+          href={Routes.Connexion.Login}
+        >
+          Se connecter
+        </Link>,
+      ]
+
   return (
     <header role="banner" className="fr-header">
       <div className="fr-header__body">
-        <div className={fullWidth ? 'fr-ml-4v fr-mr-4v' : 'fr-container'}>
+        <div className="fr-container">
           <div className="fr-header__body-row">
             <div className="fr-header__brand fr-enlarge-link">
               <div className="fr-header__brand-top">
                 <Link
-                  href={rootPath}
+                  href="/"
                   aria-current="page"
                   target="_self"
                   title="Mon Suivi Social"
                   style={{ display: 'flex' }}
                 >
-                  {hideRepublic ? null : (
-                    <div className="fr-header__logo">
-                      <p className="fr-logo">
-                        République
-                        <br />
-                        Française
-                      </p>
-                    </div>
-                  )}
+                  <div className="fr-header__logo">
+                    <p className="fr-logo">
+                      République
+                      <br />
+                      Française
+                    </p>
+                  </div>
                   <div className="fr-header__logo">
                     <picture>
                       <img
@@ -97,7 +59,15 @@ const PublicHeader = ({
                 </div>
               </div>
             </div>
-            {headerTools}
+            <div className="fr-header__tools">
+              <div className="fr-header__tools-links">
+                <ul className="fr-btns-group">
+                  {links.map((link, index) => (
+                    <li key={index}>{link}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -109,7 +79,13 @@ const PublicHeader = ({
           >
             Fermer
           </button>
-          {mobileMenuLinks}
+          <div className="fr-header__menu-links">
+            <ul className="fr-btns-group">
+              {links.map((link, index) => (
+                <li key={index}>{link}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </header>

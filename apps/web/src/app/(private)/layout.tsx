@@ -4,9 +4,9 @@ import PrivateLayoutContent from '@mss/web/app/(private)/PrivateLayoutContent'
 import OnboardingWithoutStructure from '@mss/web/app/(private)/OnboardingWithoutStructure'
 import { redirect } from 'next/navigation'
 import { Routes } from '@mss/web/app/routing/routes'
-import PublicLayout from '@mss/web/app/(public)/layout'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import PrivateHeader from '@mss/web/app/(private)/PrivateHeader'
+import { PublicLayout } from '@mss/web/app/(public)/PublicLayout'
 
 const LoggedInUserWithoutFullAccess = ({
   breadcrumbsCurrentPage = 'Création de compte',
