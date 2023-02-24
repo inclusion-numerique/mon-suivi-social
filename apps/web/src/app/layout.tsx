@@ -3,6 +3,7 @@ import { PropsWithChildren } from 'react'
 import { Matomo } from '@mss/web/app/Matomo'
 import { Dsfr } from '@mss/web/app/Dsfr'
 import { EnvironmentInformation } from '@mss/web/app/EnvironmentInformation'
+import { PrivateConfig } from '@mss/web/config'
 
 const fontsToPreload = ['Marianne-Regular', 'Marianne-Bold', 'Marianne-Medium']
 
@@ -12,6 +13,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {PrivateConfig.isMain ? null : (
+          // Do not index preview environments
+          <meta name="robots" content="noindex" />
+        )}
         <title>Mon Suivi Social</title>
         <meta name="theme-color" content="#000091" />
         <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />

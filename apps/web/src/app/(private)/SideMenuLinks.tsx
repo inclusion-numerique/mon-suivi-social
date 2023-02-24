@@ -53,10 +53,6 @@ const SideMenuLinks = ({
   const user = deserialize(serializedUser)
   const isCurrent = useIsCurrentPathname()
 
-  const onLogoutClick = () => {
-    signOut()
-  }
-
   // TODO MSS depends on role
   const userSpecificLinks: MenuLink[] = []
 

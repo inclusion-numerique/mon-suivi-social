@@ -60,13 +60,13 @@ export const PaginationNav = ({
           )}
         </li>
         {/*TODO display lg etc... from doc https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/pagination/*/}
-        {linkablePages.map((linkNumber) =>
+        {linkablePages.map((linkNumber, index) =>
           linkNumber === null ? (
-            <li>
+            <li key={`null_${index}`}>
               <a className="fr-pagination__link">...</a>
             </li>
           ) : (
-            <li>
+            <li key={linkNumber}>
               <Link
                 className="fr-pagination__link"
                 aria-current={pageNumber === linkNumber ? 'page' : undefined}

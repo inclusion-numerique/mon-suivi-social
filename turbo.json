@@ -44,6 +44,7 @@
     "NODE_ENV",
     "PORT",
     "APP",
+    "GITHUB_TOKEN",
     "PRODUCTION_URL",
     "PRODUCTION_APP",
     "BASE_URL",

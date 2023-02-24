@@ -218,7 +218,7 @@ const MutationLogDiff = ({
         <li style={{ color: 'var(--text-disabled-grey)' }}>Aucune</li>
       ) : (
         keys.map((key) => (
-          <li className="fr-text--sm" key={key}>
+          <li key={key} className="fr-text--sm">
             {client ? nonBreakable(client.fieldLabels[key] ?? key) : key}
           </li>
         ))

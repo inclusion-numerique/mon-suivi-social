@@ -11,6 +11,7 @@ export const main = async () => {
     dotenvFile,
     `
 DATABASE_URL=${cdkOutput.databaseUrl}
+WEB_BASE_URL=${cdkOutput.webBaseUrl}
 `,
   )
 }
