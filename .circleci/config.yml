@@ -264,7 +264,7 @@ jobs:
       - run:
           name: 'Generate Prisma client for this platform'
           command: |
-            pnpm -F @mss/web prisma:generate
+            pnpm --silent -F @mss/web prisma:generate
       - queue/until_front_of_line:
           time: '3'
       - run:
@@ -279,11 +279,11 @@ jobs:
       - run:
           name: 'Deploy stack'
           command: |
-            pnpm -F @mss/cdk deploy:web:ci
+            pnpm --silent -F @mss/cdk deploy:web:ci
       - run:
           name: 'Create .env file from deployment outputs'
           command: |
-            pnpm -F @mss/cli env:from-cdk
+            pnpm --silent -F @mss/cli env:from-cdk
       - dotenv/source:
           path: .env
       - run:
@@ -292,7 +292,7 @@ jobs:
       - run:
           name: 'Migrate database'
           command: |
-            pnpm -F @mss/web with-env prisma db push --skip-generate --accept-data-loss
+            pnpm -F @mss/web prisma db push --skip-generate --accept-data-loss
       - run:
           name: Set deployment status to fixtures load
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID in_progress -d 'Loading fixtures' -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
@@ -305,7 +305,7 @@ jobs:
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID success -d 'Deploy successful' -u https://$WEB_BASE_URL -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
       - run:
           name: Set deployment status to failed
-          command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID failure -d 'Deploy successful' -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
+          command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID failure -d 'Deploy failed' -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
           when: on_fail
 
   scrap_preview_environment:
