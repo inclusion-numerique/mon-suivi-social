@@ -8,9 +8,9 @@ describe('utils', () => {
         'a-very-long.subdomain.with-a-lot-of-things.dev',
       )
       expect(result.hostname).toEqual(
-        'a-quite-long.a-very-long.subdomain.with-a-lot-of-things.dev',
+        'a-quite-long-bra.a-very-long.subdomain.with-a-lot-of-things.dev',
       )
-      expect(result.subdomain).toEqual('a-quite-long')
+      expect(result.subdomain).toEqual('a-quite-long-bra')
     })
 
     it('Removes trailing hyphen of long DNS domain name', () => {
