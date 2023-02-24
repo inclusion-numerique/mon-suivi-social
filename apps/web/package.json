@@ -36,7 +36,6 @@
     "@mss/emails": "*",
     "@mss/storybook": "*",
     "@next-auth/prisma-adapter": "^1.0.5",
-    "@next/font": "^13.2.1",
     "@prisma/client": "^4.10.1",
     "@sentry/browser": "^7.38.0",
     "@sentry/nextjs": "^7.38.0",

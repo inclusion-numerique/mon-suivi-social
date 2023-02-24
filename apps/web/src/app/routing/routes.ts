@@ -1,6 +1,3 @@
-// XXX What is the best practice to store routing logic and typings ?
-// Ideal would be to validate path depending on directory structure
-
 import { withSearchParams } from '@mss/web/app/routing/withSearchParams'
 import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import { Beneficiary } from '@prisma/client'

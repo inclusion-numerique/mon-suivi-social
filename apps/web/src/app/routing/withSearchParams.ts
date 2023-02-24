@@ -1,6 +1,7 @@
+import { removeUndefinedValues } from '@mss/web/utils/removeUndefinedValues'
+
 // Adds search params to a url
 // Lax typing on params and removes undefined params for ease of use
-import { removeUndefinedValues } from '@mss/web/utils/removeUndefinedValues'
 
 export const withSearchParams =
   <T extends Record<string, string | undefined>>(
