@@ -52,4 +52,5 @@ export const CreateStructureServer = createMutationServer({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type CreateStructureServer = typeof CreateStructureServer

@@ -19,5 +19,7 @@ export const EditBeneficiaryGeneralInfoClient = createMutationClient({
     ...AddBeneficiaryWithGeneralInfoClient.fieldLabels,
   },
 })
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditBeneficiaryGeneralInfoClient =
   typeof EditBeneficiaryGeneralInfoClient

@@ -30,7 +30,6 @@ export function SelectFormField<T extends FieldValues>({
   disabled,
   required,
   autoFocus,
-  boolean,
   valueAsBoolean,
   valueAsNumber,
   valueAsDate,
@@ -45,8 +44,6 @@ export function SelectFormField<T extends FieldValues>({
   hint?: string
   placeholder?: string
   autoFocus?: boolean
-  // Cast value as boolean
-  boolean?: boolean
 } & (
   | { groups?: false; options: Options }
   | { groups: true; optionGroups: OptionsGroups }

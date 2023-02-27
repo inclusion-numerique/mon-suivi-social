@@ -14,7 +14,8 @@ const middleware: NextMiddleware = (request) => {
       // we redirect to the main domain defined in base_url
       (!!baseUrl && requestHost !== baseUrl))
   ) {
-    const httpsBase = `https://${baseUrl || requestHost}`
+    const domain = baseUrl ? baseUrl : requestHost
+    const httpsBase = `https://${domain ?? ''}`
     const requestUrl = new URL(request.url)
     const path = `${requestUrl.pathname}${requestUrl.search}`
     const redirectTo = `${httpsBase}${path}`

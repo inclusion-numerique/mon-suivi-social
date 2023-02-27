@@ -32,6 +32,7 @@ export const CreateStructureClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type CreateStructureClient = typeof CreateStructureClient
 
 export const StructureTypeLabels: { [key in StructureType]: string } = {

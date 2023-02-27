@@ -17,4 +17,5 @@ export const EditFollowupClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditFollowupClient = typeof EditFollowupClient

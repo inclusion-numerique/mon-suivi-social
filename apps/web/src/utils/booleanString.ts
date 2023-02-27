@@ -30,8 +30,7 @@ export function stringToBoolean(
 export function stringToBoolean(
   value: BooleanString | null | undefined,
 ): boolean | null | undefined {
-  return
-  value === null || value === undefined
+  return value === null || value === undefined
     ? value
     : value === 'true'
     ? true

@@ -3,7 +3,6 @@ import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canAccessFollowupsPage } from '@mss/web/security/rules'
 import { notFound, redirect } from 'next/navigation'
-import Link from 'next/link'
 import {
   getColumnOrderBy,
   Sorting,

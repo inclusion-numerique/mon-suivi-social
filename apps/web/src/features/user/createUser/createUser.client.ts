@@ -11,6 +11,8 @@ import { UserRole } from '@prisma/client'
 
 const { Administrator, ...otherRoles } = UserRole
 export const NonAdminUserRole = otherRoles
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type NonAdminUserRole = keyof typeof NonAdminUserRole
 
 export const CreateUserClient = createMutationClient({
@@ -36,6 +38,7 @@ export const CreateUserClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type CreateUserClient = typeof CreateUserClient
 
 export const NonAdminUserRoleLabels: { [key in NonAdminUserRole]: string } = {

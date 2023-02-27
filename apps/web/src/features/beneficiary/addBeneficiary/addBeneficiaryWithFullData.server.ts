@@ -38,5 +38,6 @@ export const AddBeneficiaryWithFullDataServer = createMutationServer({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddBeneficiaryWithFullDataServer =
   typeof AddBeneficiaryWithFullDataServer

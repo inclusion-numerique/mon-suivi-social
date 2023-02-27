@@ -1,7 +1,6 @@
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import Link from 'next/link'
 import {
-  SortDirection,
   Sorting,
   TableColumnDefinition,
 } from '@mss/web/ui/table/TableColumnDefinition'
@@ -41,6 +40,7 @@ type TableHeadSortLinkProps<Item, SortBy> = {
   createSortLink: (sorting: Sorting) => string
   currentSorting: Sorting<SortBy>
 }
+
 function SortLink<Item, SortBy>({
   column: { sortable, label },
   currentSorting: { by, direction },

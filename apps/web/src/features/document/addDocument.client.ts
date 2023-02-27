@@ -90,6 +90,7 @@ export const AddDocumentClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddDocumentClient = typeof AddDocumentClient
 
 // Used in browser forms

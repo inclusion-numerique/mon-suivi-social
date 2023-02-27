@@ -1,9 +1,7 @@
 'use client'
 
-import { HTMLInputTypeAttribute } from 'react'
 import { Control, Controller, FieldValues } from 'react-hook-form'
 import { FieldPath } from 'react-hook-form/dist/types/path'
-import TextareaAutosize from 'react-textarea-autosize'
 
 export function UploadFormField<T extends FieldValues>({
   label,

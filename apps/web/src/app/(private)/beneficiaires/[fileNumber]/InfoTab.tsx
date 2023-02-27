@@ -10,7 +10,6 @@ import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { isEmptyValue } from '@mss/web/utils/isEmptyValue'
 
 export const InfoTab = ({
-  user,
   beneficiary,
   followupTypes,
 }: {

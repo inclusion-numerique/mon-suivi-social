@@ -17,7 +17,6 @@ import { DocumentFileButton } from '@mss/web/app/(private)/beneficiaires/[fileNu
 import { serialize } from '@mss/web/utils/serialization'
 
 export const DocumentsTab = ({
-  user,
   documents,
   beneficiary,
 }: {
@@ -83,12 +82,7 @@ const DocumentCard = ({
 }: {
   document: BeneficiaryPageDocuments[number]
 }) => {
-  // TODO update
-  // TODO delete
-  // TODO view
-  // TODO Download
-
-  const { key, name, type, size, mimeType, confidential, tags } = document
+  const { name, size, mimeType, tags } = document
 
   const tagLabels = tags
     .filter((tag): tag is DocumentTag => tag in documentTagLabels)

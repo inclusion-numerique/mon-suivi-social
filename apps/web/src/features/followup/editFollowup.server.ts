@@ -45,7 +45,7 @@ export const EditFollowupServer = createMutationServerWithInitialState({
   }): MutationInput<EditFollowupClient> => {
     return {
       followupId: id,
-      types: types.map(({ id }) => id),
+      types: types.map((type) => type.id),
       documents: documents.map(({ key }) => key),
       ...removeNullAndUndefinedValues(data),
     }
@@ -97,4 +97,5 @@ export const EditFollowupServer = createMutationServerWithInitialState({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditFollowupServer = typeof EditFollowupServer

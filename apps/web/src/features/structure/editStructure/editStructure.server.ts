@@ -117,4 +117,5 @@ export const EditStructureServer = createMutationServerWithInitialState({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditStructureServer = typeof EditStructureServer

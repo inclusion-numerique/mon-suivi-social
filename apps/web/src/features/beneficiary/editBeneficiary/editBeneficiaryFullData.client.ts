@@ -19,4 +19,6 @@ export const EditBeneficiaryFullDataClient = createMutationClient({
     ...AddBeneficiaryWithFullDataClient.fieldLabels,
   },
 })
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditBeneficiaryFullDataClient = typeof EditBeneficiaryFullDataClient

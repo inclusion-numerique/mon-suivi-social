@@ -56,4 +56,5 @@ export const AddFollowupServer = createMutationServer({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddFollowupServer = typeof AddFollowupServer

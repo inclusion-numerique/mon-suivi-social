@@ -3,7 +3,10 @@ import { CSSProperties, ReactNode } from 'react'
 export type SortDirection = 'asc' | 'desc'
 export type Sorting<By = string> = { by: By; direction: SortDirection }
 
-export type TableColumnDefinition<Item = unknown, OrderByCondition = {}> = {
+export type TableColumnDefinition<
+  Item = unknown,
+  OrderByCondition = Record<string, never>,
+> = {
   // Label of the table column, displayed in table header and accessibility labels
   label: string
   // If the column is sortable, provide a function that returns the "orderBy" configuration for the prisma request

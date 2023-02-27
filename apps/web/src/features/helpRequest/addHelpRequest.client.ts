@@ -70,6 +70,7 @@ export const AddHelpRequestClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddHelpRequestClient = typeof AddHelpRequestClient
 
 export const helpRequestStatusLabels: { [key in HelpRequestStatus]: string } = {

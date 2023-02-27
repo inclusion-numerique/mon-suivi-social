@@ -1,5 +1,3 @@
-import 'jest'
-
 describe.skip('createSignedUrl', () => {
   it('requires fixing', () => {})
   //   describe.skip('createSignedGetUrl', () => {
@@ -48,3 +46,4 @@ describe.skip('createSignedUrl', () => {
   //     }, 30000)
   //   })
 })
+export {}

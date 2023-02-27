@@ -65,7 +65,7 @@ export const EditBeneficiaryGeneralInfoServer =
       return {
         beneficiaryId: id,
         nationality: nationality as keyof typeof Nationalities,
-        referents: referents.map(({ id }) => id),
+        referents: referents.map((referent) => referent.id),
         ...removeNullAndUndefinedValues(data),
       }
     },
@@ -100,5 +100,6 @@ export const EditBeneficiaryGeneralInfoServer =
     }),
   })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditBeneficiaryGeneralInfoServer =
   typeof EditBeneficiaryGeneralInfoServer

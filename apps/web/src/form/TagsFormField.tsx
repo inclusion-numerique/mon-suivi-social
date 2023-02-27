@@ -10,12 +10,9 @@ export function TagsFormField<T extends FieldValues>({
   control,
   label,
   path,
-  placeholder,
   hint,
-  defaultOption,
   disabled,
   required,
-  autoFocus,
   badgeSize,
   ...optionsProps
 }: {
@@ -24,11 +21,7 @@ export function TagsFormField<T extends FieldValues>({
   path: FieldPath<T>
   disabled?: boolean
   required?: boolean
-  defaultOption?: boolean
-  defaultOptionLabel?: string
   hint?: string
-  placeholder?: string
-  autoFocus?: boolean
   badgeSize?: 'sm' | 'md'
 } & (
   | { groups?: false; options: Options }

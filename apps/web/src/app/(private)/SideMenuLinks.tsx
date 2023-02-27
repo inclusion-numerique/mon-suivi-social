@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import { signOut } from 'next-auth/react'
 import { useIsCurrentPathname } from '@mss/web/hooks/useIsCurrentPathname'
 import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'

@@ -50,7 +50,6 @@ export const AddDocumentModalForm = withTrpc(
       handleSubmit,
       reset,
       setError,
-      watch,
       formState: { isSubmitting },
     } = useForm<AddDocumentWithBrowserUploadData>({
       defaultValues,
@@ -128,12 +127,14 @@ export const AddDocumentModalForm = withTrpc(
 
     const isLoading = isSubmitting || addDocument.isLoading
 
-    const onCancel: MouseEventHandler = (event) => {
+    const onCancel: MouseEventHandler = () => {
       reset(defaultValues)
     }
 
+    // eslint-disable-next-line no-irregular-whitespace
     const uploadHint = `Taille maximale : ${formatByteSize(
       documentFileMaxSize,
+      // eslint-disable-next-line no-irregular-whitespace
     )}. Formats supportés : ${documentFileAllowedTypes
       .map(mime.extension)
       .join(', ')}`
