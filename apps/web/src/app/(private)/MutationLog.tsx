@@ -213,7 +213,7 @@ const MutationLogDiff = ({
   const keys = Object.keys(changes)
 
   return (
-    <ul className={styles.changesFields}>
+    <ul className={styles.changes}>
       {keys.length === 0 ? (
         <li style={{ color: 'var(--text-disabled-grey)' }}>Aucune</li>
       ) : (

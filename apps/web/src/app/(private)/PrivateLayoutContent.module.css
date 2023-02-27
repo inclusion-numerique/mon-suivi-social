@@ -1,23 +1,30 @@
-.sideMenu {
+.side-menu {
+  background-color: var(--mss-primary);
+  padding: 0 1rem;
+
+  * {
+    color: white;
+  }
+
+  a[href]:hover,
+  button:not(:disabled):hover {
+    background-color: var(--mss-primary-inverted-hover);
+  }
+
+  .fr-sidemenu__btn {
     background-color: var(--mss-primary);
-    padding: 0 1rem;
-    * {
-        color: white;
+
+    &:hover {
+      background-color: var(--mss-primary-inverted-hover);
     }
-    a[href]:hover, button:not(:disabled):hover {
-            background-color: var(--mss-primary-inverted-hover);
-    }
-    .fr-sidemenu__btn {
-        background-color: var(--mss-primary);
-        &:hover {
-            background-color: var(--mss-primary-inverted-hover);
-        }
-    }
-    /* TODO FIXME This style is not applied, so we cannot see the small mark on the left of currently selected menu item */
-    .fr-sidemenu__btn[aria-current]:before,
-    .fr-sidemenu__link[aria-current]:before {
-        --hover: white !important;
-        --active: white !important;
-        background-color: white !important;
-    }
+  }
+
+  /* TODO FIXME This style is not applied, so we cannot see the small mark on the left of currently selected menu item */
+  .fr-sidemenu__btn[aria-current]::before,
+  .fr-sidemenu__link[aria-current]::before {
+    --hover: white !important;
+    --active: white !important;
+
+    background-color: white !important;
+  }
 }
