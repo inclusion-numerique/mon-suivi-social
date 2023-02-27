@@ -50,7 +50,9 @@ export const InfoTab = ({
           <>
             <p className="fr-mb-2v">Aides légales :</p>
             {legals.map(({ name }) => (
-              <div className="fr-tag fr-mb-2v fr-mr-1w">{name}</div>
+              <div key={name} className="fr-tag fr-mb-2v fr-mr-1w">
+                {name}
+              </div>
             ))}
           </>
         ) : null}
@@ -58,7 +60,9 @@ export const InfoTab = ({
           <>
             <p className="fr-mb-2v">Aides facultatives :</p>
             {optionals.map(({ name }) => (
-              <div className="fr-tag fr-mb-2v fr-mr-1w">{name}</div>
+              <div key={name} className="fr-tag fr-mb-2v fr-mr-1w">
+                {name}
+              </div>
             ))}
           </>
         ) : null}

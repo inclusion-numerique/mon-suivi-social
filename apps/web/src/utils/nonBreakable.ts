@@ -3,4 +3,4 @@
 export const nonBreakable = <T>(value: T): T =>
   typeof value === 'string'
     ? (value.replaceAll(' ', ' ').replaceAll('-', '‑') as T)
-    : (value as T)
+    : value

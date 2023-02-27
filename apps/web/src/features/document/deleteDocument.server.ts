@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/nextjs'
 
 export const DeleteDocumentServer = createMutationServer({
   client: DeleteDocumentClient,
-  executeMutation: async ({ input, transaction, user }) => {
+  executeMutation: async ({ input, transaction }) => {
     const { documentKey } = input
 
     const document = await transaction.document.delete({

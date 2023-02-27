@@ -247,7 +247,10 @@ const BeneficiaryPage = async ({
           items={[
             [
               'N° dossier',
-              <span className="fr-badge fr-badge--blue-cumulus">
+              <span
+                key="filenumber"
+                className="fr-badge fr-badge--blue-cumulus"
+              >
                 {fileNumber}
               </span>,
             ],
