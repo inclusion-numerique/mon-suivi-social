@@ -310,9 +310,7 @@ importers:
       jest: ^29.4.3
       prettier: ^2.8.4
       stylelint: ^15.2.0
-      stylelint-config-prettier: ^9.0.5
       stylelint-config-standard: ^30.0.1
-      stylelint-prettier: ^3.0.0
       typescript: ^4.9.5
     devDependencies:
       '@babel/eslint-parser': 7.19.1_eslint@8.34.0
@@ -330,9 +328,7 @@ importers:
       jest: 29.4.3_@types+node@18.14.1
       prettier: 2.8.4
       stylelint: 15.2.0
-      stylelint-config-prettier: 9.0.5_stylelint@15.2.0
       stylelint-config-standard: 30.0.1_stylelint@15.2.0
-      stylelint-prettier: 3.0.0_7tfqzuwksfwysdxnjpqifqt36u
       typescript: 4.9.5
 
   packages/storybook:
@@ -16390,16 +16386,6 @@ packages:
     resolution: {integrity: sha512-IjLxzM20RMwAsx8M1QoRlCG/Kmq8lKzCGyospjtSXt/BTIIcvgTonaxQAsKnBrsZNwhpHzO9ADx5te0h76ILVg==}
     dev: false
 
-  /stylelint-config-prettier/9.0.5_stylelint@15.2.0:
-    resolution: {integrity: sha512-U44lELgLZhbAD/xy/vncZ2Pq8sh2TnpiPvo38Ifg9+zeioR+LAkHu0i6YORIOxFafZoVg0xqQwex6e6F25S5XA==}
-    engines: {node: '>= 12'}
-    hasBin: true
-    peerDependencies:
-      stylelint: '>= 11.x < 15'
-    dependencies:
-      stylelint: 15.2.0
-    dev: true
-
   /stylelint-config-recommended/10.0.1_stylelint@15.2.0:
     resolution: {integrity: sha512-TQ4xQ48tW4QSlODcti7pgSRqBZcUaBzuh0jPpfiMhwJKBPkqzTIAU+IrSWL/7BgXlOM90DjB7YaNgFpx8QWhuA==}
     peerDependencies:
@@ -16415,18 +16401,6 @@ packages:
     dependencies:
       stylelint: 15.2.0
       stylelint-config-recommended: 10.0.1_stylelint@15.2.0
-    dev: true
-
-  /stylelint-prettier/3.0.0_7tfqzuwksfwysdxnjpqifqt36u:
-    resolution: {integrity: sha512-kIks1xw6np0zElokMT2kP6ar3S4MBoj6vUtPJuND1pFELMpZxVS/0uHPR4HDAVn0WAD3I5oF0IA3qBFxBpMkLg==}
-    engines: {node: ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      prettier: '>=2.0.0'
-      stylelint: '>=14.0.0'
-    dependencies:
-      prettier: 2.8.4
-      prettier-linter-helpers: 1.0.0
-      stylelint: 15.2.0
     dev: true
 
   /stylelint/15.2.0:
