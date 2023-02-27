@@ -35,9 +35,9 @@ const AccessibilityStatementPage = () => {
       <h2>Amélioration et contact</h2>
       <p>
         Si vous n’arrivez pas à accéder à un contenu ou à un service, vous
-        pouvez contacter le responsable de <span>Mon Suivi Social</span>{' '}
-        pour être orienté vers une alternative accessible ou obtenir le contenu
-        sous une autre forme.
+        pouvez contacter le responsable de <span>Mon Suivi Social</span> pour
+        être orienté vers une alternative accessible ou obtenir le contenu sous
+        une autre forme.
       </p>
       <ul className="basic-information feedback h-card">
         <li>

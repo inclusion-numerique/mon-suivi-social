@@ -15,4 +15,4 @@ export const categories = [
   'Transport et mobilités',
 ] as const
 
-export type Category = typeof categories[number]
+export type Category = (typeof categories)[number]
