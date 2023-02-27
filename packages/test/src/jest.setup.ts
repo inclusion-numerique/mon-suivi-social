@@ -10,6 +10,6 @@ import { resolve } from 'path'
 dotenv.config({ path: resolve(__dirname, '../.env') })
 
 global.TextEncoder = TextEncoder
-global.TextDecoder = TextDecoder as any
+global.TextDecoder = TextDecoder as never
 
 expect.extend(joiMatchers)

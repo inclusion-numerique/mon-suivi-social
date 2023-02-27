@@ -4,7 +4,7 @@ import { createMjmlTemplateOutput } from '../outputTemplateHtml'
 describe('Template: emailSignin', () => {
   const output = createMjmlTemplateOutput('emailSignin')
 
-  it('Compiles hello world react mjml template', () => {
+  it('Compiles hello world react mjml template', async () => {
     const mjml = emailSignin.mjml({
       url: 'https://test.local?token=oui',
     })
@@ -12,6 +12,6 @@ describe('Template: emailSignin', () => {
     expect(mjml).toContain('Connexion')
     expect(mjml).toContain('https://test.local?token=oui')
 
-    output(mjml)
+    await output(mjml)
   })
 })

@@ -22,6 +22,7 @@ const backgroundColor = '#F6F6F6'
 
 export const emailSignin = {
   text: ({ url }: { url: string }): string => {
+    // eslint-disable-next-line no-irregular-whitespace
     return `Pour vous connecter à ${PublicConfig.productTitle}, merci d'utiliser le lien suivant :\n${url}\n\n`
   },
   mjml: ({ url }: { url: string }): string =>
