@@ -1,4 +1,3 @@
-// FIXME SyntaxError: Cannot use import statement outside a module on jest
 import 'jest'
 
 describe.skip('createSignedUrl', () => {
