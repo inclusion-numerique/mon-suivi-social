@@ -8,6 +8,7 @@ body > div:not(#environment-information) {
   min-height: 100% !important;
   height: 100%;
 }
+
 textarea {
   resize: none;
 }
@@ -21,12 +22,10 @@ textarea {
   --mss-primary: #4550e5;
   --mss-primary-hover: #6c74e3;
   --mss-primary-inverted-hover: #7a7edf;
-
   --mss-border-radius: 1.5rem;
   --mss-border-radius-sm: 1rem;
   --mss-border-radius-xs: 0.5rem;
   --mss-border-radius-2xs: 0.25rem;
-
   --blue-france-975-75: #f5f5ff;
   --blue-france-975-75-hover: #dadcff;
   --blue-france-975-75-active: #cbcffc;
@@ -47,17 +46,20 @@ textarea {
 .fr-btn {
   border-radius: var(--mss-border-radius);
   padding: 0.5rem 1.25rem;
+
   &.fr-btn--sm {
     border-radius: var(--mss-border-radius-sm);
     padding: 0.25rem 1rem;
   }
 }
+
 .fr-btns-group--sm {
   .fr-btn {
     border-radius: var(--mss-border-radius-sm);
     padding: 0.25rem 1rem;
   }
 }
+
 .fr-pagination__link {
   border-radius: var(--mss-border-radius-2xs);
 }
@@ -69,6 +71,7 @@ textarea {
 }
 
 /* Css debug hack 🤓💅 */
+
 /*
 * {
   outline: 1px solid red !important;
