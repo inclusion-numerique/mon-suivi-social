@@ -14,7 +14,7 @@
     "clean": "rm -rf node_modules",
     "clean:workspaces": "turbo clean",
     "dev": "turbo dev --parallel",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,md,css}\"",
     "lint": "turbo lint",
     "tsc": "turbo tsc",
     "test": "turbo test",
