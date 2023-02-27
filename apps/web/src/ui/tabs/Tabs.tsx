@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
-import styles from './Tabs.module.css'
 
 export type TabOptions<T extends string = string> = {
   id: T
@@ -26,7 +25,7 @@ export function Tabs<T extends string>({
 }) {
   return (
     <div
-      className={`fr-tabs fr-mt-4v ${styles.tabs} ${className ?? ''}`}
+      className={`fr-tabs fr-mt-4v ${className ?? ''}`}
       style={{ backgroundColor: 'white' }}
     >
       <ul
