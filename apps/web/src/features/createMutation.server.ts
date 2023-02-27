@@ -220,7 +220,7 @@ export const createMutationServer = <
       throw forbiddenError()
     }
 
-    const diff = computeMutationDiff({}, input as Object) as Prisma.JsonObject
+    const diff = computeMutationDiff({}, input as object) as Prisma.JsonObject
 
     return prismaClient.$transaction(async (transaction) => {
       const result = await options.executeMutation({
@@ -317,15 +317,14 @@ export const createMutationServerWithInitialState = <
     const initialInput = options.dataFromServerState(serverState)
 
     const diff = computeMutationDiff(
-      initialInput as Object,
-      input as Object,
+      initialInput as object,
+      input as object,
     ) as Prisma.JsonObject
 
     return prismaClient.$transaction(async (transaction) => {
       const result = await options.executeMutation({
         serverState,
-        // TODO not safe type coercion, see what to do about serversate in creation feature with no initial Input
-        initialInput: initialInput as Input,
+        initialInput,
         user,
         input,
         transaction,

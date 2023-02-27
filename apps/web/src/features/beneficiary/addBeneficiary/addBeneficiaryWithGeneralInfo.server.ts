@@ -17,7 +17,7 @@ export const AddBeneficiaryWithGeneralInfoServer = createMutationServer({
         structureId,
         fileNumber,
         referents: {
-          connect: referents.map((id) => ({ id })),
+          connect: referents.map((referent) => ({ id: referent })),
         },
         createdById: user.id,
         ...data,

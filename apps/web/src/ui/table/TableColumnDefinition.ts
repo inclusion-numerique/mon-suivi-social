@@ -5,7 +5,7 @@ export type Sorting<By = string> = { by: By; direction: SortDirection }
 
 export type TableColumnDefinition<
   Item = unknown,
-  OrderByCondition = Record<string, never>,
+  OrderByCondition = unknown,
 > = {
   // Label of the table column, displayed in table header and accessibility labels
   label: string
@@ -22,7 +22,7 @@ export type TableColumnDefinition<
 export const getColumnOrderBy = <Item>(
   sorting: Sorting,
   columns: TableColumnDefinition<Item>[],
-) => {
+): unknown[] | undefined => {
   const column = columns.find(({ label }) => label === sorting.by)
   if (!column || !column.sortable) {
     return undefined

@@ -55,7 +55,7 @@ export const EditDocumentModalForm = withTrpc(
 
     const isLoading = isSubmitting || editDocument.isLoading
 
-    const onCancel: MouseEventHandler = (event) => {
+    const onCancel: MouseEventHandler = () => {
       reset(defaultValues, { keepDefaultValues: true })
     }
 

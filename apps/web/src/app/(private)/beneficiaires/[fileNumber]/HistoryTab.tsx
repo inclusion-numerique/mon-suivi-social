@@ -186,6 +186,7 @@ const SupportCard = ({
                         <>
                           <p className="fr-text--bold">
                             <span className="fr-icon-lock-line fr-mr-1w" />
+                            {/* eslint-disable-next-line no-irregular-whitespace */}
                             Compte rendu privé :
                           </p>
                           <p className="fr-background-alt--grey fr-mt-2v fr-py-2v fr-px-2w">

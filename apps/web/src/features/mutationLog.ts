@@ -15,7 +15,7 @@ export type MutationDiff = {
 }
 
 // Computes a added, updated and deleted diff between two inputs, considering that undefined and null are "deleted" values
-export const computeMutationDiff = <T extends Object>(
+export const computeMutationDiff = <T extends object>(
   initialInput: T,
   input: T,
 ): MutationDiff => {

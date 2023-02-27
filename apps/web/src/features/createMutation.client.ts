@@ -32,13 +32,13 @@ export type MutationClient<
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
   Target = any,
   SecurityParams = any,
-  Input = z.infer<Validation>,
 > = CreateMutationClientOptions<
   Validation,
   Name,
   Grantee,
   Target,
-  SecurityParams
+  SecurityParams,
+  z.infer<Validation>
 >
 
 export const createMutationClient = <

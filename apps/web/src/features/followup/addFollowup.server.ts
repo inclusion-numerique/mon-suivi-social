@@ -24,7 +24,7 @@ export const AddFollowupServer = createMutationServer({
         date: new Date(date),
         dueDate: dueDate ? new Date(dueDate) : null,
         types: {
-          connect: types.map((id) => ({ id })),
+          connect: types.map((type) => ({ id: type })),
         },
         documents: {
           connect: documents.map((key) => ({ key })),

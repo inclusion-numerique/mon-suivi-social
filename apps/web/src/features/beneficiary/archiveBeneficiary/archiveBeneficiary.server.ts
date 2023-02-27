@@ -186,7 +186,7 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
           )
           return name
         }
-        const sensitiveDiff = diff as any as MutationDiff
+        const sensitiveDiff = diff as never as MutationDiff
         const anonymizedDiff: Prisma.JsonObject = {
           added: applyAnonymization(sensitiveDiff.added, anonymization),
           updated: applyAnonymization(sensitiveDiff.updated, anonymization),

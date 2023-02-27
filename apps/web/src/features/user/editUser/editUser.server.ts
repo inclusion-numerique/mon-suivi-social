@@ -21,7 +21,7 @@ export const EditUserServer = createMutationServerWithInitialState({
   executeMutation: async ({ input, transaction, initialInput }) => {
     const { userId, firstName, lastName, email, role, enabled, ...data } = input
 
-    const name = `${firstName} ${lastName}`
+    const name = `${firstName ?? ''} ${lastName ?? ''}`.trim()
     const lowercaseEmail = email.toLowerCase()
     const status: UserStatus = enabled ? 'Active' : 'Disabled'
 

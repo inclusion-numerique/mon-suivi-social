@@ -100,7 +100,6 @@ const getBeneficiary = ({
 export type BeneficiaryPageInfo = Awaited<ReturnType<typeof getBeneficiary>>
 
 const getDocuments = ({
-  userId,
   beneficiaryId,
 }: {
   userId: string
@@ -258,11 +257,11 @@ const BeneficiaryPage = async ({
               referents.length === 1 ? 'Agent référent' : 'Agents référents',
               referents.length === 0
                 ? 'Aucun'
-                : referents
-                    .map(getUserDisplayName)
-                    .map((name) => (
-                      <span className="fr-tag fr-mr-1w">{name}</span>
-                    )),
+                : referents.map(getUserDisplayName).map((name) => (
+                    <span key={name} className="fr-tag fr-mr-1w">
+                      {name}
+                    </span>
+                  )),
               { verticalAlign: 'center' },
             ],
           ]}
