@@ -38,7 +38,7 @@ export const AddHelpRequestClient = createMutationClient({
     dueDate: z.date(errorMessages).nullish(),
     fullFile: z.boolean().default(false),
   }),
-  beneficiaryAnonymization: ({ ...data }) => ({
+  beneficiaryAnonymization: () => ({
     refusalReason: '',
     synthesis: '',
     privateSynthesis: '',

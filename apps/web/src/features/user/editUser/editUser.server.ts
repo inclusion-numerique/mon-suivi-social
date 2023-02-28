@@ -18,7 +18,7 @@ export const EditUserServer = createMutationServerWithInitialState({
     role,
     enabled: status === 'Active',
   }),
-  executeMutation: async ({ input, transaction, initialInput }) => {
+  executeMutation: async ({ input, transaction }) => {
     const { userId, firstName, lastName, email, role, enabled, ...data } = input
 
     const name = `${firstName ?? ''} ${lastName ?? ''}`.trim()

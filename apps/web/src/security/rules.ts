@@ -67,8 +67,8 @@ export const isCreator = (
 
 export type SecurityRule<
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
-  Target = any,
-  SecurityParams = any,
+  Target = unknown,
+  SecurityParams = unknown,
 > = (
   grantee: Grantee,
   target: Target,
@@ -445,9 +445,7 @@ export const canDeleteBeneficiaryHelpRequest = (
   isCreator(grantee, helpRequest, ['Instructor']) ||
   isReferentFor(grantee, beneficiary)
 
-export const canAccessSocialRightsSimulator = (
-  grantee: SecurityRuleGrantee,
-): boolean => true
+export const canAccessSocialRightsSimulator = (): boolean => true
 
 export const canAccessFollowupsPage = (
   grantee: SecurityRuleGrantee,

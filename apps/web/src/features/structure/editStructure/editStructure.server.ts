@@ -42,13 +42,7 @@ export const EditStructureServer = createMutationServerWithInitialState({
 
     return { structure, followupTypes }
   },
-  executeMutation: async ({
-    input,
-    transaction,
-    initialInput,
-    serverState,
-    user,
-  }) => {
+  executeMutation: async ({ input, transaction, initialInput }) => {
     const followupsDiff = computeArrayDiff(
       initialInput.proposedFollowupTypes,
       input.proposedFollowupTypes,
