@@ -41,9 +41,17 @@ export interface InstanceIpReverseDnsConfig extends cdktf.TerraformMetaArguments
 }
 export interface InstanceIpReverseDnsTimeouts {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/instance_ip_reverse_dns#create InstanceIpReverseDns#create}
+  */
+  readonly create?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/instance_ip_reverse_dns#default InstanceIpReverseDns#default}
   */
   readonly default?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/instance_ip_reverse_dns#update InstanceIpReverseDns#update}
+  */
+  readonly update?: string;
 }
 
 export function instanceIpReverseDnsTimeoutsToTerraform(struct?: InstanceIpReverseDnsTimeoutsOutputReference | InstanceIpReverseDnsTimeouts | cdktf.IResolvable): any {
@@ -52,7 +60,9 @@ export function instanceIpReverseDnsTimeoutsToTerraform(struct?: InstanceIpRever
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
+    create: cdktf.stringToTerraform(struct!.create),
     default: cdktf.stringToTerraform(struct!.default),
+    update: cdktf.stringToTerraform(struct!.update),
   }
 }
 
@@ -74,9 +84,17 @@ export class InstanceIpReverseDnsTimeoutsOutputReference extends cdktf.ComplexOb
     }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
+    if (this._create !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.create = this._create;
+    }
     if (this._default !== undefined) {
       hasAnyValues = true;
       internalValueResult.default = this._default;
+    }
+    if (this._update !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.update = this._update;
     }
     return hasAnyValues ? internalValueResult : undefined;
   }
@@ -85,7 +103,9 @@ export class InstanceIpReverseDnsTimeoutsOutputReference extends cdktf.ComplexOb
     if (value === undefined) {
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
+      this._create = undefined;
       this._default = undefined;
+      this._update = undefined;
     }
     else if (cdktf.Tokenization.isResolvable(value)) {
       this.isEmptyObject = false;
@@ -94,8 +114,26 @@ export class InstanceIpReverseDnsTimeoutsOutputReference extends cdktf.ComplexOb
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this.resolvableValue = undefined;
+      this._create = value.create;
       this._default = value.default;
+      this._update = value.update;
     }
+  }
+
+  // create - computed: false, optional: true, required: false
+  private _create?: string; 
+  public get create() {
+    return this.getStringAttribute('create');
+  }
+  public set create(value: string) {
+    this._create = value;
+  }
+  public resetCreate() {
+    this._create = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get createInput() {
+    return this._create;
   }
 
   // default - computed: false, optional: true, required: false
@@ -112,6 +150,22 @@ export class InstanceIpReverseDnsTimeoutsOutputReference extends cdktf.ComplexOb
   // Temporarily expose input value. Use with caution.
   public get defaultInput() {
     return this._default;
+  }
+
+  // update - computed: false, optional: true, required: false
+  private _update?: string; 
+  public get update() {
+    return this.getStringAttribute('update');
+  }
+  public set update(value: string) {
+    this._update = value;
+  }
+  public resetUpdate() {
+    this._update = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get updateInput() {
+    return this._update;
   }
 }
 
@@ -141,8 +195,8 @@ export class InstanceIpReverseDns extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_instance_ip_reverse_dns',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

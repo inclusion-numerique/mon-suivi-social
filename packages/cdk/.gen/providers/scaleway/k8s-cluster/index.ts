@@ -30,7 +30,7 @@ export interface K8SClusterConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/k8s_cluster#delete_additional_resources K8SCluster#delete_additional_resources}
   */
-  readonly deleteAdditionalResources?: boolean | cdktf.IResolvable;
+  readonly deleteAdditionalResources: boolean | cdktf.IResolvable;
   /**
   * The description of the cluster
   * 
@@ -1079,8 +1079,8 @@ export class K8SCluster extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_k8s_cluster',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -1168,16 +1168,13 @@ export class K8SCluster extends cdktf.TerraformResource {
     return this.getStringAttribute('created_at');
   }
 
-  // delete_additional_resources - computed: false, optional: true, required: false
+  // delete_additional_resources - computed: false, optional: false, required: true
   private _deleteAdditionalResources?: boolean | cdktf.IResolvable; 
   public get deleteAdditionalResources() {
     return this.getBooleanAttribute('delete_additional_resources');
   }
   public set deleteAdditionalResources(value: boolean | cdktf.IResolvable) {
     this._deleteAdditionalResources = value;
-  }
-  public resetDeleteAdditionalResources() {
-    this._deleteAdditionalResources = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get deleteAdditionalResourcesInput() {

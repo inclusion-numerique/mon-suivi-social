@@ -176,6 +176,12 @@ export interface LbBackendHealthCheckHttp {
   */
   readonly code?: number;
   /**
+  * The HTTP host header to use for HC requests
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#host_header LbBackend#host_header}
+  */
+  readonly hostHeader?: string;
+  /**
   * The HTTP method to use for HC requests
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#method LbBackend#method}
@@ -196,6 +202,7 @@ export function lbBackendHealthCheckHttpToTerraform(struct?: LbBackendHealthChec
   }
   return {
     code: cdktf.numberToTerraform(struct!.code),
+    host_header: cdktf.stringToTerraform(struct!.hostHeader),
     method: cdktf.stringToTerraform(struct!.method),
     uri: cdktf.stringToTerraform(struct!.uri),
   }
@@ -219,6 +226,10 @@ export class LbBackendHealthCheckHttpOutputReference extends cdktf.ComplexObject
       hasAnyValues = true;
       internalValueResult.code = this._code;
     }
+    if (this._hostHeader !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.hostHeader = this._hostHeader;
+    }
     if (this._method !== undefined) {
       hasAnyValues = true;
       internalValueResult.method = this._method;
@@ -234,12 +245,14 @@ export class LbBackendHealthCheckHttpOutputReference extends cdktf.ComplexObject
     if (value === undefined) {
       this.isEmptyObject = false;
       this._code = undefined;
+      this._hostHeader = undefined;
       this._method = undefined;
       this._uri = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._code = value.code;
+      this._hostHeader = value.hostHeader;
       this._method = value.method;
       this._uri = value.uri;
     }
@@ -259,6 +272,22 @@ export class LbBackendHealthCheckHttpOutputReference extends cdktf.ComplexObject
   // Temporarily expose input value. Use with caution.
   public get codeInput() {
     return this._code;
+  }
+
+  // host_header - computed: false, optional: true, required: false
+  private _hostHeader?: string; 
+  public get hostHeader() {
+    return this.getStringAttribute('host_header');
+  }
+  public set hostHeader(value: string) {
+    this._hostHeader = value;
+  }
+  public resetHostHeader() {
+    this._hostHeader = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get hostHeaderInput() {
+    return this._hostHeader;
   }
 
   // method - computed: false, optional: true, required: false
@@ -298,11 +327,23 @@ export interface LbBackendHealthCheckHttps {
   */
   readonly code?: number;
   /**
+  * The HTTP host header to use for HC requests
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#host_header LbBackend#host_header}
+  */
+  readonly hostHeader?: string;
+  /**
   * The HTTP method to use for HC requests
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#method LbBackend#method}
   */
   readonly method?: string;
+  /**
+  * The SNI to use for HC requests over SSL
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#sni LbBackend#sni}
+  */
+  readonly sni?: string;
   /**
   * The HTTPS endpoint URL to call for HC requests
   * 
@@ -318,7 +359,9 @@ export function lbBackendHealthCheckHttpsToTerraform(struct?: LbBackendHealthChe
   }
   return {
     code: cdktf.numberToTerraform(struct!.code),
+    host_header: cdktf.stringToTerraform(struct!.hostHeader),
     method: cdktf.stringToTerraform(struct!.method),
+    sni: cdktf.stringToTerraform(struct!.sni),
     uri: cdktf.stringToTerraform(struct!.uri),
   }
 }
@@ -341,9 +384,17 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
       hasAnyValues = true;
       internalValueResult.code = this._code;
     }
+    if (this._hostHeader !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.hostHeader = this._hostHeader;
+    }
     if (this._method !== undefined) {
       hasAnyValues = true;
       internalValueResult.method = this._method;
+    }
+    if (this._sni !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.sni = this._sni;
     }
     if (this._uri !== undefined) {
       hasAnyValues = true;
@@ -356,13 +407,17 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
     if (value === undefined) {
       this.isEmptyObject = false;
       this._code = undefined;
+      this._hostHeader = undefined;
       this._method = undefined;
+      this._sni = undefined;
       this._uri = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._code = value.code;
+      this._hostHeader = value.hostHeader;
       this._method = value.method;
+      this._sni = value.sni;
       this._uri = value.uri;
     }
   }
@@ -383,6 +438,22 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
     return this._code;
   }
 
+  // host_header - computed: false, optional: true, required: false
+  private _hostHeader?: string; 
+  public get hostHeader() {
+    return this.getStringAttribute('host_header');
+  }
+  public set hostHeader(value: string) {
+    this._hostHeader = value;
+  }
+  public resetHostHeader() {
+    this._hostHeader = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get hostHeaderInput() {
+    return this._hostHeader;
+  }
+
   // method - computed: false, optional: true, required: false
   private _method?: string; 
   public get method() {
@@ -397,6 +468,22 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
   // Temporarily expose input value. Use with caution.
   public get methodInput() {
     return this._method;
+  }
+
+  // sni - computed: false, optional: true, required: false
+  private _sni?: string; 
+  public get sni() {
+    return this.getStringAttribute('sni');
+  }
+  public set sni(value: string) {
+    this._sni = value;
+  }
+  public resetSni() {
+    this._sni = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sniInput() {
+    return this._sni;
   }
 
   // uri - computed: false, optional: false, required: true
@@ -660,8 +747,8 @@ export class LbBackend extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_lb_backend',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

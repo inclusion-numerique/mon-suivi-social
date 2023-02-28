@@ -21,6 +21,18 @@ export interface ObjectBucketLockConfigurationConfig extends cdktf.TerraformMeta
   */
   readonly id?: string;
   /**
+  * The project_id you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/object_bucket_lock_configuration#project_id ObjectBucketLockConfiguration#project_id}
+  */
+  readonly projectId?: string;
+  /**
+  * The region you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/object_bucket_lock_configuration#region ObjectBucketLockConfiguration#region}
+  */
+  readonly region?: string;
+  /**
   * rule block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/object_bucket_lock_configuration#rule ObjectBucketLockConfiguration#rule}
@@ -240,8 +252,8 @@ export class ObjectBucketLockConfiguration extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_object_bucket_lock_configuration',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -253,6 +265,8 @@ export class ObjectBucketLockConfiguration extends cdktf.TerraformResource {
     });
     this._bucket = config.bucket;
     this._id = config.id;
+    this._projectId = config.projectId;
+    this._region = config.region;
     this._rule.internalValue = config.rule;
   }
 
@@ -289,6 +303,38 @@ export class ObjectBucketLockConfiguration extends cdktf.TerraformResource {
     return this._id;
   }
 
+  // project_id - computed: true, optional: true, required: false
+  private _projectId?: string; 
+  public get projectId() {
+    return this.getStringAttribute('project_id');
+  }
+  public set projectId(value: string) {
+    this._projectId = value;
+  }
+  public resetProjectId() {
+    this._projectId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get projectIdInput() {
+    return this._projectId;
+  }
+
+  // region - computed: true, optional: true, required: false
+  private _region?: string; 
+  public get region() {
+    return this.getStringAttribute('region');
+  }
+  public set region(value: string) {
+    this._region = value;
+  }
+  public resetRegion() {
+    this._region = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionInput() {
+    return this._region;
+  }
+
   // rule - computed: false, optional: false, required: true
   private _rule = new ObjectBucketLockConfigurationRuleOutputReference(this, "rule");
   public get rule() {
@@ -310,6 +356,8 @@ export class ObjectBucketLockConfiguration extends cdktf.TerraformResource {
     return {
       bucket: cdktf.stringToTerraform(this._bucket),
       id: cdktf.stringToTerraform(this._id),
+      project_id: cdktf.stringToTerraform(this._projectId),
+      region: cdktf.stringToTerraform(this._region),
       rule: objectBucketLockConfigurationRuleToTerraform(this._rule.internalValue),
     };
   }

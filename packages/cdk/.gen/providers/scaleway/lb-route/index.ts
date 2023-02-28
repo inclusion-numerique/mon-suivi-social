@@ -27,7 +27,13 @@ export interface LbRouteConfig extends cdktf.TerraformMetaArguments {
   */
   readonly id?: string;
   /**
-  * The domain to match against
+  * Specifies the host of the server to which the request is being sent
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_route#match_host_header LbRoute#match_host_header}
+  */
+  readonly matchHostHeader?: string;
+  /**
+  * Server Name Indication TLS extension field from an incoming connection made via an SSL/TLS transport layer
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_route#match_sni LbRoute#match_sni}
   */
@@ -141,8 +147,8 @@ export class LbRoute extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_lb_route',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -155,6 +161,7 @@ export class LbRoute extends cdktf.TerraformResource {
     this._backendId = config.backendId;
     this._frontendId = config.frontendId;
     this._id = config.id;
+    this._matchHostHeader = config.matchHostHeader;
     this._matchSni = config.matchSni;
     this._timeouts.internalValue = config.timeouts;
   }
@@ -174,6 +181,11 @@ export class LbRoute extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get backendIdInput() {
     return this._backendId;
+  }
+
+  // created_at - computed: true, optional: false, required: false
+  public get createdAt() {
+    return this.getStringAttribute('created_at');
   }
 
   // frontend_id - computed: false, optional: false, required: true
@@ -205,6 +217,22 @@ export class LbRoute extends cdktf.TerraformResource {
     return this._id;
   }
 
+  // match_host_header - computed: false, optional: true, required: false
+  private _matchHostHeader?: string; 
+  public get matchHostHeader() {
+    return this.getStringAttribute('match_host_header');
+  }
+  public set matchHostHeader(value: string) {
+    this._matchHostHeader = value;
+  }
+  public resetMatchHostHeader() {
+    this._matchHostHeader = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get matchHostHeaderInput() {
+    return this._matchHostHeader;
+  }
+
   // match_sni - computed: false, optional: true, required: false
   private _matchSni?: string; 
   public get matchSni() {
@@ -219,6 +247,11 @@ export class LbRoute extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get matchSniInput() {
     return this._matchSni;
+  }
+
+  // updated_at - computed: true, optional: false, required: false
+  public get updatedAt() {
+    return this.getStringAttribute('updated_at');
   }
 
   // timeouts - computed: false, optional: true, required: false
@@ -246,6 +279,7 @@ export class LbRoute extends cdktf.TerraformResource {
       backend_id: cdktf.stringToTerraform(this._backendId),
       frontend_id: cdktf.stringToTerraform(this._frontendId),
       id: cdktf.stringToTerraform(this._id),
+      match_host_header: cdktf.stringToTerraform(this._matchHostHeader),
       match_sni: cdktf.stringToTerraform(this._matchSni),
       timeouts: lbRouteTimeoutsToTerraform(this._timeouts.internalValue),
     };

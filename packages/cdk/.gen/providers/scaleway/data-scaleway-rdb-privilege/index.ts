@@ -27,6 +27,12 @@ export interface DataScalewayRdbPrivilegeConfig extends cdktf.TerraformMetaArgum
   */
   readonly instanceId: string;
   /**
+  * The region you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/d/rdb_privilege#region DataScalewayRdbPrivilege#region}
+  */
+  readonly region?: string;
+  /**
   * User name
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/d/rdb_privilege#user_name DataScalewayRdbPrivilege#user_name}
@@ -60,8 +66,8 @@ export class DataScalewayRdbPrivilege extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_rdb_privilege',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -74,6 +80,7 @@ export class DataScalewayRdbPrivilege extends cdktf.TerraformDataSource {
     this._databaseName = config.databaseName;
     this._id = config.id;
     this._instanceId = config.instanceId;
+    this._region = config.region;
     this._userName = config.userName;
   }
 
@@ -128,6 +135,22 @@ export class DataScalewayRdbPrivilege extends cdktf.TerraformDataSource {
     return this.getStringAttribute('permission');
   }
 
+  // region - computed: false, optional: true, required: false
+  private _region?: string; 
+  public get region() {
+    return this.getStringAttribute('region');
+  }
+  public set region(value: string) {
+    this._region = value;
+  }
+  public resetRegion() {
+    this._region = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionInput() {
+    return this._region;
+  }
+
   // user_name - computed: false, optional: false, required: true
   private _userName?: string; 
   public get userName() {
@@ -150,6 +173,7 @@ export class DataScalewayRdbPrivilege extends cdktf.TerraformDataSource {
       database_name: cdktf.stringToTerraform(this._databaseName),
       id: cdktf.stringToTerraform(this._id),
       instance_id: cdktf.stringToTerraform(this._instanceId),
+      region: cdktf.stringToTerraform(this._region),
       user_name: cdktf.stringToTerraform(this._userName),
     };
   }
