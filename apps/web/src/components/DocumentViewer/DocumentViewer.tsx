@@ -28,6 +28,7 @@ export function DocumentViewer({
   // TODO button to download asset and button to Open asset in new tab
   return (
     <div>
+      {/* FIXME: Is noreferrer required */}
       <a href={viewUrl.data.url} target="_blank" rel="noreferrer">
         {name}
       </a>

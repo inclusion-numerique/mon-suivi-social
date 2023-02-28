@@ -32,7 +32,6 @@ const MonComptePage = async () => {
               {/*  className="fr-link" */}
               {/*  href={getInclusionConnectProfilePageUrl()} */}
               {/*  target="_blank" */}
-              {/*  rel="noreferrer" */}
               {/*  style={{ margin: '0 auto 0 0' }} */}
               {/* > */}
               {/*  Voir mon profil Inclusion Connect */}
@@ -42,7 +41,6 @@ const MonComptePage = async () => {
                 className="fr-link"
                 href={getInclusionConnectChangePasswordUrl()}
                 target="_blank"
-                rel="noreferrer"
                 style={{ margin: '0 auto 0 0' }}
               >
                 Changer mon mot de passe
@@ -56,7 +54,6 @@ const MonComptePage = async () => {
                 className="fr-btn"
                 href={getInclusionConnectLogoutUrl()}
                 target="_blank"
-                rel="noreferrer"
               >
                 Se déconnecter d&apos;Inclusion Connect
               </Link>

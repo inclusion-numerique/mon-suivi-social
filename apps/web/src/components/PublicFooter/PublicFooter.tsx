@@ -31,7 +31,6 @@ function PublicFooter() {
                   href="https://gouvernement.fr"
                   className="fr-footer__content-link"
                   target="_blank"
-                  rel="noreferrer"
                 >
                   gouvernement.fr
                 </a>
@@ -41,7 +40,6 @@ function PublicFooter() {
                   href="https://service-public.fr"
                   className="fr-footer__content-link"
                   target="_blank"
-                  rel="noreferrer"
                 >
                   service-public.fr
                 </a>
@@ -51,7 +49,6 @@ function PublicFooter() {
                   href="https://data.gouv.fr"
                   className="fr-footer__content-link"
                   target="_blank"
-                  rel="noreferrer"
                 >
                   data.gouv.fr
                 </a>
@@ -61,7 +58,6 @@ function PublicFooter() {
                   href="https://beta.gouv.fr"
                   className="fr-footer__content-link"
                   target="_blank"
-                  rel="noreferrer"
                 >
                   beta.gouv.fr
                 </a>

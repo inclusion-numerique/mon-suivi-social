@@ -45,7 +45,7 @@ export function EnvInformation() {
               {branch}&#34; sur Storybook
             </a>
             <br className="fr-hidden-lg fr-mt-2v" />
-            <a href={PublicConfig.mainLiveUrl} rel="noreferrer" target="_blank">
+            <a href={PublicConfig.mainLiveUrl} target="_blank">
               <span className="fr-icon--sm fr-icon-france-line" /> Version
               officielle
             </a>
