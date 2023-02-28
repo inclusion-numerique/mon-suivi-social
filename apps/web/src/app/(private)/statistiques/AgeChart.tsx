@@ -7,7 +7,7 @@ import { AgeStats } from '@mss/web/stats/stats'
 import { AgeGroupLabels } from '@mss/web/wording/ageGroup'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
-export const AgeChart = ({ ageStats }: { ageStats: AgeStats }) => {
+export function AgeChart({ ageStats }: { ageStats: AgeStats }) {
   const colors = useCssProperties([
     '--artwork-minor-blue-cumulus',
     '--artwork-minor-beige-gris-galet',

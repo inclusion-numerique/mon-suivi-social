@@ -41,10 +41,9 @@ export const EditBeneficiaryFullDataServer =
       updated,
       createdById,
       ...data
-    }): MutationInput<EditBeneficiaryFullDataClient> => {
-      return {
+    }): MutationInput<EditBeneficiaryFullDataClient> => ({
         beneficiaryId: id,
-        referents: referents.map(({ id }) => id),
+        referents: referents.map((referent) => referent.id),
         nationality: nationality as keyof typeof Nationalities,
         pensionOrganisations: pensionOrganisations as PensionOrganisation[],
         mainIncomeAmount: mainIncomeAmount?.toNumber(),
@@ -52,8 +51,7 @@ export const EditBeneficiaryFullDataServer =
         majorChildrenMainIncomeAmount:
           majorChildrenMainIncomeAmount?.toNumber(),
         ...removeNullAndUndefinedValues(data),
-      }
-    },
+      }),
     executeMutation: async ({ input, transaction, initialInput }) => {
       const { beneficiaryId, referents, ...data } = input
 
@@ -84,4 +82,5 @@ export const EditBeneficiaryFullDataServer =
     }),
   })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditBeneficiaryFullDataServer = typeof EditBeneficiaryFullDataServer

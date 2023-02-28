@@ -66,4 +66,10 @@ const main = async () => {
   }
 }
 
-main().then(() => process.exit(0))
+main()
+  .then(() => process.exit(0))
+  // eslint-disable-next-line unicorn/prefer-top-level-await
+  .catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })

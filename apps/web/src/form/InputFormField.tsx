@@ -79,8 +79,7 @@ export function InputFormField<T extends FieldValues>({
       name={path}
       render={({
         field: { onChange, onBlur, value, name, ref },
-        fieldState: { invalid, isTouched, isDirty, error },
-        formState,
+        fieldState: { invalid, isTouched, error },
       }) => (
         <div
           className={`fr-input-group ${error ? 'fr-input-group--error' : ''} ${

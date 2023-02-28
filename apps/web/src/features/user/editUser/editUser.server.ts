@@ -18,10 +18,10 @@ export const EditUserServer = createMutationServerWithInitialState({
     role,
     enabled: status === 'Active',
   }),
-  executeMutation: async ({ input, transaction, initialInput }) => {
+  executeMutation: async ({ input, transaction }) => {
     const { userId, firstName, lastName, email, role, enabled, ...data } = input
 
-    const name = `${firstName} ${lastName}`
+    const name = `${firstName ?? ''} ${lastName ?? ''}`.trim()
     const lowercaseEmail = email.toLowerCase()
     const status: UserStatus = enabled ? 'Active' : 'Disabled'
 
@@ -59,4 +59,5 @@ export const EditUserServer = createMutationServerWithInitialState({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditUserServer = typeof EditUserServer

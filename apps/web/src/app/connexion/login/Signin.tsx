@@ -13,8 +13,8 @@ const signinErrorMessage = (error?: string): string | undefined => {
   return 'Erreur de connexion, veuillez réessayer.'
 }
 
-export const Signin = ({ error }: { error?: string }) => (
-  <AuthCard>
+export function Signin({ error }: { error?: string }) {
+  return <AuthCard>
     <h2 style={{ textAlign: 'center' }} className="fr-mb-12v">
       Connexion à Mon Suivi Social
     </h2>
@@ -51,4 +51,4 @@ export const Signin = ({ error }: { error?: string }) => (
       Contactez votre responsable de structure pour plus d&apos;informations.
     </p>
   </AuthCard>
-)
+}

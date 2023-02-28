@@ -95,7 +95,7 @@ export interface LbPrivateNetwork {
   */
   readonly privateNetworkId: string;
   /**
-  * Define two IP addresses in the subnet of your private network that will be assigned for the principal and standby node of your load balancer.
+  * Define an IP address in the subnet of your private network that will be assigned to your load balancer instance
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb#static_config Lb#static_config}
   */
@@ -479,8 +479,8 @@ export class Lb extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_lb',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

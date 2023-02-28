@@ -26,6 +26,12 @@ export interface DataScalewayRdbInstanceConfig extends cdktf.TerraformMetaArgume
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/d/rdb_instance#name DataScalewayRdbInstance#name}
   */
   readonly name?: string;
+  /**
+  * The region you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/d/rdb_instance#region DataScalewayRdbInstance#region}
+  */
+  readonly region?: string;
 }
 export interface DataScalewayRdbInstanceLoadBalancer {
 }
@@ -311,8 +317,8 @@ export class DataScalewayRdbInstance extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_rdb_instance',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -325,6 +331,7 @@ export class DataScalewayRdbInstance extends cdktf.TerraformDataSource {
     this._id = config.id;
     this._instanceId = config.instanceId;
     this._name = config.name;
+    this._region = config.region;
   }
 
   // ==========
@@ -468,9 +475,20 @@ export class DataScalewayRdbInstance extends cdktf.TerraformDataSource {
     return this._readReplicas;
   }
 
-  // region - computed: true, optional: false, required: false
+  // region - computed: false, optional: true, required: false
+  private _region?: string; 
   public get region() {
     return this.getStringAttribute('region');
+  }
+  public set region(value: string) {
+    this._region = value;
+  }
+  public resetRegion() {
+    this._region = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionInput() {
+    return this._region;
   }
 
   // settings - computed: true, optional: false, required: false
@@ -508,6 +526,7 @@ export class DataScalewayRdbInstance extends cdktf.TerraformDataSource {
       id: cdktf.stringToTerraform(this._id),
       instance_id: cdktf.stringToTerraform(this._instanceId),
       name: cdktf.stringToTerraform(this._name),
+      region: cdktf.stringToTerraform(this._region),
     };
   }
 }

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { PublicConfig } from '@mss/web/config'
 
-const PublicFooter = () => {
+function PublicFooter() {
   return (
     <footer id="footer" role="contentinfo" className="fr-footer">
       <div className="fr-container">

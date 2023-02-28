@@ -1,4 +1,6 @@
 module.exports = {
-  root: true,
-  extends: ['../../packages/lint/src/eslint.config.js'],
+  rules: {
+    // Process exit ok in cli apps
+    'unicorn/no-process-exit': 'off',
+  },
 }

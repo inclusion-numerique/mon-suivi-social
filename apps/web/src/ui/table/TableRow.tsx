@@ -10,11 +10,11 @@ export function TableRow<Item extends Record<string, unknown>>({
 }) {
   return (
     <tr className={styles.row}>
-      {columns.map(({ content, label, options }, index) => (
+      {columns.map(({ content, label, options }) => (
         <td key={label}>
           <div
             style={{ justifyContent: options?.justify }}
-            className={`${styles.cellContainer} ${
+            className={`${styles['cell-container']} ${
               options?.containerClassName ?? ''
             }`}
           >

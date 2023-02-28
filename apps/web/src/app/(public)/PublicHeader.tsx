@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { Routes } from '@mss/web/app/routing/routes'
 
-const PublicHeader = ({ hideSigninButton }: { hideSigninButton?: boolean }) => {
+function PublicHeader({ hideSigninButton }: { hideSigninButton?: boolean }) {
   const links = hideSigninButton
     ? []
     : [
         <Link
+          key="signin"
           className="fr-btn fr-btn--icon-left fr-icon-user-setting-line"
           href={Routes.Connexion.Login}
         >
@@ -81,8 +82,8 @@ const PublicHeader = ({ hideSigninButton }: { hideSigninButton?: boolean }) => {
           </button>
           <div className="fr-header__menu-links">
             <ul className="fr-btns-group">
-              {links.map((link, index) => (
-                <li key={index}>{link}</li>
+              {links.map((link) => (
+                <li key={link.key}>{link}</li>
               ))}
             </ul>
           </div>

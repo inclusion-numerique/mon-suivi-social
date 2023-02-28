@@ -17,4 +17,5 @@ export const EditUserClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditUserClient = typeof EditUserClient

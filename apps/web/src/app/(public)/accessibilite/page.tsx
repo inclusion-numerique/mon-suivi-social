@@ -1,6 +1,6 @@
 import { PublicConfig } from '@mss/web/config'
 
-const AccessibilityStatementPage = () => {
+function AccessibilityStatementPage() {
   return (
     <div className="fr-container landing-main-container fr-my-8w">
       <h1>Déclaration d’accessibilité</h1>
@@ -35,9 +35,9 @@ const AccessibilityStatementPage = () => {
       <h2>Amélioration et contact</h2>
       <p>
         Si vous n’arrivez pas à accéder à un contenu ou à un service, vous
-        pouvez contacter le responsable de <span>Mon Suivi Social</span>{' '}
-        pour être orienté vers une alternative accessible ou obtenir le contenu
-        sous une autre forme.
+        pouvez contacter le responsable de <span>Mon Suivi Social</span> pour
+        être orienté vers une alternative accessible ou obtenir le contenu sous
+        une autre forme.
       </p>
       <ul className="basic-information feedback h-card">
         <li>

@@ -8,11 +8,11 @@ import { FamilySituationStats } from '@mss/web/stats/stats'
 import { getFamilySituationWording } from '@mss/web/wording/familySituation'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
-export const FamilySituationChart = ({
+export function FamilySituationChart({
   familySituationStats,
 }: {
   familySituationStats: FamilySituationStats
-}) => {
+}) {
   const colors = useCssProperties([
     '--artwork-minor-green-emeraude',
     '--artwork-minor-blue-cumulus',

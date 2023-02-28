@@ -1,7 +1,7 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prismaClient } from '@mss/web/prismaClient'
-import { signupUser } from './signupUser'
 import type { Adapter } from 'next-auth/adapters'
+import { signupUser } from './signupUser'
 
 const prismaAdapter = PrismaAdapter(prismaClient)
 
@@ -28,18 +28,18 @@ export const nextAuthAdapter: Adapter = {
   deleteSession: async (sessionToken) => {
     try {
       await prismaAdapter.deleteSession(sessionToken)
-    } catch (err) {
+    } catch (error) {
       // See https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
       if (
-        !!err &&
-        typeof err === 'object' &&
-        'code' in err &&
-        err.code === 'P2025'
+        !!error &&
+        typeof error === 'object' &&
+        'code' in error &&
+        error.code === 'P2025'
       ) {
         // Ok, the session was already destroyed by another process
         return
       }
-      throw err
+      throw error
     }
   },
   // Custom signup

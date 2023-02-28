@@ -1,7 +1,8 @@
 .table {
-    background-color: var(--background-default-grey) !important;
+  background-color: var(--background-default-grey) !important;
 
-    tbody, thead {
-        background-color: var(--background-default-grey) !important;
-    }
+  tbody,
+  thead {
+    background-color: var(--background-default-grey) !important;
+  }
 }

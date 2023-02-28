@@ -45,6 +45,12 @@ export interface ObjectResourceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly metadata?: { [key: string]: string };
   /**
+  * The project_id you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/object#project_id ObjectResource#project_id}
+  */
+  readonly projectId?: string;
+  /**
   * The region you want to attach the resource to
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/object#region ObjectResource#region}
@@ -285,8 +291,8 @@ export class ObjectResource extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_object',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -302,6 +308,7 @@ export class ObjectResource extends cdktf.TerraformResource {
     this._id = config.id;
     this._key = config.key;
     this._metadata = config.metadata;
+    this._projectId = config.projectId;
     this._region = config.region;
     this._storageClass = config.storageClass;
     this._tags = config.tags;
@@ -403,6 +410,22 @@ export class ObjectResource extends cdktf.TerraformResource {
     return this._metadata;
   }
 
+  // project_id - computed: true, optional: true, required: false
+  private _projectId?: string; 
+  public get projectId() {
+    return this.getStringAttribute('project_id');
+  }
+  public set projectId(value: string) {
+    this._projectId = value;
+  }
+  public resetProjectId() {
+    this._projectId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get projectIdInput() {
+    return this._projectId;
+  }
+
   // region - computed: true, optional: true, required: false
   private _region?: string; 
   public get region() {
@@ -495,6 +518,7 @@ export class ObjectResource extends cdktf.TerraformResource {
       id: cdktf.stringToTerraform(this._id),
       key: cdktf.stringToTerraform(this._key),
       metadata: cdktf.hashMapper(cdktf.stringToTerraform)(this._metadata),
+      project_id: cdktf.stringToTerraform(this._projectId),
       region: cdktf.stringToTerraform(this._region),
       storage_class: cdktf.stringToTerraform(this._storageClass),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),

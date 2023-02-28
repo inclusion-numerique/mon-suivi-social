@@ -186,7 +186,7 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
           )
           return name
         }
-        const sensitiveDiff = diff as any as MutationDiff
+        const sensitiveDiff = diff as never as MutationDiff
         const anonymizedDiff: Prisma.JsonObject = {
           added: applyAnonymization(sensitiveDiff.added, anonymization),
           updated: applyAnonymization(sensitiveDiff.updated, anonymization),
@@ -204,7 +204,7 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
     await Promise.all([beneficiaryAnonymization, ...mutationLogAnonymizations])
 
     // Asynchronously delete all uploaded files
-    documents.forEach((document) => {
+    for (const document of documents) {
       deleteUploadedFile(document).catch((error) => {
         // Notify dev team in case of deletion error for manual action
         Sentry.captureException(error, {
@@ -214,7 +214,7 @@ export const ArchiveBeneficiaryServer = createMutationServerWithInitialState({
           },
         })
       })
-    })
+    }
 
     // TODO return a report of count of stuff anonymized ? And if failures, return failed feature anonymizations?
     return {}

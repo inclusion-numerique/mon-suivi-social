@@ -9,7 +9,7 @@ const TableauDeBordPage = async () => {
   return (
     <>
       <PageTitle page={Routes.Index} />
-      {!user?.structureId ? null : (
+      {user?.structureId ? (
         <div className="fr-card">
           <div className="fr-card__body">
             <div className="fr-card__content">
@@ -34,7 +34,7 @@ const TableauDeBordPage = async () => {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </>
   )
 }

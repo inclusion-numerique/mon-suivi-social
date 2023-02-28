@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import { inclusionConnectProviderId } from '@mss/web/auth/inclusionConnect'
 
-export const InclusionConnectSigninButton = () => {
+export function InclusionConnectSigninButton() {
   return (
     <div className="fr-btns-group">
       <button

@@ -13,4 +13,6 @@ export const ArchiveBeneficiaryClient = createMutationClient({
     beneficiaryId: 'Identifiant',
   },
 })
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ArchiveBeneficiaryClient = typeof ArchiveBeneficiaryClient

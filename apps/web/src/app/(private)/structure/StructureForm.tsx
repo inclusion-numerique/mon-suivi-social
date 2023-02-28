@@ -65,19 +65,17 @@ const scoreFollowupTypeForSorting = (
 const sortFollowupTypes = (
   initialValues: Set<string>,
   followupTypes: MutationServerState<EditStructureServer>['followupTypes'],
-): MutationServerState<EditStructureServer>['followupTypes'] => {
-  return followupTypes.sort(
+): MutationServerState<EditStructureServer>['followupTypes'] => followupTypes.sort(
     (a, b) =>
       scoreFollowupTypeForSorting(initialValues, b) -
       scoreFollowupTypeForSorting(initialValues, a),
   )
-}
 
 const FieldLabels = CreateStructureClient.fieldLabels
 
 export const StructureForm = withTrpc(
   (
-    props:
+    properties:
       | {
           creation: true
           availableFollowupTypes: Serialized<FollowupTypesForStructureCreation>
@@ -93,16 +91,16 @@ export const StructureForm = withTrpc(
     const addStructure = trpc.structure.add.useMutation()
     const editStructure = trpc.structure.edit.useMutation()
 
-    const { structure, followupTypes } = props.creation
+    const { structure, followupTypes } = properties.creation
       ? {
           structure: undefined,
-          followupTypes: deserialize(props.availableFollowupTypes),
+          followupTypes: deserialize(properties.availableFollowupTypes),
         }
-      : deserialize(props.serverState)
+      : deserialize(properties.serverState)
 
-    const defaultValues = props.creation
+    const defaultValues = properties.creation
       ? { proposedFollowupTypes: [] }
-      : deserialize(props.defaultInput)
+      : deserialize(properties.defaultInput)
 
     const initiallySelectedFollowupIds = new Set(
       defaultValues.proposedFollowupTypes,
@@ -112,7 +110,7 @@ export const StructureForm = withTrpc(
       MutationInput<CreateStructureClient> | MutationInput<EditStructureClient>
     >({
       resolver: zodResolver(
-        props.creation
+        properties.creation
           ? CreateStructureClient.inputValidation
           : EditStructureClient.inputValidation,
       ),
@@ -128,7 +126,7 @@ export const StructureForm = withTrpc(
           : sortFollowupTypes(initiallySelectedFollowupIds, followupTypes),
       // Volontary missing deps to NOT recompute if server state has not changed
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [props],
+      [properties],
     )
 
     const { legalFollowupTypes, optionalFollowupTypes } =
@@ -176,7 +174,7 @@ export const StructureForm = withTrpc(
         | MutationInput<EditStructureClient>,
     ) => {
       try {
-        props.creation
+        properties.creation
           ? await addStructure.mutateAsync(
               data as MutationInput<CreateStructureClient>,
             )
@@ -186,18 +184,17 @@ export const StructureForm = withTrpc(
 
         setAddedFollowupTypes([])
         router.refresh()
-      } catch (err) {
+      } catch {
         // Error message will be in hook result
       }
     }
 
     return (
-      <>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
           <h3>Informations</h3>
-          {props.creation ? (
+          {properties.creation ? (
             <SelectFormField
-              label={FieldLabels['type']}
+              label={FieldLabels.type}
               disabled={fieldsDisabled}
               control={control}
               path="type"
@@ -207,42 +204,42 @@ export const StructureForm = withTrpc(
             />
           ) : null}
           <InputFormField
-            label={FieldLabels['name']}
+            label={FieldLabels.name}
             disabled={fieldsDisabled}
             control={control}
             path="name"
             required
           />
           <InputFormField
-            label={FieldLabels['address']}
+            label={FieldLabels.address}
             disabled={fieldsDisabled}
             control={control}
             path="address"
             required
           />
           <InputFormField
-            label={FieldLabels['zipcode']}
+            label={FieldLabels.zipcode}
             disabled={fieldsDisabled}
             control={control}
             path="zipcode"
             required
           />
           <InputFormField
-            label={FieldLabels['city']}
+            label={FieldLabels.city}
             disabled={fieldsDisabled}
             control={control}
             path="city"
             required
           />
           <InputFormField
-            label={FieldLabels['phone']}
+            label={FieldLabels.phone}
             disabled={fieldsDisabled}
             control={control}
             path="phone"
             required
           />
           <InputFormField
-            label={FieldLabels['email']}
+            label={FieldLabels.email}
             disabled={fieldsDisabled}
             control={control}
             path="email"
@@ -270,7 +267,7 @@ export const StructureForm = withTrpc(
             path="proposedFollowupTypes"
             options={allOptionalFollowupTypes.map(followupTypeToOption)}
           />
-          {/*Only possible to create owned followup types when structure has been created*/}
+          {/* Only possible to create owned followup types when structure has been created */}
           {structure ? (
             <CreateFollowupTypeForm
               structure={structure}
@@ -283,7 +280,7 @@ export const StructureForm = withTrpc(
             <div className="fr-col-12">
               <div className="fr-btns-group--inline fr-btns-group">
                 <button className="fr-btn" type="submit" disabled={isLoading}>
-                  {props.creation
+                  {properties.creation
                     ? 'Créer la structure'
                     : 'Enregistrer les modifications'}
                 </button>
@@ -291,7 +288,6 @@ export const StructureForm = withTrpc(
             </div>
           </div>
         </form>
-      </>
     )
   },
 )

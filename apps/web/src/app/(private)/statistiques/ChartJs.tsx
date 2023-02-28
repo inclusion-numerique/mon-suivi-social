@@ -1,4 +1,7 @@
 'use client'
+
 import 'chart.js/auto'
 
-export const ChartJs = () => null
+export function ChartJs() {
+  return null
+}

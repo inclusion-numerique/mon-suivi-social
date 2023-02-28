@@ -1,32 +1,26 @@
-import {
-  S3Backend,
-  TerraformOutput,
-  TerraformStack,
-  TerraformVariable,
-} from 'cdktf'
+import { S3Backend, TerraformOutput, TerraformStack } from 'cdktf'
 import { Construct } from 'constructs'
-import { ScalewayProvider } from '../.gen/providers/scaleway/provider'
-import { RdbDatabase } from '../.gen/providers/scaleway/rdb-database'
-import { DataScalewayRdbInstance } from '../.gen/providers/scaleway/data-scaleway-rdb-instance'
-import { RdbUser } from '../.gen/providers/scaleway/rdb-user'
-import { RdbPrivilege } from '../.gen/providers/scaleway/rdb-privilege'
-import { generateDatabasePassword } from './databasePassword'
-import { DataScalewayContainerNamespace } from '../.gen/providers/scaleway/data-scaleway-container-namespace'
-import { Container } from '../.gen/providers/scaleway/container'
-import { CdkOutput } from './getCdkOutput'
-import { DataScalewayDomainZone } from '../.gen/providers/scaleway/data-scaleway-domain-zone'
-import {
-  DomainRecord,
-  DomainRecordConfig,
-} from '../.gen/providers/scaleway/domain-record'
-import { ContainerDomain } from '../.gen/providers/scaleway/container-domain'
+import { ScalewayProvider } from '@mss/scaleway/provider'
+import { RdbDatabase } from '@mss/scaleway/rdb-database'
+import { DataScalewayRdbInstance } from '@mss/scaleway/data-scaleway-rdb-instance'
+import { RdbUser } from '@mss/scaleway/rdb-user'
+import { RdbPrivilege } from '@mss/scaleway/rdb-privilege'
+import { DataScalewayContainerNamespace } from '@mss/scaleway/data-scaleway-container-namespace'
+import { Container } from '@mss/scaleway/container'
+import { CdkOutput } from '@mss/cdk/getCdkOutput'
+import { DataScalewayDomainZone } from '@mss/scaleway/data-scaleway-domain-zone'
+import { DomainRecord, DomainRecordConfig } from '@mss/scaleway/domain-record'
+import { ContainerDomain } from '@mss/scaleway/container-domain'
 import {
   computeBranchNamespace,
   createPreviewSubdomain,
+  environmentVariable,
   generateDatabaseUrl,
   namespacer,
-} from './utils'
-import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
+  sensitiveEnvironmentVariable,
+} from '@mss/cdk/utils'
+import { ObjectBucket } from '@mss/scaleway/object-bucket'
+import { generateDatabasePassword } from './databasePassword'
 
 const projectSlug = 'mss'
 const databaseInstanceName = 'incnum-prod'
@@ -61,47 +55,46 @@ export class WebAppStack extends TerraformStack {
         sensitive: sensitive === 'sensitive',
       })
 
-    // See https://developer.hashicorp.com/terraform/cdktf/create-and-deploy/best-practices
-    const sensitiveEnvVariable = (name: string) =>
-      new TerraformVariable(this, name, {
-        type: 'string',
-        sensitive: true,
-      })
-    const envVariable = (name: string) =>
-      new TerraformVariable(this, name, {
-        type: 'string',
-        sensitive: false,
-      })
-
     // Configuring env variables
-    const webContainerImage = envVariable('webContainerImage')
-    const previewInclusionConnectIssuer = envVariable(
+    const webContainerImage = environmentVariable(this, 'webContainerImage')
+    const previewInclusionConnectIssuer = environmentVariable(
+      this,
       'previewInclusionConnectIssuer',
     )
-    const mainInclusionConnectIssuer = envVariable('mainInclusionConnectIssuer')
-    const previewInclusionConnectClientId = envVariable(
+    const mainInclusionConnectIssuer = environmentVariable(
+      this,
+      'mainInclusionConnectIssuer',
+    )
+    const previewInclusionConnectClientId = environmentVariable(
+      this,
       'previewInclusionConnectClientId',
     )
-    const mainInclusionConnectClientId = envVariable(
+    const mainInclusionConnectClientId = environmentVariable(
+      this,
       'mainInclusionConnectClientId',
     )
 
     // Configuring env secrets
-    const accessKey = sensitiveEnvVariable('accessKey')
-    const secretKey = sensitiveEnvVariable('secretKey')
-    const organizationId = sensitiveEnvVariable('organizationId')
-    const projectId = sensitiveEnvVariable('projectId')
-    const databasePasswordSalt = sensitiveEnvVariable('databasePasswordSalt')
-    const previewInclusionConnectClientSecret = envVariable(
+    const accessKey = sensitiveEnvironmentVariable(this, 'accessKey')
+    const secretKey = sensitiveEnvironmentVariable(this, 'secretKey')
+    const organizationId = sensitiveEnvironmentVariable(this, 'organizationId')
+    const projectId = sensitiveEnvironmentVariable(this, 'projectId')
+    const databasePasswordSalt = sensitiveEnvironmentVariable(
+      this,
+      'databasePasswordSalt',
+    )
+    const previewInclusionConnectClientSecret = environmentVariable(
+      this,
       'previewInclusionConnectClientSecret',
     )
-    const mainInclusionConnectClientSecret = envVariable(
+    const mainInclusionConnectClientSecret = environmentVariable(
+      this,
       'mainInclusionConnectClientSecret',
     )
 
     // Configuring provider that will be used for the rest of the stack
     new ScalewayProvider(this, 'provider', {
-      region: region,
+      region,
       accessKey: accessKey.value,
       secretKey: secretKey.value,
       organizationId: organizationId.value,
@@ -121,14 +114,14 @@ export class WebAppStack extends TerraformStack {
 
     // The database instance is shared for each namespace/branch we refer to it (DataScaleway)
     // but do not manage it through this stack
-    const dbInstance = new DataScalewayRdbInstance(this, 'dbInstance', {
+    const databaseInstance = new DataScalewayRdbInstance(this, 'dbInstance', {
       name: databaseInstanceName,
     })
 
-    output('databaseHost', dbInstance.endpointIp)
-    output('databasePort', dbInstance.endpointPort)
+    output('databaseHost', databaseInstance.endpointIp)
+    output('databasePort', databaseInstance.endpointPort)
 
-    const dbConfig = {
+    const databaseConfig = {
       name: namespaced(projectSlug),
       user: namespaced(projectSlug),
       password: generateDatabasePassword(
@@ -138,23 +131,23 @@ export class WebAppStack extends TerraformStack {
     }
 
     const databaseUser = new RdbUser(this, 'databaseUser', {
-      name: dbConfig.name,
-      instanceId: dbInstance.instanceId,
-      password: dbConfig.password,
+      name: databaseConfig.name,
+      instanceId: databaseInstance.instanceId,
+      password: databaseConfig.password,
     })
 
     const database = new RdbDatabase(this, 'database', {
-      name: dbConfig.name,
-      instanceId: dbInstance.instanceId,
+      name: databaseConfig.name,
+      instanceId: databaseInstance.instanceId,
     })
 
-    output('databaseUser', dbConfig.user)
-    output('databaseName', dbConfig.name)
+    output('databaseUser', databaseConfig.user)
+    output('databaseName', databaseConfig.name)
 
     new RdbPrivilege(this, 'databasePrivilege', {
-      instanceId: dbInstance.instanceId,
-      databaseName: dbConfig.name,
-      userName: dbConfig.user,
+      instanceId: databaseInstance.instanceId,
+      databaseName: databaseConfig.name,
+      userName: databaseConfig.user,
       permission: 'all',
       dependsOn: [database, databaseUser],
     })
@@ -190,11 +183,11 @@ export class WebAppStack extends TerraformStack {
       : `[${namespace}] Mon Suivi Social`
 
     const databaseUrl = generateDatabaseUrl({
-      user: dbConfig.user,
-      password: dbConfig.password,
-      host: dbInstance.endpointIp,
-      port: dbInstance.endpointPort,
-      name: dbConfig.name,
+      user: databaseConfig.user,
+      password: databaseConfig.password,
+      host: databaseInstance.endpointIp,
+      port: databaseInstance.endpointPort,
+      name: databaseConfig.name,
     })
 
     // Changing the name will recreate a new container
@@ -202,7 +195,7 @@ export class WebAppStack extends TerraformStack {
     const maxContainerNameLength = 34
     const containerName =
       namespace.length > maxContainerNameLength
-        ? namespace.substring(0, maxContainerNameLength)
+        ? namespace.slice(0, Math.max(0, maxContainerNameLength))
         : namespace
 
     const container = new Container(this, 'webContainer', {
@@ -234,8 +227,8 @@ export class WebAppStack extends TerraformStack {
       name: containerName,
       minScale: isMain ? 2 : 0,
       maxScale: isMain ? 5 : 1,
-      cpuLimit: 1120, //mVPCU
-      memoryLimit: 2048, //mB
+      cpuLimit: 1120, // mVPCU
+      memoryLimit: 2048, // mB
       deploy: true,
     })
 
@@ -276,7 +269,7 @@ export class WebAppStack extends TerraformStack {
     output('webBaseUrl', hostname)
     output('containerDomainName', container.domainName)
     output('databaseUrl', databaseUrl, 'sensitive')
-    output('databasePassword', dbConfig.password, 'sensitive')
+    output('databasePassword', databaseConfig.password, 'sensitive')
     output(
       'webContainerStatus',
       container.status as CdkOutput['webContainerStatus'],

@@ -1,9 +1,10 @@
 'use client'
+
 import { PublicConfig } from '@mss/web/config'
 import { PropsWithChildren } from 'react'
 
-export const ServerError = () => (
-  <GenericError
+export function ServerError() {
+  return <GenericError
     title="Erreur inattendue"
     subtitle="Erreur 500"
     lead="Désolé, le service rencontre un problème, nous travaillons pour le résoudre le plus rapidement possible."
@@ -12,10 +13,10 @@ export const ServerError = () => (
     <br />
     Si vous avez besoin d&apos;une aide immédiate, merci de nous contacter.
   </GenericError>
-)
+}
 
-export const NotFoundError = () => (
-  <GenericError
+export function NotFoundError() {
+  return <GenericError
     title="Page non trouvée"
     subtitle="Erreur 404"
     lead="La page que vous cherchez est introuvable. Excusez-nous pour la gène occasionnée."
@@ -26,10 +27,10 @@ export const NotFoundError = () => (
     Dans ce cas, pour continuer votre visite vous pouvez consulter notre page
     d’accueil.
   </GenericError>
-)
+}
 
-export const UnauthorizedError = () => (
-  <GenericError
+export function UnauthorizedError() {
+  return <GenericError
     title="Accès refusé"
     subtitle="Erreur 403"
     lead="Vous n'avez pas accès à cette page."
@@ -37,9 +38,9 @@ export const UnauthorizedError = () => (
     Si vous avez tapé l&apos;adresse web dans le navigateur, vérifiez
     qu&apos;elle est correcte.
   </GenericError>
-)
+}
 
-export const GenericError = ({
+export function GenericError({
   title,
   subtitle,
   lead,
@@ -48,8 +49,8 @@ export const GenericError = ({
   title: string
   subtitle: string
   lead: string
-}>) => (
-  <main role="main" id="content">
+}>) {
+  return <main role="main" id="content">
     <div className="fr-container">
       <div className="fr-my-7w fr-mt-md-12w fr-mb-md-10w fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
         <div className="fr-py-0 fr-col-12 fr-col-md-6 fr-col-offset-md-1">
@@ -85,28 +86,28 @@ export const GenericError = ({
             <use
               className="fr-artwork-motif"
               href="/dsfr/artwork/background/ovoid.svg"
-            ></use>
+             />
             <use
               className="fr-artwork-background"
               href="/dsfr/artwork/background/ovoid.svg#artwork-background"
-            ></use>
+             />
             <g transform="translate(40, 60)">
               <use
                 className="fr-artwork-decorative"
                 href="/dsfr/artwork/pictograms/system/technical-error.svg#artwork-decorative"
-              ></use>
+               />
               <use
                 className="fr-artwork-minor"
                 href="/dsfr/artwork/pictograms/system/technical-error.svg#artwork-minor"
-              ></use>
+               />
               <use
                 className="fr-artwork-major"
                 href="/dsfr/artwork/pictograms/system/technical-error.svg#artwork-major"
-              ></use>
+               />
             </g>
           </svg>
         </div>
       </div>
     </div>
   </main>
-)
+}

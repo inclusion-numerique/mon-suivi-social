@@ -46,4 +46,5 @@ export const CreateUserServer = createMutationServer({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type CreateUserServer = typeof CreateUserServer

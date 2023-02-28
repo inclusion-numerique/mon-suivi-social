@@ -54,6 +54,7 @@ export const AddFollowupClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddFollowupClient = typeof AddFollowupClient
 
 export const followupMediumLabels: { [key in FollowupMedium]: string } = {

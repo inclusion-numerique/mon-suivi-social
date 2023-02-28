@@ -49,7 +49,7 @@ export const beneficiariesListTableColumns = [
     content: ({ followups, helpRequests }: ListBeneficiariesItem) => {
       const deduplicatedTypesMap = new Map<string, string>(
         [
-          ...followups.map((followup) => followup.types).flat(),
+          ...followups.flatMap((followup) => followup.types),
           ...helpRequests.map((helpRequest) => helpRequest.type),
         ].map(({ id, name }) => [id, name]),
       )

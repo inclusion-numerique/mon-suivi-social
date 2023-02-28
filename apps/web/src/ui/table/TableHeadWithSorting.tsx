@@ -1,12 +1,11 @@
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import Link from 'next/link'
 import {
-  SortDirection,
   Sorting,
   TableColumnDefinition,
 } from '@mss/web/ui/table/TableColumnDefinition'
 
-type TableHeadWithSortingProps<Item, SortBy> = {
+type TableHeadWithSortingProperties<Item, SortBy> = {
   columns: TableColumnDefinition<Item>[]
   createSortLink: (sorting: Sorting) => string
   currentSorting: Sorting<SortBy>
@@ -17,7 +16,7 @@ export function TableHeadWithSorting<Item, SortBy>({
   columns,
   createSortLink,
   currentSorting,
-}: TableHeadWithSortingProps<Item, SortBy>) {
+}: TableHeadWithSortingProperties<Item, SortBy>) {
   return (
     <tr>
       {columns.map((column) => (
@@ -36,16 +35,17 @@ export function TableHeadWithSorting<Item, SortBy>({
   )
 }
 
-type TableHeadSortLinkProps<Item, SortBy> = {
+type TableHeadSortLinkProperties<Item, SortBy> = {
   column: TableColumnDefinition<Item>
   createSortLink: (sorting: Sorting) => string
   currentSorting: Sorting<SortBy>
 }
+
 function SortLink<Item, SortBy>({
   column: { sortable, label },
   currentSorting: { by, direction },
   createSortLink,
-}: TableHeadSortLinkProps<Item, SortBy>) {
+}: TableHeadSortLinkProperties<Item, SortBy>) {
   if (!sortable) {
     return null
   }
@@ -72,7 +72,7 @@ function SortLink<Item, SortBy>({
       title={title}
       href={href}
       style={{
-        color: by !== label ? 'var(--text-disabled-grey)' : undefined,
+        color: by === label ? undefined : 'var(--text-disabled-grey)',
       }}
     />
   )

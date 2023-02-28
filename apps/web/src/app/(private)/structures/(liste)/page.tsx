@@ -37,7 +37,7 @@ const StructuresListPage = async ({
   // TODO We could put all this in a big list page helper function...
 
   // Get pagination and sorting info from searchParams
-  const pageNumber = searchParams?.page ? parseInt(searchParams.page) : 1
+  const pageNumber = searchParams?.page ? Number.parseInt(searchParams.page) : 1
   const currentSorting: Sorting = {
     by: searchParams?.tri ?? defaultSorting.by,
     direction: searchParams?.ordre ?? defaultSorting.direction,

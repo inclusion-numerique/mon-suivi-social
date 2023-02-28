@@ -1,3 +1,5 @@
-import { NotFoundError } from '@mss/web/app/ServerError'
 
-export default NotFoundError
+
+
+
+export {NotFoundError as default} from '@mss/web/app/ServerError'

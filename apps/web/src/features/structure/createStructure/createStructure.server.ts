@@ -23,7 +23,7 @@ export type FollowupTypesForStructureCreation = Awaited<
 export const CreateStructureServer = createMutationServer({
   client: CreateStructureClient,
 
-  executeMutation: async ({ input, transaction, user }) => {
+  executeMutation: async ({ input, transaction }) => {
     const { proposedFollowupTypes, ...data } = input
     const structure = await transaction.structure.create({
       data: {
@@ -52,4 +52,5 @@ export const CreateStructureServer = createMutationServer({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type CreateStructureServer = typeof CreateStructureServer

@@ -35,12 +35,12 @@ export type CreateMutationServerOptions<
   Name extends string = string,
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
   Target = any,
-  SecurityParams = any,
-  AdditionalParams = any,
+  SecurityParameters = any,
+  AdditionalParameters = any,
   MutationResult = any,
   Input = z.infer<Validation>,
 > = {
-  client: MutationClient<Validation, Name, Grantee, Target, SecurityParams>
+  client: MutationClient<Validation, Name, Grantee, Target, SecurityParameters>
   executeMutation: ExecuteMutation<Input, MutationResult>
 
   mutationLogInfo: (context: {
@@ -59,8 +59,8 @@ export type CreateMutationServerWithInitialStateOptions<
   Name extends string = string,
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
   Target = any,
-  SecurityParams = any,
-  AdditionalParams = any,
+  SecurityParameters = any,
+  AdditionalParameters = any,
   MutationResult = any,
   Input = z.infer<Validation>,
 > = Omit<
@@ -69,8 +69,8 @@ export type CreateMutationServerWithInitialStateOptions<
     Name,
     Grantee,
     Target,
-    SecurityParams,
-    AdditionalParams,
+    SecurityParameters,
+    AdditionalParameters,
     MutationResult,
     Input
   >,
@@ -98,8 +98,8 @@ export type MutationServer<
   Name extends string = string,
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
   Target = any,
-  SecurityParams = any,
-  AdditionalParams = any,
+  SecurityParameters = any,
+  AdditionalParameters = any,
   MutationResult = any,
   Input = z.infer<Validation>,
 > = Readonly<
@@ -109,8 +109,8 @@ export type MutationServer<
       Name,
       Grantee,
       Target,
-      SecurityParams,
-      AdditionalParams,
+      SecurityParameters,
+      AdditionalParameters,
       MutationResult,
       Input
     >,
@@ -121,7 +121,7 @@ export type MutationServer<
     input: Input
     user: Grantee
     target: Target
-    securityParams: SecurityParams
+    securityParams: SecurityParameters
     // TODO cleanup security context for log stuff and types
     structureId?: string
     beneficiaryId?: string
@@ -135,8 +135,8 @@ export type MutationServerWithInitialState<
   Name extends string = string,
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
   Target = any,
-  SecurityParams = any,
-  AdditionalParams = any,
+  SecurityParameters = any,
+  AdditionalParameters = any,
   MutationResult = any,
   Input = z.infer<Validation>,
 > = Readonly<
@@ -148,8 +148,8 @@ export type MutationServerWithInitialState<
       Name,
       Grantee,
       Target,
-      SecurityParams,
-      AdditionalParams,
+      SecurityParameters,
+      AdditionalParameters,
       MutationResult,
       Input
     >,
@@ -160,7 +160,7 @@ export type MutationServerWithInitialState<
     input: Input
     user: Grantee
     target: Target
-    securityParams: SecurityParams
+    securityParams: SecurityParameters
     getServerStateInput: GetServerStateInput
     // TODO cleanup security context for log stuff and types
     structureId?: string
@@ -173,8 +173,8 @@ export const createMutationServer = <
   Name extends string = string,
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
   Target = any,
-  SecurityParams = any,
-  AdditionalParams = any,
+  SecurityParameters = any,
+  AdditionalParameters = any,
   MutationResult = any,
   Input = z.infer<Validation>,
 >(
@@ -183,8 +183,8 @@ export const createMutationServer = <
     Name,
     Grantee,
     Target,
-    SecurityParams,
-    AdditionalParams,
+    SecurityParameters,
+    AdditionalParameters,
     MutationResult,
     Input
   >,
@@ -193,8 +193,8 @@ export const createMutationServer = <
   Name,
   Grantee,
   Target,
-  SecurityParams,
-  AdditionalParams,
+  SecurityParameters,
+  AdditionalParameters,
   MutationResult,
   Input
 > => {
@@ -212,7 +212,7 @@ export const createMutationServer = <
     input: Input
     user: Grantee
     target: Target
-    securityParams: SecurityParams
+    securityParams: SecurityParameters
     structureId?: string
     beneficiaryId?: string
   }) => {
@@ -220,7 +220,7 @@ export const createMutationServer = <
       throw forbiddenError()
     }
 
-    const diff = computeMutationDiff({}, input as Object) as Prisma.JsonObject
+    const diff = computeMutationDiff({}, input as object) as Prisma.JsonObject
 
     return prismaClient.$transaction(async (transaction) => {
       const result = await options.executeMutation({
@@ -257,8 +257,8 @@ export const createMutationServerWithInitialState = <
   Name extends string = string,
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
   Target = any,
-  SecurityParams = any,
-  AdditionalParams = any,
+  SecurityParameters = any,
+  AdditionalParameters = any,
   MutationResult = any,
   Input = z.infer<Validation>,
 >(
@@ -269,8 +269,8 @@ export const createMutationServerWithInitialState = <
     Name,
     Grantee,
     Target,
-    SecurityParams,
-    AdditionalParams,
+    SecurityParameters,
+    AdditionalParameters,
     MutationResult,
     Input
   >,
@@ -281,8 +281,8 @@ export const createMutationServerWithInitialState = <
   Name,
   Grantee,
   Target,
-  SecurityParams,
-  AdditionalParams,
+  SecurityParameters,
+  AdditionalParameters,
   MutationResult,
   Input
 > => {
@@ -301,7 +301,7 @@ export const createMutationServerWithInitialState = <
     input: Input
     user: Grantee
     target: Target
-    securityParams: SecurityParams
+    securityParams: SecurityParameters
     getServerStateInput: GetServerStateInput
     structureId?: string
     beneficiaryId?: string
@@ -317,15 +317,14 @@ export const createMutationServerWithInitialState = <
     const initialInput = options.dataFromServerState(serverState)
 
     const diff = computeMutationDiff(
-      initialInput as Object,
-      input as Object,
+      initialInput as object,
+      input as object,
     ) as Prisma.JsonObject
 
     return prismaClient.$transaction(async (transaction) => {
       const result = await options.executeMutation({
         serverState,
-        // TODO not safe type coercion, see what to do about serversate in creation feature with no initial Input
-        initialInput: initialInput as Input,
+        initialInput,
         user,
         input,
         transaction,

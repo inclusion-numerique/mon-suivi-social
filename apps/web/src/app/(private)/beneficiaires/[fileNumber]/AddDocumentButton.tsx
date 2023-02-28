@@ -1,12 +1,12 @@
 import { AddDocumentModalForm } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/AddDocumentModalForm'
 
-export const AddDocumentButton = ({
+export function AddDocumentButton({
   beneficiaryId,
   className,
 }: {
   beneficiaryId: string
   className?: string
-}) => {
+}) {
   const dialogId = 'add-document-modal'
   return (
     <>

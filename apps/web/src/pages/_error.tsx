@@ -18,9 +18,7 @@ import type { NextPage } from 'next'
 import type { ErrorProps } from 'next/error'
 import NextErrorComponent from 'next/error'
 
-const CustomErrorComponent: NextPage<ErrorProps> = (props) => {
-  return <NextErrorComponent statusCode={props.statusCode} />
-}
+const CustomErrorComponent: NextPage<ErrorProps> = (properties) => <NextErrorComponent statusCode={properties.statusCode} />
 
 CustomErrorComponent.getInitialProps = async (contextData) => {
   // In case this is running in a serverless function, await this in order to give Sentry

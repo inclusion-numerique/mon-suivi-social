@@ -27,7 +27,7 @@ import { BeneficiaryPageInfo } from '@mss/web/app/(private)/beneficiaires/[fileN
 import { Routes } from '@mss/web/app/routing/routes'
 import Link from 'next/link'
 
-export const HistoryTab = ({
+export function HistoryTab({
   user,
   beneficiary,
   supports,
@@ -37,11 +37,11 @@ export const HistoryTab = ({
   beneficiary: BeneficiaryPageInfo
   supports: BeneficiaryPageSupport[]
   scrollToItem?: string
-}) => {
+}) {
   return (
     <>
       <div>
-        {/* TODO use security rules instead of inlining security decisions with conditions*/}
+        {/* TODO use security rules instead of inlining security decisions with conditions */}
         {supports.map((support) => (
           <SupportCard
             key={support.id}
@@ -57,7 +57,7 @@ export const HistoryTab = ({
   )
 }
 
-const SupportCard = ({
+function SupportCard({
   beneficiary,
   support,
   user,
@@ -67,7 +67,7 @@ const SupportCard = ({
   support: BeneficiaryPageSupport
   user: SessionUser
   scrollToItem?: string
-}) => {
+}) {
   const isHelpRequest = support.__type === 'helpRequest'
   const types = isHelpRequest ? [support.type] : support.types
 
@@ -186,6 +186,7 @@ const SupportCard = ({
                         <>
                           <p className="fr-text--bold">
                             <span className="fr-icon-lock-line fr-mr-1w" />
+                            {/* eslint-disable-next-line no-irregular-whitespace */}
                             Compte rendu privé :
                           </p>
                           <p className="fr-background-alt--grey fr-mt-2v fr-py-2v fr-px-2w">
@@ -220,9 +221,9 @@ const SupportCard = ({
   )
 }
 
-const FollowupTypeTag = ({ name }: { name: string }) => (
-  <span className="fr-tag fr-tag--sm fr-mt-1v fr-mr-1v">{name}</span>
-)
+function FollowupTypeTag({ name }: { name: string }) {
+  return <span className="fr-tag fr-tag--sm fr-mt-1v fr-mr-1v">{name}</span>
+}
 
 const supportAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
   support.__type === 'helpRequest'

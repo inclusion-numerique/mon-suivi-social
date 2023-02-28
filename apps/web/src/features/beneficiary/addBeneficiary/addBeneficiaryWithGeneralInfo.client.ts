@@ -128,5 +128,6 @@ export const AddBeneficiaryWithGeneralInfoClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddBeneficiaryWithGeneralInfoClient =
   typeof AddBeneficiaryWithGeneralInfoClient

@@ -1,9 +1,7 @@
 'use client'
 
-import { HTMLInputTypeAttribute } from 'react'
 import { Control, Controller, FieldValues } from 'react-hook-form'
 import { FieldPath } from 'react-hook-form/dist/types/path'
-import TextareaAutosize from 'react-textarea-autosize'
 
 export function UploadFormField<T extends FieldValues>({
   label,
@@ -60,7 +58,7 @@ export function UploadFormField<T extends FieldValues>({
             onBlur={onBlur}
             onChange={(event) => {
               // We want to emit a File from this onchange instead of the field value (that is the default implementation)
-              const files = event.target.files
+              const {files} = event.target
               if (!files) {
                 onChange('')
                 return

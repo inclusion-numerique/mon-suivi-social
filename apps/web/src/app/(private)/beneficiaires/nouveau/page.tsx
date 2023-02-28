@@ -10,7 +10,7 @@ import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/
 const AddBeneficiaryPage = async () => {
   const user = await getAuthenticatedAgent()
   const agents = await getAgentOptions(user)
-  const structureId = user.structureId
+  const {structureId} = user
 
   if (
     !AddBeneficiaryWithGeneralInfoClient.securityCheck(

@@ -1,4 +1,5 @@
 'use client'
+
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { InputFormField } from '@mss/web/form/InputFormField'
@@ -42,7 +43,7 @@ const FieldLabels = EditBeneficiaryFullDataClient.fieldLabels
  */
 export const BeneficiaryForm = withTrpc(
   (
-    props: { agents: Options } & (
+    properties: { agents: Options } & (
       | {
           creation: true
           full: boolean
@@ -70,33 +71,33 @@ export const BeneficiaryForm = withTrpc(
     const editGeneralInfo = trpc.beneficiary.editGeneralInfo.useMutation()
     const editFullData = trpc.beneficiary.editFullData.useMutation()
 
-    const mutation = props.creation
+    const mutation = properties.creation
       ? // Creation
-        props.full
+        properties.full
         ? addWithFullData
         : addWithGeneralInfo
       : // Edition
-      props.full
+      properties.full
       ? editFullData
       : editGeneralInfo
 
-    const client = props.creation
+    const client = properties.creation
       ? // Creation
-        props.full
+        properties.full
         ? AddBeneficiaryWithFullDataClient
         : AddBeneficiaryWithGeneralInfoClient
       : // Edition
-      props.full
+      properties.full
       ? EditBeneficiaryFullDataClient
       : EditBeneficiaryGeneralInfoClient
 
-    const { agents } = props
+    const { agents } = properties
 
-    const defaultValues = props.creation
-      ? props.defaultInput
-      : props.full
-      ? deserialize(props.defaultInput)
-      : deserialize(props.defaultInput)
+    const defaultValues = properties.creation
+      ? properties.defaultInput
+      : properties.full
+      ? deserialize(properties.defaultInput)
+      : deserialize(properties.defaultInput)
 
     const form = useForm<MutationInput<typeof client>>({
       resolver: zodResolver(client.inputValidation),
@@ -112,24 +113,24 @@ export const BeneficiaryForm = withTrpc(
         router.push(
           Routes.Beneficiaires.Beneficiaire.Index.path(result.beneficiary),
         )
-      } catch (err) {
+      } catch {
         // Error message will be in hook result
       }
     }
 
     // Open sections with errors on submit
     // TODO create custom hook to cleanup this component
-    const ref = useRef<HTMLFormElement>(null)
+    const reference = useRef<HTMLFormElement>(null)
     useEffect(
       () => {
         if (form.formState.isSubmitted && !form.formState.isValid) {
           // Error callback
-          if (!ref.current) {
+          if (!reference.current) {
             return
           }
 
           // Get form accordion sections
-          const sections = ref.current.querySelectorAll('.fr-accordion')
+          const sections = reference.current.querySelectorAll('.fr-accordion')
           for (const section of sections) {
             const sectionButton = section.querySelector('.fr-accordion__btn')
             const errors = section.querySelector('.fr-error-text')
@@ -151,9 +152,9 @@ export const BeneficiaryForm = withTrpc(
     const fieldsDisabled = isLoading || isSuccess
 
     return (
-      <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
+      <form ref={reference} onSubmit={handleSubmit(onSubmit)}>
         <SelectTagsFormField
-          label={FieldLabels['referents']}
+          label={FieldLabels.referents}
           disabled={fieldsDisabled}
           options={agents}
           control={control}
@@ -163,7 +164,7 @@ export const BeneficiaryForm = withTrpc(
           required
         />
         <CheckboxFormField
-          checkboxLabel={FieldLabels['aidantConnectAuthorized']}
+          checkboxLabel={FieldLabels.aidantConnectAuthorized}
           disabled={fieldsDisabled}
           control={control}
           path="aidantConnectAuthorized"
@@ -182,7 +183,7 @@ export const BeneficiaryForm = withTrpc(
           </h3>
           <div className="fr-collapse" id="beneficiary-form-general">
             <SelectFormField
-              label={FieldLabels['status']}
+              label={FieldLabels.status}
               path="status"
               disabled={fieldsDisabled}
               control={control}
@@ -191,7 +192,7 @@ export const BeneficiaryForm = withTrpc(
               required
             />
             <SelectFormField
-              label={FieldLabels['title']}
+              label={FieldLabels.title}
               path="title"
               disabled={fieldsDisabled}
               control={control}
@@ -199,25 +200,25 @@ export const BeneficiaryForm = withTrpc(
               defaultOption
             />
             <InputFormField
-              label={FieldLabels['usualName']}
+              label={FieldLabels.usualName}
               path="usualName"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['birthName']}
+              label={FieldLabels.birthName}
               path="birthName"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['firstName']}
+              label={FieldLabels.firstName}
               path="firstName"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['birthDate']}
+              label={FieldLabels.birthDate}
               path="birthDate"
               type="date"
               valueAsDate
@@ -225,13 +226,13 @@ export const BeneficiaryForm = withTrpc(
               control={control}
             />
             <InputFormField
-              label={FieldLabels['birthPlace']}
+              label={FieldLabels.birthPlace}
               path="birthPlace"
               disabled={fieldsDisabled}
               control={control}
             />
             <SelectFormField
-              label={FieldLabels['gender']}
+              label={FieldLabels.gender}
               path="gender"
               disabled={fieldsDisabled}
               control={control}
@@ -239,7 +240,7 @@ export const BeneficiaryForm = withTrpc(
               defaultOption
             />
             <SelectFormField
-              label={FieldLabels['nationality']}
+              label={FieldLabels.nationality}
               path="nationality"
               disabled={fieldsDisabled}
               control={control}
@@ -247,7 +248,7 @@ export const BeneficiaryForm = withTrpc(
               defaultOption
             />
             <SelectFormField
-              label={FieldLabels['accomodationMode']}
+              label={FieldLabels.accomodationMode}
               path="accomodationMode"
               disabled={fieldsDisabled}
               control={control}
@@ -255,74 +256,74 @@ export const BeneficiaryForm = withTrpc(
               defaultOption
             />
             <InputFormField
-              label={FieldLabels['accomodationAdditionalInformation']}
+              label={FieldLabels.accomodationAdditionalInformation}
               path="accomodationAdditionalInformation"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['zipcode']}
+              label={FieldLabels.zipcode}
               path="zipcode"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['city']}
+              label={FieldLabels.city}
               path="city"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['region']}
+              label={FieldLabels.region}
               path="region"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['streetNumber']}
+              label={FieldLabels.streetNumber}
               path="streetNumber"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['street']}
+              label={FieldLabels.street}
               path="street"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['accomodationAdditionalInformation']}
+              label={FieldLabels.accomodationAdditionalInformation}
               hint="Bâtiment, immeuble, escalier et numéro d’appartement"
               path="accomodationAdditionalInformation"
               disabled={fieldsDisabled}
               control={control}
             />
             <CheckboxFormField
-              label={FieldLabels['noPhone']}
+              label={FieldLabels.noPhone}
               path="noPhone"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['phone1']}
+              label={FieldLabels.phone1}
               path="phone1"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['phone2']}
+              label={FieldLabels.phone2}
               path="phone2"
               disabled={fieldsDisabled}
               control={control}
             />
             <InputFormField
-              label={FieldLabels['email']}
+              label={FieldLabels.email}
               path="email"
               disabled={fieldsDisabled}
               control={control}
             />
             <SelectFormField
-              label={FieldLabels['familySituation']}
+              label={FieldLabels.familySituation}
               path="familySituation"
               disabled={fieldsDisabled}
               control={control}
@@ -330,7 +331,7 @@ export const BeneficiaryForm = withTrpc(
               defaultOption
             />
             <InputFormField
-              label={FieldLabels['minorChildren']}
+              label={FieldLabels.minorChildren}
               path="minorChildren"
               disabled={fieldsDisabled}
               type="number"
@@ -339,7 +340,7 @@ export const BeneficiaryForm = withTrpc(
               control={control}
             />
             <InputFormField
-              label={FieldLabels['majorChildren']}
+              label={FieldLabels.majorChildren}
               path="majorChildren"
               disabled={fieldsDisabled}
               type="number"
@@ -348,13 +349,13 @@ export const BeneficiaryForm = withTrpc(
               control={control}
             />
             <CheckboxFormField
-              label={FieldLabels['caregiver']}
+              label={FieldLabels.caregiver}
               path="caregiver"
               disabled={fieldsDisabled}
               control={control}
             />
             <SelectFormField
-              label={FieldLabels['mobility']}
+              label={FieldLabels.mobility}
               path="mobility"
               disabled={fieldsDisabled}
               control={control}
@@ -363,7 +364,7 @@ export const BeneficiaryForm = withTrpc(
             />
           </div>
         </section>
-        {props.full ? (
+        {properties.full ? (
           <>
             <section className="fr-accordion">
               <h3 className="fr-accordion__title">
@@ -395,7 +396,7 @@ export const BeneficiaryForm = withTrpc(
               </h3>
               <div className="fr-collapse" id="beneficiary-form-health">
                 <SelectFormField
-                  label={FieldLabels['gir']}
+                  label={FieldLabels.gir}
                   path="gir"
                   disabled={fieldsDisabled}
                   control={control}
@@ -403,25 +404,25 @@ export const BeneficiaryForm = withTrpc(
                   defaultOption
                 />
                 <InputFormField
-                  label={FieldLabels['doctor']}
+                  label={FieldLabels.doctor}
                   path="doctor"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['healthAdditionalInformation']}
+                  label={FieldLabels.healthAdditionalInformation}
                   path="healthAdditionalInformation"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['socialSecurityNumber']}
+                  label={FieldLabels.socialSecurityNumber}
                   path="socialSecurityNumber"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['insurance']}
+                  label={FieldLabels.insurance}
                   path="insurance"
                   disabled={fieldsDisabled}
                   control={control}
@@ -441,7 +442,7 @@ export const BeneficiaryForm = withTrpc(
               </h3>
               <div className="fr-collapse" id="beneficiary-form-activity">
                 <SelectFormField
-                  label={FieldLabels['socioProfessionalCategory']}
+                  label={FieldLabels.socioProfessionalCategory}
                   path="socioProfessionalCategory"
                   disabled={fieldsDisabled}
                   control={control}
@@ -449,25 +450,25 @@ export const BeneficiaryForm = withTrpc(
                   defaultOption
                 />
                 <InputFormField
-                  label={FieldLabels['occupation']}
+                  label={FieldLabels.occupation}
                   path="occupation"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['employer']}
+                  label={FieldLabels.employer}
                   path="employer"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['employerSiret']}
+                  label={FieldLabels.employerSiret}
                   path="employerSiret"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <SelectTagsFormField
-                  label={FieldLabels['mainIncomeSource']}
+                  label={FieldLabels.mainIncomeSource}
                   path="mainIncomeSource"
                   disabled={fieldsDisabled}
                   control={control}
@@ -475,7 +476,7 @@ export const BeneficiaryForm = withTrpc(
                   defaultOption
                 />
                 <InputFormField
-                  label={FieldLabels['mainIncomeAmount']}
+                  label={FieldLabels.mainIncomeAmount}
                   path="mainIncomeAmount"
                   disabled={fieldsDisabled}
                   control={control}
@@ -483,13 +484,13 @@ export const BeneficiaryForm = withTrpc(
                   min={0}
                 />
                 <InputFormField
-                  label={FieldLabels['unemploymentNumber']}
+                  label={FieldLabels.unemploymentNumber}
                   path="unemploymentNumber"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <SelectTagsFormField
-                  label={FieldLabels['pensionOrganisations']}
+                  label={FieldLabels.pensionOrganisations}
                   disabled={fieldsDisabled}
                   options={pensionOrganisationOptions}
                   control={control}
@@ -497,19 +498,19 @@ export const BeneficiaryForm = withTrpc(
                   path="pensionOrganisations"
                 />
                 <InputFormField
-                  label={FieldLabels['cafNumber']}
+                  label={FieldLabels.cafNumber}
                   path="cafNumber"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['bank']}
+                  label={FieldLabels.bank}
                   path="bank"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['funeralContract']}
+                  label={FieldLabels.funeralContract}
                   path="funeralContract"
                   disabled={fieldsDisabled}
                   control={control}
@@ -529,7 +530,7 @@ export const BeneficiaryForm = withTrpc(
               </h3>
               <div className="fr-collapse" id="beneficiary-form-external">
                 <SelectFormField
-                  label={FieldLabels['protectionMeasure']}
+                  label={FieldLabels.protectionMeasure}
                   path="protectionMeasure"
                   disabled={fieldsDisabled}
                   control={control}
@@ -537,19 +538,19 @@ export const BeneficiaryForm = withTrpc(
                   defaultOption
                 />
                 <InputFormField
-                  label={FieldLabels['representative']}
+                  label={FieldLabels.representative}
                   path="representative"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['prescribingStructure']}
+                  label={FieldLabels.prescribingStructure}
                   path="prescribingStructure"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <SelectFormField
-                  label={FieldLabels['orientationType']}
+                  label={FieldLabels.orientationType}
                   path="orientationType"
                   disabled={fieldsDisabled}
                   control={control}
@@ -557,20 +558,20 @@ export const BeneficiaryForm = withTrpc(
                   defaultOption
                 />
                 <InputFormField
-                  label={FieldLabels['orientationStructure']}
+                  label={FieldLabels.orientationStructure}
                   path="orientationStructure"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['serviceProviders']}
+                  label={FieldLabels.serviceProviders}
                   hint="Repas à domicile, aide à domicile, ..."
                   path="cafNumber"
                   disabled={fieldsDisabled}
                   control={control}
                 />
                 <InputFormField
-                  label={FieldLabels['involvedPartners']}
+                  label={FieldLabels.involvedPartners}
                   path="involvedPartners"
                   disabled={fieldsDisabled}
                   control={control}
@@ -582,7 +583,7 @@ export const BeneficiaryForm = withTrpc(
 
         <InputFormField
           className="fr-mt-4v"
-          label={FieldLabels['additionalInformation']}
+          label={FieldLabels.additionalInformation}
           hint="Il est fortement recommandé de ne stocker que les informations utiles au suivi du bénéficiaire et d'éviter le recueil d'informations sensibles (données de santé, mots de passe, etc)."
           disabled={fieldsDisabled}
           control={control}
@@ -596,7 +597,7 @@ export const BeneficiaryForm = withTrpc(
 
         <div className="fr-grid-row fr-grid-row--center">
           <button className="fr-btn" type="submit" disabled={isLoading}>
-            {props.creation
+            {properties.creation
               ? 'Ajouter le bénéficiaire'
               : 'Enregistrer le bénéficiaire'}
           </button>

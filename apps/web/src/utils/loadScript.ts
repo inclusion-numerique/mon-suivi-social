@@ -19,11 +19,11 @@ export function loadScript(
       script.setAttribute('nomodule', '')
     }
 
-    script.onload = function () {
+    script.addEventListener('load', () => {
       resolve()
-    }
+    })
 
     script.src = url
-    document.body.appendChild(script)
+    document.body.append(script)
   })
 }

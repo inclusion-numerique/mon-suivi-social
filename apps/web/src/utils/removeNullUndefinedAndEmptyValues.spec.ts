@@ -17,7 +17,7 @@ describe('removeNullUndefinedAndEmptyStringValues', () => {
         d3: [undefined],
         e: null,
         f: undefined,
-        g: NaN,
+        g: Number.NaN,
       }),
     ).toEqual({
       a3: '0',
@@ -26,7 +26,7 @@ describe('removeNullUndefinedAndEmptyStringValues', () => {
       d1: [0],
       d2: [null],
       d3: [undefined],
-      g: NaN,
+      g: Number.NaN,
     })
   })
 })

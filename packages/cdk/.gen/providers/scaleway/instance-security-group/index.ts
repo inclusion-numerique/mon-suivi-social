@@ -675,8 +675,8 @@ export class InstanceSecurityGroup extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_instance_security_group',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

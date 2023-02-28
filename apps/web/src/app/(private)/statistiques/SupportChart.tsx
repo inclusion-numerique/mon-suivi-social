@@ -7,11 +7,11 @@ import { useCssProperties } from '@mss/web/hooks/useCssProperty'
 import { SupportStats } from '@mss/web/stats/stats'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
-export const SupportChart = ({
+export function SupportChart({
   supportStats,
 }: {
   supportStats: SupportStats
-}) => {
+}) {
   const colors = useCssProperties([
     '--artwork-minor-pink-tuile',
     '--artwork-minor-blue-cumulus',
@@ -26,28 +26,28 @@ export const SupportChart = ({
     datasets: [
       {
         label: "Demandes d'aide",
-        data: [
-          ...supportStats.stats.map(({ _count }) => _count.helpRequests),
+        data: 
+          supportStats.stats.map(({ _count }) => _count.helpRequests)
           // supportStats.total.helpRequests,
-        ],
+        ,
         backgroundColor: colors[0],
       },
       {
         label: 'Entretiens',
-        data: [
-          ...supportStats.stats.map(({ _count }) => _count.followups),
+        data: 
+          supportStats.stats.map(({ _count }) => _count.followups)
           // supportStats.total.followups,
-        ],
+        ,
         backgroundColor: colors[1],
       },
       {
         label: 'Total',
-        data: [
-          ...supportStats.stats.map(
+        data: 
+          supportStats.stats.map(
             ({ _count }) => _count.followups + _count.helpRequests,
-          ),
+          )
           // supportStats.total.total,
-        ],
+        ,
         backgroundColor: colors[2],
       },
     ],

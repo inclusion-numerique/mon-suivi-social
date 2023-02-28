@@ -2,8 +2,8 @@
 
 import Script from 'next/script'
 
-export const Matomo = () =>
-  process.env.NODE_ENV !== 'production' ? null : (
+export function Matomo() {
+  return process.env.NODE_ENV === 'production' ? (
     <Script id="matomo">
       {`var _paq = window._paq = window._paq || [];
     _paq.push(['trackPageView']);
@@ -16,4 +16,5 @@ export const Matomo = () =>
     g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();`}
     </Script>
-  )
+  ) : null
+}

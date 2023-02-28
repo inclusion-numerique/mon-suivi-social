@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "apps/cli/src",
+    "apps/web/src",
+    "packages/cdk/src",
+    "packages/e2e/tests",
+    "packages/e2e/src",
+    "packages/emails/src",
+    "packages/lint/src",
+    "packages/storybook/.storybook/**/*",
+    "packages/storybook/src",
+    "packages/test/src"
+  ]
+}

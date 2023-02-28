@@ -3,11 +3,11 @@ import { BeneficiaryPageDocuments } from '@mss/web/app/(private)/beneficiaires/[
 import { EditDocumentServer } from '@mss/web/features/document/editDocument.server'
 import { serialize } from '@mss/web/utils/serialization'
 
-export const EditDocumentButton = ({
+export function EditDocumentButton({
   document,
 }: {
   document: BeneficiaryPageDocuments[number]
-}) => {
+}) {
   const defaultValues = EditDocumentServer.dataFromServerState(document)
   const dialogId = `edit-document-modal-${document.key}`
 
@@ -18,7 +18,7 @@ export const EditDocumentButton = ({
           type="button"
           aria-controls={dialogId}
           data-fr-opened="false"
-          className={`fr-btn fr-btn--tertiary fr-icon-pencil-line`}
+          className="fr-btn fr-btn--tertiary fr-icon-pencil-line"
         >
           Modifier
         </button>

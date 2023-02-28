@@ -27,6 +27,12 @@ export interface RdbDatabaseConfig extends cdktf.TerraformMetaArguments {
   */
   readonly name: string;
   /**
+  * The region you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database#region RdbDatabase#region}
+  */
+  readonly region?: string;
+  /**
   * timeouts block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_database#timeouts RdbDatabase#timeouts}
@@ -189,8 +195,8 @@ export class RdbDatabase extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_rdb_database',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -203,6 +209,7 @@ export class RdbDatabase extends cdktf.TerraformResource {
     this._id = config.id;
     this._instanceId = config.instanceId;
     this._name = config.name;
+    this._region = config.region;
     this._timeouts.internalValue = config.timeouts;
   }
 
@@ -262,6 +269,22 @@ export class RdbDatabase extends cdktf.TerraformResource {
     return this.getStringAttribute('owner');
   }
 
+  // region - computed: true, optional: true, required: false
+  private _region?: string; 
+  public get region() {
+    return this.getStringAttribute('region');
+  }
+  public set region(value: string) {
+    this._region = value;
+  }
+  public resetRegion() {
+    this._region = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionInput() {
+    return this._region;
+  }
+
   // size - computed: true, optional: false, required: false
   public get size() {
     return this.getStringAttribute('size');
@@ -292,6 +315,7 @@ export class RdbDatabase extends cdktf.TerraformResource {
       id: cdktf.stringToTerraform(this._id),
       instance_id: cdktf.stringToTerraform(this._instanceId),
       name: cdktf.stringToTerraform(this._name),
+      region: cdktf.stringToTerraform(this._region),
       timeouts: rdbDatabaseTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }

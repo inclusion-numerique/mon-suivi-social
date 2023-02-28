@@ -1,11 +1,13 @@
-import { getOctokit, owner, repo } from '../github'
 import { Command } from '@commander-js/extra-typings'
-import { computeBranchNamespace } from '../../../../packages/cdk/src/utils'
+import { computeBranchNamespace } from '@mss/cdk/utils'
+import { getOctokit, owner, repo } from '../github'
 import { output } from '../output'
 
 export const createGithubDeployment = new Command()
   .command('github:deployment:create')
   .argument('<branch>', 'branch target')
+  // TODO remove this eslint disable when https://github.com/commander-js/extra-typings/pull/35 is merged
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   .action(async (branch) => {
     const environment = computeBranchNamespace(branch)
     const isMain = branch === 'main'
@@ -17,13 +19,17 @@ export const createGithubDeployment = new Command()
       ref: branch,
       environment,
       task: 'deploy',
-      transient_environment: isMain ? false : true,
-      production_environment: isMain ? true : false,
+      transient_environment: !isMain,
+      production_environment: !!isMain,
       required_contexts: [],
     })
 
     if (!('id' in result.data)) {
-      throw new Error(`Deployment creation failed: "${result.data.message}"`)
+      throw new Error(
+        `Deployment creation failed: "${
+          result.data.message ?? 'Unknown error'
+        }"`,
+      )
     }
 
     output(result.data.id)

@@ -17,7 +17,7 @@ export const AddBeneficiaryWithFullDataServer = createMutationServer({
         structureId,
         fileNumber,
         referents: {
-          connect: referents.map((id) => ({ id })),
+          connect: referents.map((referent) => ({ id: referent })),
         },
         createdById: user.id,
         ...data,
@@ -38,5 +38,6 @@ export const AddBeneficiaryWithFullDataServer = createMutationServer({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddBeneficiaryWithFullDataServer =
   typeof AddBeneficiaryWithFullDataServer

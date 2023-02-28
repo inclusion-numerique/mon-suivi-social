@@ -57,6 +57,7 @@ export function RadioFormField<T extends FieldValues>({
                       }
                     }}
                     value={option.value}
+                    checked={value === option.value}
                     name={name}
                     ref={ref}
                   />

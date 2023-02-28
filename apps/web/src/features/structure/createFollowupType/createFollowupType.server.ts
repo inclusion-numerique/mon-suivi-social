@@ -33,4 +33,5 @@ export const CreateFollowupTypeServer = createMutationServer({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type CreateFollowupTypeServer = typeof CreateFollowupTypeServer

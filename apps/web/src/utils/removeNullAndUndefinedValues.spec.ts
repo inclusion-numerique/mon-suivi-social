@@ -10,8 +10,8 @@ describe('removeNullAndUndefinedValues', () => {
         d: [],
         e: null,
         f: undefined,
-        g: NaN,
+        g: Number.NaN,
       }),
-    ).toEqual({ a: '', b: 0, c: {}, d: [], g: NaN })
+    ).toEqual({ a: '', b: 0, c: {}, d: [], g: Number.NaN })
   })
 })

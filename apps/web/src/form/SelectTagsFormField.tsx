@@ -5,8 +5,8 @@ import { FieldPath } from 'react-hook-form/dist/types/path'
 import { Option, Options, OptionsGroups } from '@mss/web/utils/options'
 import { ChangeEventHandler, MouseEventHandler } from 'react'
 
-const OptionsList = ({ options }: { options: Options }) => (
-  <>
+function OptionsList({ options }: { options: Options }) {
+  return <>
     {options.map(({ name, value }) => (
       <option key={value} value={value}>
         {name}
@@ -14,7 +14,7 @@ const OptionsList = ({ options }: { options: Options }) => (
     ))}
     )
   </>
-)
+}
 
 // View design options here https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/liste-deroulante/
 export function SelectTagsFormField<T extends FieldValues>({
@@ -29,7 +29,7 @@ export function SelectTagsFormField<T extends FieldValues>({
   autoFocus,
   defaultOptionLabel = 'Sélectionnez une option',
   badgeSize,
-  ...optionsProps
+  ...optionsProperties
 }: {
   control: Control<T>
   label?: string
@@ -48,9 +48,9 @@ export function SelectTagsFormField<T extends FieldValues>({
 )) {
   const id = `select-tags-form-field__${path}`
 
-  const flattenedOptions: Options = optionsProps.groups
-    ? Object.values(optionsProps.optionGroups).flat()
-    : optionsProps.options
+  const flattenedOptions: Options = optionsProperties.groups
+    ? Object.values(optionsProperties.optionGroups).flat()
+    : optionsProperties.options
 
   // TODO Aria labeled by from id
   return (
@@ -106,7 +106,7 @@ export function SelectTagsFormField<T extends FieldValues>({
               disabled={disabled}
               onBlur={onBlur}
               onChange={onSelectChange}
-              value={''}
+              value=""
               ref={ref}
               name={name}
               autoFocus={autoFocus}
@@ -114,8 +114,8 @@ export function SelectTagsFormField<T extends FieldValues>({
               {defaultOption ? (
                 <option value="">{defaultOptionLabel}</option>
               ) : null}
-              {optionsProps.groups ? (
-                Object.entries(optionsProps.optionGroups).map(
+              {optionsProperties.groups ? (
+                Object.entries(optionsProperties.optionGroups).map(
                   ([groupLabel, options]) => {
                     const availableOptions = options.filter(
                       ({ value }) => !valuesSet.has(value),
@@ -132,7 +132,7 @@ export function SelectTagsFormField<T extends FieldValues>({
                 )
               ) : (
                 <OptionsList
-                  options={optionsProps.options.filter(
+                  options={optionsProperties.options.filter(
                     ({ value }) => !valuesSet.has(value),
                   )}
                 />
@@ -161,7 +161,7 @@ export function SelectTagsFormField<T extends FieldValues>({
   )
 }
 
-const OptionBadge = ({
+function OptionBadge({
   option,
   onClick,
   disabled,
@@ -171,8 +171,8 @@ const OptionBadge = ({
   onClick: MouseEventHandler
   disabled?: boolean
   size?: 'sm' | 'md'
-}) => (
-  <button
+}) {
+  return <button
     type="button"
     className={`fr-tag fr-mr-1w fr-mb-2v ${size === 'sm' ? 'fr-tag--sm' : ''}`}
     disabled={disabled || option.disabled}
@@ -182,4 +182,4 @@ const OptionBadge = ({
     {option.name}
     <span className="fr-icon-close-line fr-ml-1w fr-icon--sm" />
   </button>
-)
+}

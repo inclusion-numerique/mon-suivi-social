@@ -1,4 +1,3 @@
-
 # Deployment using CDK
 
 ## Helper commands

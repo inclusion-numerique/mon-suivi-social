@@ -13,13 +13,11 @@ export const EditDocumentServer = createMutationServerWithInitialState({
   dataFromServerState: ({
     tags,
     ...data
-  }): MutationInput<EditDocumentClient> => {
-    return {
+  }): MutationInput<EditDocumentClient> => ({
       tags: tags as DocumentTag[],
       ...data,
-    }
-  },
-  executeMutation: async ({ input, transaction, initialInput }) => {
+    }),
+  executeMutation: async ({ input, transaction }) => {
     const { key, ...data } = input
 
     const document = await transaction.document.update({
@@ -47,4 +45,5 @@ export const EditDocumentServer = createMutationServerWithInitialState({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EditDocumentServer = typeof EditDocumentServer

@@ -1,9 +1,11 @@
-const NodeEnv = process.env.NODE_ENV
+const NodeEnvironment = process.env.NODE_ENV
 
-const emailServer = `smtp://${process.env.SMTP_USERNAME}:${process.env.SMTP_PASSWORD}@${process.env.SMTP_SERVER}:${process.env.SMTP_PORT}`
+const emailServer = `smtp://${process.env.SMTP_USERNAME ?? ''}:${
+  process.env.SMTP_PASSWORD ?? ''
+}@${process.env.SMTP_SERVER ?? ''}:${process.env.SMTP_PORT ?? ''}`
 
 export const PrivateConfig = {
-  NodeEnv,
+  NodeEnv: NodeEnvironment,
   Branch: process.env.BRANCH ?? '',
   Namespace: process.env.NAMESPACE ?? '',
   isMain: process.env.BRANCH === 'main',
@@ -13,7 +15,9 @@ export const PrivateConfig = {
   Auth: {
     Email: {
       server: emailServer,
-      from: `${process.env.EMAIL_FROM_NAME} <${process.env.EMAIL_FROM_ADDRESS}>`,
+      from: `${process.env.EMAIL_FROM_NAME ?? ''} <${
+        process.env.EMAIL_FROM_ADDRESS ?? ''
+      }>`,
     },
   },
   Grist: {

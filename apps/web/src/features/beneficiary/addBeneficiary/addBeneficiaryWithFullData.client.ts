@@ -84,7 +84,7 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
   beneficiaryAnonymization: (input) => {
     // TODO this is not undefined, fix typings to allow usage without checking
     const partiallyAnonymized =
-      !!AddBeneficiaryWithGeneralInfoClient.beneficiaryAnonymization
+      AddBeneficiaryWithGeneralInfoClient.beneficiaryAnonymization
         ? AddBeneficiaryWithGeneralInfoClient.beneficiaryAnonymization(input)
         : input
 
@@ -144,6 +144,8 @@ export const AddBeneficiaryWithFullDataClient = createMutationClient({
     involvedPartners: 'Partenaires intervenants',
   },
 })
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddBeneficiaryWithFullDataClient =
   typeof AddBeneficiaryWithFullDataClient
 

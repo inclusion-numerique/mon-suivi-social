@@ -67,12 +67,12 @@ export const isCreator = (
 
 export type SecurityRule<
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
-  Target = any,
-  SecurityParams = any,
+  Target = unknown,
+  SecurityParameters = unknown,
 > = (
   grantee: Grantee,
   target: Target,
-  securityParams: SecurityParams,
+  securityParameters: SecurityParameters,
 ) => boolean
 
 // A rule is a syncronous function taking
@@ -103,10 +103,10 @@ export const canListUsers = (
 export const canChangeUserRole = (
   grantee: SecurityRuleGrantee,
   target: SecurityTargetWithStructure,
-  params: { role: UserRole },
+  parameters: { role: UserRole },
 ): boolean =>
   isAdministrator(grantee) ||
-  (isStructureManager(grantee, target) && params.role !== 'Administrator')
+  (isStructureManager(grantee, target) && parameters.role !== 'Administrator')
 
 export const canListStructures = (grantee: SecurityRuleGrantee): boolean =>
   isAdministrator(grantee)
@@ -445,9 +445,7 @@ export const canDeleteBeneficiaryHelpRequest = (
   isCreator(grantee, helpRequest, ['Instructor']) ||
   isReferentFor(grantee, beneficiary)
 
-export const canAccessSocialRightsSimulator = (
-  grantee: SecurityRuleGrantee,
-): boolean => true
+export const canAccessSocialRightsSimulator = (): boolean => true
 
 export const canAccessFollowupsPage = (
   grantee: SecurityRuleGrantee,

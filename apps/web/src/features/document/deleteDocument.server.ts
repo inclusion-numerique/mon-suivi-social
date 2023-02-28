@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/nextjs'
 
 export const DeleteDocumentServer = createMutationServer({
   client: DeleteDocumentClient,
-  executeMutation: async ({ input, transaction, user }) => {
+  executeMutation: async ({ input, transaction }) => {
     const { documentKey } = input
 
     const document = await transaction.document.delete({
@@ -16,8 +16,8 @@ export const DeleteDocumentServer = createMutationServer({
         },
       },
     })
-    deleteUploadedFile({ key: documentKey }).catch((err) =>
-      Sentry.captureException(err, { tags: { sensitive: true } }),
+    deleteUploadedFile({ key: documentKey }).catch((error) =>
+      Sentry.captureException(error, { tags: { sensitive: true } }),
     )
 
     return { document }
@@ -37,4 +37,5 @@ export const DeleteDocumentServer = createMutationServer({
   }),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type DeleteDocumentServer = typeof DeleteDocumentServer

@@ -1,11 +1,11 @@
 import { PropsWithChildren } from 'react'
 
-const HomeCard = ({
+function HomeCard({
   title,
   image,
   children,
-}: PropsWithChildren<{ image: string; title: string }>) => (
-  <div className="fr-card">
+}: PropsWithChildren<{ image: string; title: string }>) {
+  return <div className="fr-card">
     <div className="fr-card__body">
       <div className="fr-card__content">
         <h3 className="fr-card__title">{title}</h3>
@@ -21,7 +21,7 @@ const HomeCard = ({
       </div>
     </div>
   </div>
-)
+}
 
 export default function HomePage() {
   return (

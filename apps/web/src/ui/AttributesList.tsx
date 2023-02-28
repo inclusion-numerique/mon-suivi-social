@@ -10,11 +10,11 @@ export type AttributeItemOptions = {
   verticalAlign?: CSSProperties['alignItems']
 }
 
-export const AttributesList = ({
+export function AttributesList({
   items,
 }: {
   items: (AttributeItem | undefined)[]
-}) => {
+}) {
   return (
     <ul className="fr-raw-list">
       {items
@@ -42,11 +42,11 @@ const isScalar = (value: ReactNode) =>
 
 const separator = <>&nbsp;:&nbsp;</>
 
-const AttributesListItem = ({
+function AttributesListItem({
   item: [label, value, options],
 }: {
   item: AttributeItem
-}) => {
+}) {
   const valueNode =
     value === undefined || value === null ? (
       <p className="fr-mb-0" style={{ color: 'var(--text-mention-grey)' }}>

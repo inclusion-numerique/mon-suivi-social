@@ -39,9 +39,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    signIn: () => {
-      return true
-    },
+    signIn: () => true,
     session: ({ session, user }) => {
       if (session.user) {
         session.user.id = user.id

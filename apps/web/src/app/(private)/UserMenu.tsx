@@ -3,7 +3,7 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import { Routes } from '@mss/web/app/routing/routes'
 import { getUserDisplayName } from '@mss/web/utils/user'
 
-export const UserMenu = ({ user }: { user: SessionUser }) => {
+export function UserMenu({ user }: { user: SessionUser }) {
   return (
     <Link
       href={Routes.MonCompte.Index.path}

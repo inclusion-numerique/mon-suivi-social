@@ -38,7 +38,7 @@ export const AddHelpRequestClient = createMutationClient({
     dueDate: z.date(errorMessages).nullish(),
     fullFile: z.boolean().default(false),
   }),
-  beneficiaryAnonymization: ({ ...data }) => ({
+  beneficiaryAnonymization: () => ({
     refusalReason: '',
     synthesis: '',
     privateSynthesis: '',
@@ -70,6 +70,7 @@ export const AddHelpRequestClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AddHelpRequestClient = typeof AddHelpRequestClient
 
 export const helpRequestStatusLabels: { [key in HelpRequestStatus]: string } = {

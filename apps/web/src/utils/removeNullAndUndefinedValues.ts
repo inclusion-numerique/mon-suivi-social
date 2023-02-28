@@ -4,10 +4,8 @@ type NoUndefinedField<T> = {
 
 export const removeNullAndUndefinedValues = <T>(
   data: T,
-): NoUndefinedField<T> => {
-  return Object.fromEntries(
+): NoUndefinedField<T> => Object.fromEntries(
     Object.entries(data as Record<string, unknown>).filter(
-      ([_, value]) => value !== null && value !== undefined,
+      ([, value]) => value !== null && value !== undefined,
     ),
   ) as NoUndefinedField<T>
-}

@@ -5,7 +5,7 @@ export type AnonymizationFunction<T> = (
   input: Partial<T>,
 ) => AnonymizedObject<T>
 
-const anonymizationFunctions = new Map<string, AnonymizationFunction<any>>()
+const anonymizationFunctions = new Map<string, AnonymizationFunction<unknown>>()
 
 export const addMutationLogToBeneficiaryAnonymization = <T>(
   featureName: string,
@@ -22,7 +22,7 @@ export const addMutationLogToBeneficiaryAnonymization = <T>(
 
 export const getAnonymizationForFeature = (
   featureName: string,
-): AnonymizationFunction<any> | undefined =>
+): AnonymizationFunction<Record<string, unknown>> | undefined =>
   anonymizationFunctions.get(featureName)
 
 export const applyAnonymization = <T>(
@@ -30,7 +30,7 @@ export const applyAnonymization = <T>(
   anonymizationFunction: AnonymizationFunction<T>,
 ) => {
   if (dataToAnonymize === null || dataToAnonymize === undefined) {
-    return dataToAnonymize
+    return {}
   }
 
   return { ...dataToAnonymize, ...anonymizationFunction(dataToAnonymize) }

@@ -16,12 +16,14 @@ superjson.registerCustom<Decimal, string>(
  */
 
 // Helper type to obfuscate serialized data
-export type Serialized<T> = { __serialized: Symbol }
+// We need the unused <T> to carry the type on deserialization.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type Serialized<T> = { __serialized: symbol }
 
 export const serialize = <T>(data: T): Serialized<T> =>
-  superjson.serialize(data) as any as Serialized<T>
+  superjson.serialize(data) as never as Serialized<T>
 
 export const deserialize = <T>(data: Serialized<T>): T =>
-  superjson.deserialize(data as any as SuperJSONResult) as T
+  superjson.deserialize(data as never as SuperJSONResult)
 
 export const transformer = { serialize, deserialize }

@@ -1,7 +1,7 @@
 'use client'
+
 import Link from 'next/link'
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import { signOut } from 'next-auth/react'
 import { useIsCurrentPathname } from '@mss/web/hooks/useIsCurrentPathname'
 import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
@@ -16,7 +16,7 @@ const mainLinks: MenuLink[] = [
   Routes.MonCompte.Index,
 ]
 
-const MenuLinkItem = ({
+function MenuLinkItem({
   current,
   icon,
   path,
@@ -26,7 +26,7 @@ const MenuLinkItem = ({
   current: boolean
   icon: string
   title: string
-}) => {
+}) {
   return (
     <li
       className={`fr-sidemenu__item ${
@@ -45,11 +45,11 @@ const MenuLinkItem = ({
   )
 }
 
-const SideMenuLinks = ({
+function SideMenuLinks({
   serializedUser,
 }: {
   serializedUser: Serialized<SessionUser>
-}) => {
+}) {
   const user = deserialize(serializedUser)
   const isCurrent = useIsCurrentPathname()
 

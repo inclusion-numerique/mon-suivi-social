@@ -44,14 +44,14 @@ export const Routes = {
         icon: 'user-line',
         path: (
           { fileNumber }: { fileNumber: string },
-          params?: {
+          parameters?: {
             tab?: 'info' | 'documents' | 'historique'
             // ID of item to scroll to in history tab
             accompagnement?: string
             // Key of the document to highlight
             document?: string
           },
-        ) => withSearchParams(`/beneficiaires/${fileNumber}`)(params),
+        ) => withSearchParams(`/beneficiaires/${fileNumber}`)(parameters),
       },
 
       Modifier: {
@@ -212,7 +212,9 @@ export const Routes = {
 }
 
 // Helper type for typing props of pages components
-export type RoutePathParams<T extends (...args: any) => any> = Parameters<T>[0]
-
-export type RoutePathSearchParams<T extends (...args: any) => any> =
+// We need the any type to match Parameters<> check
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RoutePathParams<T extends (...arguments_: any) => any> = Parameters<T>[0]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RoutePathSearchParams<T extends (...arguments_: any) => any> =
   Parameters<T>[1]

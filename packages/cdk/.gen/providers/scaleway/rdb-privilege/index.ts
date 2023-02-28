@@ -33,6 +33,12 @@ export interface RdbPrivilegeConfig extends cdktf.TerraformMetaArguments {
   */
   readonly permission: string;
   /**
+  * The region you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_privilege#region RdbPrivilege#region}
+  */
+  readonly region?: string;
+  /**
   * User name
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/rdb_privilege#user_name RdbPrivilege#user_name}
@@ -255,8 +261,8 @@ export class RdbPrivilege extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_rdb_privilege',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -270,6 +276,7 @@ export class RdbPrivilege extends cdktf.TerraformResource {
     this._id = config.id;
     this._instanceId = config.instanceId;
     this._permission = config.permission;
+    this._region = config.region;
     this._userName = config.userName;
     this._timeouts.internalValue = config.timeouts;
   }
@@ -333,6 +340,22 @@ export class RdbPrivilege extends cdktf.TerraformResource {
     return this._permission;
   }
 
+  // region - computed: true, optional: true, required: false
+  private _region?: string; 
+  public get region() {
+    return this.getStringAttribute('region');
+  }
+  public set region(value: string) {
+    this._region = value;
+  }
+  public resetRegion() {
+    this._region = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionInput() {
+    return this._region;
+  }
+
   // user_name - computed: false, optional: false, required: true
   private _userName?: string; 
   public get userName() {
@@ -372,6 +395,7 @@ export class RdbPrivilege extends cdktf.TerraformResource {
       id: cdktf.stringToTerraform(this._id),
       instance_id: cdktf.stringToTerraform(this._instanceId),
       permission: cdktf.stringToTerraform(this._permission),
+      region: cdktf.stringToTerraform(this._region),
       user_name: cdktf.stringToTerraform(this._userName),
       timeouts: rdbPrivilegeTimeoutsToTerraform(this._timeouts.internalValue),
     };

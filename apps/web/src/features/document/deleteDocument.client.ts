@@ -14,4 +14,5 @@ export const DeleteDocumentClient = createMutationClient({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type DeleteDocumentClient = typeof DeleteDocumentClient

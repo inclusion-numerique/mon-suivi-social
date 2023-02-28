@@ -31,7 +31,7 @@ export const followupListTableColumns = [
     content: ({ types }: ListFollowupsItem) => (
       <div style={{ marginTop: '-0.25rem', marginLeft: '-0.25rem' }}>
         {types.map(({ name }) => (
-          <span className="fr-tag fr-tag--sm fr-mt-1v fr-ml-1v">
+          <span key={name} className="fr-tag fr-tag--sm fr-mt-1v fr-ml-1v">
             {nonBreakable(name)}
           </span>
         ))}

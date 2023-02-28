@@ -16,15 +16,14 @@ import { DeleteDocumentButton } from '@mss/web/app/(private)/beneficiaires/[file
 import { DocumentFileButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DocumentFileButton'
 import { serialize } from '@mss/web/utils/serialization'
 
-export const DocumentsTab = ({
-  user,
+export function DocumentsTab({
   documents,
   beneficiary,
 }: {
   user: SessionUser
   documents: BeneficiaryPageDocuments
   beneficiary: Pick<BeneficiaryPageInfo, 'id' | 'archived'>
-}) => {
+}) {
   if (documents.length === 0) {
     return (
       <>
@@ -42,14 +41,14 @@ export const DocumentsTab = ({
     BeneficiaryPageDocuments[number]['type'],
     BeneficiaryPageDocuments
   >()
-  documents.forEach((document) => {
+  for (const document of documents) {
     const group = documentsByType.get(document.type)
     if (!group) {
       documentsByType.set(document.type, [document])
-      return
+      continue
     }
     group.push(document)
-  })
+  }
 
   return (
     <>
@@ -78,17 +77,12 @@ export const DocumentsTab = ({
   )
 }
 
-const DocumentCard = ({
+function DocumentCard({
   document,
 }: {
   document: BeneficiaryPageDocuments[number]
-}) => {
-  // TODO update
-  // TODO delete
-  // TODO view
-  // TODO Download
-
-  const { key, name, type, size, mimeType, confidential, tags } = document
+}) {
+  const { name, size, mimeType, tags } = document
 
   const tagLabels = tags
     .filter((tag): tag is DocumentTag => tag in documentTagLabels)

@@ -1,5 +1,3 @@
-import 'jest'
-
 describe.skip('createSignedUrl', () => {
   it('requires fixing', () => {})
   //   describe.skip('createSignedGetUrl', () => {
@@ -26,7 +24,8 @@ describe.skip('createSignedUrl', () => {
   //     it('canCreateSignedUrl', async () => {
   //       const fileName = '2022-11-test.png'
   //       const type = 'image/png'
-  //       const filePath = resolve(__dirname, '../../test/small-test-image.png')
+  //       const filePath = resolve(
+  //   __dirname, '../../test/small-test-image.png')
   //
   //       const { url, key } = await createSignedUploadUrl({
   //         directory: `test/${new Date().getTime()}`,
@@ -48,3 +47,4 @@ describe.skip('createSignedUrl', () => {
   //     }, 30000)
   //   })
 })
+export {}

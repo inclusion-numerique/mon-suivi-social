@@ -2,19 +2,20 @@ import { NextMiddleware, NextResponse } from 'next/server'
 
 const middleware: NextMiddleware = (request) => {
   const forwardedProto = request.headers.get('X-Forwarded-Proto')
-  const nodeEnv = process.env.NODE_ENV
+  const nodeEnvironment = process.env.NODE_ENV
   const requestHost = request.headers.get('host')
   const baseUrl = process.env.BASE_URL
 
   if (
-    nodeEnv === 'production' &&
+    nodeEnvironment === 'production' &&
     // We redirect if protocol is not secure https
     (forwardedProto === 'http' ||
       // If we have a base url defined and the host is different
       // we redirect to the main domain defined in base_url
       (!!baseUrl && requestHost !== baseUrl))
   ) {
-    const httpsBase = `https://${baseUrl || requestHost}`
+    const domain = baseUrl || requestHost
+    const httpsBase = `https://${domain ?? ''}`
     const requestUrl = new URL(request.url)
     const path = `${requestUrl.pathname}${requestUrl.search}`
     const redirectTo = `${httpsBase}${path}`
@@ -24,7 +25,7 @@ const middleware: NextMiddleware = (request) => {
 
   const response = NextResponse.next()
 
-  if (nodeEnv === 'development') {
+  if (nodeEnvironment === 'development') {
     response.headers.append('Access-Control-Allow-Headers', '*')
     response.headers.append('Access-Control-Allow-Origin', '*')
   }

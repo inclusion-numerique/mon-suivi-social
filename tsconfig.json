@@ -8,7 +8,6 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -35,9 +34,6 @@
   "files": ["./packages/test/node_modules/jest-extended/types/index.d.ts"],
   "exclude": ["node_modules"],
   "ts-node": {
-    // these options are overrides used only by ts-node
-    "compilerOptions": {
-      "module": "commonjs"
-    }
+    "experimentalResolver": true
   }
 }

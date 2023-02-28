@@ -3,7 +3,6 @@ import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canAccessFollowupsPage } from '@mss/web/security/rules'
 import { notFound, redirect } from 'next/navigation'
-import Link from 'next/link'
 import {
   getColumnOrderBy,
   Sorting,
@@ -47,7 +46,7 @@ const AccompagnementsListPage = async ({
       : { by: 'openingDate', direction: 'desc' }
 
   // Get pagination and sorting info from searchParams
-  const pageNumber = searchParams?.page ? parseInt(searchParams.page) : 1
+  const pageNumber = searchParams?.page ? Number.parseInt(searchParams.page) : 1
   const currentSorting: Sorting = {
     by: searchParams?.tri ?? defaultSorting.by,
     direction: searchParams?.ordre ?? defaultSorting.direction,

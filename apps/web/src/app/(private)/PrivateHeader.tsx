@@ -3,9 +3,10 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { UserMenu } from '@mss/web/app/(private)/UserMenu'
 import Link from 'next/link'
 
-const PrivateHeader = ({ user }: { user: SessionUser }) => {
+function PrivateHeader({ user }: { user: SessionUser }) {
   const links = [
     <a
+      key="help"
       className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-question-line"
       target="_blank"
       rel="noreferrer"
@@ -14,8 +15,9 @@ const PrivateHeader = ({ user }: { user: SessionUser }) => {
       Aide
     </a>,
 
-    <UserMenu user={user} />,
+    <UserMenu key="usermenu" user={user} />,
     <a
+      key="logout"
       href={Routes.Connexion.Logout}
       className="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-logout-box-r-line"
     >
@@ -84,8 +86,8 @@ const PrivateHeader = ({ user }: { user: SessionUser }) => {
           </button>
           <div className="fr-header__menu-links">
             <ul className="fr-btns-group">
-              {links.map((link, index) => (
-                <li key={index}>{link}</li>
+              {links.map((link) => (
+                <li key={link.key}>{link}</li>
               ))}
             </ul>
           </div>

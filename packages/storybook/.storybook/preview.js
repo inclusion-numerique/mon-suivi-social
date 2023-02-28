@@ -1,3 +1,5 @@
+/* eslint react/react-in-jsx-scope: 0,  react/jsx-filename-extension: 0 */
+
 import { useRef } from '@storybook/addons'
 
 export const parameters = {
@@ -11,7 +13,7 @@ export const parameters = {
 }
 
 const loadDsfrJs = () => {
-  const existing = document.getElementById('dsfr-js')
+  const existing = document.querySelector('#dsfr-js')
   if (existing) {
     return
   }
@@ -19,11 +21,11 @@ const loadDsfrJs = () => {
   const script = document.createElement('script')
   script.id = 'dsfr-js'
   script.src = '/dsfr/dsfr.module.min.js'
-  document.body.appendChild(script)
+  document.body.append(script)
 }
 
 const loadDsfrCss = () => {
-  const existing = document.getElementById('dsfr-css')
+  const existing = document.querySelector('#dsfr-css')
   if (existing) {
     return
   }
@@ -33,11 +35,11 @@ const loadDsfrCss = () => {
   link.href = '/dsfr/dsfr.min.css'
   link.rel = 'stylesheet'
   link.type = 'text/css'
-  document.body.appendChild(link)
+  document.body.append(link)
 }
 
 const loadDsfrUtilityCss = () => {
-  const existing = document.getElementById('dsfr-utility-css')
+  const existing = document.querySelector('#dsfr-utility-css')
   if (existing) {
     return
   }
@@ -48,7 +50,7 @@ const loadDsfrUtilityCss = () => {
   utilityLink.rel = 'stylesheet'
   utilityLink.type = 'text/css'
 
-  document.body.appendChild(utilityLink)
+  document.body.append(utilityLink)
 }
 
 export const decorators = [

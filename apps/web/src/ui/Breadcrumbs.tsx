@@ -3,7 +3,7 @@ import Link from 'next/link'
 export type BreadCrumbParent = { title: string; path: string }
 export type BreadCrumbParents = BreadCrumbParent[]
 
-export const Breadcrumbs = ({
+export function Breadcrumbs({
   currentPage,
   parents = [],
   hideRoot,
@@ -13,7 +13,7 @@ export const Breadcrumbs = ({
   parents?: BreadCrumbParents
   hideRoot?: boolean
   className?: string
-}) => {
+}) {
   return (
     <nav
       role="navigation"

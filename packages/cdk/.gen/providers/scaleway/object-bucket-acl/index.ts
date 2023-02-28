@@ -33,6 +33,12 @@ export interface ObjectBucketAclConfig extends cdktf.TerraformMetaArguments {
   */
   readonly id?: string;
   /**
+  * The project_id you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/object_bucket_acl#project_id ObjectBucketAcl#project_id}
+  */
+  readonly projectId?: string;
+  /**
   * The region you want to attach the resource to
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/object_bucket_acl#region ObjectBucketAcl#region}
@@ -484,8 +490,8 @@ export class ObjectBucketAcl extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_object_bucket_acl',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -499,6 +505,7 @@ export class ObjectBucketAcl extends cdktf.TerraformResource {
     this._bucket = config.bucket;
     this._expectedBucketOwner = config.expectedBucketOwner;
     this._id = config.id;
+    this._projectId = config.projectId;
     this._region = config.region;
     this._accessControlPolicy.internalValue = config.accessControlPolicy;
   }
@@ -568,6 +575,22 @@ export class ObjectBucketAcl extends cdktf.TerraformResource {
     return this._id;
   }
 
+  // project_id - computed: true, optional: true, required: false
+  private _projectId?: string; 
+  public get projectId() {
+    return this.getStringAttribute('project_id');
+  }
+  public set projectId(value: string) {
+    this._projectId = value;
+  }
+  public resetProjectId() {
+    this._projectId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get projectIdInput() {
+    return this._projectId;
+  }
+
   // region - computed: true, optional: true, required: false
   private _region?: string; 
   public get region() {
@@ -610,6 +633,7 @@ export class ObjectBucketAcl extends cdktf.TerraformResource {
       bucket: cdktf.stringToTerraform(this._bucket),
       expected_bucket_owner: cdktf.stringToTerraform(this._expectedBucketOwner),
       id: cdktf.stringToTerraform(this._id),
+      project_id: cdktf.stringToTerraform(this._projectId),
       region: cdktf.stringToTerraform(this._region),
       access_control_policy: objectBucketAclAccessControlPolicyToTerraform(this._accessControlPolicy.internalValue),
     };

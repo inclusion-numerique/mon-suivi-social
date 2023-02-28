@@ -145,15 +145,13 @@ export const MutationLog = asyncComponent(
         </tr>
       ) : (
         <>
-          {mutationLogs.map((log) => {
-            return (
+          {mutationLogs.map((log) => (
               <TableRow
                 key={log.id}
                 item={log}
                 columns={mutationLogTableColumns}
               />
-            )
-          })}
+            ))}
         </>
       )
 
@@ -172,7 +170,7 @@ export const MutationLog = asyncComponent(
   },
 )
 
-const MutationLogDiff = ({
+function MutationLogDiff({
   diff,
   name,
   type,
@@ -180,7 +178,7 @@ const MutationLogDiff = ({
   diff: MutationDiff
   type: keyof MutationDiff
   name: string
-}) => {
+}) {
   // Diff comes from a json field in db that can be old
   // If anything is wierd we notify developers
   if (!diff || !diff[type]) {
@@ -213,7 +211,7 @@ const MutationLogDiff = ({
   const keys = Object.keys(changes)
 
   return (
-    <ul className={styles.changesFields}>
+    <ul className={styles.changes}>
       {keys.length === 0 ? (
         <li style={{ color: 'var(--text-disabled-grey)' }}>Aucune</li>
       ) : (

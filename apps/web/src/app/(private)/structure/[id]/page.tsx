@@ -127,8 +127,8 @@ const StructurePage = async ({
   )
 }
 
-const FollowupTypeBadge = ({ name }: { name: string }) => (
-  <div className="fr-tag fr-mb-2v fr-mr-1w">{name}</div>
-)
+function FollowupTypeBadge({ name }: { name: string }) {
+  return <div className="fr-tag fr-mb-2v fr-mr-1w">{name}</div>
+}
 
 export default StructurePage

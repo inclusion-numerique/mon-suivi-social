@@ -4,7 +4,7 @@ import { createPagesNumbersToDisplay } from '@mss/web/ui/pagination'
 
 export type PaginationNavProps = ComponentProps<typeof PaginationNav>
 
-export const PaginationNav = ({
+export function PaginationNav({
   createPageLink,
   totalPages,
   pageNumber,
@@ -12,7 +12,7 @@ export const PaginationNav = ({
   pageNumber: number
   totalPages: number
   createPageLink: (pageNumber: number) => string
-}) => {
+}) {
   const isFirstPage = pageNumber <= 1
   const isLastPage = pageNumber >= totalPages
 
@@ -59,7 +59,7 @@ export const PaginationNav = ({
             </Link>
           )}
         </li>
-        {/*TODO display lg etc... from doc https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/pagination/*/}
+        {/* TODO display lg etc... from doc https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/pagination/ */}
         {linkablePages.map((linkNumber, index) =>
           linkNumber === null ? (
             <li key={`null_${index}`}>

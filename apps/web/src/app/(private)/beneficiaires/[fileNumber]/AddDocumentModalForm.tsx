@@ -38,7 +38,7 @@ export const AddDocumentModalForm = withTrpc(
     const addDocument = trpc.beneficiary.document.add.useMutation()
     const createUploadUrl =
       trpc.beneficiary.document.createUploadUrl.useMutation()
-    const closeRef = useRef<HTMLButtonElement>(null)
+    const closeReference = useRef<HTMLButtonElement>(null)
 
     const defaultValues: DefaultValues<AddDocumentWithBrowserUploadData> = {
       tags: [],
@@ -50,7 +50,6 @@ export const AddDocumentModalForm = withTrpc(
       handleSubmit,
       reset,
       setError,
-      watch,
       formState: { isSubmitting },
     } = useForm<AddDocumentWithBrowserUploadData>({
       defaultValues,
@@ -70,8 +69,8 @@ export const AddDocumentModalForm = withTrpc(
           mimeType: file.type,
           beneficiaryId,
         })
-        .catch((err) => {
-          Sentry.captureException(err, {
+        .catch((error) => {
+          Sentry.captureException(error, {
             extra: { feature: AddDocumentClient.name },
           })
           setError('file', {
@@ -89,8 +88,8 @@ export const AddDocumentModalForm = withTrpc(
             'Content-Type': file.type,
           },
         })
-        .catch((err) => {
-          Sentry.captureException(err, {
+        .catch((error) => {
+          Sentry.captureException(error, {
             extra: { feature: AddDocumentClient.name },
           })
           setError('file', {
@@ -117,7 +116,7 @@ export const AddDocumentModalForm = withTrpc(
         },
         {
           onSuccess: () => {
-            closeRef.current?.click()
+            closeReference.current?.click()
             router.refresh()
             // Let the time for the animation to finish before reseting
             setTimeout(() => reset(defaultValues), modalFadeAnimationTime)
@@ -128,12 +127,14 @@ export const AddDocumentModalForm = withTrpc(
 
     const isLoading = isSubmitting || addDocument.isLoading
 
-    const onCancel: MouseEventHandler = (event) => {
+    const onCancel: MouseEventHandler = () => {
       reset(defaultValues)
     }
 
+    // eslint-disable-next-line no-irregular-whitespace
     const uploadHint = `Taille maximale : ${formatByteSize(
       documentFileMaxSize,
+      // eslint-disable-next-line no-irregular-whitespace
     )}. Formats supportés : ${documentFileAllowedTypes
       .map(mime.extension)
       .join(', ')}`
@@ -145,7 +146,7 @@ export const AddDocumentModalForm = withTrpc(
             className="fr-link--close fr-link"
             aria-controls={dialogId}
             type="button"
-            ref={closeRef}
+            ref={closeReference}
           >
             Fermer
           </button>

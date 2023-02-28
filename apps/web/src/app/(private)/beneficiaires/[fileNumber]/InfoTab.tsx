@@ -9,15 +9,14 @@ import { beneficiaryTitleLabels } from '@mss/web/beneficiary/beneficiary'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { isEmptyValue } from '@mss/web/utils/isEmptyValue'
 
-export const InfoTab = ({
-  user,
+export function InfoTab({
   beneficiary,
   followupTypes,
 }: {
   user: SessionUser
   beneficiary: BeneficiaryPageInfo
   followupTypes: BeneficiaryFollowupTypes
-}) => {
+}) {
   const legals = followupTypes.filter(({ legallyRequired }) => legallyRequired)
   const optionals = followupTypes.filter(
     ({ legallyRequired }) => !legallyRequired,
@@ -50,7 +49,9 @@ export const InfoTab = ({
           <>
             <p className="fr-mb-2v">Aides légales :</p>
             {legals.map(({ name }) => (
-              <div className="fr-tag fr-mb-2v fr-mr-1w">{name}</div>
+              <div key={name} className="fr-tag fr-mb-2v fr-mr-1w">
+                {name}
+              </div>
             ))}
           </>
         ) : null}
@@ -58,7 +59,9 @@ export const InfoTab = ({
           <>
             <p className="fr-mb-2v">Aides facultatives :</p>
             {optionals.map(({ name }) => (
-              <div className="fr-tag fr-mb-2v fr-mr-1w">{name}</div>
+              <div key={name} className="fr-tag fr-mb-2v fr-mr-1w">
+                {name}
+              </div>
             ))}
           </>
         ) : null}

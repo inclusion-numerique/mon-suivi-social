@@ -20,6 +20,12 @@ export interface DataScalewayRdbAclConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/d/rdb_acl#instance_id DataScalewayRdbAcl#instance_id}
   */
   readonly instanceId: string;
+  /**
+  * The region you want to attach the resource to
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/d/rdb_acl#region DataScalewayRdbAcl#region}
+  */
+  readonly region?: string;
 }
 export interface DataScalewayRdbAclAclRules {
 }
@@ -117,8 +123,8 @@ export class DataScalewayRdbAcl extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_rdb_acl',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.9.1',
-        providerVersionConstraint: '>= 2.8.0'
+        providerVersion: '2.11.1',
+        providerVersionConstraint: '>= 2.11.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -130,6 +136,7 @@ export class DataScalewayRdbAcl extends cdktf.TerraformDataSource {
     });
     this._id = config.id;
     this._instanceId = config.instanceId;
+    this._region = config.region;
   }
 
   // ==========
@@ -171,9 +178,20 @@ export class DataScalewayRdbAcl extends cdktf.TerraformDataSource {
     return this._instanceId;
   }
 
-  // region - computed: true, optional: false, required: false
+  // region - computed: false, optional: true, required: false
+  private _region?: string; 
   public get region() {
     return this.getStringAttribute('region');
+  }
+  public set region(value: string) {
+    this._region = value;
+  }
+  public resetRegion() {
+    this._region = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionInput() {
+    return this._region;
   }
 
   // =========
@@ -184,6 +202,7 @@ export class DataScalewayRdbAcl extends cdktf.TerraformDataSource {
     return {
       id: cdktf.stringToTerraform(this._id),
       instance_id: cdktf.stringToTerraform(this._instanceId),
+      region: cdktf.stringToTerraform(this._region),
     };
   }
 }

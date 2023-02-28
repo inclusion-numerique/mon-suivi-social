@@ -1,5 +1,4 @@
 import { prismaClient } from '@mss/web/prismaClient'
-import { mockProviders } from 'next-auth/client/__tests__/helpers/mocks'
 
 const doubleQuoted = (value: string) => `"${value}"`
 
@@ -16,8 +15,8 @@ export const upsert = (
 
   const values = `${data
     .map(
-      (values) =>
-        `(${values
+      (rowValues) =>
+        `(${rowValues
           .map((value) =>
             value === null
               ? 'null'
@@ -40,9 +39,9 @@ export const upsert = (
     .join(',')
 
   return prismaClient.$executeRawUnsafe(
-    `INSERT INTO "${table}" (${quotedColumnNames}) 
-VALUES ${values}
-ON CONFLICT ("${idColumn}")
-DO UPDATE SET ${excludedStatement}`,
+    `INSERT INTO "${table}" (${quotedColumnNames})
+       VALUES ${values} ON CONFLICT ("${idColumn}")
+DO
+      UPDATE SET ${excludedStatement}`,
   )
 }

@@ -1,3 +1,3 @@
 export const asyncComponent = <P, C>(
-  component: (props: P) => Promise<C>,
-): ((props: P) => C) => component as (props: P) => C
+  component: (properties: P) => Promise<C>,
+): ((properties: P) => C) => component as (properties: P) => C
