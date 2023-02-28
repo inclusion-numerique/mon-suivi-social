@@ -34,6 +34,10 @@ const middleware: NextMiddleware = (request) => {
   response.headers.append('X-Content-Type-Options', 'nosniff')
   response.headers.append('X-XSS-Protection', '1; mode=block')
   response.headers.delete('X-Powered-By')
+  response.headers.append(
+    'Strict-Transport-Security',
+    'max-age=63072000 always',
+  )
 
   // TODO This CSP policy is too restrictive an account has been created in report-uri.com. Make this in another deployment.
   // TODO use https://www.npmjs.com/package/csp-header
