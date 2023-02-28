@@ -19,12 +19,12 @@ Ask a team developer for values
 
 #### Database
 
-You need a postgresql database setup for usint the app in dev environment.
+You need a postgresql database setup for using the app in dev environment.
 When setup, add the database connection string in `.env`
 
 Database client is Prisma https://www.prisma.io/
 
-Run `pnpm -F web prisma:generate` to geneate the prisma client, then `pnpm -F web prisma migrate deploy` to setup your schema.
+Run `pnpm -F web prisma:generate` to generate the prisma client, then `pnpm -F web prisma migrate deploy` to setup your schema.
 
 To seed your database with fixtures, run `pnpm -F cli fixtures:load`
 
