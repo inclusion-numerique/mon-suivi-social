@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "include": [
+    ".eslintrc.js",
     "apps/cli/src",
     "apps/web/src",
     "packages/cdk/src",
@@ -8,6 +9,7 @@
     "packages/e2e/src",
     "packages/emails/src",
     "packages/lint/src",
+    "packages/lint/src/.eslintrc.js",
     "packages/storybook/.storybook/**/*",
     "packages/storybook/src",
     "packages/test/src"
