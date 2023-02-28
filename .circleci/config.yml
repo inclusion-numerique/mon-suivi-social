@@ -57,10 +57,12 @@ workflows:
     jobs:
       - prepare_workspace_dependencies
       - prepare_web_prod_dependencies
-      - lint_and_test:
+      - lint:
           requires:
             - prepare_workspace_dependencies
-
+      - test:
+          requires:
+            - prepare_workspace_dependencies
       - build_web:
           requires:
             - prepare_workspace_dependencies
@@ -76,7 +78,8 @@ workflows:
 
       - deploy_web:
           requires:
-            - lint_and_test
+            - lint
+            - test
             #            - chromatic
             - build_web
             # - test_e2e
@@ -142,7 +145,7 @@ jobs:
             - ./node_modules
             - ./apps/web/node_modules
 
-  lint_and_test:
+  lint:
     executor: node
     resource_class: large
     steps:
@@ -152,14 +155,24 @@ jobs:
           name: 'Prisma generate'
           command: pnpm --silent -F @mss/web prisma:generate
       - run:
-          name: 'Lint'
-          command: pnpm lint
-      - run:
           name: 'Monorepo manypkg check'
           command: pnpm manypkg check
       - run:
           name: 'Tsc'
           command: pnpm tsc
+      - run:
+          name: 'Lint'
+          command: pnpm lint
+
+  test:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - run:
+          name: 'Prisma generate'
+          command: pnpm --silent -F @mss/web prisma:generate
       - run:
           name: 'Test @mss/web'
           command: pnpm -F @mss/web test
