@@ -149,14 +149,14 @@ jobs:
       - checkout
       - install_dependencies
       - run:
+          name: 'Prisma generate'
+          command: pnpm --silent -F @mss/web prisma:generate
+      - run:
           name: 'Lint'
           command: pnpm lint
       - run:
           name: 'Monorepo manypkg check'
           command: pnpm manypkg check
-      - run:
-          name: 'Prisma generate'
-          command: pnpm -F @mss/web prisma:generate
       - run:
           name: 'Tsc'
           command: pnpm tsc
