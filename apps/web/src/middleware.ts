@@ -6,6 +6,7 @@ const middleware: NextMiddleware = (request) => {
   const requestHost = request.headers.get('host')
   const baseUrl = process.env.BASE_URL
 
+  // FIXME: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security states "Note: This is more secure than simply configuring a HTTP to HTTPS (301) redirect on your server, where the initial HTTP connection is still vulnerable to a man-in-the-middle attack.". But they keep applying this redirect in recommended SSL configs: https://ssl-config.mozilla.org/
   if (
     nodeEnvironment === 'production' &&
     // We redirect if protocol is not secure https
