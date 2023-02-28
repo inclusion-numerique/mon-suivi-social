@@ -2,7 +2,7 @@ import { PrivateConfig, PublicConfig } from '@mss/web/config'
 
 export function EnvironmentInformation() {
   const branch = PrivateConfig.Branch
-  const {isMain} = PrivateConfig
+  const { isMain } = PrivateConfig
 
   // Branch can be empty on dev env
   if (isMain || !branch) {
@@ -45,7 +45,7 @@ export function EnvironmentInformation() {
               {branch}&#34; sur Storybook
             </a>
             <br className="fr-hidden-lg fr-mt-2v" />
-            <a href={PublicConfig.mainLiveUrl} rel="noreferrer" target="_blank">
+            <a href={PublicConfig.mainLiveUrl} target="_blank">
               <span className="fr-icon--sm fr-icon-france-line" /> Version
               officielle
             </a>
