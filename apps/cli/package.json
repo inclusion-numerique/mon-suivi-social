@@ -4,7 +4,7 @@
   "license": "AGPL-3.0-or-later",
   "private": true,
   "scripts": {
-    "cli": "ts-node src/index.ts",
+    "cli": "ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "eslint src",
     "tsc": "tsc --noEmit",
     "test": "jest --passWithNoTests",
