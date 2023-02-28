@@ -17,21 +17,6 @@ export type CdkOutput = {
   webContainerStatus: 'ready' | 'error'
 }
 
-export const getCdkOutput = async (): Promise<CdkOutput> => {
-  const outputFile = resolve(__dirname, '../cdk.out.json')
-  const outputContents = await readFile(outputFile, 'utf-8')
-  const rawOutput = JSON.parse(outputContents)
-
-  const output = Object.fromEntries(
-    Object.entries(rawOutput['web']).map(([key, value]) => [
-      normalizeCdkOutputKey(key),
-      value,
-    ]),
-  )
-
-  return output as CdkOutput
-}
-
 // Outputs are prefixed by web_output and suffixed by _{hash}
 // Sometimes (in CI, I don't know why, maybe depending on terraform version), they are just prefixed with output_
 // web_outputuploadsBucketName_14BB6D15 -> uploadsBucketName
@@ -50,4 +35,21 @@ export const normalizeCdkOutputKey = (key: string): string => {
   }
 
   return parts.join('_')
+}
+
+export const getCdkOutput = async (): Promise<CdkOutput> => {
+  const outputFile = resolve(__dirname, '../cdk.out.json')
+  const outputContents = await readFile(outputFile, 'utf-8')
+  const rawOutput = JSON.parse(outputContents) as {
+    web: Record<string, unknown>
+  }
+
+  const output = Object.fromEntries(
+    Object.entries(rawOutput.web).map(([key, value]) => [
+      normalizeCdkOutputKey(key),
+      value,
+    ]),
+  )
+
+  return output as CdkOutput
 }

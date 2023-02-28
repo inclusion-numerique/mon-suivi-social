@@ -1,7 +1,7 @@
-import { branch } from 'git-rev-sync'
+import { branch as gitBranch } from 'git-rev-sync'
 
 export const getBranch = () => {
-  return process.env.CDK_FORCE_BRANCH || branch()
+  return process.env.CDK_FORCE_BRANCH || gitBranch()
 }
 
 export const computeBranchNamespace = (branch: string) =>

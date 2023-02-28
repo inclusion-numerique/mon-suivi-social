@@ -5,28 +5,25 @@ import {
   TerraformVariable,
 } from 'cdktf'
 import { Construct } from 'constructs'
-import { ScalewayProvider } from '../.gen/providers/scaleway/provider'
-import { RdbDatabase } from '../.gen/providers/scaleway/rdb-database'
-import { DataScalewayRdbInstance } from '../.gen/providers/scaleway/data-scaleway-rdb-instance'
-import { RdbUser } from '../.gen/providers/scaleway/rdb-user'
-import { RdbPrivilege } from '../.gen/providers/scaleway/rdb-privilege'
+import { ScalewayProvider } from '@mss/scaleway/provider'
+import { RdbDatabase } from '@mss/scaleway/rdb-database'
+import { DataScalewayRdbInstance } from '@mss/scaleway/data-scaleway-rdb-instance'
+import { RdbUser } from '@mss/scaleway/rdb-user'
+import { RdbPrivilege } from '@mss/scaleway/rdb-privilege'
 import { generateDatabasePassword } from './databasePassword'
-import { DataScalewayContainerNamespace } from '../.gen/providers/scaleway/data-scaleway-container-namespace'
-import { Container } from '../.gen/providers/scaleway/container'
-import { CdkOutput } from './getCdkOutput'
-import { DataScalewayDomainZone } from '../.gen/providers/scaleway/data-scaleway-domain-zone'
-import {
-  DomainRecord,
-  DomainRecordConfig,
-} from '../.gen/providers/scaleway/domain-record'
-import { ContainerDomain } from '../.gen/providers/scaleway/container-domain'
+import { DataScalewayContainerNamespace } from '@mss/scaleway/data-scaleway-container-namespace'
+import { Container } from '@mss/scaleway/container'
+import { CdkOutput } from '@mss/cdk/getCdkOutput'
+import { DataScalewayDomainZone } from '@mss/scaleway/data-scaleway-domain-zone'
+import { DomainRecord, DomainRecordConfig } from '@mss/scaleway/domain-record'
+import { ContainerDomain } from '@mss/scaleway/container-domain'
 import {
   computeBranchNamespace,
   createPreviewSubdomain,
   generateDatabaseUrl,
   namespacer,
-} from './utils'
-import { ObjectBucket } from '../.gen/providers/scaleway/object-bucket'
+} from '@mss/cdk/utils'
+import { ObjectBucket } from '@mss/scaleway/object-bucket'
 
 const projectSlug = 'mss'
 const databaseInstanceName = 'incnum-prod'
@@ -66,12 +63,12 @@ export class WebAppStack extends TerraformStack {
       new TerraformVariable(this, name, {
         type: 'string',
         sensitive: true,
-      })
+      }) as Omit<TerraformVariable, 'value'> & { value: string }
     const envVariable = (name: string) =>
       new TerraformVariable(this, name, {
         type: 'string',
         sensitive: false,
-      })
+      }) as Omit<TerraformVariable, 'value'> & { value: string }
 
     // Configuring env variables
     const webContainerImage = envVariable('webContainerImage')
