@@ -11,8 +11,7 @@ https://pnpm.io/
 
 `pnpm install`
 
-
-Database client is Prisma https://www.prisma.io/ 
+Database client is Prisma https://www.prisma.io/
 
 #### Environment
 
