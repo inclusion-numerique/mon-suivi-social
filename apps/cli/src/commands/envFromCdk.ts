@@ -3,13 +3,13 @@ import 'tsconfig-paths/register'
 
 import { getCdkOutput } from '@mss/cdk/getCdkOutput'
 import { appendFile } from 'node:fs/promises'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path'
 
 export const main = async () => {
   const cdkOutput = await getCdkOutput()
   const dotenvFile = resolve(
-    dirname(fileURLToPath(import.meta.url)),
+    // eslint-disable-next-line unicorn/prefer-module
+    __dirname,
     '../../../../.env',
   )
   await appendFile(

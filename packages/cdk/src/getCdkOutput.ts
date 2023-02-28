@@ -1,6 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { resolve, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path'
 
 export type CdkOutput = {
   webBaseUrl: string
@@ -37,7 +36,8 @@ export const normalizeCdkOutputKey = (key: string): string => {
 
 export const getCdkOutput = async (): Promise<CdkOutput> => {
   const outputFile = resolve(
-    dirname(fileURLToPath(import.meta.url)),
+    // eslint-disable-next-line unicorn/prefer-module
+    __dirname,
     '../cdk.out.json',
   )
   const outputContents = await readFile(outputFile, 'utf8')

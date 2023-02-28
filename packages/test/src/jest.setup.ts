@@ -3,13 +3,13 @@ import { matchers as joiMatchers } from 'jest-joi'
 import 'jest-extended'
 import 'jest-extended/all'
 import '@testing-library/jest-dom/extend-expect'
-import { TextEncoder, TextDecoder } from 'node:util'
+import { TextDecoder, TextEncoder } from 'node:util'
 import * as dotenv from 'dotenv'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path'
 
 dotenv.config({
-  path: resolve(dirname(fileURLToPath(import.meta.url)), '../.env'),
+  // eslint-disable-next-line unicorn/prefer-module
+  path: resolve(__dirname, '../.env'),
 })
 
 global.TextEncoder = TextEncoder
