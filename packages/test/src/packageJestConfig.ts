@@ -1,7 +1,9 @@
 import * as dotenv from 'dotenv'
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import { createNodeModulesTransformIgnorePattern } from './transformIgnore'
 
+// import meta does not work in jest env
+// eslint-disable-next-line unicorn/prefer-module
 const dotenvFile = resolve(__dirname, '../../../.env')
 
 export const testDotenvConfig = () => {

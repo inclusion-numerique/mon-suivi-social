@@ -1,4 +1,5 @@
 'use client'
+
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { trpc } from '@mss/web/trpc'
@@ -47,7 +48,7 @@ export const ArchiveBeneficiaryForm = withTrpc(
         router.push(
           Routes.Beneficiaires.Beneficiaire.Index.path(result.beneficiary),
         )
-      } catch (err) {
+      } catch {
         // Error message will be in hook result
       }
     }

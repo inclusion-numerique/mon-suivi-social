@@ -1,4 +1,5 @@
 'use client'
+
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { InputFormField } from '@mss/web/form/InputFormField'
@@ -26,7 +27,7 @@ const FieldLabels = EditFollowupClient.fieldLabels
  */
 export const FollowupForm = withTrpc(
   (
-    props: {
+    properties: {
       documentOptions: Options
       followupTypeOptions: Options
     } & (
@@ -48,21 +49,21 @@ export const FollowupForm = withTrpc(
     const addFollowup = trpc.followup.add.useMutation()
     const editFollowup = trpc.followup.edit.useMutation()
 
-    const mutation = props.creation
+    const mutation = properties.creation
       ? // Creation
         addFollowup
       : // Edition
         editFollowup
 
-    const client = props.creation
+    const client = properties.creation
       ? // Creation
         AddFollowupClient
       : // Edition
         EditFollowupClient
 
-    const defaultValues = props.creation
-      ? { ...props.defaultInput, date: new Date() }
-      : deserialize(props.defaultInput)
+    const defaultValues = properties.creation
+      ? { ...properties.defaultInput, date: new Date() }
+      : deserialize(properties.defaultInput)
 
     const form = useForm<MutationInput<typeof client>>({
       resolver: zodResolver(client.inputValidation),
@@ -87,7 +88,7 @@ export const FollowupForm = withTrpc(
             { tab: 'historique', accompagnement: result.followup.id },
           ),
         )
-      } catch (err) {
+      } catch {
         // Error message will be in hook result
       }
     }
@@ -101,7 +102,7 @@ export const FollowupForm = withTrpc(
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputFormField
-          label={FieldLabels['date']}
+          label={FieldLabels.date}
           disabled={fieldsDisabled}
           control={control}
           path="date"
@@ -110,7 +111,7 @@ export const FollowupForm = withTrpc(
           required
         />
         <SelectFormField
-          label={FieldLabels['medium']}
+          label={FieldLabels.medium}
           disabled={fieldsDisabled}
           control={control}
           path="medium"
@@ -120,7 +121,7 @@ export const FollowupForm = withTrpc(
         />
         {medium === 'ThirdParty' ? (
           <InputFormField
-            label={FieldLabels['thirdPersonName']}
+            label={FieldLabels.thirdPersonName}
             disabled={fieldsDisabled}
             control={control}
             path="thirdPersonName"
@@ -128,16 +129,16 @@ export const FollowupForm = withTrpc(
         ) : null}
         {medium === 'ExternalAppointment' ? (
           <InputFormField
-            label={FieldLabels['place']}
+            label={FieldLabels.place}
             disabled={fieldsDisabled}
             control={control}
             path="place"
           />
         ) : null}
         <SelectTagsFormField
-          label={FieldLabels['types']}
+          label={FieldLabels.types}
           disabled={fieldsDisabled}
-          options={props.followupTypeOptions}
+          options={properties.followupTypeOptions}
           control={control}
           defaultOptionLabel="Choisissez un accompagnement"
           defaultOption
@@ -145,13 +146,13 @@ export const FollowupForm = withTrpc(
           path="types"
         />
         <InputFormField
-          label={FieldLabels['structureName']}
+          label={FieldLabels.structureName}
           disabled={fieldsDisabled}
           control={control}
           path="structureName"
         />
         <SelectFormField
-          label={FieldLabels['status']}
+          label={FieldLabels.status}
           disabled={fieldsDisabled}
           control={control}
           path="status"
@@ -160,16 +161,16 @@ export const FollowupForm = withTrpc(
           options={followupStatusOptions}
         />
         <InputFormField
-          label={FieldLabels['dueDate']}
+          label={FieldLabels.dueDate}
           disabled={fieldsDisabled}
           control={control}
           path="dueDate"
           type="date"
           valueAsDate
         />
-        {props.creation || props.synthesisField ? (
+        {properties.creation || properties.synthesisField ? (
           <InputFormField
-            label={FieldLabels['synthesis']}
+            label={FieldLabels.synthesis}
             hint="Il est fortement recommandé de ne stocker que les informations utiles au suivi du bénéficiaire et d'éviter le recueil d'informations sensibles (données de santé, mots de passe, etc)."
             disabled={fieldsDisabled}
             control={control}
@@ -178,12 +179,12 @@ export const FollowupForm = withTrpc(
             minRows={15}
           />
         ) : null}
-        {props.creation || props.privateSynthesisField ? (
+        {properties.creation || properties.privateSynthesisField ? (
           <InputFormField
             label={
               <>
                 <span className="fr-icon-lock-line fr-mr-1w" />
-                {FieldLabels['privateSynthesis']}
+                {FieldLabels.privateSynthesis}
               </>
             }
             hint="Le compte rendu privé est uniquement visible et modifiable par l'agent qui crée la synthèse d'entretien."
@@ -195,19 +196,19 @@ export const FollowupForm = withTrpc(
           />
         ) : null}
         <CheckboxFormField
-          checkboxLabel={FieldLabels['redirected']}
+          checkboxLabel={FieldLabels.redirected}
           control={control}
           path="redirected"
         />
         <CheckboxFormField
-          checkboxLabel={FieldLabels['helpRequested']}
+          checkboxLabel={FieldLabels.helpRequested}
           control={control}
           path="helpRequested"
         />
         <SelectTagsFormField
-          label={FieldLabels['documents']}
+          label={FieldLabels.documents}
           disabled={fieldsDisabled}
-          options={props.documentOptions}
+          options={properties.documentOptions}
           control={control}
           defaultOptionLabel="Associez un document"
           defaultOption

@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { CreateFollowupTypeClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 
-export const CreateFollowupTypeForm = ({
+export function CreateFollowupTypeForm({
   structure: { id: structureId },
   onCreated,
 }: {
@@ -17,7 +17,7 @@ export const CreateFollowupTypeForm = ({
     id: string
     name: string
   }) => void | Promise<void>
-}) => {
+}) {
   const createFollowupType = trpc.structure.createFollowupType.useMutation()
   const defaultValues = { structureId }
 
@@ -33,12 +33,12 @@ export const CreateFollowupTypeForm = ({
       const { followupType } = await createFollowupType.mutateAsync(data)
       form.reset(defaultValues)
       onCreated(followupType)
-    } catch (err) {
+    } catch {
       // Error message will be in hook result
     }
   }
 
-  const isLoading = createFollowupType.isLoading
+  const {isLoading} = createFollowupType
 
   const fieldsDisabled = isLoading
 

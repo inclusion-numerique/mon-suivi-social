@@ -16,8 +16,8 @@ export const DeleteDocumentServer = createMutationServer({
         },
       },
     })
-    deleteUploadedFile({ key: documentKey }).catch((err) =>
-      Sentry.captureException(err, { tags: { sensitive: true } }),
+    deleteUploadedFile({ key: documentKey }).catch((error) =>
+      Sentry.captureException(error, { tags: { sensitive: true } }),
     )
 
     return { document }

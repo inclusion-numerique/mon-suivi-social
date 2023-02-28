@@ -1,5 +1,6 @@
-import { readFile } from 'fs/promises'
-import { resolve } from 'path'
+import { readFile } from 'node:fs/promises'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 export type CdkOutput = {
   webBaseUrl: string
@@ -22,12 +23,9 @@ export type CdkOutput = {
 // web_outputuploadsBucketName_14BB6D15 -> uploadsBucketName
 // output_uploadsBucketName -> uploadsBucketName
 export const normalizeCdkOutputKey = (key: string): string => {
-  let withoutPrefix: string
-  if (key.startsWith('web_output')) {
-    withoutPrefix = key.substring('web_output'.length)
-  } else {
-    withoutPrefix = key.substring('output_'.length)
-  }
+  const withoutPrefix = key.startsWith('web_output')
+    ? key.slice('web_output'.length)
+    : key.slice('output_'.length)
 
   const parts = withoutPrefix.split('_')
   if (parts.length > 1) {
@@ -38,8 +36,11 @@ export const normalizeCdkOutputKey = (key: string): string => {
 }
 
 export const getCdkOutput = async (): Promise<CdkOutput> => {
-  const outputFile = resolve(__dirname, '../cdk.out.json')
-  const outputContents = await readFile(outputFile, 'utf-8')
+  const outputFile = resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    '../cdk.out.json',
+  )
+  const outputContents = await readFile(outputFile, 'utf8')
   const rawOutput = JSON.parse(outputContents) as {
     web: Record<string, unknown>
   }

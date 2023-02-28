@@ -29,7 +29,7 @@ export const EditDocumentModalForm = withTrpc(
     >
   }) => {
     const editDocument = trpc.beneficiary.document.edit.useMutation()
-    const closeRef = useRef<HTMLButtonElement>(null)
+    const closeReference = useRef<HTMLButtonElement>(null)
     const router = useRouter()
 
     const defaultValues = deserialize(serializedDefaultValues)
@@ -47,7 +47,7 @@ export const EditDocumentModalForm = withTrpc(
     const onSubmit = async (data: MutationInput<EditDocumentClient>) => {
       editDocument.mutate(data, {
         onSuccess: () => {
-          closeRef.current?.click()
+          closeReference.current?.click()
           router.refresh()
         },
       })
@@ -66,7 +66,7 @@ export const EditDocumentModalForm = withTrpc(
             className="fr-link--close fr-link"
             aria-controls={dialogId}
             type="button"
-            ref={closeRef}
+            ref={closeReference}
           >
             Fermer
           </button>

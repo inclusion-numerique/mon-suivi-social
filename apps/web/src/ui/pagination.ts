@@ -25,23 +25,21 @@ export const takeAndSkipFromPagination = ({
 }: {
   page: number
   perPage: number
-}): { take: number; skip: number } => {
-  return { take: perPage, skip: (page - 1) * perPage }
-}
+}): { take: number; skip: number } => ({ take: perPage, skip: (page - 1) * perPage })
 
 // TODO clean this and factorize with sorting helper for default removal logic that helps cache hits
 export const createPageLinkHelper =
   <T extends { currentSorting?: Sorting; defaultSorting?: Sorting }>(
-    { currentSorting, defaultSorting, ...otherParams }: T,
-    paramsToLink: (
-      params: { page?: string; tri?: string; ordre?: SortDirection } & Omit<
+    { currentSorting, defaultSorting, ...otherParameters }: T,
+    parametersToLink: (
+      parameters: { page?: string; tri?: string; ordre?: SortDirection } & Omit<
         T,
         'defaultSorting' | 'currentSorting'
       >,
     ) => string,
   ) =>
   (toPage: number) =>
-    paramsToLink({
+    parametersToLink({
       page: toPage === 1 ? undefined : toPage.toString(),
       tri:
         !currentSorting || currentSorting.by === defaultSorting?.by
@@ -52,7 +50,7 @@ export const createPageLinkHelper =
         currentSorting.direction === defaultSorting?.direction
           ? undefined
           : currentSorting.direction,
-      ...otherParams,
+      ...otherParameters,
     })
 
 export const getTotalPages = ({

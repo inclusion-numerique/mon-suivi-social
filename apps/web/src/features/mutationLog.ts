@@ -26,11 +26,9 @@ export const computeMutationDiff = <T extends object>(
   // detailedDiff put undefined as a value for every deleted key.
   // we historize the deleted value instead, so the object is storable, instead of the keys
   // being removed by serialization process
-  Object.keys(diff.deleted).forEach(
-    (key) =>
-      ((diff.deleted as Record<string, unknown>)[key] =
-        (cleanInitial as Record<string, unknown>)[key] ?? null),
-  )
+  for (const key of Object.keys(diff.deleted)) ((diff.deleted as Record<string, unknown>)[key] =
+        (cleanInitial as Record<string, unknown>)[key] ?? null)
+  
 
   return diff as MutationDiff
 }

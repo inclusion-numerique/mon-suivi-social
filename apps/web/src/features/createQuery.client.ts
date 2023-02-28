@@ -3,7 +3,7 @@ import { SecurityRuleGrantee } from '@mss/web/security/rules'
 
 export type CreateQueryClientOptions<
   Validation extends ZodType,
-  SecurityParams = any,
+  SecurityParameters = any,
   Name extends string = string,
   Input = z.infer<Validation>,
 > = {
@@ -12,27 +12,27 @@ export type CreateQueryClientOptions<
   securityCheck: (
     grantee: SecurityRuleGrantee,
     target: Input,
-    params: SecurityParams,
+    parameters: SecurityParameters,
   ) => boolean
 }
 
 export type QueryClient<
   Validation extends ZodType,
-  SecurityParams = any,
+  SecurityParameters = any,
   Name extends string = string,
   Input = z.infer<Validation>,
-> = CreateQueryClientOptions<Validation, SecurityParams, Name>
+> = CreateQueryClientOptions<Validation, SecurityParameters, Name>
 
 export const createQueryClient = <
   Validation extends ZodType,
-  SecurityParams,
+  SecurityParameters,
   Name extends string = string,
 >(
-  options: CreateQueryClientOptions<Validation, SecurityParams, Name>,
-): QueryClient<Validation, SecurityParams, Name> => {
+  options: CreateQueryClientOptions<Validation, SecurityParameters, Name>,
+): QueryClient<Validation, SecurityParameters, Name> => 
   // TODO Some runtime validation or register it somewhere to list ? ?
-  return options
-}
+   options
+
 
 // Helper types
 export type QueryInput<T extends QueryClient<any, any, any, any>> = z.infer<

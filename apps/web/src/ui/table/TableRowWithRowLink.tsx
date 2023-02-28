@@ -25,7 +25,7 @@ export function TableRowWithRowLink<Item extends Record<string, unknown>>({
         <td key={label} className={styles['cell-with-link']}>
           <Link
             tabIndex={index > 0 ? -1 : undefined}
-            className={`fr-raw-link fr-p-2v`}
+            className="fr-raw-link fr-p-2v"
             title={title}
             href={href}
           >

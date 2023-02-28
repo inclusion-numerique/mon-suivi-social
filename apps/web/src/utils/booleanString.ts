@@ -33,6 +33,4 @@ export function stringToBoolean(
   return value === null || value === undefined
     ? value
     : value === 'true'
-    ? true
-    : false
 }

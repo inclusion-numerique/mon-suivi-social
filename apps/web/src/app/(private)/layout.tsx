@@ -8,17 +8,17 @@ import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import PrivateHeader from '@mss/web/app/(private)/PrivateHeader'
 import { PublicLayout } from '@mss/web/app/(public)/PublicLayout'
 
-const LoggedInUserWithoutFullAccess = ({
+function LoggedInUserWithoutFullAccess({
   breadcrumbsCurrentPage = 'Création de compte',
   children,
-}: PropsWithChildren<{ breadcrumbsCurrentPage?: string }>) => (
-  <PublicLayout hideSigninButton>
+}: PropsWithChildren<{ breadcrumbsCurrentPage?: string }>) {
+  return <PublicLayout hideSigninButton>
     <div className="fr-container">
       <Breadcrumbs currentPage={breadcrumbsCurrentPage} />
       {children}
     </div>
   </PublicLayout>
-)
+}
 
 const PrivateLayout = async ({ children }: PropsWithChildren) => {
   const user = await getSessionUser()
@@ -37,8 +37,7 @@ const PrivateLayout = async ({ children }: PropsWithChildren) => {
   }
 
   return (
-    <>
-      <div
+    <div
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -57,7 +56,6 @@ const PrivateLayout = async ({ children }: PropsWithChildren) => {
           <PrivateLayoutContent user={user}>{children}</PrivateLayoutContent>
         </div>
       </div>
-    </>
   )
 }
 export default PrivateLayout

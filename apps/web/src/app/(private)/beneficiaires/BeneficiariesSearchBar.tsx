@@ -36,12 +36,12 @@ export const BeneficiariesSearchBar = withTrpc(
       setQuery(event.target.value)
     }
 
-    const navigateToBeneficiary = (params: { fileNumber: string }) => {
-      router.push(Routes.Beneficiaires.Beneficiaire.Index.path(params))
+    const navigateToBeneficiary = (parameters: { fileNumber: string }) => {
+      router.push(Routes.Beneficiaires.Beneficiaire.Index.path(parameters))
     }
 
-    const prefetchBeneficiary = (params: { fileNumber: string }) => {
-      router.prefetch(Routes.Beneficiaires.Beneficiaire.Index.path(params))
+    const prefetchBeneficiary = (parameters: { fileNumber: string }) => {
+      router.prefetch(Routes.Beneficiaires.Beneficiaire.Index.path(parameters))
     }
 
     return (

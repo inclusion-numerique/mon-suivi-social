@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 export const DeleteDocumentModalForm = withTrpc(
   ({ documentKey, dialogId }: { documentKey: string; dialogId: string }) => {
     const deleteDocument = trpc.beneficiary.document.delete.useMutation()
-    const closeRef = useRef<HTMLButtonElement>(null)
+    const closeReference = useRef<HTMLButtonElement>(null)
     const router = useRouter()
 
     const onSubmit = async () => {
@@ -17,7 +17,7 @@ export const DeleteDocumentModalForm = withTrpc(
         { documentKey },
         {
           onSuccess: () => {
-            closeRef.current?.click()
+            closeReference.current?.click()
             router.refresh()
           },
         },
@@ -33,7 +33,7 @@ export const DeleteDocumentModalForm = withTrpc(
             className="fr-link--close fr-link"
             aria-controls={dialogId}
             type="button"
-            ref={closeRef}
+            ref={closeReference}
           >
             Fermer
           </button>

@@ -7,13 +7,13 @@ export type PageConfig = {
   breadcrumbsTitle?: string
 }
 
-export const PageTitle = ({
+export function PageTitle({
   page: { icon, title, breadcrumbsTitle },
   parents = [],
 }: {
   page: PageConfig
   parents?: BreadCrumbParents
-}) => {
+}) {
   const breadcrumbsParents: BreadCrumbParents = [
     { title: 'Accueil', path: Routes.Index.path },
     ...parents,

@@ -1,4 +1,5 @@
 'use client'
+
 import { signIn } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
@@ -13,7 +14,7 @@ const SigninFormValidation = z.object({
 })
 type SigninFormData = z.infer<typeof SigninFormValidation>
 
-export const EmailSigninForm = ({ error }: { error?: string }) => {
+export function EmailSigninForm({ error }: { error?: string }) {
   const form = useForm<SigninFormData>({
     resolver: zodResolver(SigninFormValidation),
   })

@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { Routes } from '@mss/web/app/routing/routes'
 import { AuthCard } from '@mss/web/app/connexion/AuthCard'
 
-const OnboardingWithoutStructure = ({ user }: { user: SessionUser }) => (
-  <AuthCard>
+function OnboardingWithoutStructure({ user }: { user: SessionUser }) {
+  return <AuthCard>
     <div className="fr-grid-row fr-grid-row--center">
       <picture>
         <img
@@ -40,6 +40,6 @@ const OnboardingWithoutStructure = ({ user }: { user: SessionUser }) => (
       </Link>
     </div>
   </AuthCard>
-)
+}
 
 export default OnboardingWithoutStructure

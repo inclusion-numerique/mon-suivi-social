@@ -8,7 +8,7 @@ import { useCssProperties } from '@mss/web/hooks/useCssProperty'
 import { GenderStats } from '@mss/web/stats/stats'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
-export const GenderChart = ({ genderStats }: { genderStats: GenderStats }) => {
+export function GenderChart({ genderStats }: { genderStats: GenderStats }) {
   const colors = useCssProperties([
     '--artwork-minor-green-emeraude',
     '--artwork-minor-blue-cumulus',

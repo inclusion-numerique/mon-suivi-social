@@ -3,6 +3,4 @@ export const sessionCookie = 'next-auth.session-token'
 
 export const getSessionTokenFromCookies = (
   cookies: Partial<{ [key: string]: string }>,
-): string | null => {
-  return cookies[secureSessionCookie] ?? cookies[sessionCookie] ?? null
-}
+): string | null => cookies[secureSessionCookie] ?? cookies[sessionCookie] ?? null

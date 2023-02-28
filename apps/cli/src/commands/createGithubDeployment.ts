@@ -1,6 +1,6 @@
-import { getOctokit, owner, repo } from '../github'
 import { Command } from '@commander-js/extra-typings'
 import { computeBranchNamespace } from '@mss/cdk/utils'
+import { getOctokit, owner, repo } from '../github'
 import { output } from '../output'
 
 export const createGithubDeployment = new Command()
@@ -19,8 +19,8 @@ export const createGithubDeployment = new Command()
       ref: branch,
       environment,
       task: 'deploy',
-      transient_environment: isMain ? false : true,
-      production_environment: isMain ? true : false,
+      transient_environment: !isMain,
+      production_environment: !!isMain,
       required_contexts: [],
     })
 

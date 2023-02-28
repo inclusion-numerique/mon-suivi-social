@@ -3,7 +3,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { UserMenu } from '@mss/web/app/(private)/UserMenu'
 import Link from 'next/link'
 
-const PrivateHeader = ({ user }: { user: SessionUser }) => {
+function PrivateHeader({ user }: { user: SessionUser }) {
   const links = [
     <a
       key="help"

@@ -16,12 +16,10 @@ import { ArchiveBeneficiaryServer } from '@mss/web/features/beneficiary/archiveB
 import { canListBeneficiaries } from '@mss/web/security/rules'
 import { beneficiaryDocumentRouter } from '@mss/web/trpc/routers/beneficiaryDocumentRouter'
 
-const tokenToSearchCondition = (token: string) => {
-  return {
+const tokenToSearchCondition = (token: string) => ({
     contains: token,
     mode: 'insensitive',
-  }
-}
+  })
 export const beneficiaryRouter = router({
   search: protectedProcedure
     .input(z.object({ query: z.string(), structureId: z.string().uuid() }))

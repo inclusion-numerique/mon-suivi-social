@@ -25,7 +25,7 @@ export const sendVerificationRequest = async ({
     html: compileMjml(emailSignin.mjml({ url })),
   })
   const failed = result.rejected.concat(result.pending).filter(Boolean)
-  if (failed.length) {
+  if (failed.length > 0) {
     throw new Error(`Email(s) (${failed.join(', ')}) could not be sent`)
   }
 }

@@ -1,6 +1,6 @@
-import { getOctokit, owner, repo } from '../github'
 import { Command } from '@commander-js/extra-typings'
-import { computeBranchNamespace } from '../../../../packages/cdk/src/utils'
+import { computeBranchNamespace } from "@mss/cdk/src/utils"
+import { getOctokit, owner, repo } from '../github'
 import { output } from '../output'
 
 export const deactivateGithubDeployment = new Command()

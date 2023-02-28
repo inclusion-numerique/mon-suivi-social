@@ -1,11 +1,11 @@
 import { BeneficiaryPageDocuments } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { DeleteDocumentModalForm } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DeleteDocumentModalForm'
 
-export const DeleteDocumentButton = ({
+export function DeleteDocumentButton({
   document,
 }: {
   document: BeneficiaryPageDocuments[number]
-}) => {
+}) {
   const dialogId = `delete-document-modal-${document.key}`
 
   return (
@@ -15,7 +15,7 @@ export const DeleteDocumentButton = ({
           type="button"
           aria-controls={dialogId}
           data-fr-opened="false"
-          className={`fr-btn fr-btn--tertiary fr-icon-delete-line`}
+          className="fr-btn fr-btn--tertiary fr-icon-delete-line"
         >
           Supprimer
         </button>

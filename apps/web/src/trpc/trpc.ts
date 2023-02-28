@@ -9,11 +9,11 @@ const t = initTRPC.context<AppContext>().create({
   },
 })
 
-export const router = t.router
+export const {router} = t
 
 /**
  * Unprotected procedure
- **/
+ * */
 export const publicProcedure = t.procedure
 
 /**
@@ -55,5 +55,5 @@ const isActive = t.middleware(({ ctx, next }) => {
 
 /**
  * Protected procedure
- **/
+ * */
 export const protectedProcedure = t.procedure.use(isAuthenticated).use(isActive)

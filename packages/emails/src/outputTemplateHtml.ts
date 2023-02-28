@@ -1,23 +1,27 @@
-import { existsSync, promises as fs } from 'fs'
-import { resolve } from 'path'
+import { existsSync, promises as fs } from 'node:fs'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { compileMjml } from './mjml'
 
-const varDir = resolve(__dirname, '../var/email')
+const outputDirectory = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../var/email',
+)
 
-async function createEmailVarDirIfItDoesNotExist(): Promise<void> {
-  if (existsSync(varDir)) {
+async function outputDirectoryIfItDoesNotExist(): Promise<void> {
+  if (existsSync(outputDirectory)) {
     return
   }
 
-  await fs.mkdir(varDir, { recursive: true })
+  await fs.mkdir(outputDirectory, { recursive: true })
 }
 
 export async function outputHtmlTemplate(
   name: string,
   htmlContent: string,
 ): Promise<void> {
-  await createEmailVarDirIfItDoesNotExist()
-  await fs.writeFile(`${varDir}/${name}.html`, htmlContent)
+  await outputDirectoryIfItDoesNotExist()
+  await fs.writeFile(`${outputDirectory}/${name}.html`, htmlContent)
 }
 
 export async function outputMjmlTemplate(
@@ -26,16 +30,16 @@ export async function outputMjmlTemplate(
 ): Promise<void> {
   const htmlContent = compileMjml(mjmlTemplate)
   await outputHtmlTemplate(name, htmlContent)
-  await fs.writeFile(`${varDir}/${name}.mjml`, mjmlTemplate)
+  await fs.writeFile(`${outputDirectory}/${name}.mjml`, mjmlTemplate)
 }
 
 export function createHtmlTemplateOutput(
   templateName: string,
 ): (htmlContent: string) => Promise<void> {
-  let i = 0
-  return (htmlContent: string): Promise<void> => {
-    return outputHtmlTemplate(`${templateName}_${i++}`, htmlContent)
-  }
+  let index = 0
+  return (htmlContent: string): Promise<void> =>
+    // eslint-disable-next-line no-plusplus
+    outputHtmlTemplate(`${templateName}_${index++}`, htmlContent)
 }
 
 /**
@@ -45,8 +49,8 @@ export function createHtmlTemplateOutput(
 export function createMjmlTemplateOutput(
   templateName: string,
 ): (templateName: string) => Promise<void> {
-  let i = 0
-  return (mjmlTemplate: string): Promise<void> => {
-    return outputMjmlTemplate(`${templateName}_${i++}`, mjmlTemplate)
-  }
+  let index = 0
+  return (mjmlTemplate: string): Promise<void> =>
+    // eslint-disable-next-line no-plusplus
+    outputMjmlTemplate(`${templateName}_${index++}`, mjmlTemplate)
 }

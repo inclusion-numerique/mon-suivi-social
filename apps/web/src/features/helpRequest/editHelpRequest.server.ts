@@ -49,8 +49,7 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
     updated,
     createdById,
     ...data
-  }): MutationInput<EditHelpRequestClient> => {
-    return {
+  }): MutationInput<EditHelpRequestClient> => ({
       helpRequestId: id,
       type: type.id,
       documents: documents.map(({ key }) => key),
@@ -59,8 +58,7 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
       askedAmount: askedAmount?.toNumber(),
       allocatedAmount: allocatedAmount?.toNumber(),
       ...removeNullAndUndefinedValues(data),
-    }
-  },
+    }),
   executeMutation: async ({ input, transaction, initialInput }) => {
     const {
       helpRequestId,

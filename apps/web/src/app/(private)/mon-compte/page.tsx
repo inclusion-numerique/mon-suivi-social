@@ -28,16 +28,16 @@ const MonComptePage = async () => {
                 Votre compte <strong>{user.email}</strong> est lié à votre
                 compte Inclusion Connect.
               </p>
-              {/*<Link*/}
-              {/*  className="fr-link"*/}
-              {/*  href={getInclusionConnectProfilePageUrl()}*/}
-              {/*  target="_blank"*/}
-              {/*  rel="noreferrer"*/}
-              {/*  style={{ margin: '0 auto 0 0' }}*/}
-              {/*>*/}
-              {/*  Voir mon profil Inclusion Connect*/}
-              {/*</Link>*/}
-              {/*<br />*/}
+              {/* <Link */}
+              {/*  className="fr-link" */}
+              {/*  href={getInclusionConnectProfilePageUrl()} */}
+              {/*  target="_blank" */}
+              {/*  rel="noreferrer" */}
+              {/*  style={{ margin: '0 auto 0 0' }} */}
+              {/* > */}
+              {/*  Voir mon profil Inclusion Connect */}
+              {/* </Link> */}
+              {/* <br /> */}
               <Link
                 className="fr-link"
                 href={getInclusionConnectChangePasswordUrl()}

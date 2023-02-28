@@ -1,4 +1,5 @@
 'use client'
+
 import { signOut } from 'next-auth/react'
 import { AuthCard } from '@mss/web/app/connexion/AuthCard'
 import { useState } from 'react'
@@ -6,7 +7,7 @@ import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import Link from 'next/link'
 import { Routes } from '@mss/web/app/routing/routes'
 
-const SignoutPage = () => {
+function SignoutPage() {
   const [isLoading, setIsLoading] = useState(false)
 
   const onSimpleLogout = async () => {
@@ -31,17 +32,17 @@ const SignoutPage = () => {
               Se déconnecter
             </button>
           </li>
-          {/*<li>*/}
-          {/*  <button*/}
-          {/*    type="button"*/}
-          {/*    className="fr-btn"*/}
-          {/*    disabled={isLoading}*/}
-          {/*    onClick={onTotalLogout}*/}
-          {/*  >*/}
-          {/*    Se déconnecter de {PublicConfig.productTitle} et de mon compte*/}
-          {/*    Inclusion Connect*/}
-          {/*  </button>*/}
-          {/*</li>*/}
+          {/* <li> */}
+          {/*  <button */}
+          {/*    type="button" */}
+          {/*    className="fr-btn" */}
+          {/*    disabled={isLoading} */}
+          {/*    onClick={onTotalLogout} */}
+          {/*  > */}
+          {/*    Se déconnecter de {PublicConfig.productTitle} et de mon compte */}
+          {/*    Inclusion Connect */}
+          {/*  </button> */}
+          {/* </li> */}
         </ul>
         <div className="fr-grid-row fr-grid-row--center">
           <Link href={Routes.Index.path}>Retour</Link>

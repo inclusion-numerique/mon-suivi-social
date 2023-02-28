@@ -1,4 +1,7 @@
 'use client'
 
-import { ServerError } from '@mss/web/app/ServerError'
-export default ServerError
+
+
+
+
+export {ServerError as default} from '@mss/web/app/ServerError'

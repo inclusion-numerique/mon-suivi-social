@@ -1,6 +1,6 @@
 import { Spinner } from '@mss/web/ui/Spinner'
 
-const PublicLoading = () => {
+function PublicLoading() {
   return (
     <div
       style={{

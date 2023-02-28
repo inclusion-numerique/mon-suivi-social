@@ -15,8 +15,7 @@ const ErrorPage = async ({
   searchParams: { error } = {},
 }: {
   searchParams?: { error?: string }
-}) => {
-  return (
+}) => (
     <>
       <Breadcrumbs currentPage="Connexion" />
       <AuthCard>
@@ -42,6 +41,5 @@ const ErrorPage = async ({
       </AuthCard>
     </>
   )
-}
 
 export default ErrorPage

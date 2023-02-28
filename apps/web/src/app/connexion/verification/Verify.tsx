@@ -2,7 +2,7 @@ import { PublicConfig } from '@mss/web/config'
 import { AuthCard } from '@mss/web/app/connexion/AuthCard'
 import { cookies } from 'next/headers'
 
-export const Verify = () => {
+export function Verify() {
   const email = cookies().get('email-signin')?.value
   return (
     <AuthCard>

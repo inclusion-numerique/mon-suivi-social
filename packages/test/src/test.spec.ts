@@ -1,3 +1,5 @@
+import 'jest'
+
 describe('@mss/test', () => {
   it('is configured correctly with addons', () => {
     expect('It works').toEqual('It works')
@@ -5,5 +7,3 @@ describe('@mss/test', () => {
     expect('It is extended').toBeString()
   })
 })
-
-export default {}

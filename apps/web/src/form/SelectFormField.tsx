@@ -8,8 +8,8 @@ import {
   GetFieldValueAsOptions,
 } from '@mss/web/utils/getFieldValueAs'
 
-const OptionsList = ({ options }: { options: Options }) => (
-  <>
+function OptionsList({ options }: { options: Options }) {
+  return <>
     {options.map(({ name, value }) => (
       <option key={value} value={value}>
         {name}
@@ -17,7 +17,7 @@ const OptionsList = ({ options }: { options: Options }) => (
     ))}
     )
   </>
-)
+}
 
 // View design options here https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/liste-deroulante/
 export function SelectFormField<T extends FieldValues>({
@@ -33,7 +33,7 @@ export function SelectFormField<T extends FieldValues>({
   valueAsBoolean,
   valueAsNumber,
   valueAsDate,
-  ...optionsProps
+  ...optionsProperties
 }: {
   control: Control<T>
   label?: string
@@ -96,8 +96,8 @@ export function SelectFormField<T extends FieldValues>({
             {defaultOption ? (
               <option value="">Sélectionnez une option</option>
             ) : null}
-            {optionsProps.groups ? (
-              Object.entries(optionsProps.optionGroups).map(
+            {optionsProperties.groups ? (
+              Object.entries(optionsProperties.optionGroups).map(
                 ([groupLabel, options]) => (
                   <optgroup key={groupLabel} label={groupLabel}>
                     <OptionsList options={options} />
@@ -105,7 +105,7 @@ export function SelectFormField<T extends FieldValues>({
                 ),
               )
             ) : (
-              <OptionsList options={optionsProps.options} />
+              <OptionsList options={optionsProperties.options} />
             )}
           </select>
           {error ? (

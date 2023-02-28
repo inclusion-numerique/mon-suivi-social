@@ -20,7 +20,7 @@ export const updateGithubDeployment = new Command()
     new Argument(
       '<deploymentId>',
       'id of the github repo deployment',
-    ).argParser(parseInt),
+    ).argParser(Number.parseInt),
   )
   .addArgument(
     new Argument('<state>', 'state of the deployment.')

@@ -5,7 +5,7 @@ import { isBrowser } from '@mss/web/utils/isBrowser'
 import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
 
 // Insert this component to trigger a smooth scroll to a support item card (followup or help request)
-export const ScrollToSupportItem = ({ item }: { item?: string }) => {
+export function ScrollToSupportItem({ item }: { item?: string }) {
   useEffect(() => {
     if (!item || !isBrowser) {
       return

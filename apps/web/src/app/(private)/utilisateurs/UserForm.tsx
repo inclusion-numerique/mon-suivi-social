@@ -23,7 +23,7 @@ const FieldLabels = EditUserClient.fieldLabels
 
 export const UserForm = withTrpc(
   (
-    props:
+    properties:
       | {
           creation: true
           defaultInput: { structureId: string }
@@ -39,15 +39,15 @@ export const UserForm = withTrpc(
     const addUser = trpc.user.add.useMutation()
     const editUser = trpc.user.edit.useMutation()
 
-    const defaultValues = props.creation
-      ? props.defaultInput
-      : deserialize(props.defaultInput)
+    const defaultValues = properties.creation
+      ? properties.defaultInput
+      : deserialize(properties.defaultInput)
 
     const form = useForm<
       MutationInput<CreateUserClient> | MutationInput<EditUserClient>
     >({
       resolver: zodResolver(
-        props.creation
+        properties.creation
           ? CreateUserClient.inputValidation
           : EditUserClient.inputValidation,
       ),
@@ -68,43 +68,42 @@ export const UserForm = withTrpc(
       data: MutationInput<CreateUserClient> | MutationInput<EditUserClient>,
     ) => {
       try {
-        props.creation
+        properties.creation
           ? await addUser.mutateAsync(data as MutationInput<CreateUserClient>)
           : await editUser.mutateAsync(data as MutationInput<EditUserClient>)
 
         router.push(Routes.Utilisateurs.Index.path)
-      } catch (err) {
+      } catch {
         // Error message will be in hook result
       }
     }
 
     return (
-      <>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
           <h3>Informations</h3>
           <InputFormField
-            label={FieldLabels['firstName']}
+            label={FieldLabels.firstName}
             disabled={fieldsDisabled}
             control={control}
             path="firstName"
             required
           />
           <InputFormField
-            label={FieldLabels['lastName']}
+            label={FieldLabels.lastName}
             disabled={fieldsDisabled}
             control={control}
             path="lastName"
             required
           />
           <InputFormField
-            label={FieldLabels['email']}
+            label={FieldLabels.email}
             disabled={fieldsDisabled}
             control={control}
             path="email"
             required
           />
           <SelectFormField
-            label={FieldLabels['role']}
+            label={FieldLabels.role}
             disabled={fieldsDisabled}
             control={control}
             path="role"
@@ -112,10 +111,10 @@ export const UserForm = withTrpc(
             required
             options={nonAdminUserRoleOptions}
           />
-          {props.creation ? null : (
+          {properties.creation ? null : (
             <CheckboxFormField
               control={control}
-              label={FieldLabels['enabled']}
+              label={FieldLabels.enabled}
               checkboxLabel="Activé"
               path="enabled"
               disabled={isLoading}
@@ -132,7 +131,7 @@ export const UserForm = withTrpc(
                   type="submit"
                   disabled={fieldsDisabled}
                 >
-                  {props.creation
+                  {properties.creation
                     ? "Ajouter l'utilisateur"
                     : 'Enregistrer les modifications'}
                 </button>
@@ -140,7 +139,6 @@ export const UserForm = withTrpc(
             </div>
           </div>
         </form>
-      </>
     )
   },
 )

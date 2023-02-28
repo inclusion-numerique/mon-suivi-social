@@ -1,11 +1,11 @@
-const NodeEnv = process.env.NODE_ENV
+const NodeEnvironment = process.env.NODE_ENV
 
 const emailServer = `smtp://${process.env.SMTP_USERNAME ?? ''}:${
   process.env.SMTP_PASSWORD ?? ''
 }@${process.env.SMTP_SERVER ?? ''}:${process.env.SMTP_PORT ?? ''}`
 
 export const PrivateConfig = {
-  NodeEnv,
+  NodeEnv: NodeEnvironment,
   Branch: process.env.BRANCH ?? '',
   Namespace: process.env.NAMESPACE ?? '',
   isMain: process.env.BRANCH === 'main',

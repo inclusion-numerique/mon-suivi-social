@@ -46,7 +46,7 @@ const EditBeneficiaryPage = async ({
 
   const agents = await getAgentOptions(user)
 
-  const formProps = EditBeneficiaryFullDataClient.securityCheck(
+  const formProperties = EditBeneficiaryFullDataClient.securityCheck(
     user,
     beneficiary,
     {},
@@ -95,17 +95,17 @@ const EditBeneficiaryPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              {formProps.full ? (
+              {formProperties.full ? (
                 <BeneficiaryForm
-                  full={formProps.full}
+                  full={formProperties.full}
                   agents={agents}
-                  defaultInput={serialize(formProps.defaultInput)}
+                  defaultInput={serialize(formProperties.defaultInput)}
                 />
               ) : (
                 <BeneficiaryForm
-                  full={formProps.full}
+                  full={formProperties.full}
                   agents={agents}
-                  defaultInput={serialize(formProps.defaultInput)}
+                  defaultInput={serialize(formProperties.defaultInput)}
                 />
               )}
             </div>

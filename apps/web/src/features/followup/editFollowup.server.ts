@@ -42,14 +42,12 @@ export const EditFollowupServer = createMutationServerWithInitialState({
     updated,
     createdById,
     ...data
-  }): MutationInput<EditFollowupClient> => {
-    return {
+  }): MutationInput<EditFollowupClient> => ({
       followupId: id,
       types: types.map((type) => type.id),
       documents: documents.map(({ key }) => key),
       ...removeNullAndUndefinedValues(data),
-    }
-  },
+    }),
   executeMutation: async ({ input, transaction, initialInput }) => {
     const { followupId, types, documents, ...data } = input
 

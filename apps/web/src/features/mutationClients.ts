@@ -9,9 +9,9 @@ export const registerMutation = <
   Name extends string = string,
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
   Target = any,
-  SecurityParams = any,
+  SecurityParameters = any,
 >(
-  client: MutationClient<Validation, Name, Grantee, Target, SecurityParams>,
+  client: MutationClient<Validation, Name, Grantee, Target, SecurityParameters>,
 ) => {
   if (mutations.has(client.name)) {
     throw new Error(

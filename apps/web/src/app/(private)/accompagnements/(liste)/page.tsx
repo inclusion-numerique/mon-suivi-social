@@ -46,7 +46,7 @@ const AccompagnementsListPage = async ({
       : { by: 'openingDate', direction: 'desc' }
 
   // Get pagination and sorting info from searchParams
-  const pageNumber = searchParams?.page ? parseInt(searchParams.page) : 1
+  const pageNumber = searchParams?.page ? Number.parseInt(searchParams.page) : 1
   const currentSorting: Sorting = {
     by: searchParams?.tri ?? defaultSorting.by,
     direction: searchParams?.ordre ?? defaultSorting.direction,

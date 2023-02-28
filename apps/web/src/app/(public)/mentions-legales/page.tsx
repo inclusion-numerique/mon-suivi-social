@@ -1,6 +1,6 @@
 import { PublicConfig } from '@mss/web/config'
 
-const LegalPage = () => {
+function LegalPage() {
   return (
     <div className="fr-container landing-main-container fr-my-8w">
       <h1>Mentions légales</h1>

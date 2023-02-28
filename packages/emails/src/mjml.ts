@@ -12,7 +12,7 @@ export function compileMjml(mjmlTemplate: string): string {
   if (result.errors.length > 0) {
     throw new Error(
       `Could not compile template ${result.errors
-        .map((e) => e.formattedMessage)
+        .map((error) => error.formattedMessage)
         .join(', ')}`,
     )
   }

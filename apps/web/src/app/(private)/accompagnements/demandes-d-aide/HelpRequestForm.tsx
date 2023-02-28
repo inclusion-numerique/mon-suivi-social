@@ -1,4 +1,5 @@
 'use client'
+
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { InputFormField } from '@mss/web/form/InputFormField'
@@ -29,7 +30,7 @@ const FieldLabels = EditHelpRequestClient.fieldLabels
  */
 export const HelpRequestForm = withTrpc(
   (
-    props: {
+    properties: {
       documentOptions: Options
       followupTypeOptions: Options
     } & (
@@ -51,25 +52,25 @@ export const HelpRequestForm = withTrpc(
     const addHelpRequest = trpc.helpRequest.add.useMutation()
     const editHelpRequest = trpc.helpRequest.edit.useMutation()
 
-    const mutation = props.creation
+    const mutation = properties.creation
       ? // Creation
         addHelpRequest
       : // Edition
         editHelpRequest
 
-    const client = props.creation
+    const client = properties.creation
       ? // Creation
         AddHelpRequestClient
       : // Edition
         EditHelpRequestClient
 
-    const defaultValues = props.creation
+    const defaultValues = properties.creation
       ? {
-          ...props.defaultInput,
+          ...properties.defaultInput,
           fullFile: false,
           openingDate: new Date(),
         }
-      : deserialize(props.defaultInput)
+      : deserialize(properties.defaultInput)
 
     const form = useForm<MutationInput<typeof client>>({
       resolver: zodResolver(client.inputValidation),
@@ -89,7 +90,7 @@ export const HelpRequestForm = withTrpc(
             { tab: 'historique', accompagnement: result.helpRequest.id },
           ),
         )
-      } catch (err) {
+      } catch {
         // Error message will be in hook result
       }
     }
@@ -112,7 +113,7 @@ export const HelpRequestForm = withTrpc(
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputFormField
-          label={FieldLabels['openingDate']}
+          label={FieldLabels.openingDate}
           disabled={fieldsDisabled}
           control={control}
           path="openingDate"
@@ -121,22 +122,22 @@ export const HelpRequestForm = withTrpc(
           required
         />
         <SelectFormField
-          label={FieldLabels['type']}
+          label={FieldLabels.type}
           disabled={fieldsDisabled}
           control={control}
           path="type"
           defaultOption
-          options={props.followupTypeOptions}
+          options={properties.followupTypeOptions}
           required
         />
         <InputFormField
-          label={FieldLabels['prescribingOrganisation']}
+          label={FieldLabels.prescribingOrganisation}
           disabled={fieldsDisabled}
           control={control}
           path="prescribingOrganisation"
         />
         <SelectFormField
-          label={FieldLabels['status']}
+          label={FieldLabels.status}
           disabled={fieldsDisabled}
           control={control}
           path="status"
@@ -145,12 +146,12 @@ export const HelpRequestForm = withTrpc(
           required
         />
         <CheckboxFormField
-          checkboxLabel={FieldLabels['fullFile']}
+          checkboxLabel={FieldLabels.fullFile}
           control={control}
           path="fullFile"
         />
         <SelectFormField
-          label={FieldLabels['financialSupport']}
+          label={FieldLabels.financialSupport}
           disabled={fieldsDisabled}
           control={control}
           path="financialSupport"
@@ -159,7 +160,7 @@ export const HelpRequestForm = withTrpc(
         />
         {isFinancialSupport ? (
           <SelectFormField
-            label={FieldLabels['reason']}
+            label={FieldLabels.reason}
             disabled={fieldsDisabled}
             control={control}
             path="reason"
@@ -169,7 +170,7 @@ export const HelpRequestForm = withTrpc(
         ) : null}
 
         <SelectFormField
-          label={FieldLabels['externalStructure']}
+          label={FieldLabels.externalStructure}
           disabled={fieldsDisabled}
           control={control}
           path="externalStructure"
@@ -180,7 +181,7 @@ export const HelpRequestForm = withTrpc(
         {isFinancialSupport && isInternal ? (
           <>
             <InputFormField
-              label={FieldLabels['askedAmount']}
+              label={FieldLabels.askedAmount}
               disabled={fieldsDisabled}
               control={control}
               path="askedAmount"
@@ -188,7 +189,7 @@ export const HelpRequestForm = withTrpc(
               min={0}
             />
             <InputFormField
-              label={FieldLabels['examinationDate']}
+              label={FieldLabels.examinationDate}
               disabled={fieldsDisabled}
               control={control}
               path="examinationDate"
@@ -196,7 +197,7 @@ export const HelpRequestForm = withTrpc(
               valueAsDate
             />
             <InputFormField
-              label={FieldLabels['decisionDate']}
+              label={FieldLabels.decisionDate}
               disabled={fieldsDisabled}
               control={control}
               path="decisionDate"
@@ -204,7 +205,7 @@ export const HelpRequestForm = withTrpc(
               valueAsDate
             />
             <InputFormField
-              label={FieldLabels['allocatedAmount']}
+              label={FieldLabels.allocatedAmount}
               disabled={fieldsDisabled}
               control={control}
               path="allocatedAmount"
@@ -212,7 +213,7 @@ export const HelpRequestForm = withTrpc(
               min={0}
             />
             <SelectFormField
-              label={FieldLabels['paymentMethod']}
+              label={FieldLabels.paymentMethod}
               disabled={fieldsDisabled}
               control={control}
               path="paymentMethod"
@@ -220,7 +221,7 @@ export const HelpRequestForm = withTrpc(
               options={paymentMethodOptions}
             />
             <InputFormField
-              label={FieldLabels['paymentDate']}
+              label={FieldLabels.paymentDate}
               disabled={fieldsDisabled}
               control={control}
               path="paymentDate"
@@ -228,7 +229,7 @@ export const HelpRequestForm = withTrpc(
               valueAsDate
             />
             <InputFormField
-              label={FieldLabels['handlingDate']}
+              label={FieldLabels.handlingDate}
               disabled={fieldsDisabled}
               control={control}
               path="handlingDate"
@@ -236,7 +237,7 @@ export const HelpRequestForm = withTrpc(
               valueAsDate
             />
             <InputFormField
-              label={FieldLabels['decisionDate']}
+              label={FieldLabels.decisionDate}
               disabled={fieldsDisabled}
               control={control}
               path="decisionDate"
@@ -247,19 +248,17 @@ export const HelpRequestForm = withTrpc(
         ) : null}
 
         {!isFinancialSupport && isExternal ? (
-          <>
-            <InputFormField
-              label={FieldLabels['examiningOrganisation']}
+          <InputFormField
+              label={FieldLabels.examiningOrganisation}
               disabled={fieldsDisabled}
               control={control}
               path="examiningOrganisation"
             />
-          </>
         ) : null}
         {isFinancialSupport && isExternal ? (
           <>
             <InputFormField
-              label={FieldLabels['askedAmount']}
+              label={FieldLabels.askedAmount}
               disabled={fieldsDisabled}
               control={control}
               path="askedAmount"
@@ -267,7 +266,7 @@ export const HelpRequestForm = withTrpc(
               min={0}
             />
             <InputFormField
-              label={FieldLabels['dispatchDate']}
+              label={FieldLabels.dispatchDate}
               disabled={fieldsDisabled}
               control={control}
               path="dispatchDate"
@@ -275,7 +274,7 @@ export const HelpRequestForm = withTrpc(
               valueAsDate
             />
             <InputFormField
-              label={FieldLabels['decisionDate']}
+              label={FieldLabels.decisionDate}
               disabled={fieldsDisabled}
               control={control}
               path="decisionDate"
@@ -283,7 +282,7 @@ export const HelpRequestForm = withTrpc(
               valueAsDate
             />
             <InputFormField
-              label={FieldLabels['allocatedAmount']}
+              label={FieldLabels.allocatedAmount}
               disabled={fieldsDisabled}
               control={control}
               path="allocatedAmount"
@@ -291,7 +290,7 @@ export const HelpRequestForm = withTrpc(
               min={0}
             />
             <InputFormField
-              label={FieldLabels['handlingDate']}
+              label={FieldLabels.handlingDate}
               disabled={fieldsDisabled}
               control={control}
               path="handlingDate"
@@ -299,7 +298,7 @@ export const HelpRequestForm = withTrpc(
               valueAsDate
             />
             <InputFormField
-              label={FieldLabels['decisionDate']}
+              label={FieldLabels.decisionDate}
               disabled={fieldsDisabled}
               control={control}
               path="decisionDate"
@@ -310,16 +309,16 @@ export const HelpRequestForm = withTrpc(
         ) : null}
 
         <InputFormField
-          label={FieldLabels['dueDate']}
+          label={FieldLabels.dueDate}
           disabled={fieldsDisabled}
           control={control}
           path="dueDate"
           type="date"
           valueAsDate
         />
-        {props.creation || props.synthesisField ? (
+        {properties.creation || properties.synthesisField ? (
           <InputFormField
-            label={FieldLabels['synthesis']}
+            label={FieldLabels.synthesis}
             hint="Il est fortement recommandé de ne stocker que les informations utiles au suivi du bénéficiaire et d'éviter le recueil d'informations sensibles (données de santé, mots de passe, etc)."
             disabled={fieldsDisabled}
             control={control}
@@ -328,12 +327,12 @@ export const HelpRequestForm = withTrpc(
             minRows={15}
           />
         ) : null}
-        {props.creation || props.privateSynthesisField ? (
+        {properties.creation || properties.privateSynthesisField ? (
           <InputFormField
             label={
               <>
                 <span className="fr-icon-lock-line fr-mr-1w" />
-                {FieldLabels['privateSynthesis']}
+                {FieldLabels.privateSynthesis}
               </>
             }
             hint="Le compte rendu privé est uniquement visible et modifiable par l'agent qui crée la synthèse d'entretien."
@@ -345,9 +344,9 @@ export const HelpRequestForm = withTrpc(
           />
         ) : null}
         <SelectTagsFormField
-          label={FieldLabels['documents']}
+          label={FieldLabels.documents}
           disabled={fieldsDisabled}
-          options={props.documentOptions}
+          options={properties.documentOptions}
           control={control}
           defaultOptionLabel="Associez un document"
           defaultOption

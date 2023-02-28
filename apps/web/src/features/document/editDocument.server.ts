@@ -13,12 +13,10 @@ export const EditDocumentServer = createMutationServerWithInitialState({
   dataFromServerState: ({
     tags,
     ...data
-  }): MutationInput<EditDocumentClient> => {
-    return {
+  }): MutationInput<EditDocumentClient> => ({
       tags: tags as DocumentTag[],
       ...data,
-    }
-  },
+    }),
   executeMutation: async ({ input, transaction }) => {
     const { key, ...data } = input
 

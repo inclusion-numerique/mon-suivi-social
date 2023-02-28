@@ -1,6 +1,6 @@
 import { PublicConfig } from '@mss/web/config'
 
-const AccessibilityStatementPage = () => {
+function AccessibilityStatementPage() {
   return (
     <div className="fr-container landing-main-container fr-my-8w">
       <h1>Déclaration d’accessibilité</h1>

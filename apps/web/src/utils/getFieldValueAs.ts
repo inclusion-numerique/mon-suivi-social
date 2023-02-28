@@ -22,7 +22,7 @@ export const getFieldValueAs = (
 
   // TODO useful ?
   if (value === '') {
-    return undefined
+    return
   }
 
   if (valueAsNumber) {

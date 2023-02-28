@@ -14,37 +14,37 @@ type ExecuteQuery<Input, QueryResult> = (context: {
 export type CreateQueryServerOptions<
   QueryResult,
   Validation extends ZodType,
-  SecurityParams,
+  SecurityParameters,
   Name extends string = string,
-  AdditionalParams = any,
+  AdditionalParameters = any,
   Input = z.infer<Validation>,
 > = {
-  client: QueryClient<Validation, SecurityParams, Name>
+  client: QueryClient<Validation, SecurityParameters, Name>
   executeQuery: ExecuteQuery<Input, QueryResult>
 }
 
 export type QueryServer<
   QueryResult,
   Validation extends ZodType,
-  SecurityParams,
+  SecurityParameters,
   Name extends string = string,
-  AdditionalParams = any,
+  AdditionalParameters = any,
   Input = z.infer<Validation>,
 > = Readonly<
   Omit<
     CreateQueryServerOptions<
       QueryResult,
       Validation,
-      SecurityParams,
+      SecurityParameters,
       Name,
-      AdditionalParams
+      AdditionalParameters
     >,
     'executeQuery'
   > & {
     execute: (context: {
       input: Input
       user: SecurityRuleGrantee
-      securityParams: SecurityParams
+      securityParams: SecurityParameters
     }) => Promise<QueryResult>
   }
 >
@@ -52,24 +52,24 @@ export type QueryServer<
 export const createQueryServer = <
   QueryResult,
   Validation extends ZodType,
-  SecurityParams,
+  SecurityParameters,
   Name extends string = string,
-  AdditionalParams = any,
+  AdditionalParameters = any,
   Input = z.infer<Validation>,
 >(
   options: CreateQueryServerOptions<
     QueryResult,
     Validation,
-    SecurityParams,
+    SecurityParameters,
     Name,
-    AdditionalParams
+    AdditionalParameters
   >,
 ): QueryServer<
   QueryResult,
   Validation,
-  SecurityParams,
+  SecurityParameters,
   Name,
-  AdditionalParams
+  AdditionalParameters
 > => {
   const execute = ({
     input,
@@ -78,7 +78,7 @@ export const createQueryServer = <
   }: {
     input: Input
     user: SecurityRuleGrantee
-    securityParams: SecurityParams
+    securityParams: SecurityParameters
   }) => {
     if (!options.client.securityCheck(user, input, securityParams)) {
       throw forbiddenError()

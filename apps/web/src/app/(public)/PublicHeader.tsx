@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Routes } from '@mss/web/app/routing/routes'
 
-const PublicHeader = ({ hideSigninButton }: { hideSigninButton?: boolean }) => {
+function PublicHeader({ hideSigninButton }: { hideSigninButton?: boolean }) {
   const links = hideSigninButton
     ? []
     : [

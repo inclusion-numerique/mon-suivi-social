@@ -14,7 +14,7 @@ export function TagsFormField<T extends FieldValues>({
   disabled,
   required,
   badgeSize,
-  ...optionsProps
+  ...optionsProperties
 }: {
   control: Control<T>
   label: string
@@ -29,9 +29,9 @@ export function TagsFormField<T extends FieldValues>({
 )) {
   const id = `multiple-badge-form-field__${path}`
 
-  const flattenedOptions: Options = optionsProps.groups
-    ? Object.values(optionsProps.optionGroups).flat()
-    : optionsProps.options
+  const flattenedOptions: Options = optionsProperties.groups
+    ? Object.values(optionsProperties.optionGroups).flat()
+    : optionsProperties.options
 
   // TODO Aria labeled by from id
   return (
@@ -104,7 +104,7 @@ export function TagsFormField<T extends FieldValues>({
   )
 }
 
-const OptionBadge = ({
+function OptionBadge({
   option,
   onClick,
   selected,
@@ -116,8 +116,8 @@ const OptionBadge = ({
   selected?: boolean
   disabled?: boolean
   size?: 'sm' | 'md'
-}) => (
-  <button
+}) {
+  return <button
     type="button"
     className={`fr-tag fr-mr-1w fr-mb-2v ${size === 'sm' ? 'fr-tag--sm' : ''}`}
     disabled={disabled || option.disabled}
@@ -127,4 +127,4 @@ const OptionBadge = ({
   >
     {option.name}
   </button>
-)
+}

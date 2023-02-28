@@ -61,14 +61,12 @@ export const EditBeneficiaryGeneralInfoServer =
       referents,
       nationality,
       ...data
-    }): MutationInput<EditBeneficiaryGeneralInfoClient> => {
-      return {
+    }): MutationInput<EditBeneficiaryGeneralInfoClient> => ({
         beneficiaryId: id,
         nationality: nationality as keyof typeof Nationalities,
         referents: referents.map((referent) => referent.id),
         ...removeNullAndUndefinedValues(data),
-      }
-    },
+      }),
     executeMutation: async ({ input, transaction, initialInput }) => {
       const { beneficiaryId, referents, ...data } = input
 

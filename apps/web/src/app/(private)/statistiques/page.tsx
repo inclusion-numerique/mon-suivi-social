@@ -84,18 +84,18 @@ const StatistiquesPage = async () => {
   )
 }
 
-const SectionTitle = ({
+function SectionTitle({
   children,
   className,
-}: PropsWithChildren<{ className?: string }>) => (
-  <div className={`fr-grid-row fr-grid-row--gutters ${className ?? ''}`}>
+}: PropsWithChildren<{ className?: string }>) {
+  return <div className={`fr-grid-row fr-grid-row--gutters ${className ?? ''}`}>
     <div className="fr-col-12 fr-col-md-6">
       <h4 className="fr-mb-2v">{children}</h4>
     </div>
   </div>
-)
+}
 
-const StatCard = ({
+function StatCard({
   cols = {},
   title,
   children,
@@ -110,8 +110,8 @@ const StatCard = ({
     xl?: number
   }
   contentStyle?: CSSProperties
-}>) => (
-  <div
+}>) {
+  return <div
     className={`fr-col-${cols?.default ?? 12} ${
       cols?.sm ? `fr-col-sm-${cols.sm}` : ''
     } ${cols?.md ? `fr-col-md-${cols.md}` : ''} ${
@@ -136,6 +136,6 @@ const StatCard = ({
       </div>
     </div>
   </div>
-)
+}
 
 export default StatistiquesPage

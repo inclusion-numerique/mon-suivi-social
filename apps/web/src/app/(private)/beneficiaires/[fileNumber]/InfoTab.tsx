@@ -9,14 +9,14 @@ import { beneficiaryTitleLabels } from '@mss/web/beneficiary/beneficiary'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { isEmptyValue } from '@mss/web/utils/isEmptyValue'
 
-export const InfoTab = ({
+export function InfoTab({
   beneficiary,
   followupTypes,
 }: {
   user: SessionUser
   beneficiary: BeneficiaryPageInfo
   followupTypes: BeneficiaryFollowupTypes
-}) => {
+}) {
   const legals = followupTypes.filter(({ legallyRequired }) => legallyRequired)
   const optionals = followupTypes.filter(
     ({ legallyRequired }) => !legallyRequired,

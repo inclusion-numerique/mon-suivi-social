@@ -4,7 +4,7 @@
   "license": "AGPL-3.0-or-later",
   "private": true,
   "scripts": {
-    "lint": "eslint",
+    "lint": "eslint .storybook",
     "tsc": "tsc --noEmit",
     "test": "jest --passWithNoTests",
     "storybook": "storybook dev -p 6006",
@@ -20,11 +20,13 @@
     "@storybook/addon-essentials": "^7.0.0-beta.55",
     "@storybook/addon-interactions": "^7.0.0-beta.55",
     "@storybook/addon-links": "^7.0.0-beta.55",
+    "@storybook/addons": "^7.0.0-beta.55",
     "@storybook/blocks": "^7.0.0-beta.55",
     "@storybook/nextjs": "^7.0.0-beta.55",
     "@storybook/react": "^7.0.0-beta.55",
     "@storybook/testing-library": "^0.0.14-next.1",
     "chromatic": "^6.17.1",
+    "dotenv": "^16.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook": "^7.0.0-beta.55"

@@ -21,10 +21,10 @@ const brandColor = '#4550e5'
 const backgroundColor = '#F6F6F6'
 
 export const emailSignin = {
-  text: ({ url }: { url: string }): string => {
+  text: ({ url }: { url: string }): string => 
     // eslint-disable-next-line no-irregular-whitespace
-    return `Pour vous connecter à ${PublicConfig.productTitle}, merci d'utiliser le lien suivant :\n${url}\n\n`
-  },
+     `Pour vous connecter à ${PublicConfig.productTitle}, merci d'utiliser le lien suivant :\n${url}\n\n`
+  ,
   mjml: ({ url }: { url: string }): string =>
     renderToMjml(
       <Mjml>
@@ -49,9 +49,9 @@ export const emailSignin = {
           </MjmlPreview>
         </MjmlHead>
         <MjmlBody backgroundColor={backgroundColor}>
-          {/*Section used for a bit of headroom at the top*/}
+          {/* Section used for a bit of headroom at the top */}
           <MjmlSection backgroundColor={backgroundColor} />
-          {/*Header with logos*/}
+          {/* Header with logos */}
           <MjmlSection paddingBottom="8px">
             <MjmlColumn width="24%" verticalAlign="middle">
               <MjmlImage
@@ -87,7 +87,7 @@ export const emailSignin = {
               </MjmlText>
             </MjmlColumn>
           </MjmlSection>
-          {/*Section used for a bit of padding at the bottom*/}
+          {/* Section used for a bit of padding at the bottom */}
           <MjmlSection backgroundColor={backgroundColor} />
         </MjmlBody>
       </Mjml>,

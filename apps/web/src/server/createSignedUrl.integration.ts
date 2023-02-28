@@ -24,7 +24,8 @@ describe.skip('createSignedUrl', () => {
   //     it('canCreateSignedUrl', async () => {
   //       const fileName = '2022-11-test.png'
   //       const type = 'image/png'
-  //       const filePath = resolve(__dirname, '../../test/small-test-image.png')
+  //       const filePath = resolve(
+  //   dirname(fileURLToPath(import.meta.url)), '../../test/small-test-image.png')
   //
   //       const { url, key } = await createSignedUploadUrl({
   //         directory: `test/${new Date().getTime()}`,

@@ -1,6 +1,6 @@
 import { Spinner } from '@mss/web/ui/Spinner'
 
-const PrivateLoading = () => {
+function PrivateLoading() {
   return (
     <div
       style={{

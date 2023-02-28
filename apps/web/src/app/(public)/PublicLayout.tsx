@@ -2,10 +2,10 @@ import { PropsWithChildren } from 'react'
 import PublicHeader from '@mss/web/app/(public)/PublicHeader'
 import PublicFooter from '@mss/web/app/(public)/PublicFooter'
 
-export const PublicLayout = ({
+export function PublicLayout({
   hideSigninButton,
   children,
-}: PropsWithChildren<{ hideSigninButton?: boolean }>) => {
+}: PropsWithChildren<{ hideSigninButton?: boolean }>) {
   return (
     <div
       style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}
