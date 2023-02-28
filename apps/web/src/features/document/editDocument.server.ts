@@ -19,7 +19,7 @@ export const EditDocumentServer = createMutationServerWithInitialState({
       ...data,
     }
   },
-  executeMutation: async ({ input, transaction, initialInput }) => {
+  executeMutation: async ({ input, transaction }) => {
     const { key, ...data } = input
 
     const document = await transaction.document.update({

@@ -212,7 +212,9 @@ export const Routes = {
 }
 
 // Helper type for typing props of pages components
+// We need the any type to match Parameters<> check
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RoutePathParams<T extends (...args: any) => any> = Parameters<T>[0]
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RoutePathSearchParams<T extends (...args: any) => any> =
   Parameters<T>[1]
