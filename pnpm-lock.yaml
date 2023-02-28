@@ -20,6 +20,7 @@ importers:
   apps/cli:
     specifiers:
       '@commander-js/extra-typings': ^10.0.2
+      '@mss/cdk': '*'
       '@mss/web': '*'
       '@types/lodash': ^4.14.191
       '@types/node': ^18.14.1
@@ -28,6 +29,7 @@ importers:
       commander: ^10.0.0
       csv-parse: ^5.3.5
       csv-stringify: ^6.2.4
+      dotenv: ^16.0.3
       eslint: ^8.34.0
       jest: ^29.4.3
       lodash: ^4.17.21
@@ -37,12 +39,14 @@ importers:
       typescript: ^4.9.5
     dependencies:
       '@commander-js/extra-typings': 10.0.2_commander@10.0.0
+      '@mss/cdk': link:../../packages/cdk
       '@mss/web': link:../web
       axios: 1.3.4
       chalk: 4.1.2
       commander: 10.0.0
       csv-parse: 5.3.5
       csv-stringify: 6.2.4
+      dotenv: 16.0.3
       lodash: 4.17.21
       octokit: 2.0.14
       ts-node: 10.9.1_uayvamxqnl5yeiojjysxwopmsy
@@ -261,7 +265,6 @@ importers:
   packages/emails:
     specifiers:
       '@luma-team/mjml-react': ^0.3.0-0
-      '@mss/web': '*'
       '@types/html-minifier': ^4.0.2
       '@types/jest': ^29.4.0
       '@types/mjml': ^4.7.0
@@ -278,7 +281,6 @@ importers:
       typescript: ^4.9.5
     dependencies:
       '@luma-team/mjml-react': 0.3.0-0_biqbaboplfbrettd7655fr4n2y
-      '@mss/web': link:../../apps/web
       html-minifier: 4.0.0
       mjml: 4.13.0
       mjml-react: 2.0.8_7tbcn2mecc3yvuxakflodiks3m

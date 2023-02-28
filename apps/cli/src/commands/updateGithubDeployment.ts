@@ -33,6 +33,8 @@ export const updateGithubDeployment = new Command()
   )
   .option('-l --log <logUrl>', 'url of the CI deployment job')
   .option('-d --description <description>', 'a short description of the status')
+  // TODO remove this eslint disable when https://github.com/commander-js/extra-typings/pull/35 is merged
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   .action(async (deploymentId, state, { log, url, description }) => {
     const result = await getOctokit().rest.repos.createDeploymentStatus({
       owner,
