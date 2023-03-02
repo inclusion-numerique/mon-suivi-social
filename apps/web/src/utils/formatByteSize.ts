@@ -6,7 +6,10 @@ const withUnit = (value: number, unit: string) =>
   // eslint-disable-next-line no-irregular-whitespace
   `${value.toFixed(2).replace('.', ',')} ${unit}`
 
-export const formatByteSize = (sizeInBytes: number): string => {
+export const formatByteSize = (sizeInBytes: number | null): string => {
+  if(!sizeInBytes){
+    return "-"
+  }
   if (sizeInBytes < kilo) {
     // eslint-disable-next-line no-irregular-whitespace
     return `${sizeInBytes} o`

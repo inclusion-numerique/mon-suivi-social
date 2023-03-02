@@ -46,6 +46,7 @@ const getSupports = async ({
         include: {
           createdBy: true,
           type: true,
+          prescribingOrganization : true
         },
         orderBy: {
           openingDate: 'desc',
