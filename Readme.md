@@ -11,6 +11,9 @@ https://pnpm.io/
 
 `pnpm install`
 
+
+Database client is Prisma https://www.prisma.io/ 
+
 #### Environment
 
 Environment variables are all stored in a .env file
@@ -22,11 +25,29 @@ Ask a team developer for values
 You need a postgresql database setup for usint the app in dev environment.
 When setup, add the database connection string in `.env`
 
-Database client is Prisma https://www.prisma.io/
+start postgres
 
-Run `pnpm -F web prisma:generate` to geneate the prisma client, then `pnpm -F web prisma migrate deploy` to setup your schema.
+```sh
+pnpm db:start
+```
 
-To seed your database with fixtures, run `pnpm -F cli fixtures:load`
+generate the prisma client
+
+```sh
+pnpm prisma:generate
+```
+
+setup your schema
+
+```sh
+pnpm prisma:migrate
+```
+
+seed your database with fixtures
+
+```sh
+pnpm prisma:seed
+```
 
 ### Dev
 
