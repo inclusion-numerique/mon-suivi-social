@@ -22,8 +22,13 @@ Ask a team developer for values
 
 #### Database
 
-You need a postgresql database setup for usint the app in dev environment.
-When setup, add the database connection string in `.env`
+copy env variables
+
+```sh
+cp .env.dist .env
+
+## fill .env file
+```
 
 start postgres
 
