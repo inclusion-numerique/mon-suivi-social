@@ -1,14 +1,40 @@
 import { NextMiddleware, NextResponse } from 'next/server'
 
+const nodeEnvironment = process.env.NODE_ENV
+const isProd = nodeEnvironment === 'production'
+
+// FIXME : write tests. It should match
+//   default-src 'self'; script-src 'self' ${isProd ? '' : "'unsafe-inline' 'unsafe-eval'"}; script-src-attr 'none'; style-src 'self' https: 'unsafe-inline'; img-src 'self' data:; object-src 'none'; font-src 'self' https: data:; frame-ancestors 'self'; form-action 'self'; base-uri 'self'; upgrade-insecure-requests
+// Build the CSP policy
+function getCsp() {
+  const csp = {
+    'default-src': "'self'",
+    'script-src': `'self' ${isProd ? '' : "'unsafe-inline' 'unsafe-eval'"}`,
+    'script-src-attr': "'none'",
+    'style-src': "'self' https: 'unsafe-inline'",
+    'img-src': "'self' data:",
+    'object-src': "'none'",
+    'font-src': "'self' https: data:",
+    'frame-ancestors': "'self'",
+    'form-action': "'self'",
+    'base-uri': "'self'",
+    'upgrade-insecure-requests': true,
+  }
+
+  return Object.entries(csp).reduce((_csp, [policy, source]) => {
+    if (typeof source === 'boolean') return `${_csp} ${policy};`
+    return `${_csp} ${policy} ${source};`
+  }, '')
+}
+
 const middleware: NextMiddleware = (request) => {
   const forwardedProto = request.headers.get('X-Forwarded-Proto')
-  const nodeEnvironment = process.env.NODE_ENV
   const requestHost = request.headers.get('host')
   const baseUrl = process.env.BASE_URL
 
   // FIXME: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security states "Note: This is more secure than simply configuring a HTTP to HTTPS (301) redirect on your server, where the initial HTTP connection is still vulnerable to a man-in-the-middle attack.". But they keep applying this redirect in recommended SSL configs: https://ssl-config.mozilla.org/
   if (
-    nodeEnvironment === 'production' &&
+    isProd &&
     // We redirect if protocol is not secure https
     (forwardedProto === 'http' ||
       // If we have a base url defined and the host is different
@@ -40,13 +66,9 @@ const middleware: NextMiddleware = (request) => {
     'max-age=63072000 always',
   )
 
-  // TODO This CSP policy is too restrictive an account has been created in report-uri.com. Make this in another deployment.
-  // TODO use https://www.npmjs.com/package/csp-header
-  // https://report-uri.com
-  // response.headers.append(
-  //   'Content-Security-Policy',
-  //   "default-src 'self'; script-src 'self'; script-src-elem 'self'; script-src-attr 'self'; style-src 'self'; style-src-elem 'self'; style-src-attr 'self'; img-src *; font-src 'self'; connect-src 'self'; media-src *; object-src 'self'; prefetch-src 'self'; child-src 'self'; frame-src 'self'; worker-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; manifest-src 'self'",
-  // )
+  // TODO To test on preview environment
+  // Next requires unsafe-eval script sources in dev mode - See https://github.com/vercel/next.js/issues/18557#issuecomment-727160210
+  response.headers.append('Content-Security-Policy-Report-Only', getCsp())
   return response
 }
 
