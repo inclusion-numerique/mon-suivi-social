@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
 import { getUserDisplayName } from '@mss/web/utils/user'
-import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import {
   RoutePathParams,
   RoutePathSearchParams,
@@ -46,7 +46,7 @@ const getSupports = async ({
         include: {
           createdBy: true,
           type: true,
-          prescribingOrganization : true
+          prescribingOrganization: true,
         },
         orderBy: {
           openingDate: 'desc',

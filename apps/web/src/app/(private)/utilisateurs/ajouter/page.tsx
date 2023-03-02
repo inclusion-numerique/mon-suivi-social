@@ -1,9 +1,9 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { CreateUserClient } from '@mss/web/features/user/createUser/createUser.client'
-import { UserForm } from '@mss/web/app/(private)/utilisateurs/UserForm'
+import { UserForm } from '@mss/web/components/UserForm/UserForm'
 
 export const revalidate = 0
 

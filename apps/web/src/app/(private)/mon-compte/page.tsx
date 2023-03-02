@@ -1,4 +1,4 @@
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { getAuthenticatedSessionUser } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
 import {

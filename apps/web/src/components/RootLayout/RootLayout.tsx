@@ -1,7 +1,7 @@
 import '@mss/web/styles/app.css'
 import { PropsWithChildren } from 'react'
-import { Matomo } from '@mss/web/app/Matomo'
-import { Dsfr } from '@mss/web/app/Dsfr'
+import { Matomo } from './Matomo'
+import { Dsfr } from './Dsfr'
 import { EnvInformation } from './EnvInformation'
 import { PrivateConfig } from '@mss/web/config'
 

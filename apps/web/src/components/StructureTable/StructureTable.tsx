@@ -3,16 +3,16 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 import type { QueryResult } from '@mss/web/features/createQuery.server'
 import { ListStructuresServer } from '@mss/web/features/structure/listStructures/listStructures.server'
-import { structuresListTableColumns } from '@mss/web/app/(private)/structures/(liste)/structuresListTableColumns'
+import { structureColumns } from './structureColumns'
 
-export const StructuresListTableRows = asyncComponent(
+export const StructureTable = asyncComponent(
   async ({
     structures,
   }: Pick<QueryResult<typeof ListStructuresServer>, 'structures'>) => {
     if (structures.length === 0) {
       return (
         <tr>
-          <td colSpan={structuresListTableColumns.length}>
+          <td colSpan={structureColumns.length}>
             Aucune structure ne correspond à votre recherche
           </td>
         </tr>
@@ -30,7 +30,7 @@ export const StructuresListTableRows = asyncComponent(
             <TableRowWithRowLink
               key={structure.id}
               item={structure}
-              columns={structuresListTableColumns}
+              columns={structureColumns}
               href={href}
               title={title}
             />

@@ -1,1 +1,1 @@
-export { default } from './PublicFooter'
+export { default as PublicFooter } from './PublicFooter'

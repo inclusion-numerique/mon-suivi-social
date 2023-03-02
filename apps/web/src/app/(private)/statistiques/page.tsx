@@ -1,7 +1,7 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { GenderChart } from '@mss/web/app/(private)/statistiques/GenderChart'
 import { SupportChart } from '@mss/web/app/(private)/statistiques/SupportChart'
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import {
   getAgeStats,
   getFamilyStats,

@@ -1,7 +1,7 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { notFound } from 'next/navigation'
 import { prismaClient } from '@mss/web/prismaClient'
-import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { Routes } from '@mss/web/app/routing/routes'
 import { BeneficiaryArchiveForm } from '@mss/web/components/BeneficiaryArchiveForm'

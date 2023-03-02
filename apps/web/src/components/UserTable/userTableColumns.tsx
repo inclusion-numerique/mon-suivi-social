@@ -3,7 +3,7 @@ import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { ListUsersItem } from '@mss/web/features/user/listUsers/listUsers.server'
 import { UserRoleLabels } from '@mss/web/features/user/createUser/createUser.client'
 
-export const usersListTableColumns: TableColumnDefinition<ListUsersItem>[] = [
+export const userTableColumns: TableColumnDefinition<ListUsersItem>[] = [
   {
     label: 'Nom',
     sortable: (direction) => [{ lastName: direction }],

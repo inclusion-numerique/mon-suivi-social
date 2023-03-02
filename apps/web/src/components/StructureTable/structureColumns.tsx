@@ -3,7 +3,7 @@ import { ListStructuresItem } from '@mss/web/features/structure/listStructures/l
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { StructureTypeLabels } from '@mss/web/features/structure/createStructure/createStructure.client'
 
-export const structuresListTableColumns = [
+export const structureColumns = [
   {
     label: 'Nom',
     sortable: (direction) => [{ name: direction }],

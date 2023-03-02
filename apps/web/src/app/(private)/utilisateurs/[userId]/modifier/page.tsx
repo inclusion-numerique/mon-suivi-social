@@ -1,12 +1,12 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
 import { EditUserServer } from '@mss/web/features/user/editUser/editUser.server'
-import { UserForm } from '@mss/web/app/(private)/utilisateurs/UserForm'
-import { MutationLog } from '@mss/web/app/(private)/MutationLog'
+import { UserForm } from '@mss/web/components/UserForm'
+import { MutationLog } from '@mss/web/components/MutationLog'
 
 export const revalidate = 0
 

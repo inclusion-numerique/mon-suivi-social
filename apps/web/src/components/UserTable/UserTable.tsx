@@ -1,16 +1,16 @@
 import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { ListUsersItem } from '@mss/web/features/user/listUsers/listUsers.server'
-import { usersListTableColumns } from '@mss/web/app/(private)/utilisateurs/(liste)/usersListTableColumns'
+import { userTableColumns } from './userTableColumns'
 import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 import { getUserDisplayName } from '@mss/web/utils/user'
 
-export const UsersListTableRows = asyncComponent(
+export const UserTable = asyncComponent(
   async ({ users }: { users: ListUsersItem[] }) => {
     if (users.length === 0) {
       return (
         <tr>
-          <td colSpan={usersListTableColumns.length}>
+          <td colSpan={userTableColumns.length}>
             Aucun utilisateur ne correspond à votre recherche
           </td>
         </tr>
@@ -28,7 +28,7 @@ export const UsersListTableRows = asyncComponent(
             <TableRowWithRowLink
               key={user.id}
               item={user}
-              columns={usersListTableColumns}
+              columns={userTableColumns}
               href={href}
               title={title}
             />

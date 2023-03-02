@@ -1,5 +1,5 @@
-import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
-import { PrivateLoading } from '@mss/web/components/PrivateLoading'
+import { PageConfig, PageTitle } from '../PageTitle'
+import { PrivateLoading } from '../PrivateLoading'
 import { BreadCrumbParents } from '@mss/web/ui/Breadcrumbs'
 
 // TODO Put this in storybook along with main page

@@ -1,6 +1,6 @@
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import { Routes } from '@mss/web/app/routing/routes'
-import { UserMenu } from '@mss/web/app/(private)/UserMenu'
+import { UserMenu } from '../UserMenu'
 import Link from 'next/link'
 
 function PrivateHeader({ user }: { user: SessionUser }) {

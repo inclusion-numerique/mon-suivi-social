@@ -1,23 +1,25 @@
 import { PropsWithChildren } from 'react'
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
-import PrivateLayoutContent from '@mss/web/app/(private)/PrivateLayoutContent'
+import { PrivateLayoutContent } from '@mss/web/components/PrivateLayoutContent'
 import OnboardingWithoutStructure from '@mss/web/app/(private)/OnboardingWithoutStructure'
 import { redirect } from 'next/navigation'
 import { Routes } from '@mss/web/app/routing/routes'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import PrivateHeader from '@mss/web/app/(private)/PrivateHeader'
-import { PublicLayout } from '@mss/web/app/(public)/PublicLayout'
+import { PublicLayout } from '@mss/web/components/PublicLayout/PublicLayout'
 
 function LoggedInUserWithoutFullAccess({
   breadcrumbsCurrentPage = 'Création de compte',
   children,
 }: PropsWithChildren<{ breadcrumbsCurrentPage?: string }>) {
-  return <PublicLayout hideSigninButton>
-    <div className="fr-container">
-      <Breadcrumbs currentPage={breadcrumbsCurrentPage} />
-      {children}
-    </div>
-  </PublicLayout>
+  return (
+    <PublicLayout hideSigninButton>
+      <div className="fr-container">
+        <Breadcrumbs currentPage={breadcrumbsCurrentPage} />
+        {children}
+      </div>
+    </PublicLayout>
+  )
 }
 
 const PrivateLayout = async ({ children }: PropsWithChildren) => {
@@ -38,24 +40,24 @@ const PrivateLayout = async ({ children }: PropsWithChildren) => {
 
   return (
     <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100%',
+      }}
+    >
+      <PrivateHeader user={user} />
+      <div
         style={{
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '100%',
+          background: '#fcfcfc',
         }}
       >
-        <PrivateHeader user={user} />
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            background: '#fcfcfc',
-          }}
-        >
-          <PrivateLayoutContent user={user}>{children}</PrivateLayoutContent>
-        </div>
+        <PrivateLayoutContent user={user}>{children}</PrivateLayoutContent>
       </div>
+    </div>
   )
 }
 export default PrivateLayout

@@ -3,7 +3,7 @@ import { getUserDisplayName } from '@mss/web/utils/user'
 
 import Link from 'next/link'
 import { Routes } from '@mss/web/app/routing/routes'
-import { AuthCard } from '@mss/web/components/SigninPanel/AuthCard'
+import { AuthCard } from '../SigninPanel'
 
 function OnboardingWithoutStructure({ user }: { user: SessionUser }) {
   return (

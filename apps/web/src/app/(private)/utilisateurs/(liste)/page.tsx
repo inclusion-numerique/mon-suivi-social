@@ -1,4 +1,4 @@
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canListUsers } from '@mss/web/security/rules'
@@ -10,11 +10,10 @@ import {
 import { createPageLinkHelper } from '@mss/web/ui/pagination'
 import { createSortLinkHelper } from '@mss/web/ui/sorting'
 import { ListUsersServer } from '@mss/web/features/user/listUsers/listUsers.server'
-import { usersListTableColumns } from '@mss/web/app/(private)/utilisateurs/(liste)/usersListTableColumns'
 import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
 import Link from 'next/link'
 import { Table } from '@mss/web/ui/table/Table'
-import { UsersListTableRows } from '@mss/web/app/(private)/utilisateurs/(liste)/UsersListTableRows'
+import { UserTable, userTableColumns } from '@mss/web/components/UserTable'
 
 const itemsPerPage = 15
 
@@ -53,7 +52,7 @@ const ListeDesUtilisateursPage = async ({
       structureId,
       perPage: itemsPerPage,
       page: pageNumber,
-      orderBy: getColumnOrderBy(currentSorting, usersListTableColumns),
+      orderBy: getColumnOrderBy(currentSorting, userTableColumns),
       search,
     },
     securityParams: {},
@@ -79,13 +78,13 @@ const ListeDesUtilisateursPage = async ({
 
   const tableHead = (
     <TableHeadWithSorting
-      columns={usersListTableColumns}
+      columns={userTableColumns}
       createSortLink={createSortLink}
       currentSorting={currentSorting}
     />
   )
 
-  const tableBody = <UsersListTableRows users={users} />
+  const tableBody = <UserTable users={users} />
 
   return (
     <>

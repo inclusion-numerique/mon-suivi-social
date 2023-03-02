@@ -1,5 +1,5 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canAccessFollowupsPage } from '@mss/web/security/rules'
 import { notFound, redirect } from 'next/navigation'

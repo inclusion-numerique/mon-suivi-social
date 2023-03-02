@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { BeneficiariesListTableRows } from '@mss/web/app/(private)/beneficiaires/(liste)/BeneficiariesListTableRows'

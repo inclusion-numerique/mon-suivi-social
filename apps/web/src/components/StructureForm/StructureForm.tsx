@@ -21,7 +21,7 @@ import {
   CreateStructureClient,
   structureTypeOptions,
 } from '@mss/web/features/structure/createStructure/createStructure.client'
-import { CreateFollowupTypeForm } from '@mss/web/app/(private)/structure/CreateFollowupTypeForm'
+import { CreateFollowupTypeForm } from '@mss/web/components/StructureForm/CreateFollowupTypeForm'
 
 const followupTypeToOption = (
   followupType:

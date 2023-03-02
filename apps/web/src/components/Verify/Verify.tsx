@@ -1,5 +1,5 @@
 import { PublicConfig } from '@mss/web/config'
-import { AuthCard } from '@mss/web/components/SigninPanel/AuthCard'
+import { AuthCard } from '../SigninPanel'
 import { cookies } from 'next/headers'
 
 export function Verify() {
