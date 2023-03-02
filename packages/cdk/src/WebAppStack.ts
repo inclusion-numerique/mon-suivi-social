@@ -1,4 +1,4 @@
-import { S3Backend, TerraformOutput, TerraformStack } from 'cdktf'
+import { S3Backend, TerraformStack } from 'cdktf'
 import { Construct } from 'constructs'
 import { ScalewayProvider } from '@mss/scaleway/provider'
 import { RdbDatabase } from '@mss/scaleway/rdb-database'
@@ -7,35 +7,43 @@ import { RdbUser } from '@mss/scaleway/rdb-user'
 import { RdbPrivilege } from '@mss/scaleway/rdb-privilege'
 import { DataScalewayContainerNamespace } from '@mss/scaleway/data-scaleway-container-namespace'
 import { Container } from '@mss/scaleway/container'
-import { CdkOutput } from '@mss/cdk/getCdkOutput'
+import { WebCdkOutput } from '@mss/cdk/getCdkOutput'
 import { DataScalewayDomainZone } from '@mss/scaleway/data-scaleway-domain-zone'
 import { DomainRecord, DomainRecordConfig } from '@mss/scaleway/domain-record'
 import { ContainerDomain } from '@mss/scaleway/container-domain'
 import {
   computeBranchNamespace,
   createPreviewSubdomain,
-  environmentVariable,
   generateDatabaseUrl,
   namespacer,
-  sensitiveEnvironmentVariable,
 } from '@mss/cdk/utils'
 import { ObjectBucket } from '@mss/scaleway/object-bucket'
-import { generateDatabasePassword } from './databasePassword'
+import {
+  containerNamespaceName,
+  databaseInstanceName,
+  mainDomain,
+  previewDomain,
+  projectSlug,
+  region,
+} from '@mss/cdk/project'
+import { generateDatabasePassword } from '@mss/cdk/databasePassword'
+import { environmentVariable } from '@mss/cdk/environmentVariable'
+import { createOutput } from '@mss/cdk/output'
 
-const projectSlug = 'mss'
-const databaseInstanceName = 'incnum-prod'
-const containerNamespaceName = 'mss-web'
-const region = 'fr-par'
-const mainDomain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
-const previewDomain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
-
+/**
+ * This stack represents the web app for a given branch (namespace).
+ * It can be deployed for each branch.
+ */
 export class WebAppStack extends TerraformStack {
-  constructor(scope: Construct, id: string, branch: string) {
-    super(scope, id)
+  constructor(scope: Construct, branch: string) {
+    super(scope, 'web')
 
     const namespace = computeBranchNamespace(branch)
 
     const namespaced = namespacer(namespace)
+
+    // ⚠️ When calling this function, do not forget to update typings in src/getCdkOutput.ts
+    const output = createOutput<WebCdkOutput>(this)
 
     const isMain = namespace === 'main'
 
@@ -43,53 +51,76 @@ export class WebAppStack extends TerraformStack {
       ? { hostname: mainDomain, subdomain: '' }
       : createPreviewSubdomain(namespace, previewDomain)
 
-    // Output helper function
-    // ⚠️ When calling this function, do not forget to update typings in src/getCdkOutput.ts
-    const output = <T extends keyof CdkOutput>(
-      name: T,
-      value: CdkOutput[T],
-      sensitive?: 'sensitive',
-    ) =>
-      new TerraformOutput(this, `output_${name}`, {
-        value,
-        sensitive: sensitive === 'sensitive',
-      })
-
     // Configuring env variables
-    const webContainerImage = environmentVariable(this, 'webContainerImage')
-    const previewInclusionConnectIssuer = environmentVariable(
+    const webContainerImage = environmentVariable(this, 'WEB_CONTAINER_IMAGE', {
+      sensitive: false,
+    })
+    const inclusionConnectPreviewIssuer = environmentVariable(
       this,
-      'previewInclusionConnectIssuer',
+      'INCLUSION_CONNECT_PREVIEW_ISSUER',
+      {
+        sensitive: false,
+      },
     )
-    const mainInclusionConnectIssuer = environmentVariable(
+    const inclusionConnectMainIssuer = environmentVariable(
       this,
-      'mainInclusionConnectIssuer',
+      'INCLUSION_CONNECT_MAIN_ISSUER',
+      {
+        sensitive: false,
+      },
     )
-    const previewInclusionConnectClientId = environmentVariable(
+    const inclusionConnectPreviewClientId = environmentVariable(
       this,
-      'previewInclusionConnectClientId',
+      'INCLUSION_CONNECT_PREVIEW_CLIENT_ID',
+      {
+        sensitive: false,
+      },
     )
-    const mainInclusionConnectClientId = environmentVariable(
+    const inclusionConnectMainClientId = environmentVariable(
       this,
-      'mainInclusionConnectClientId',
+      'INCLUSION_CONNECT_MAIN_CLIENT_ID',
+      {
+        sensitive: false,
+      },
     )
 
     // Configuring env secrets
-    const accessKey = sensitiveEnvironmentVariable(this, 'accessKey')
-    const secretKey = sensitiveEnvironmentVariable(this, 'secretKey')
-    const organizationId = sensitiveEnvironmentVariable(this, 'organizationId')
-    const projectId = sensitiveEnvironmentVariable(this, 'projectId')
-    const databasePasswordSalt = sensitiveEnvironmentVariable(
+    const accessKey = environmentVariable(this, 'SCW_ACCESS_KEY', {
+      sensitive: true,
+    })
+    const secretKey = environmentVariable(this, 'SCW_SECRET_KEY', {
+      sensitive: true,
+    })
+    const organizationId = environmentVariable(
       this,
-      'databasePasswordSalt',
+      'SCW_DEFAULT_ORGANIZATION_ID',
+      {
+        sensitive: true,
+      },
     )
-    const previewInclusionConnectClientSecret = environmentVariable(
+    const projectId = environmentVariable(this, 'SCW_PROJECT_ID', {
+      sensitive: true,
+    })
+    const databasePasswordSalt = environmentVariable(
       this,
-      'previewInclusionConnectClientSecret',
+      'DATABASE_PASSWORD_SALT',
+      {
+        sensitive: true,
+      },
     )
-    const mainInclusionConnectClientSecret = environmentVariable(
+    const inclusionConnectPreviewClientSecret = environmentVariable(
       this,
-      'mainInclusionConnectClientSecret',
+      'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
+      {
+        sensitive: true,
+      },
+    )
+    const inclusionConnectMainClientSecret = environmentVariable(
+      this,
+      'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
+      {
+        sensitive: true,
+      },
     )
 
     // Configuring provider that will be used for the rest of the stack
@@ -211,18 +242,18 @@ export class WebAppStack extends TerraformStack {
         NAMESPACE: namespace,
         SCW_DEFAULT_REGION: region,
         NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER: isMain
-          ? mainInclusionConnectIssuer.value
-          : previewInclusionConnectIssuer.value,
+          ? inclusionConnectMainIssuer.value
+          : inclusionConnectPreviewIssuer.value,
         NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID: isMain
-          ? mainInclusionConnectClientId.value
-          : previewInclusionConnectClientId.value,
+          ? inclusionConnectMainClientId.value
+          : inclusionConnectPreviewClientId.value,
         NEXT_PUBLIC_SENTRY_ENVIRONMENT: namespace,
       },
       secretEnvironmentVariables: {
         DATABASE_URL: databaseUrl,
         INCLUSION_CONNECT_CLIENT_SECRET: isMain
-          ? mainInclusionConnectClientSecret.value
-          : previewInclusionConnectClientSecret.value,
+          ? inclusionConnectMainClientSecret.value
+          : inclusionConnectPreviewClientSecret.value,
       },
       name: containerName,
       minScale: isMain ? 2 : 0,
@@ -272,7 +303,7 @@ export class WebAppStack extends TerraformStack {
     output('databasePassword', databaseConfig.password, 'sensitive')
     output(
       'webContainerStatus',
-      container.status as CdkOutput['webContainerStatus'],
+      container.status as WebCdkOutput['webContainerStatus'],
     )
     output('webContainerId', container.id)
     output('webContainerImage', webContainerImage.value)

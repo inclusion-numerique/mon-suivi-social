@@ -296,7 +296,7 @@ jobs:
       - run:
           name: 'Create .env file from deployment outputs'
           command: |
-            pnpm --silent -F @mss/cli env:from-cdk
+            pnpm --silent cli dotenv:from-cdk web
       - dotenv/source:
           path: .env
       - run:

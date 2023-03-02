@@ -4,6 +4,8 @@ import { Command } from '@commander-js/extra-typings'
 import { updateGithubDeployment } from './commands/updateGithubDeployment'
 import { createGithubDeployment } from './commands/createGithubDeployment'
 import { deactivateGithubDeployment } from './commands/deactivateGithubDeployment'
+import { createDotEnvFromCdk } from '@mss/cli/commands/createDotEnvFromCdk'
+import { createDotEnvFromSecrets } from '@mss/cli/commands/createDotEnvFromSecrets'
 
 dotenv.config({
   // eslint-disable-next-line unicorn/prefer-module
@@ -12,6 +14,8 @@ dotenv.config({
 
 const program = new Command()
 
+program.addCommand(createDotEnvFromCdk)
+program.addCommand(createDotEnvFromSecrets)
 program.addCommand(createGithubDeployment)
 program.addCommand(updateGithubDeployment)
 program.addCommand(deactivateGithubDeployment)
