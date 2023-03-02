@@ -1,11 +1,11 @@
 import { PropsWithChildren } from 'react'
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
 import { PrivateLayoutContent } from '@mss/web/components/PrivateLayoutContent'
-import OnboardingWithoutStructure from '@mss/web/app/(private)/OnboardingWithoutStructure'
+import OnboardingWithoutStructure from '@mss/web/components/OnboardingWithoutStructure/OnboardingWithoutStructure'
 import { redirect } from 'next/navigation'
 import { Routes } from '@mss/web/app/routing/routes'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
-import PrivateHeader from '@mss/web/app/(private)/PrivateHeader'
+import PrivateHeader from '@mss/web/components/PrivateHeader/PrivateHeader'
 import { PublicLayout } from '@mss/web/components/PublicLayout/PublicLayout'
 
 function LoggedInUserWithoutFullAccess({

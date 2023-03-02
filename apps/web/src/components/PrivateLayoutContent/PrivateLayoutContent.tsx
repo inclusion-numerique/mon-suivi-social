@@ -1,5 +1,5 @@
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import SideMenuLinks from '@mss/web/app/(private)/SideMenuLinks'
+import SideMenuLinks from '@mss/web/components/SideMenuLinks/SideMenuLinks'
 import { FunctionComponent, ReactNode } from 'react'
 import { serialize } from '@mss/web/utils/serialization'
 import styles from './PrivateLayoutContent.module.css'
