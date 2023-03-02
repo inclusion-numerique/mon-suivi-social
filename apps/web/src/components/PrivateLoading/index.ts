@@ -1,3 +1,1 @@
-import PrivateLoading from './PrivateLoading'
-
-export { PrivateLoading }
+export { PrivateLoading } from './PrivateLoading'

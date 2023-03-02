@@ -17,4 +17,4 @@ function PrivateLoading() {
   )
 }
 
-export default PrivateLoading
+export { PrivateLoading }

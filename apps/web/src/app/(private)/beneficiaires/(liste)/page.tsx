@@ -3,7 +3,7 @@ import { PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { BeneficiariesListTableRows } from '@mss/web/app/(private)/beneficiaires/(liste)/BeneficiariesListTableRows'
-import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(liste)/beneficiariesListTableColumns'
+import { beneficiariesListTableColumns } from '@mss/web/components/BeneficiaryListTable/beneficiaryListTableColumns'
 import { redirect } from 'next/navigation'
 import { Table } from '@mss/web/ui/table/Table'
 import {

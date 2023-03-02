@@ -1,4 +1,2 @@
-import { HelpRequestListTableRows } from './HelpRequestListTableRows'
-import { helpRequestListTableColumns } from './helpRequestListTableColumns'
-
-export { HelpRequestListTableRows, helpRequestListTableColumns }
+export { HelpRequestListTableRows } from './HelpRequestListTableRows'
+export { helpRequestListTableColumns } from './helpRequestListTableColumns'

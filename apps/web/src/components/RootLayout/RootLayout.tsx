@@ -7,7 +7,7 @@ import { PrivateConfig } from '@mss/web/config'
 
 const fontsToPreload = ['Marianne-Regular', 'Marianne-Bold', 'Marianne-Medium']
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="fr" data-fr-theme="light" data-fr-scheme="light">
       <head>

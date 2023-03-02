@@ -1,3 +1,1 @@
-import { HelpRequestForm } from './HelpRequestForm'
-
-export { HelpRequestForm }
+export { HelpRequestForm } from './HelpRequestForm'

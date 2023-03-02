@@ -15,7 +15,7 @@ import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
 import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import Link from 'next/link'
 
-export const ArchiveBeneficiaryForm = withTrpc(
+export const BeneficiaryArchiveForm = withTrpc(
   ({
     serializedBeneficiary,
   }: {

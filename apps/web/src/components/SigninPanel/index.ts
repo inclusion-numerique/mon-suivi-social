@@ -1,3 +1,1 @@
-import { SigninPanel } from './SigninPanel'
-
-export { SigninPanel }
+export { SigninPanel } from './SigninPanel'

@@ -1,4 +1,4 @@
-import { beneficiariesListTableColumns } from '@mss/web/app/(private)/beneficiaires/(liste)/beneficiariesListTableColumns'
+import { beneficiariesListTableColumns } from '@mss/web/components/BeneficiaryListTable/beneficiaryListTableColumns'
 import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { Routes } from '@mss/web/app/routing/routes'
 import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
@@ -6,7 +6,7 @@ import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 import type { QueryResult } from '@mss/web/features/createQuery.server'
 
-export const BeneficiariesListTableRows = asyncComponent(
+export const BeneficiaryListTableRows = asyncComponent(
   async ({
     beneficiaries,
   }: Pick<QueryResult<typeof ListBeneficiariesServer>, 'beneficiaries'>) => {

@@ -1,3 +1,1 @@
-import PublicFooter from './PublicFooter'
-
-export { PublicFooter }
+export { default } from './PublicFooter'

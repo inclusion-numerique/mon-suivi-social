@@ -1,5 +1,5 @@
 import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
-import PrivateLoading from '@mss/web/app/(private)/PrivateLoading'
+import { PrivateLoading } from '@mss/web/components/PrivateLoading'
 import { BreadCrumbParents } from '@mss/web/ui/Breadcrumbs'
 
 // TODO Put this in storybook along with main page
@@ -10,10 +10,12 @@ export function PageLoading({
   page: PageConfig
   parents?: BreadCrumbParents
 }) {
-  return <>
-    <PageTitle page={page} parents={parents} />
-    <div className="fr-grid-row fr-mt-2v fr-grid-row--center">
-      <PrivateLoading />
-    </div>
-  </>
+  return (
+    <>
+      <PageTitle page={page} parents={parents} />
+      <div className="fr-grid-row fr-mt-2v fr-grid-row--center">
+        <PrivateLoading />
+      </div>
+    </>
+  )
 }

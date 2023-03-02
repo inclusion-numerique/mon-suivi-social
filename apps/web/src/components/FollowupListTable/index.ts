@@ -1,4 +1,2 @@
-import { FollowupListTableColumns } from './FollowupListTableColumns'
-import { FollowupListTableRows } from './FollowupListTableRows'
-
-export { FollowupListTableColumns, FollowupListTableRows }
+export { FollowupListTableColumns } from './FollowupListTableColumns'
+export { FollowupListTableRows } from './FollowupListTableRows'

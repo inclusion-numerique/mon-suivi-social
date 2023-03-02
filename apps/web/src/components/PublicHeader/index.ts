@@ -1,3 +1,1 @@
-import PublicHeader from './PublicHeader'
-
-export { PublicHeader }
+export { default } from './PublicHeader'

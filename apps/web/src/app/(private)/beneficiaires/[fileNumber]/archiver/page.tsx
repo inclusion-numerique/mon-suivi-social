@@ -4,7 +4,7 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { Routes } from '@mss/web/app/routing/routes'
-import { ArchiveBeneficiaryForm } from '@mss/web/components/ArchiveBeneficiaryForm'
+import { BeneficiaryArchiveForm } from '@mss/web/components/BeneficiaryArchiveForm'
 
 export const revalidate = 0
 
@@ -48,7 +48,7 @@ const EditBeneficiaryPage = async ({
       <div className="fr-card">
         <div className="fr-card__body">
           <div className="fr-card__content">
-            <ArchiveBeneficiaryForm
+            <BeneficiaryArchiveForm
               serializedBeneficiary={serialize(beneficiary)}
             />
           </div>

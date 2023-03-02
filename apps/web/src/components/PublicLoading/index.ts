@@ -1,3 +1,1 @@
-import PublicLoading from './PublicLoading'
-
-export { PublicLoading }
+export { default } from './PublicLoading'
