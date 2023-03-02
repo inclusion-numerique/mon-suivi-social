@@ -14,10 +14,10 @@ datasource db {
 // Underscored names are because of this.
 model Account {
   id                String  @id @default(cuid())
-  userId            String  @db.Uuid
+  userId            String  @map("user_id") @db.Uuid
   type              String
   provider          String
-  providerAccountId String
+  providerAccountId String  @map("provider_account_id")
   refresh_token     String? @db.Text
   access_token      String? @db.Text
   expires_at        Int?
@@ -29,14 +29,17 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("account")
 }
 
 model Session {
   id           String   @id @default(uuid()) @db.Uuid
-  sessionToken String   @unique
-  userId       String   @db.Uuid
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id") @db.Uuid
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
 }
 
 enum UserStatus {
@@ -55,11 +58,11 @@ enum UserRole {
 
 model User {
   id            String     @id @default(uuid()) @db.Uuid
-  firstName     String?
-  lastName      String?
+  firstName     String?    @map("first_name")
+  lastName      String?    @map("last_name")
   name          String?
   email         String     @unique
-  emailVerified DateTime?
+  emailVerified DateTime?  @map("email_verified")
   image         String?
   role          UserRole
   status        UserStatus @default(value: Active)
@@ -69,24 +72,34 @@ model User {
   description String?
   accounts    Account[]
   sessions    Session[]
+  comment     Comment[]
 
-  created DateTime @default(now())
-  updated DateTime @default(now())
+  aidantConnectAuthorisation Boolean?  @default(false) @map("aidant_connect_authorisation")
+  lastAccess                 DateTime? @map("last_access")
+  password                   String?
 
-  structure            Structure?     @relation(fields: [structureId], references: [id])
-  structureId          String?        @db.Uuid
-  createdFollowups     Followup[]     @relation(name: "created_followups")
-  createdHelpRequests  HelpRequest[]  @relation(name: "created_help_requests")
-  createdDocuments     Document[]
-  createdFollowupTypes FollowupType[]
+  created DateTime? @default(now())
+  updated DateTime? @default(now())
+
+  structure             Structure?     @relation(fields: [structureId], references: [id])
+  structureId           String?        @map("structure_id") @db.Uuid
+  createdFollowups      Followup[]     @relation(name: "created_followups")
+  createdHelpRequests   HelpRequest[]  @relation(name: "created_help_requests")
+  createdDocuments      Document[]
+  createdFollowupTypes  FollowupType[]
+  receivedNotifications Notification[]
 
   createdBeneficiaries  Beneficiary[] @relation(name: "created_beneficiaries")
   archivedBeneficiaries Beneficiary[] @relation(name: "archived_beneficiaries")
   referentFor           Beneficiary[] @relation(name: "beneficiary_referents")
 
+  prescribingOrganizations PrescribingOrganization[]
+
   doneMutations MutationLog[] @relation(name: "mutation_by")
 
   targetForMutations MutationLog[] @relation(name: "mutation_target")
+
+  @@map("user")
 }
 
 enum StructureType {
@@ -98,25 +111,31 @@ enum StructureType {
 }
 
 model Structure {
-  id                    String                 @id @db.Uuid
-  type                  StructureType
-  name                  String
-  zipcode               String
-  city                  String
-  address               String
-  phone                 String
-  email                 String
-  followupTypes         FollowupType[]
-  users                 User[]
-  helpRequests          HelpRequest[]
-  followups             Followup[]
-  proposedFollowupTypes ProposedFollowupType[]
+  id                       String                    @id @db.Uuid
+  type                     StructureType
+  name                     String
+  zipcode                  String
+  city                     String
+  address                  String
+  phone                    String
+  email                    String
+  inhabitantsNumber        String?                   @map("inhabitants_number")
+  inseeCode                String?                   @map("insee_code")
+  siret                    String?
+  followupTypes            FollowupType[]
+  users                    User[]
+  helpRequests             HelpRequest[]
+  followups                Followup[]
+  proposedFollowupTypes    ProposedFollowupType[]
+  prescribingOrganizations PrescribingOrganization[]
 
   beneficiaries Beneficiary[]
 
-  created            DateTime      @default(now())
-  updated            DateTime      @default(now())
+  created            DateTime?     @default(now())
+  updated            DateTime?     @default(now())
   targetForMutations MutationLog[]
+
+  @@map("structure")
 }
 
 enum DocumentType {
@@ -128,54 +147,60 @@ enum DocumentType {
 
 model Document {
   key          String       @id
-  mimeType     String
+  mimeType     String       @map("mime_type")
   name         String
   type         DocumentType
   // Size in bytes
-  size         Int
+  size         Int?
   tags         String[]
   confidential Boolean
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
-  beneficiaryId String      @db.Uuid
+  beneficiaryId String      @map("beneficiary_id") @db.Uuid
 
-  created      DateTime      @default(now())
+  created      DateTime?     @default(now())
   createdBy    User          @relation(fields: [createdById], references: [id])
-  createdById  String        @db.Uuid
-  followups    Followup[]
-  helpRequests HelpRequest[]
+  createdById  String        @map("created_by_id") @db.Uuid
+  followups    Followup[]    @relation("document_to_followup")
+  helpRequests HelpRequest[] @relation("document_to_help_request")
+
+  @@map("document")
 }
 
 model FollowupType {
-  id              String  @id @db.Uuid
+  id              String   @id @db.Uuid
   name            String
-  legallyRequired Boolean
+  legallyRequired Boolean  @map("legally_required")
+  legacyDefault   Boolean? @map("legacy_default")
+  legacyId        String?  @map("legacy_id") @db.Uuid
 
-  created     DateTime @default(now())
-  createdBy   User?    @relation(fields: [createdById], references: [id])
-  createdById String?  @db.Uuid
+  created     DateTime? @default(now())
+  createdBy   User?     @relation(fields: [createdById], references: [id])
+  createdById String?   @map("created_by_id") @db.Uuid
 
-  followups    Followup[]
+  followups    Followup[]    @relation("followup_to_followup_type")
   helpRequests HelpRequest[]
 
   proposedFollowupTypes ProposedFollowupType[]
 
   ownedByStructure   Structure? @relation(fields: [ownedByStructureId], references: [id])
-  ownedByStructureId String?    @db.Uuid
+  ownedByStructureId String?    @map("owned_by_structured_id") @db.Uuid
 
   @@unique([name, ownedByStructureId])
+  @@map("followup_type")
 }
 
 model ProposedFollowupType {
   structure   Structure @relation(fields: [structureId], references: [id])
-  structureId String    @db.Uuid
+  structureId String    @map("structure_id") @db.Uuid
 
   followupType   FollowupType @relation(fields: [followupTypeId], references: [id])
-  followupTypeId String       @db.Uuid
+  followupTypeId String       @map("followup_type_id") @db.Uuid
 
-  created DateTime @default(now())
+  created DateTime? @default(now())
 
   @@id([structureId, followupTypeId])
+  @@map("proposed_followup_type")
 }
 
 enum FollowupMedium {
@@ -205,38 +230,67 @@ enum FollowupStatus {
   Done
 }
 
+enum FollowupIntervention {
+  DeetsSiao
+  Prefecture
+  Bailleur
+  ActionLogement
+  SecoursMedecinTraitant
+}
+
+enum FollowupSignalement {
+  ChefCabinet
+  Prefet
+  OrganismeMenace
+}
+
 model Followup {
   id String @id @db.Uuid
 
   structure   Structure @relation(fields: [structureId], references: [id])
-  structureId String    @db.Uuid
+  structureId String    @map("structure_id") @db.Uuid
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
-  beneficiaryId String      @db.Uuid
+  beneficiaryId String      @map("beneficiary_id") @db.Uuid
 
-  createdById String? @db.Uuid
+  createdById String? @map("created_by_id") @db.Uuid
   createdBy   User?   @relation(name: "created_followups", fields: [createdById], references: [id])
+
+  prescribingOrganizationId String?                  @map("prescribing_organization_id") @db.Uuid
+  prescribingOrganization   PrescribingOrganization? @relation(fields: [prescribingOrganizationId], references: [id])
 
   medium FollowupMedium
   date   DateTime       @db.Date
 
-  types     FollowupType[]
-  documents Document[]
+  types     FollowupType[] @relation("followup_to_followup_type")
+  documents Document[]     @relation("document_to_followup")
 
   synthesis String?
 
   status           FollowupStatus
-  privateSynthesis String?
+  privateSynthesis String?        @map("private_synthesis")
 
-  helpRequested   Boolean?
-  place           String?
-  redirected      Boolean?
-  structureName   String?
-  dueDate         DateTime? @db.Date
-  thirdPersonName String?
+  helpRequested      Boolean?  @map("help_requested")
+  place              String?
+  redirected         Boolean?
+  structureName      String?   @map("structure_name")
+  dueDate            DateTime? @map("due_date") @db.Date
+  thirdPersonName    String?   @map("third_person_name")
+  classified         Boolean?
+  firstFollowup      Boolean?  @map("first_followup")
+  forwardedToJustice Boolean?  @map("forwarded_to_justice")
+  ministre           String?
+  numeroPegase       String?   @map("numero_pegase")
 
-  created DateTime @default(now())
-  updated DateTime @default(now())
+  interventions FollowupIntervention[]
+  signalements  FollowupSignalement[]
+
+  comments Comment[]
+
+  created DateTime? @default(now())
+  updated DateTime? @default(now())
+
+  @@map("followup")
 }
 
 enum HelpRequestStatus {
@@ -266,57 +320,67 @@ enum HelpRequestReason {
   Energy
   Food
   Housing
+  Other
 }
 
 model HelpRequest {
   id String @id @db.Uuid
 
   structure   Structure @relation(fields: [structureId], references: [id])
-  structureId String    @db.Uuid
+  structureId String    @map("structure_id") @db.Uuid
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
-  beneficiaryId String      @db.Uuid
+  beneficiaryId String      @map("beneficiary_id") @db.Uuid
 
-  createdById String? @db.Uuid
+  createdById String? @map("created_by_id") @db.Uuid
   createdBy   User?   @relation(name: "created_help_requests", fields: [createdById], references: [id])
 
-  openingDate DateTime @db.Date
+  prescribingOrganizationId String?                  @map("prescribing_organization_id") @db.Uuid
+  prescribingOrganization   PrescribingOrganization? @relation(fields: [prescribingOrganizationId], references: [id])
+
+  openingDate DateTime @map("opening_date") @db.Date
 
   type   FollowupType @relation(fields: [typeId], references: [id])
-  typeId String       @db.Uuid
+  typeId String       @map("type_id") @db.Uuid
 
-  documents Document[]
+  documents Document[] @relation("document_to_help_request")
 
-  financialSupport  Boolean?
-  externalStructure Boolean?
+  financialSupport  Boolean?          @map("financial_support")
+  externalStructure Boolean?          @map("external_structure")
   status            HelpRequestStatus
 
-  askedAmount Decimal?
+  askedAmount Decimal? @map("asked_amount")
 
-  examinationDate DateTime? @db.Date
-  decisionDate    DateTime? @db.Date
+  examinationDate DateTime? @map("examination_date") @db.Date
+  decisionDate    DateTime? @map("decision_date") @db.Date
 
-  allocatedAmount Decimal?
+  allocatedAmount Decimal? @map("allocated_amount")
 
-  paymentMethod           PaymentMethod?
-  paymentDate             DateTime?      @db.Date
-  handlingDate            DateTime?      @db.Date
-  refusalReason           String?
-  prescribingOrganisation String?
-  examiningOrganisation   String?
-  dispatchDate            DateTime?      @db.Date
+  paymentMethod         PaymentMethod? @map("payment_method")
+  paymentDate           DateTime?      @map("payment_date") @db.Date
+  handlingDate          DateTime?      @map("handling_date") @db.Date
+  refusalReason         String?        @map("refusal_reason")
+  examiningOrganisation String?        @map("examining_organisation")
+  dispatchDate          DateTime?      @map("dispatch_date") @db.Date
 
   synthesis String?
 
-  privateSynthesis String?
+  privateSynthesis String? @map("private_synthesis")
 
-  dueDate DateTime? @db.Date
+  dueDate DateTime? @map("due_date") @db.Date
 
-  fullFile Boolean?
+  fullFile Boolean?           @map("full_file")
   reason   HelpRequestReason?
 
-  created DateTime @default(now())
-  updated DateTime @default(now())
+  comments Comment[]
+
+  created DateTime? @default(now())
+  updated DateTime? @default(now())
+
+  ministre     String?
+  numeroPegase String? @map("numero_pegase")
+
+  @@map("help_request")
 }
 
 enum BeneficiaryStatus {
@@ -501,96 +565,102 @@ model Beneficiary {
   id String @id @db.Uuid
 
   structure   Structure @relation(fields: [structureId], references: [id])
-  structureId String    @db.Uuid
+  structureId String    @map("structure_id") @db.Uuid
 
-  createdById String? @db.Uuid
+  createdById String? @map("created_by_id") @db.Uuid
   createdBy   User?   @relation(name: "created_beneficiaries", fields: [createdById], references: [id])
 
   archivedBy   User?     @relation(name: "archived_beneficiaries", fields: [archivedById], references: [id])
-  archivedById String?   @db.Uuid
+  archivedById String?   @map("archived_by_id") @db.Uuid
   archived     DateTime?
 
   referents User[] @relation(name: "beneficiary_referents")
 
-  aidantConnectAuthorized Boolean @default(false)
+  aidantConnectAuthorized Boolean @default(false) @map("aidant_connect_authorized")
 
   // General information
-  fileNumber                        String                       @unique
+  fileNumber                        String                       @unique @map("file_number")
   status                            BeneficiaryStatus
   title                             BeneficiaryTitle?
-  usualName                         String?
-  birthName                         String?
-  firstName                         String?
-  birthDate                         DateTime?                    @db.Date
-  birthPlace                        String?
-  deathDate                         DateTime?                    @db.Date
+  usualName                         String?                      @map("usual_name")
+  birthName                         String?                      @map("birth_name")
+  firstName                         String?                      @map("first_name")
+  birthDate                         DateTime?                    @map("birth_date") @db.Date
+  birthPlace                        String?                      @map("birth_place")
+  deathDate                         DateTime?                    @map("death_date") @db.Date
   gender                            Gender?
   nationality                       String?
-  accomodationMode                  BeneficiaryAccomodationMode?
-  accomodationName                  String?
-  accomodationAdditionalInformation String?
+  accomodationMode                  BeneficiaryAccomodationMode? @map("accomodation_mode")
+  accomodationName                  String?                      @map("accomodation_name")
+  accomodationAdditionalInformation String?                      @map("accomodation_additional_information")
   street                            String?
-  streetNumber                      String?
-  addressComplement                 String?
+  streetNumber                      String?                      @map("street_number")
+  addressComplement                 String?                      @map("address_complement")
   zipcode                           String?
   city                              String?
   region                            String?
-  noPhone                           Boolean?
+  noPhone                           Boolean?                     @map("no_phone")
   phone1                            String?
   phone2                            String?
   email                             String?
-  familySituation                   BeneficiaryFamilySituation?
+  familySituation                   BeneficiaryFamilySituation?  @map("family_situation")
   caregiver                         Boolean?
-  minorChildren                     Int?
-  majorChildren                     Int?
+  minorChildren                     Int?                         @map("minor_children")
+  majorChildren                     Int?                         @map("major_children")
   mobility                          BeneficiaryMobility?
   administration                    String?
   minister                          String?
+
+  ministereCategorie              String? @map("ministere_categorie")
+  ministereDepartement_service_ac String? @map("ministere_departement_service_ac")
+  ministereStructure              String? @map("ministere_structure")
 
   relatives BeneficiaryRelative[]
 
   // Health
   gir                         BeneficiaryGir?
   doctor                      String?
-  healthAdditionalInformation String?
-  socialSecurityNumber        String?
+  healthAdditionalInformation String?         @map("health_additional_information")
+  socialSecurityNumber        String?         @map("social_security_number")
   insurance                   String?
 
   // Occupation
-  socioProfessionalCategory     BeneficiarySocioProfessionalCategory?
+  socioProfessionalCategory     BeneficiarySocioProfessionalCategory? @map("socio_professional_category")
   occupation                    String?
   employer                      String?
-  employerSiret                 String?
-  mainIncomeSource              IncomeSource[]
-  mainIncomeAmount              Decimal?
-  partnerMainIncomeSource       IncomeSource[]
-  partnerMainIncomeAmount       Decimal?
-  majorChildrenMainIncomeSource IncomeSource[]
-  majorChildrenMainIncomeAmount Decimal?
-  unemploymentNumber            String?
-  pensionOrganisations          String[]
-  cafNumber                     String?
+  employerSiret                 String?                               @map("employer_siret")
+  mainIncomeSource              IncomeSource[]                        @map("main_income_source")
+  mainIncomeAmount              Decimal?                              @map("main_income_amount")
+  partnerMainIncomeSource       IncomeSource[]                        @map("partner_main_income_source")
+  partnerMainIncomeAmount       Decimal?                              @map("partner_main_income_amount")
+  majorChildrenMainIncomeSource IncomeSource[]                        @map("major_children_main_income_source")
+  majorChildrenMainIncomeAmount Decimal?                              @map("major_children_main_income_amount")
+  unemploymentNumber            String?                               @map("unemployment_number")
+  pensionOrganisations          String[]                              @map("pension_organisations")
+  cafNumber                     String?                               @map("caf_number")
   bank                          String?
-  funeralContract               String?
+  funeralContract               String?                               @map("funeral_contract")
 
   // External Structures
-  protectionMeasure    BeneficiaryProtectionMeasure?
+  protectionMeasure    BeneficiaryProtectionMeasure? @map("protection_measure")
   representative       String?
-  prescribingStructure String?
-  orientationType      BeneficiaryOrientationType?
-  orientationStructure String?
-  serviceProviders     String?
-  involvedPartners     String?
+  prescribingStructure String?                       @map("prescribing_structure")
+  orientationType      BeneficiaryOrientationType?   @map("orientation_type")
+  orientationStructure String?                       @map("orientation_structure")
+  serviceProviders     String?                       @map("service_providers")
+  involvedPartners     String?                       @map("involved_partners")
 
-  additionalInformation String?
+  additionalInformation String? @map("additional_information")
 
   documents    Document[]
   followups    Followup[]
   helpRequests HelpRequest[]
 
-  created            DateTime      @default(now())
-  updated            DateTime      @default(now())
+  created            DateTime?     @default(now())
+  updated            DateTime?     @default(now())
   targetForMutations MutationLog[]
+
+  @@map("beneficiary")
 }
 
 enum RelativeRelationship {
@@ -616,8 +686,8 @@ enum RelativeRelationship {
 
 model BeneficiaryRelative {
   id           String                @id @db.Uuid
-  lastName     String?
-  firstName    String?
+  lastName     String?               @map("last_name")
+  firstName    String?               @map("first_name")
   relationship RelativeRelationship?
 
   city  String?
@@ -628,12 +698,14 @@ model BeneficiaryRelative {
   caregiver Boolean?
 
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
-  beneficiaryId String      @db.Uuid
+  beneficiaryId String      @map("beneficiary_id") @db.Uuid
 
-  additionalInformation String?
+  additionalInformation String? @map("additional_information")
 
-  created DateTime @default(now())
-  updated DateTime @default(now())
+  created DateTime? @default(now())
+  updated DateTime? @default(now())
+
+  @@map("beneficiary_relative")
 }
 
 model VerificationToken {
@@ -642,6 +714,7 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verification_token")
 }
 
 enum MutationSource {
@@ -656,26 +729,88 @@ model MutationLog {
 
   // User that did the mutation
   by   User?   @relation(name: "mutation_by", fields: [byId], references: [id])
-  byId String? @db.Uuid
+  byId String? @map("by_id") @db.Uuid
 
   // Name of the mutation or feature
   name String
 
   // If the mutation impacts a user
   targetUser   User?   @relation(name: "mutation_target", fields: [targetUserId], references: [id])
-  targetUserId String? @db.Uuid
+  targetUserId String? @map("target_user_id") @db.Uuid
 
   // If the mutation impacts an aggregate owned by a structure (applies to beneficiaries, ...)
   targetStructure   Structure? @relation(fields: [targetStructureId], references: [id])
-  targetStructureId String?    @db.Uuid
+  targetStructureId String?    @map("target_structure_id") @db.Uuid
 
   // If the mutation impacts an aggregate owned by a beneficiary (applies to followups, documents...)
   targetBeneficiary   Beneficiary? @relation(fields: [targetBeneficiaryId], references: [id])
-  targetBeneficiaryId String?      @db.Uuid
+  targetBeneficiaryId String?      @map("target_beneficiary_id") @db.Uuid
 
   // Id of the object target of the mutation, if applicable (can be a document id or followup id...)
-  targetId String?
+  targetId String? @map("target_id")
 
   // Data diff intent of the mutation
   diff Json
+
+  @@map("mutation_log")
+}
+
+model Comment {
+  id String @id @db.Uuid
+
+  created     DateTime? @default(now())
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdById String    @map("created_by_id") @db.Uuid
+
+  content String
+
+  helpRequest   HelpRequest? @relation(fields: [helpRequestId], references: [id])
+  helpRequestId String?      @map("help_request_id") @db.Uuid
+
+  followup   Followup? @relation(fields: [followupId], references: [id])
+  followupId String?   @map("followup_id") @db.Uuid
+
+  @@map("comment")
+}
+
+model PrescribingOrganization {
+  id String @id @db.Uuid
+
+  legacyId Int? @map("legacy_id")
+
+  created     DateTime? @default(now())
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdById String    @map("created_by_id") @db.Uuid
+
+  name String
+
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String    @map("structure_id") @db.Uuid
+
+  helpRequests HelpRequest[]
+  followups    Followup[]
+
+  @@map("prescribing_organization")
+}
+
+enum NotificationType {
+  NewDocument
+  NewComment
+  DueDate
+  EndOfSupport
+}
+
+model Notification {
+  id String @id @db.Uuid
+
+  created DateTime? @default(now())
+
+  recipient   User   @relation(fields: [recipientId], references: [id])
+  recipientId String @map("recipient_id") @db.Uuid
+
+  read Boolean? @default(false)
+
+  type NotificationType
+
+  @@map("notification")
 }

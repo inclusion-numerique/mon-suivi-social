@@ -125,6 +125,7 @@ export const helpRequestReasonLabels: { [key in HelpRequestReason]: string } = {
   [HelpRequestReason.Food]: 'Alimentation',
   [HelpRequestReason.Energy]: 'Énergie',
   [HelpRequestReason.Housing]: 'Logement',
+  [HelpRequestReason.Other]: 'Autre',
 }
 
 export const helpRequestReasonOptions = labelsToOptions(helpRequestReasonLabels)

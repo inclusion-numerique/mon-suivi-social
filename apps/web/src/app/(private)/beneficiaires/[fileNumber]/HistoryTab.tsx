@@ -234,7 +234,7 @@ const supportAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
             ? null
             : formatBoolean(support.financialSupport),
         ],
-        ['Organisme prescripteur', support.prescribingOrganisation],
+        ['Organisme prescripteur', support.prescribingOrganization?.name],
       ]
     : [
         ['Type', support.medium ? followupMediumLabels[support.medium] : null],
