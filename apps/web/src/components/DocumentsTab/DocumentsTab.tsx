@@ -3,7 +3,7 @@ import {
   BeneficiaryPageDocuments,
   BeneficiaryPageInfo,
 } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
-import { AddDocumentButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/AddDocumentButton'
+import { AddDocumentButton } from './AddDocumentButton'
 import { formatByteSize } from '@mss/web/utils/formatByteSize'
 import mime from 'mime-types'
 import {
@@ -11,9 +11,9 @@ import {
   documentTagLabels,
   documentTypeLabels,
 } from '@mss/web/features/document/addDocument.client'
-import { EditDocumentButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/EditDocumentButton'
-import { DeleteDocumentButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DeleteDocumentButton'
-import { DocumentFileButton } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DocumentFileButton'
+import { EditDocumentButton } from './EditDocumentButton'
+import { DeleteDocumentButton } from './DeleteDocumentButton'
+import { DocumentFileButton } from './DocumentFileButton'
 import { serialize } from '@mss/web/utils/serialization'
 
 export function DocumentsTab({

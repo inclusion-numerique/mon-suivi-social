@@ -2,8 +2,10 @@ import Link from 'next/link'
 import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { BeneficiariesListTableRows } from '@mss/web/app/(private)/beneficiaires/(liste)/BeneficiariesListTableRows'
-import { beneficiariesListTableColumns } from '@mss/web/components/BeneficiaryListTable/beneficiaryListTableColumns'
+import {
+  BeneficiaryTable,
+  beneficiaryColumns,
+} from '@mss/web/components/BeneficiaryTable'
 import { redirect } from 'next/navigation'
 import { Table } from '@mss/web/ui/table/Table'
 import {
@@ -14,7 +16,7 @@ import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
 import { createPageLinkHelper } from '@mss/web/ui/pagination'
 import { createSortLinkHelper } from '@mss/web/ui/sorting'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
-import { BeneficiariesSearchBar } from '@mss/web/app/(private)/beneficiaires/BeneficiariesSearchBar'
+import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
 
 const itemsPerPage = 15
 
@@ -50,7 +52,7 @@ const BeneficiariesListPage = async ({
     input: {
       perPage: itemsPerPage,
       page: pageNumber,
-      orderBy: getColumnOrderBy(currentSorting, beneficiariesListTableColumns),
+      orderBy: getColumnOrderBy(currentSorting, beneficiaryColumns),
       structureId,
       search,
     },
@@ -77,16 +79,14 @@ const BeneficiariesListPage = async ({
 
   const tableHead = (
     <TableHeadWithSorting
-      columns={beneficiariesListTableColumns}
+      columns={beneficiaryColumns}
       createSortLink={createSortLink}
       currentSorting={currentSorting}
     />
   )
 
   const tableBody = (
-    <BeneficiariesListTableRows
-      beneficiaries={beneficiariesList.beneficiaries}
-    />
+    <BeneficiaryTable beneficiaries={beneficiariesList.beneficiaries} />
   )
 
   return (
@@ -100,7 +100,7 @@ const BeneficiariesListPage = async ({
               style={{ display: 'flex' }}
             >
               <div className="fr-col-12 fr-col-md-8">
-                <BeneficiariesSearchBar structureId={structureId} />
+                <BeneficiarySearchBar structureId={structureId} />
               </div>
               <div className="fr-col-12 fr-col-md-4">
                 <div className="fr-btns-group fr-btns-group--icon-left">

@@ -14,7 +14,7 @@ import {
 } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
-import { ScrollToSupportItem } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/ScrollToSupportItem'
+import { ScrollToSupportItem } from './ScrollToSupportItem'
 import {
   canEditBeneficiaryFollowup,
   canEditBeneficiaryHelpRequest,

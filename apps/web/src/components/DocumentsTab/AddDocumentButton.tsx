@@ -1,4 +1,4 @@
-import { AddDocumentModalForm } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/AddDocumentModalForm'
+import { AddDocumentModalForm } from './AddDocumentModalForm'
 
 export function AddDocumentButton({
   beneficiaryId,

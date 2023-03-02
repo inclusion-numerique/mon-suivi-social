@@ -8,7 +8,7 @@ import { groupFollowupTypesByLegality } from '@mss/web/service/groupFollowupType
 import Link from 'next/link'
 import { AttributeItem, AttributesList } from '@mss/web/ui/AttributesList'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
-import { MutationLog } from '@mss/web/app/(private)/MutationLog'
+import { MutationLog } from '@mss/web/components/MutationLog'
 
 export const revalidate = 0
 

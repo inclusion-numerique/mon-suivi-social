@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
-import { BeneficiariesSearchBar } from '@mss/web/app/(private)/beneficiaires/BeneficiariesSearchBar'
+import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
 
 const TableauDeBordPage = async () => {
   const user = await getSessionUser()
@@ -18,7 +18,7 @@ const TableauDeBordPage = async () => {
                 style={{ display: 'flex' }}
               >
                 <div className="fr-col-12 fr-col-md-8">
-                  <BeneficiariesSearchBar structureId={user.structureId} />
+                  <BeneficiarySearchBar structureId={user.structureId} />
                 </div>
                 <div className="fr-col-12 fr-col-md-4">
                   <div className="fr-btns-group fr-btns-group--icon-left">

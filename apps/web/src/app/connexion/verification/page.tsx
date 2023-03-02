@@ -1,6 +1,6 @@
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
 import { redirect } from 'next/navigation'
-import { Verify } from '@mss/web/app/connexion/verification/Verify'
+import { Verify } from '@mss/web/components/Verify'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import { Routes } from '@mss/web/app/routing/routes'
 

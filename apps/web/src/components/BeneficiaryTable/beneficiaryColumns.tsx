@@ -6,7 +6,7 @@ import { getAge } from '@mss/web/utils/age'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { beneficiaryStatusLabels } from '@mss/web/beneficiary/beneficiary'
 
-export const beneficiariesListTableColumns = [
+export const beneficiaryColumns = [
   {
     label: 'Nom',
     sortable: (direction) => [

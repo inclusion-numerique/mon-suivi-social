@@ -1,4 +1,4 @@
-import { EditDocumentModalForm } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/EditDocumentModalForm'
+import { EditDocumentModalForm } from './EditDocumentModalForm'
 import { BeneficiaryPageDocuments } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { EditDocumentServer } from '@mss/web/features/document/editDocument.server'
 import { serialize } from '@mss/web/utils/serialization'

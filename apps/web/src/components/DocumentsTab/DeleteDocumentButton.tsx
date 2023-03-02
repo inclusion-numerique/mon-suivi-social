@@ -1,5 +1,5 @@
 import { BeneficiaryPageDocuments } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
-import { DeleteDocumentModalForm } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DeleteDocumentModalForm'
+import { DeleteDocumentModalForm } from './DeleteDocumentModalForm'
 
 export function DeleteDocumentButton({
   document,

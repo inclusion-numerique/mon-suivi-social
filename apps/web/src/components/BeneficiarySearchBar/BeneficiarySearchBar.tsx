@@ -18,7 +18,7 @@ const SearchResult = styled.div`
   }
 `
 
-export const BeneficiariesSearchBar = withTrpc(
+export const BeneficiarySearchBar = withTrpc(
   ({ structureId }: { structureId: string }) => {
     const router = useRouter()
 
