@@ -1,7 +1,7 @@
 'use client'
 
 import { signOut } from 'next-auth/react'
-import { AuthCard } from '@mss/web/app/connexion/AuthCard'
+import { AuthCard } from '@mss/web/components/SigninPanel/AuthCard'
 import { useState } from 'react'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import Link from 'next/link'

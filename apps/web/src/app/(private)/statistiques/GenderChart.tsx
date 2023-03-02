@@ -5,7 +5,7 @@ import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
 import { getGenderWording } from '@mss/web/wording/gender'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
-import { GenderStats } from '@mss/web/stats/stats'
+import { GenderStats } from '@mss/web/service/StatisticsService'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
 export function GenderChart({ genderStats }: { genderStats: GenderStats }) {

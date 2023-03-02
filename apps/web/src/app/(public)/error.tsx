@@ -1,7 +1,3 @@
 'use client'
 
-
-
-
-
-export {ServerError as default} from '@mss/web/app/ServerError'
+export { ServerError as default } from '@mss/web/components/ServerError/ServerError'

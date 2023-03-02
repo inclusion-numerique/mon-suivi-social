@@ -2,10 +2,10 @@ import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 import type { QueryResult } from '@mss/web/features/createQuery.server'
-import { helpRequestListTableColumns } from '@mss/web/app/(private)/accompagnements/helpRequestListTableColumns'
+import { helpRequestListTableColumns } from './helpRequestListTableColumns'
 import { ListHelpRequestsServer } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.server'
 
-export const HelpRequestsListTableRows = asyncComponent(
+export const HelpRequestListTableRows = asyncComponent(
   async ({
     helpRequests,
   }: Pick<QueryResult<typeof ListHelpRequestsServer>, 'helpRequests'>) => {

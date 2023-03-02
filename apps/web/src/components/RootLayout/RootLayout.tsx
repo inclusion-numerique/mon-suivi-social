@@ -2,7 +2,7 @@ import '@mss/web/styles/app.css'
 import { PropsWithChildren } from 'react'
 import { Matomo } from '@mss/web/app/Matomo'
 import { Dsfr } from '@mss/web/app/Dsfr'
-import { EnvironmentInformation } from '@mss/web/app/EnvironmentInformation'
+import { EnvInformation } from './EnvInformation'
 import { PrivateConfig } from '@mss/web/config'
 
 const fontsToPreload = ['Marianne-Regular', 'Marianne-Bold', 'Marianne-Medium']
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <Matomo />
       </head>
       <body>
-        <EnvironmentInformation />
+        <EnvInformation />
         {children}
       </body>
     </html>

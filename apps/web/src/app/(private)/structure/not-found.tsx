@@ -1,5 +1,1 @@
-
-
-
-
-export {NotFoundError as default} from '@mss/web/app/ServerError'
+export { NotFoundError as default } from '@mss/web/components/ServerError/ServerError'

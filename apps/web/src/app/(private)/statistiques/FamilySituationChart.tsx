@@ -4,7 +4,7 @@ import { Doughnut } from 'react-chartjs-2'
 import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
-import { FamilySituationStats } from '@mss/web/stats/stats'
+import { FamilySituationStats } from '@mss/web/service/StatisticsService'
 import { getFamilySituationWording } from '@mss/web/wording/familySituation'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 

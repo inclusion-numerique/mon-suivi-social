@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { FollowupForm } from '@mss/web/app/(private)/accompagnements/entretiens/FollowupForm'
 import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client'
-import { getStructureFollowupTypes } from '@mss/web/structure/getStructureFollowupTypes'
+import { getStructureFollowupTypes } from '@mss/web/service/StructureService'
 import { Options } from '@mss/web/utils/options'
 import { prismaClient } from '@mss/web/prismaClient'
 

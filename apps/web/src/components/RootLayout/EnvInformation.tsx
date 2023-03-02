@@ -1,8 +1,8 @@
 import { PrivateConfig, PublicConfig } from '@mss/web/config'
 
-export function EnvironmentInformation() {
+export function EnvInformation() {
   const branch = PrivateConfig.Branch
-  const {isMain} = PrivateConfig
+  const { isMain } = PrivateConfig
 
   // Branch can be empty on dev env
   if (isMain || !branch) {

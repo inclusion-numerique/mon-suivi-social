@@ -10,7 +10,7 @@ import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 
-export const followupListTableColumns = [
+export const FollowupListTableColumns = [
   {
     label: 'Statut',
     content: ({ status }: ListFollowupsItem) => (

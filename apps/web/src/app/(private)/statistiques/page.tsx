@@ -7,7 +7,7 @@ import {
   getFamilyStats,
   getGenderStats,
   getSupportStats,
-} from '@mss/web/stats/stats'
+} from '@mss/web/service/StatisticsService'
 import { CSSProperties, PropsWithChildren, ReactNode } from 'react'
 import { FamilySituationChart } from '@mss/web/app/(private)/statistiques/FamilySituationChart'
 import { AgeChart } from '@mss/web/app/(private)/statistiques/AgeChart'
@@ -88,11 +88,13 @@ function SectionTitle({
   children,
   className,
 }: PropsWithChildren<{ className?: string }>) {
-  return <div className={`fr-grid-row fr-grid-row--gutters ${className ?? ''}`}>
-    <div className="fr-col-12 fr-col-md-6">
-      <h4 className="fr-mb-2v">{children}</h4>
+  return (
+    <div className={`fr-grid-row fr-grid-row--gutters ${className ?? ''}`}>
+      <div className="fr-col-12 fr-col-md-6">
+        <h4 className="fr-mb-2v">{children}</h4>
+      </div>
     </div>
-  </div>
+  )
 }
 
 function StatCard({
@@ -111,31 +113,33 @@ function StatCard({
   }
   contentStyle?: CSSProperties
 }>) {
-  return <div
-    className={`fr-col-${cols?.default ?? 12} ${
-      cols?.sm ? `fr-col-sm-${cols.sm}` : ''
-    } ${cols?.md ? `fr-col-md-${cols.md}` : ''} ${
-      cols?.lg ? `fr-col-lg-${cols.lg}` : ''
-    } ${cols?.xl ? `fr-col-xl-${cols.xl}` : ''}`}
-  >
-    <div className="fr-card">
-      <div className="fr-card__body">
-        <div className="fr-card__content">
-          <h3 className="fr-card__title" style={{ textAlign: 'center' }}>
-            {title}
-          </h3>
-          <div className="fr-card__desc fr-pt-4v">
-            <div
-              className="fr-grid-row fr-grid-row--center"
-              style={contentStyle}
-            >
-              {children}
+  return (
+    <div
+      className={`fr-col-${cols?.default ?? 12} ${
+        cols?.sm ? `fr-col-sm-${cols.sm}` : ''
+      } ${cols?.md ? `fr-col-md-${cols.md}` : ''} ${
+        cols?.lg ? `fr-col-lg-${cols.lg}` : ''
+      } ${cols?.xl ? `fr-col-xl-${cols.xl}` : ''}`}
+    >
+      <div className="fr-card">
+        <div className="fr-card__body">
+          <div className="fr-card__content">
+            <h3 className="fr-card__title" style={{ textAlign: 'center' }}>
+              {title}
+            </h3>
+            <div className="fr-card__desc fr-pt-4v">
+              <div
+                className="fr-grid-row fr-grid-row--center"
+                style={contentStyle}
+              >
+                {children}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  )
 }
 
 export default StatistiquesPage

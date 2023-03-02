@@ -3,16 +3,16 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 import type { QueryResult } from '@mss/web/features/createQuery.server'
 import { ListFollowupsServer } from '@mss/web/features/followup/listFollowups/listFollowups.server'
-import { followupListTableColumns } from '@mss/web/app/(private)/accompagnements/followupListTableColumns'
+import { FollowupListTableColumns } from './FollowupListTableColumns'
 
-export const FollowupsListTableRows = asyncComponent(
+export const FollowupListTableRows = asyncComponent(
   async ({
     followups,
   }: Pick<QueryResult<typeof ListFollowupsServer>, 'followups'>) => {
     if (followups.length === 0) {
       return (
         <tr>
-          <td colSpan={followupListTableColumns.length}>
+          <td colSpan={FollowupListTableColumns.length}>
             Aucun entretien ne correspond à votre recherche
           </td>
         </tr>
@@ -33,7 +33,7 @@ export const FollowupsListTableRows = asyncComponent(
             <TableRowWithRowLink
               key={followup.id}
               item={followup}
-              columns={followupListTableColumns}
+              columns={FollowupListTableColumns}
               href={href}
               title={title}
             />

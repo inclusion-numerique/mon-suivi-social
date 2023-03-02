@@ -9,7 +9,7 @@ import { withTrpc } from '@mss/web/withTrpc'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Option } from '@mss/web/utils/options'
 import { TagsFormField } from '@mss/web/form/TagsFormField'
-import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
+import { groupFollowupTypesByLegality } from '@mss/web/service/groupFollowupTypes'
 import { useMemo, useState } from 'react'
 import type { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import type { MutationServerState } from '@mss/web/features/createMutation.server'
@@ -65,7 +65,8 @@ const scoreFollowupTypeForSorting = (
 const sortFollowupTypes = (
   initialValues: Set<string>,
   followupTypes: MutationServerState<EditStructureServer>['followupTypes'],
-): MutationServerState<EditStructureServer>['followupTypes'] => followupTypes.sort(
+): MutationServerState<EditStructureServer>['followupTypes'] =>
+  followupTypes.sort(
     (a, b) =>
       scoreFollowupTypeForSorting(initialValues, b) -
       scoreFollowupTypeForSorting(initialValues, a),
@@ -191,103 +192,103 @@ export const StructureForm = withTrpc(
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-          <h3>Informations</h3>
-          {properties.creation ? (
-            <SelectFormField
-              label={FieldLabels.type}
-              disabled={fieldsDisabled}
-              control={control}
-              path="type"
-              options={structureTypeOptions}
-              defaultOption
-              required
-            />
-          ) : null}
-          <InputFormField
-            label={FieldLabels.name}
+        <h3>Informations</h3>
+        {properties.creation ? (
+          <SelectFormField
+            label={FieldLabels.type}
             disabled={fieldsDisabled}
             control={control}
-            path="name"
+            path="type"
+            options={structureTypeOptions}
+            defaultOption
             required
           />
-          <InputFormField
-            label={FieldLabels.address}
-            disabled={fieldsDisabled}
-            control={control}
-            path="address"
-            required
-          />
-          <InputFormField
-            label={FieldLabels.zipcode}
-            disabled={fieldsDisabled}
-            control={control}
-            path="zipcode"
-            required
-          />
-          <InputFormField
-            label={FieldLabels.city}
-            disabled={fieldsDisabled}
-            control={control}
-            path="city"
-            required
-          />
-          <InputFormField
-            label={FieldLabels.phone}
-            disabled={fieldsDisabled}
-            control={control}
-            path="phone"
-            required
-          />
-          <InputFormField
-            label={FieldLabels.email}
-            disabled={fieldsDisabled}
-            control={control}
-            path="email"
-            type="email"
-            required
-          />
+        ) : null}
+        <InputFormField
+          label={FieldLabels.name}
+          disabled={fieldsDisabled}
+          control={control}
+          path="name"
+          required
+        />
+        <InputFormField
+          label={FieldLabels.address}
+          disabled={fieldsDisabled}
+          control={control}
+          path="address"
+          required
+        />
+        <InputFormField
+          label={FieldLabels.zipcode}
+          disabled={fieldsDisabled}
+          control={control}
+          path="zipcode"
+          required
+        />
+        <InputFormField
+          label={FieldLabels.city}
+          disabled={fieldsDisabled}
+          control={control}
+          path="city"
+          required
+        />
+        <InputFormField
+          label={FieldLabels.phone}
+          disabled={fieldsDisabled}
+          control={control}
+          path="phone"
+          required
+        />
+        <InputFormField
+          label={FieldLabels.email}
+          disabled={fieldsDisabled}
+          control={control}
+          path="email"
+          type="email"
+          required
+        />
 
-          <h3 className="fr-mt-8v">Accompagnements proposés</h3>
+        <h3 className="fr-mt-8v">Accompagnements proposés</h3>
 
-          <p className="fr-hint-text">
-            Les accompagnements déjà associés à une synthèse d&apos;entretien ou
-            une instruction de demande d&apos;aide ne peuvent pas être retirés.
-          </p>
+        <p className="fr-hint-text">
+          Les accompagnements déjà associés à une synthèse d&apos;entretien ou
+          une instruction de demande d&apos;aide ne peuvent pas être retirés.
+        </p>
 
-          <TagsFormField
-            control={control}
-            label="Accompagnements légaux"
-            path="proposedFollowupTypes"
-            options={legalFollowupTypes.map(followupTypeToOption)}
+        <TagsFormField
+          control={control}
+          label="Accompagnements légaux"
+          path="proposedFollowupTypes"
+          options={legalFollowupTypes.map(followupTypeToOption)}
+        />
+
+        <TagsFormField
+          control={control}
+          label="Accompagnements facultatifs"
+          path="proposedFollowupTypes"
+          options={allOptionalFollowupTypes.map(followupTypeToOption)}
+        />
+        {/* Only possible to create owned followup types when structure has been created */}
+        {structure ? (
+          <CreateFollowupTypeForm
+            structure={structure}
+            onCreated={onFollowupTypeCreated}
           />
+        ) : null}
+        {isError ? <p className="fr-error-text">{error.message}</p> : null}
 
-          <TagsFormField
-            control={control}
-            label="Accompagnements facultatifs"
-            path="proposedFollowupTypes"
-            options={allOptionalFollowupTypes.map(followupTypeToOption)}
-          />
-          {/* Only possible to create owned followup types when structure has been created */}
-          {structure ? (
-            <CreateFollowupTypeForm
-              structure={structure}
-              onCreated={onFollowupTypeCreated}
-            />
-          ) : null}
-          {isError ? <p className="fr-error-text">{error.message}</p> : null}
-
-          <div className="fr-grid-row fr-mt-12v">
-            <div className="fr-col-12">
-              <div className="fr-btns-group--inline fr-btns-group">
-                <button className="fr-btn" type="submit" disabled={isLoading}>
-                  {properties.creation
-                    ? 'Créer la structure'
-                    : 'Enregistrer les modifications'}
-                </button>
-              </div>
+        <div className="fr-grid-row fr-mt-12v">
+          <div className="fr-col-12">
+            <div className="fr-btns-group--inline fr-btns-group">
+              <button className="fr-btn" type="submit" disabled={isLoading}>
+                {properties.creation
+                  ? 'Créer la structure'
+                  : 'Enregistrer les modifications'}
+              </button>
             </div>
           </div>
-        </form>
+        </div>
+      </form>
     )
   },
 )

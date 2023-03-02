@@ -1,6 +1,6 @@
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
 import { redirect } from 'next/navigation'
-import { Signin } from '@mss/web/app/connexion/login/Signin'
+import { SigninPanel } from '@mss/web/components/SigninPanel'
 import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
 import { Routes } from '@mss/web/app/routing/routes'
 
@@ -18,7 +18,7 @@ const SigninPage = async ({
   return (
     <>
       <Breadcrumbs currentPage="Connexion" />
-      <Signin error={error} />
+      <SigninPanel error={error} />
     </>
   )
 }

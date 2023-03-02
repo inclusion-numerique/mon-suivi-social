@@ -11,12 +11,16 @@ import { createPageLinkHelper } from '@mss/web/ui/pagination'
 import { createSortLinkHelper } from '@mss/web/ui/sorting'
 import { ListFollowupsServer } from '@mss/web/features/followup/listFollowups/listFollowups.server'
 import { ListHelpRequestsServer } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.server'
-import { followupListTableColumns } from '@mss/web/app/(private)/accompagnements/followupListTableColumns'
-import { helpRequestListTableColumns } from '@mss/web/app/(private)/accompagnements/helpRequestListTableColumns'
 import { Table } from '@mss/web/ui/table/Table'
 import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
-import { FollowupsListTableRows } from '@mss/web/app/(private)/accompagnements/(liste)/FollowupListTableRows'
-import { HelpRequestsListTableRows } from '@mss/web/app/(private)/accompagnements/(liste)/HelpRequestListTableRows'
+import {
+  FollowupListTableRows,
+  FollowupListTableColumns,
+} from '@mss/web/components/FollowupListTable'
+import {
+  HelpRequestListTableRows,
+  helpRequestListTableColumns,
+} from '@mss/web/components/HelpRequestListTable'
 import { TabOptions, Tabs } from '@mss/web/ui/tabs/Tabs'
 
 const itemsPerPage = 15
@@ -66,7 +70,7 @@ const AccompagnementsListPage = async ({
               page: pageNumber,
               orderBy: getColumnOrderBy(
                 currentSorting,
-                followupListTableColumns,
+                FollowupListTableColumns,
               ),
               search,
             }
@@ -136,13 +140,13 @@ const AccompagnementsListPage = async ({
         <Table
           tableHead={
             <TableHeadWithSorting
-              columns={followupListTableColumns}
+              columns={FollowupListTableColumns}
               createSortLink={createSortLink}
               currentSorting={currentSorting}
             />
           }
           tableBody={
-            <FollowupsListTableRows followups={followupsList.followups} />
+            <FollowupListTableRows followups={followupsList.followups} />
           }
           pagination={{
             pageNumber,
@@ -168,7 +172,7 @@ const AccompagnementsListPage = async ({
             />
           }
           tableBody={
-            <HelpRequestsListTableRows
+            <HelpRequestListTableRows
               helpRequests={helpRequestsList.helpRequests}
             />
           }
