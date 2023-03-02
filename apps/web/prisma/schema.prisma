@@ -81,12 +81,12 @@ model User {
   created DateTime? @default(now())
   updated DateTime? @default(now())
 
-  structure            Structure?     @relation(fields: [structureId], references: [id])
-  structureId          String?        @map("structure_id") @db.Uuid
-  createdFollowups     Followup[]     @relation(name: "created_followups")
-  createdHelpRequests  HelpRequest[]  @relation(name: "created_help_requests")
-  createdDocuments     Document[]
-  createdFollowupTypes FollowupType[]
+  structure             Structure?     @relation(fields: [structureId], references: [id])
+  structureId           String?        @map("structure_id") @db.Uuid
+  createdFollowups      Followup[]     @relation(name: "created_followups")
+  createdHelpRequests   HelpRequest[]  @relation(name: "created_help_requests")
+  createdDocuments      Document[]
+  createdFollowupTypes  FollowupType[]
   receivedNotifications Notification[]
 
   createdBeneficiaries  Beneficiary[] @relation(name: "created_beneficiaries")
@@ -805,8 +805,8 @@ model Notification {
 
   created DateTime? @default(now())
 
-  recipient   User      @relation(fields: [recipientId], references: [id])
-  recipientId String    @map("recipient_id") @db.Uuid
+  recipient   User   @relation(fields: [recipientId], references: [id])
+  recipientId String @map("recipient_id") @db.Uuid
 
   read Boolean? @default(false)
 
