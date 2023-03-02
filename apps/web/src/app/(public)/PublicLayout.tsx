@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react'
-import PublicHeader from '@mss/web/app/(public)/PublicHeader'
-import PublicFooter from '@mss/web/app/(public)/PublicFooter'
+import { PublicHeader } from '@mss/web/components/PublicHeader'
+import { PublicFooter } from '@mss/web/components/PublicFooter'
 
 export function PublicLayout({
   hideSigninButton,
