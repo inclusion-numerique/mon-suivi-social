@@ -31,7 +31,7 @@ const BeneficiariesListPage = async ({
   >
 }) => {
   const user = await getAuthenticatedAgent()
-  const {structureId} = user
+  const { structureId } = user
 
   // TODO We could put all this in a big list page helper function...
 
