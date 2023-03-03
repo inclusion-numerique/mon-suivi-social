@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { prismaClient } from '@mss/web/prismaClient'
-import { HelpRequestForm } from '@mss/web/components/HelpRequestForm/HelpRequestForm'
+import { HelpRequestForm } from '@mss/web/components/HelpRequestForm'
 import { getStructureFollowupTypes } from '@mss/web/service/StructureService'
 import { Options } from '@mss/web/utils/options'
 import {
