@@ -1,5 +1,4 @@
-/* eslint react/react-in-jsx-scope: 0,  react/jsx-filename-extension: 0 */
-
+/* eslint react/react-in-jsx-scope: 0 */
 import { useRef } from '@storybook/addons'
 
 export const parameters = {

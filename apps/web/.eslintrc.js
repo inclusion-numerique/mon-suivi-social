@@ -40,8 +40,6 @@ const temporarilyDisabledRules = [
   'react/destructuring-assignment',
   'react/function-component-definition',
   'react/jsx-no-useless-fragment',
-  'react/jsx-props-no-spreading',
-  'react/no-array-index-key',
   'react/no-unused-prop-types',
   'unicorn/consistent-destructuring',
   'unicorn/filename-case',
@@ -55,6 +53,7 @@ const temporarilyDisabledRules = [
   'vars-on-top',
 ].map((rule) => [rule, 'off'])
 
+// eslint-disable-next-line unicorn/prefer-module
 module.exports = {
   extends: ['next/core-web-vitals'],
   rules: { ...Object.fromEntries(temporarilyDisabledRules) },

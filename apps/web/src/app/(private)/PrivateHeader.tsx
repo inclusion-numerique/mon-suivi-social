@@ -67,8 +67,8 @@ function PrivateHeader({ user }: { user: SessionUser }) {
             <div className="fr-header__tools">
               <div className="fr-header__tools-links">
                 <ul className="fr-btns-group">
-                  {links.map((link, index) => (
-                    <li key={index}>{link}</li>
+                  {links.map((link) => (
+                    <li key={link.key}>{link}</li>
                   ))}
                 </ul>
               </div>
