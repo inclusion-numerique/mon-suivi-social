@@ -1,6 +1,6 @@
-import { Spinner } from '@mss/web/ui/Spinner'
+import { Spinner } from '@mss/web/components/Generic/Spinner'
 import { AuthCard } from '@mss/web/components/SigninPanel/AuthCard'
-import { Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
+import { Breadcrumbs } from '@mss/web/components/Generic'
 
 function AuthLoading() {
   return (

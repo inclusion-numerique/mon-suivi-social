@@ -7,14 +7,14 @@ import {
   beneficiaryColumns,
 } from '@mss/web/components/BeneficiaryTable'
 import { redirect } from 'next/navigation'
-import { Table } from '@mss/web/ui/table/Table'
+import { Table } from '@mss/web/components/Generic/table/Table'
 import {
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/ui/table/TableColumnDefinition'
-import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
-import { createPageLinkHelper } from '@mss/web/ui/pagination'
-import { createSortLinkHelper } from '@mss/web/ui/sorting'
+} from '@mss/web/components/Generic/table/TableColumnDefinition'
+import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
+import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
+import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
 

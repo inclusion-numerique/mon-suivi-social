@@ -1,7 +1,7 @@
 import { ListBeneficiariesItem } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
+import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { getAge } from '@mss/web/utils/age'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { beneficiaryStatusLabels } from '@mss/web/constants/beneficiary'

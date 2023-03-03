@@ -2,7 +2,7 @@ import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { ListUsersItem } from '@mss/web/features/user/listUsers/listUsers.server'
 import { userTableColumns } from './userTableColumns'
 import { Routes } from '@mss/web/app/routing/routes'
-import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
+import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
 import { getUserDisplayName } from '@mss/web/utils/user'
 
 export const UserTable = asyncComponent(

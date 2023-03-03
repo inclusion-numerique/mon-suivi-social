@@ -3,7 +3,7 @@
 import { withTrpc } from '@mss/web/withTrpc'
 import { trpc } from '@mss/web/trpc'
 import { ChangeEventHandler, useDeferredValue, useState } from 'react'
-import { Spinner } from '@mss/web/ui/Spinner'
+import { Spinner } from '@mss/web/components/Generic/Spinner'
 import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { useRouter } from 'next/navigation'
 import styled from 'styled-components'

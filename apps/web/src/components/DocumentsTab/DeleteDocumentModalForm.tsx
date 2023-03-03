@@ -3,7 +3,7 @@
 import { trpc } from '@mss/web/trpc'
 import { withTrpc } from '@mss/web/withTrpc'
 import { useRef } from 'react'
-import { Spinner } from '@mss/web/ui/Spinner'
+import { Spinner } from '@mss/web/components/Generic/Spinner'
 import { useRouter } from 'next/navigation'
 
 export const DeleteDocumentModalForm = withTrpc(

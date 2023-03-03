@@ -1,5 +1,8 @@
 // Only display at most 6 pages numbered links
-import { SortDirection, Sorting } from '@mss/web/ui/table/TableColumnDefinition'
+import {
+  SortDirection,
+  Sorting,
+} from '@mss/web/components/Generic/table/TableColumnDefinition'
 
 /**
  * A string return type means that no pageNumber is to display.

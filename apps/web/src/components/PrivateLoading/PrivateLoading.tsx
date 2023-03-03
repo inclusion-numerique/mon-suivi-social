@@ -1,4 +1,4 @@
-import { Spinner } from '@mss/web/ui/Spinner'
+import { Spinner } from '@mss/web/components/Generic/Spinner'
 
 function PrivateLoading() {
   return (

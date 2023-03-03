@@ -6,13 +6,13 @@ import { notFound, redirect } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/ui/table/TableColumnDefinition'
-import { createPageLinkHelper } from '@mss/web/ui/pagination'
-import { createSortLinkHelper } from '@mss/web/ui/sorting'
+} from '@mss/web/components/Generic/table/TableColumnDefinition'
+import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
+import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
 import { ListUsersServer } from '@mss/web/features/user/listUsers/listUsers.server'
-import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
+import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
 import Link from 'next/link'
-import { Table } from '@mss/web/ui/table/Table'
+import { Table } from '@mss/web/components/Generic/table/Table'
 import { UserTable, userTableColumns } from '@mss/web/components/UserTable'
 
 const itemsPerPage = 15

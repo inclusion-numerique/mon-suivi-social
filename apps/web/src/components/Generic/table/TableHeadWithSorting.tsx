@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {
   Sorting,
   TableColumnDefinition,
-} from '@mss/web/ui/table/TableColumnDefinition'
+} from '@mss/web/components/Generic/table/TableColumnDefinition'
 
 type TableHeadWithSortingProperties<Item, SortBy> = {
   columns: TableColumnDefinition<Item>[]

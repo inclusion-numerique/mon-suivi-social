@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css'
 import { trpc } from '@mss/web/trpc'
-import { Spinner } from '@mss/web/ui/Spinner'
+import { Spinner } from '@mss/web/components/Generic/Spinner'
 
 export function DocumentViewer({
   key,

@@ -1,5 +1,5 @@
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
+import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 
 export function TableHead<T>({
   columns,

@@ -6,7 +6,10 @@ import { canViewStructure } from '@mss/web/security/rules'
 import { prismaClient } from '@mss/web/prismaClient'
 import { groupFollowupTypesByLegality } from '@mss/web/helper/groupFollowupTypes'
 import Link from 'next/link'
-import { AttributeItem, AttributesList } from '@mss/web/ui/AttributesList'
+import {
+  AttributeItem,
+  AttributesList,
+} from '@mss/web/components/Generic/AttributesList'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { MutationLog } from '@mss/web/components/MutationLog'
 

@@ -1,4 +1,4 @@
-import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
+import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'

@@ -10,7 +10,7 @@ import {
 } from '@mss/web/components/FormField'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MouseEventHandler, useRef } from 'react'
-import { Spinner } from '@mss/web/ui/Spinner'
+import { Spinner } from '@mss/web/components/Generic/Spinner'
 import {
   documentTagOptions,
   documentTypeOptions,

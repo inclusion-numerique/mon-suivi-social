@@ -1,4 +1,4 @@
-import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
+import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { ListStructuresItem } from '@mss/web/features/structure/listStructures/listStructures.server'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { StructureTypeLabels } from '@mss/web/features/structure/createStructure/createStructure.client'

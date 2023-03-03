@@ -1,6 +1,6 @@
 import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { Routes } from '@mss/web/app/routing/routes'
-import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
+import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
 import type { QueryResult } from '@mss/web/features/createQuery.server'
 import { ListStructuresServer } from '@mss/web/features/structure/listStructures/listStructures.server'
 import { structureColumns } from './structureColumns'

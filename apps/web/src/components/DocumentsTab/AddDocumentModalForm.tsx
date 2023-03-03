@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { MouseEventHandler, useRef } from 'react'
 import { formatByteSize } from '@mss/web/utils/formatByteSize'
 import axios from 'axios'
-import { Spinner } from '@mss/web/ui/Spinner'
+import { Spinner } from '@mss/web/components/Generic/Spinner'
 import {
   AddDocumentClient,
   AddDocumentWithBrowserUploadData,

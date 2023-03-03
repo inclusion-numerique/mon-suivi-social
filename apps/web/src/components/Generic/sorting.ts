@@ -1,4 +1,7 @@
-import { SortDirection, Sorting } from '@mss/web/ui/table/TableColumnDefinition'
+import {
+  SortDirection,
+  Sorting,
+} from '@mss/web/components/Generic/table/TableColumnDefinition'
 
 // TODO clean this and factorize with pagination helper for default removal logic that helps cache hits
 // TODO add generic default params stuff to fallback to undefined

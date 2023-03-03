@@ -1,7 +1,10 @@
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import type { BeneficiaryPageSupport } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
-import { AttributeItem, AttributesList } from '@mss/web/ui/AttributesList'
+import {
+  AttributeItem,
+  AttributesList,
+} from '@mss/web/components/Generic/AttributesList'
 import { formatBoolean } from '@mss/web/utils/formatBoolean'
 import {
   followupMediumLabels,

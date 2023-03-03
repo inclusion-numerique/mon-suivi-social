@@ -1,4 +1,4 @@
-import { BreadCrumbParents, Breadcrumbs } from '@mss/web/ui/Breadcrumbs'
+import { BreadCrumbParents, Breadcrumbs } from '@mss/web/components/Generic'
 import { Routes } from '@mss/web/app/routing/routes'
 
 export type PageConfig = {

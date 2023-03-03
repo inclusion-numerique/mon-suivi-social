@@ -1,8 +1,8 @@
-import { Table } from '@mss/web/ui/table/Table'
-import { TableHead } from '@mss/web/ui/table/TableHead'
+import { Table } from '@mss/web/components/Generic/table/Table'
+import { TableHead } from '@mss/web/components/Generic/table/TableHead'
 import { prismaClient } from '@mss/web/prismaClient'
-import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
-import { TableRow } from '@mss/web/ui/table/TableRow'
+import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
+import { TableRow } from '@mss/web/components/Generic/table/TableRow'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { MutationDiff } from '@mss/web/features/mutationLog'
 import * as Sentry from '@sentry/nextjs'
@@ -146,12 +146,12 @@ export const MutationLog = asyncComponent(
       ) : (
         <>
           {mutationLogs.map((log) => (
-              <TableRow
-                key={log.id}
-                item={log}
-                columns={mutationLogTableColumns}
-              />
-            ))}
+            <TableRow
+              key={log.id}
+              item={log}
+              columns={mutationLogTableColumns}
+            />
+          ))}
         </>
       )
 

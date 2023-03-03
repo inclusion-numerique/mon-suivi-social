@@ -6,13 +6,13 @@ import { notFound, redirect } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/ui/table/TableColumnDefinition'
-import { createPageLinkHelper } from '@mss/web/ui/pagination'
-import { createSortLinkHelper } from '@mss/web/ui/sorting'
+} from '@mss/web/components/Generic/table/TableColumnDefinition'
+import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
+import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
 import { ListFollowupsServer } from '@mss/web/features/followup/listFollowups/listFollowups.server'
 import { ListHelpRequestsServer } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.server'
-import { Table } from '@mss/web/ui/table/Table'
-import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
+import { Table } from '@mss/web/components/Generic/table/Table'
+import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
 import {
   FollowupListTableRows,
   FollowupListTableColumns,
@@ -21,7 +21,7 @@ import {
   HelpRequestListTableRows,
   helpRequestListTableColumns,
 } from '@mss/web/components/HelpRequestListTable'
-import { TabOptions, Tabs } from '@mss/web/ui/tabs/Tabs'
+import { TabOptions, Tabs } from '@mss/web/components/Generic/tabs/Tabs'
 
 const itemsPerPage = 15
 

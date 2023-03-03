@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
 import { getUserDisplayName } from '@mss/web/utils/user'
-import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import {
   RoutePathParams,
   RoutePathSearchParams,
@@ -15,8 +15,7 @@ import {
   canDeleteBeneficiary,
   canEditBeneficiaryGeneralInfo,
 } from '@mss/web/security/rules'
-import { AttributesList } from '@mss/web/ui/AttributesList'
-import { TabOptions, Tabs } from '@mss/web/ui/tabs/Tabs'
+import { AttributesList, TabOptions, Tabs } from '@mss/web/components/Generic'
 import { MutationLog } from '@mss/web/components/MutationLog'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 

@@ -6,7 +6,7 @@ import {
 import {
   getTotalPages,
   takeAndSkipFromPagination,
-} from '@mss/web/ui/pagination'
+} from '@mss/web/components/Generic/pagination'
 import { UserRole } from '@prisma/client'
 
 export const ListUsersServer = createQueryServer({

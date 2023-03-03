@@ -1,4 +1,4 @@
-import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
+import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { ListFollowupsItem } from '@mss/web/features/followup/listFollowups/listFollowups.server'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import {

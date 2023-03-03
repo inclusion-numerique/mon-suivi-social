@@ -1,6 +1,6 @@
 import { PageConfig, PageTitle } from '../PageTitle'
 import { PrivateLoading } from '../PrivateLoading'
-import { BreadCrumbParents } from '@mss/web/ui/Breadcrumbs'
+import { BreadCrumbParents } from '@mss/web/components/Generic'
 
 // TODO Put this in storybook along with main page
 export function PageLoading({
