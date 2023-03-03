@@ -4,7 +4,7 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
-import { Nationalities } from '@mss/web/features/beneficiary/nationality'
+import { Nationalities } from '@mss/web/constants/nationality'
 import { PensionOrganisation } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
 
 export const EditBeneficiaryFullDataServer =
@@ -42,16 +42,15 @@ export const EditBeneficiaryFullDataServer =
       createdById,
       ...data
     }): MutationInput<EditBeneficiaryFullDataClient> => ({
-        beneficiaryId: id,
-        referents: referents.map((referent) => referent.id),
-        nationality: nationality as keyof typeof Nationalities,
-        pensionOrganisations: pensionOrganisations as PensionOrganisation[],
-        mainIncomeAmount: mainIncomeAmount?.toNumber(),
-        partnerMainIncomeAmount: partnerMainIncomeAmount?.toNumber(),
-        majorChildrenMainIncomeAmount:
-          majorChildrenMainIncomeAmount?.toNumber(),
-        ...removeNullAndUndefinedValues(data),
-      }),
+      beneficiaryId: id,
+      referents: referents.map((referent) => referent.id),
+      nationality: nationality as keyof typeof Nationalities,
+      pensionOrganisations: pensionOrganisations as PensionOrganisation[],
+      mainIncomeAmount: mainIncomeAmount?.toNumber(),
+      partnerMainIncomeAmount: partnerMainIncomeAmount?.toNumber(),
+      majorChildrenMainIncomeAmount: majorChildrenMainIncomeAmount?.toNumber(),
+      ...removeNullAndUndefinedValues(data),
+    }),
     executeMutation: async ({ input, transaction, initialInput }) => {
       const { beneficiaryId, referents, ...data } = input
 

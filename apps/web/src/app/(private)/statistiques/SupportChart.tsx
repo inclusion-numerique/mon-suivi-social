@@ -4,7 +4,7 @@ import { Bar } from 'react-chartjs-2'
 import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
-import { SupportStats } from '@mss/web/service/StatisticsService'
+import { SupportStats } from '@mss/web/data/StatisticsService'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
 export function SupportChart({ supportStats }: { supportStats: SupportStats }) {

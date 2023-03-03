@@ -8,7 +8,7 @@ import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiar
 import { prismaClient } from '@mss/web/prismaClient'
 import { EditFollowupServer } from '@mss/web/features/followup/editFollowup.server'
 import { FollowupForm } from '@mss/web/components/FollowupForm/FollowupForm'
-import { getStructureFollowupTypes } from '@mss/web/service/StructureService'
+import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryFollowupPrivateSynthesis,

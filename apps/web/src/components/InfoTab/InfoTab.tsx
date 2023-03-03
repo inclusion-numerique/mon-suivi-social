@@ -5,7 +5,7 @@ import type {
   BeneficiaryPageInfo,
 } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { AttributesList } from '@mss/web/ui/AttributesList'
-import { beneficiaryTitleLabels } from '@mss/web/beneficiary/beneficiary'
+import { beneficiaryTitleLabels } from '@mss/web/constants/beneficiary'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { isEmptyValue } from '@mss/web/utils/isEmptyValue'
 

@@ -1,7 +1,7 @@
 import { beneficiaryColumns } from './beneficiaryColumns'
 import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { Routes } from '@mss/web/app/routing/routes'
-import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { TableRowWithRowLink } from '@mss/web/ui/table/TableRowWithRowLink'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 import type { QueryResult } from '@mss/web/features/createQuery.server'

@@ -1,6 +1,6 @@
 import { TableColumnDefinition } from '@mss/web/ui/table/TableColumnDefinition'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { ListHelpRequestsItem } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.server'
 import {

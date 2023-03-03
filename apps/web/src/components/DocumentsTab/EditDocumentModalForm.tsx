@@ -3,10 +3,12 @@
 import { DefaultValues, useForm } from 'react-hook-form'
 import { trpc } from '@mss/web/trpc'
 import { withTrpc } from '@mss/web/withTrpc'
-import { SelectFormField } from '@mss/web/form/SelectFormField'
-import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
+import {
+  SelectFormField,
+  CheckboxFormField,
+  TagsFormField,
+} from '@mss/web/components/FormField'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { TagsFormField } from '@mss/web/form/TagsFormField'
 import { MouseEventHandler, useRef } from 'react'
 import { Spinner } from '@mss/web/ui/Spinner'
 import {

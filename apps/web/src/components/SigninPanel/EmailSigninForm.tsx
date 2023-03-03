@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputFormField } from '@mss/web/form/InputFormField'
+import { InputFormField } from '@mss/web/components/FormField'
 import Cookies from 'js-cookie'
 
 const SigninFormValidation = z.object({

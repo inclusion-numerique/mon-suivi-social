@@ -1,6 +1,6 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { sum } from '@mss/web/utils/sum'
-import { AgeGroup } from '@mss/web/wording/ageGroup'
+import { AgeGroup } from '@mss/web/constants/ageGroup'
 
 export const getGenderStats = async (structureId: string) => {
   const stats = await prismaClient.beneficiary.groupBy({

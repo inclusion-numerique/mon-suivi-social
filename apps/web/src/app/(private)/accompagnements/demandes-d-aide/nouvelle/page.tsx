@@ -6,7 +6,7 @@ import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiar
 import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { Options } from '@mss/web/utils/options'
 import { prismaClient } from '@mss/web/prismaClient'
-import { getStructureFollowupTypes } from '@mss/web/service/StructureService'
+import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
 import { HelpRequestForm } from '@mss/web/components/HelpRequestForm/HelpRequestForm'
 
 export const revalidate = 0

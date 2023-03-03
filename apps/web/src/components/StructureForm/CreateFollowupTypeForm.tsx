@@ -3,7 +3,7 @@
 import { trpc } from '@mss/web/trpc'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputFormField } from '@mss/web/form/InputFormField'
+import { InputFormField } from '@mss/web/components/FormField'
 import { useState } from 'react'
 import { CreateFollowupTypeClient } from '@mss/web/features/structure/createFollowupType/createFollowupType.client'
 import { MutationInput } from '@mss/web/features/createMutation.client'
@@ -38,7 +38,7 @@ export function CreateFollowupTypeForm({
     }
   }
 
-  const {isLoading} = createFollowupType
+  const { isLoading } = createFollowupType
 
   const fieldsDisabled = isLoading
 

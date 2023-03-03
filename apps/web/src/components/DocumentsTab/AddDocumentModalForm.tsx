@@ -4,12 +4,14 @@ import mime from 'mime-types'
 import { DefaultValues, useForm } from 'react-hook-form'
 import { trpc } from '@mss/web/trpc'
 import { withTrpc } from '@mss/web/withTrpc'
-import { SelectFormField } from '@mss/web/form/SelectFormField'
-import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
+import {
+  SelectFormField,
+  TagsFormField,
+  UploadFormField,
+  CheckboxFormField,
+} from '@mss/web/components/FormField'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { TagsFormField } from '@mss/web/form/TagsFormField'
 import { MouseEventHandler, useRef } from 'react'
-import { UploadFormField } from '@mss/web/form/UploadFormField'
 import { formatByteSize } from '@mss/web/utils/formatByteSize'
 import axios from 'axios'
 import { Spinner } from '@mss/web/ui/Spinner'
@@ -23,7 +25,7 @@ import {
   documentTypeOptions,
 } from '@mss/web/features/document/addDocument.client'
 import { useRouter } from 'next/navigation'
-import { modalFadeAnimationTime } from '@mss/web/dsfr/dsfr'
+import { modalFadeAnimationTime } from '@mss/web/styles/dsfr'
 import * as Sentry from '@sentry/nextjs'
 
 export const AddDocumentModalForm = withTrpc(

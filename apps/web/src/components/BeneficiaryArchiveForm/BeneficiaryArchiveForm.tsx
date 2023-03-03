@@ -11,8 +11,8 @@ import { MutationInput } from '@mss/web/features/createMutation.client'
 import z from 'zod'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Beneficiary } from '@prisma/client'
-import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
-import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
+import { CheckboxFormField } from '@mss/web/components/FormField'
+import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import Link from 'next/link'
 
 export const BeneficiaryArchiveForm = withTrpc(

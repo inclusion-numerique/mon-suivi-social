@@ -7,7 +7,7 @@ import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpReq
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { prismaClient } from '@mss/web/prismaClient'
 import { HelpRequestForm } from '@mss/web/components/HelpRequestForm'
-import { getStructureFollowupTypes } from '@mss/web/service/StructureService'
+import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryHelpRequestPrivateSynthesis,

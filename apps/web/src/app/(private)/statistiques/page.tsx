@@ -7,7 +7,7 @@ import {
   getFamilyStats,
   getGenderStats,
   getSupportStats,
-} from '@mss/web/service/StatisticsService'
+} from '@mss/web/data/StatisticsService'
 import { CSSProperties, PropsWithChildren, ReactNode } from 'react'
 import { FamilySituationChart } from '@mss/web/app/(private)/statistiques/FamilySituationChart'
 import { AgeChart } from '@mss/web/app/(private)/statistiques/AgeChart'

@@ -2,7 +2,12 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputFormField } from '@mss/web/form/InputFormField'
+import {
+  InputFormField,
+  SelectFormField,
+  CheckboxFormField,
+  SelectTagsFormField,
+} from '@mss/web/components/FormField'
 import {
   beneficiaryAccomodationModeOptions,
   beneficiaryFamilySituationOptions,
@@ -15,10 +20,8 @@ import {
   beneficiaryStatusOptions,
   beneficiaryTitleOptions,
   incomeSourceOptions,
-} from '@mss/web/beneficiary/beneficiary'
+} from '@mss/web/constants/beneficiary'
 import { Options } from '@mss/web/utils/options'
-import { SelectFormField } from '@mss/web/form/SelectFormField'
-import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
 import { trpc } from '@mss/web/trpc'
 import { useRouter } from 'next/navigation'
 import { withTrpc } from '@mss/web/withTrpc'
@@ -32,8 +35,7 @@ import {
   AddBeneficiaryWithFullDataClient,
   pensionOrganisationOptions,
 } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
-import { SelectTagsFormField } from '@mss/web/form/SelectTagsFormField'
-import { nationalityOptions } from '@mss/web/features/beneficiary/nationality'
+import { nationalityOptions } from '@mss/web/constants/nationality'
 import { useEffect, useRef } from 'react'
 
 const FieldLabels = EditBeneficiaryFullDataClient.fieldLabels

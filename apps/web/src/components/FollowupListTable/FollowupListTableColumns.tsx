@@ -6,7 +6,7 @@ import {
   followupStatusClasses,
   followupStatusLabels,
 } from '@mss/web/features/followup/addFollowup.client'
-import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 

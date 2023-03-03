@@ -2,7 +2,12 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputFormField } from '@mss/web/form/InputFormField'
+import {
+  InputFormField,
+  SelectFormField,
+  SelectTagsFormField,
+  CheckboxFormField,
+} from '@mss/web/components/FormField'
 import { trpc } from '@mss/web/trpc'
 import { useRouter } from 'next/navigation'
 import { withTrpc } from '@mss/web/withTrpc'
@@ -18,9 +23,6 @@ import {
   helpRequestStatusOptions,
   paymentMethodOptions,
 } from '@mss/web/features/helpRequest/addHelpRequest.client'
-import { SelectFormField } from '@mss/web/form/SelectFormField'
-import { SelectTagsFormField } from '@mss/web/form/SelectTagsFormField'
-import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
 import { Options } from '@mss/web/utils/options'
 
 const FieldLabels = EditHelpRequestClient.fieldLabels
@@ -249,11 +251,11 @@ export const HelpRequestForm = withTrpc(
 
         {!isFinancialSupport && isExternal ? (
           <InputFormField
-              label={FieldLabels.examiningOrganisation}
-              disabled={fieldsDisabled}
-              control={control}
-              path="examiningOrganisation"
-            />
+            label={FieldLabels.examiningOrganisation}
+            disabled={fieldsDisabled}
+            control={control}
+            path="examiningOrganisation"
+          />
         ) : null}
         {isFinancialSupport && isExternal ? (
           <>

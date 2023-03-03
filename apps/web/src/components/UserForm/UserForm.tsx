@@ -2,14 +2,17 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputFormField } from '@mss/web/form/InputFormField'
+import {
+  SelectFormField,
+  InputFormField,
+  CheckboxFormField,
+} from '@mss/web/components/FormField'
 import { trpc } from '@mss/web/trpc'
 import { useRouter } from 'next/navigation'
 import { withTrpc } from '@mss/web/withTrpc'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import type { MutationServerState } from '@mss/web/features/createMutation.server'
 import type { MutationInput } from '@mss/web/features/createMutation.client'
-import { SelectFormField } from '@mss/web/form/SelectFormField'
 import { EditUserServer } from '@mss/web/features/user/editUser/editUser.server'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
 import { Routes } from '@mss/web/app/routing/routes'
@@ -17,7 +20,6 @@ import {
   CreateUserClient,
   nonAdminUserRoleOptions,
 } from '@mss/web/features/user/createUser/createUser.client'
-import { CheckboxFormField } from '@mss/web/form/CheckboxFormField'
 
 const FieldLabels = EditUserClient.fieldLabels
 
@@ -80,65 +82,65 @@ export const UserForm = withTrpc(
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-          <h3>Informations</h3>
-          <InputFormField
-            label={FieldLabels.firstName}
-            disabled={fieldsDisabled}
+        <h3>Informations</h3>
+        <InputFormField
+          label={FieldLabels.firstName}
+          disabled={fieldsDisabled}
+          control={control}
+          path="firstName"
+          required
+        />
+        <InputFormField
+          label={FieldLabels.lastName}
+          disabled={fieldsDisabled}
+          control={control}
+          path="lastName"
+          required
+        />
+        <InputFormField
+          label={FieldLabels.email}
+          disabled={fieldsDisabled}
+          control={control}
+          path="email"
+          required
+        />
+        <SelectFormField
+          label={FieldLabels.role}
+          disabled={fieldsDisabled}
+          control={control}
+          path="role"
+          defaultOption
+          required
+          options={nonAdminUserRoleOptions}
+        />
+        {properties.creation ? null : (
+          <CheckboxFormField
             control={control}
-            path="firstName"
-            required
+            label={FieldLabels.enabled}
+            checkboxLabel="Activé"
+            path="enabled"
+            disabled={isLoading}
           />
-          <InputFormField
-            label={FieldLabels.lastName}
-            disabled={fieldsDisabled}
-            control={control}
-            path="lastName"
-            required
-          />
-          <InputFormField
-            label={FieldLabels.email}
-            disabled={fieldsDisabled}
-            control={control}
-            path="email"
-            required
-          />
-          <SelectFormField
-            label={FieldLabels.role}
-            disabled={fieldsDisabled}
-            control={control}
-            path="role"
-            defaultOption
-            required
-            options={nonAdminUserRoleOptions}
-          />
-          {properties.creation ? null : (
-            <CheckboxFormField
-              control={control}
-              label={FieldLabels.enabled}
-              checkboxLabel="Activé"
-              path="enabled"
-              disabled={isLoading}
-            />
-          )}
+        )}
 
-          {isError ? <p className="fr-error-text">{error.message}</p> : null}
+        {isError ? <p className="fr-error-text">{error.message}</p> : null}
 
-          <div className="fr-grid-row fr-mt-12v">
-            <div className="fr-col-12">
-              <div className="fr-btns-group--inline fr-btns-group">
-                <button
-                  className="fr-btn"
-                  type="submit"
-                  disabled={fieldsDisabled}
-                >
-                  {properties.creation
-                    ? "Ajouter l'utilisateur"
-                    : 'Enregistrer les modifications'}
-                </button>
-              </div>
+        <div className="fr-grid-row fr-mt-12v">
+          <div className="fr-col-12">
+            <div className="fr-btns-group--inline fr-btns-group">
+              <button
+                className="fr-btn"
+                type="submit"
+                disabled={fieldsDisabled}
+              >
+                {properties.creation
+                  ? "Ajouter l'utilisateur"
+                  : 'Enregistrer les modifications'}
+              </button>
             </div>
           </div>
-        </form>
+        </div>
+      </form>
     )
   },
 )

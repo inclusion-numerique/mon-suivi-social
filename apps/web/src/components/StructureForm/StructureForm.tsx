@@ -2,21 +2,23 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputFormField } from '@mss/web/form/InputFormField'
+import {
+  InputFormField,
+  TagsFormField,
+  SelectFormField,
+} from '@mss/web/components/FormField'
 import { trpc } from '@mss/web/trpc'
 import { useRouter } from 'next/navigation'
 import { withTrpc } from '@mss/web/withTrpc'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Option } from '@mss/web/utils/options'
-import { TagsFormField } from '@mss/web/form/TagsFormField'
-import { groupFollowupTypesByLegality } from '@mss/web/service/groupFollowupTypes'
+import { groupFollowupTypesByLegality } from '@mss/web/helper/groupFollowupTypes'
 import { useMemo, useState } from 'react'
 import type { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
 import type { MutationServerState } from '@mss/web/features/createMutation.server'
 import type { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import type { FollowupTypesForStructureCreation } from '@mss/web/features/structure/createStructure/createStructure.server'
-import { SelectFormField } from '@mss/web/form/SelectFormField'
 import {
   CreateStructureClient,
   structureTypeOptions,
