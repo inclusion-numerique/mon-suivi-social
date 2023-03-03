@@ -1,3 +1,5 @@
 import { RootLayout } from '@mss/web/components/RootLayout'
 
-export default RootLayout
+const defaultExport = RootLayout
+
+export default defaultExport
