@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { ComponentProps } from 'react'
 import { createPagesNumbersToDisplay } from '@mss/web/ui/pagination'
+import { mockProviders } from 'next-auth/client/__tests__/helpers/mocks'
+import type = mockProviders.github.type
 
 export type PaginationNavProps = ComponentProps<typeof PaginationNav>
 
@@ -60,9 +62,9 @@ export function PaginationNav({
           )}
         </li>
         {/* TODO display lg etc... from doc https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/pagination/ */}
-        {linkablePages.map((linkNumber, index) =>
-          linkNumber === null ? (
-            <li key={`null_${index}`}>
+        {linkablePages.map((linkNumber) =>
+          typeof linkNumber === 'string' ? (
+            <li key={linkNumber}>
               <a className="fr-pagination__link">...</a>
             </li>
           ) : (

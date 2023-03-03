@@ -1,10 +1,14 @@
 // Only display at most 6 pages numbered links
 import { SortDirection, Sorting } from '@mss/web/ui/table/TableColumnDefinition'
 
+/**
+ * A string return type means that no pageNumber is to display.
+ * These are unique string so they can be used as "key" props in iterators.
+ */
 export const createPagesNumbersToDisplay = (
   totalPages: number,
   pageNumber: number,
-): (number | null)[] => {
+): (number | string)[] => {
   // Small pages numbers, display all pages
   if (totalPages <= 6) {
     return Array.from({ length: totalPages }).map((_, index) => index + 1)
@@ -12,11 +16,19 @@ export const createPagesNumbersToDisplay = (
 
   // Page is at beginning or end of the list, only display one "..."
   if (pageNumber <= 3 || pageNumber >= totalPages - 2) {
-    return [1, 2, 3, null, totalPages - 2, totalPages - 1, totalPages]
+    return [1, 2, 3, 'separator', totalPages - 2, totalPages - 1, totalPages]
   }
 
   // Page is in the middle, display it inside separators
-  return [1, null, pageNumber - 1, pageNumber, pageNumber + 1, null, totalPages]
+  return [
+    1,
+    'separator1',
+    pageNumber - 1,
+    pageNumber,
+    pageNumber + 1,
+    'separator2',
+    totalPages,
+  ]
 }
 
 export const takeAndSkipFromPagination = ({
@@ -25,7 +37,10 @@ export const takeAndSkipFromPagination = ({
 }: {
   page: number
   perPage: number
-}): { take: number; skip: number } => ({ take: perPage, skip: (page - 1) * perPage })
+}): { take: number; skip: number } => ({
+  take: perPage,
+  skip: (page - 1) * perPage,
+})
 
 // TODO clean this and factorize with sorting helper for default removal logic that helps cache hits
 export const createPageLinkHelper =

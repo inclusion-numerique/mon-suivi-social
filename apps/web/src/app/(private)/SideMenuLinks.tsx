@@ -17,15 +17,14 @@ const mainLinks: MenuLink[] = [
 ]
 
 function MenuLinkItem({
-  current,
-  icon,
-  path,
-  title,
+  item: { current, icon, path, title },
 }: {
-  path: string
-  current: boolean
-  icon: string
-  title: string
+  item: {
+    path: string
+    current: boolean
+    icon: string
+    title: string
+  }
 }) {
   return (
     <li
@@ -85,7 +84,7 @@ function SideMenuLinks({
   return (
     <ul className="fr-sidemenu__list">
       {menuLinksWithCurrent.map((item) => (
-        <MenuLinkItem key={item.path} {...item} />
+        <MenuLinkItem key={item.path} item={item} />
       ))}
     </ul>
   )

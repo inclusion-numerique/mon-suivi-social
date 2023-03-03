@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "include": [
+    ".eslintrc.js",
     "apps/cli/src",
     "apps/web/src",
     "packages/cdk/src",
