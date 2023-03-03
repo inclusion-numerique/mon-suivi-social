@@ -18,12 +18,34 @@ import type { NextPage } from 'next'
 import type { ErrorProps } from 'next/error'
 import NextErrorComponent from 'next/error'
 
-const CustomErrorComponent: NextPage<ErrorProps> = (properties) => <NextErrorComponent statusCode={properties.statusCode} />
+const CustomErrorComponent: NextPage<ErrorProps> = (properties) => (
+  <NextErrorComponent statusCode={properties.statusCode} />
+)
+
+const statusCodesErrorPages = {
+  '404': '/404',
+  '401': '/401',
+  '403': '/403',
+  '500': '/500',
+} as Record<string, string>
 
 CustomErrorComponent.getInitialProps = async (contextData) => {
   // In case this is running in a serverless function, await this in order to give Sentry
   // time to send the error before the lambda exits
   await Sentry.captureUnderscoreErrorException(contextData)
+
+  if (contextData.res) {
+    // Redirect to error page if status code match and path is different
+    const statusCode = contextData.res.statusCode.toString()
+    const redirectPath = statusCodesErrorPages[statusCode]
+
+    if (redirectPath && contextData.asPath !== redirectPath) {
+      contextData.res.writeHead(301, {
+        Location: redirectPath,
+      })
+      contextData.res.end()
+    }
+  }
 
   // This will contain the status code of the response
   return NextErrorComponent.getInitialProps(contextData)
