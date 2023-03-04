@@ -1,5 +1,5 @@
 import { Routes } from '@mss/web/app/routing/routes'
-import { PageLoading } from '@mss/web/components/PageLoading/PageLoading'
+import { PageLoading } from '@mss/web/components/PageLoading'
 
 function Loading() {
   return (
