@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import styles from '@mss/web/ui/table/Table.module.css'
+import styles from './Table.module.css'
 import {
   PaginationNav,
   PaginationNavProps,
