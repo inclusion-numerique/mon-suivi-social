@@ -4,13 +4,14 @@ import { Matomo } from './Matomo'
 import { Dsfr } from './Dsfr'
 import { EnvInformation } from './EnvInformation'
 import { PrivateConfig } from '@mss/web/config'
+import Head from 'next/head'
 
 const fontsToPreload = ['Marianne-Regular', 'Marianne-Bold', 'Marianne-Medium']
 
 export function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="fr" data-fr-theme="light" data-fr-scheme="light">
-      <head>
+      <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {PrivateConfig.isMain ? null : (
@@ -45,7 +46,7 @@ export function RootLayout({ children }: PropsWithChildren) {
         ))}
         <Dsfr />
         <Matomo />
-      </head>
+      </Head>
       <body>
         <EnvInformation />
         {children}
