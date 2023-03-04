@@ -4,14 +4,10 @@ import { Bar } from 'react-chartjs-2'
 import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
-import { SupportStats } from '@mss/web/stats/stats'
+import { SupportStats } from '@mss/web/data/StatisticsService'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
-export function SupportChart({
-  supportStats,
-}: {
-  supportStats: SupportStats
-}) {
+export function SupportChart({ supportStats }: { supportStats: SupportStats }) {
   const colors = useCssProperties([
     '--artwork-minor-pink-tuile',
     '--artwork-minor-blue-cumulus',
@@ -26,28 +22,22 @@ export function SupportChart({
     datasets: [
       {
         label: "Demandes d'aide",
-        data: 
-          supportStats.stats.map(({ _count }) => _count.helpRequests)
-          // supportStats.total.helpRequests,
-        ,
+        data: supportStats.stats.map(({ _count }) => _count.helpRequests),
+        // supportStats.total.helpRequests,
         backgroundColor: colors[0],
       },
       {
         label: 'Entretiens',
-        data: 
-          supportStats.stats.map(({ _count }) => _count.followups)
-          // supportStats.total.followups,
-        ,
+        data: supportStats.stats.map(({ _count }) => _count.followups),
+        // supportStats.total.followups,
         backgroundColor: colors[1],
       },
       {
         label: 'Total',
-        data: 
-          supportStats.stats.map(
-            ({ _count }) => _count.followups + _count.helpRequests,
-          )
-          // supportStats.total.total,
-        ,
+        data: supportStats.stats.map(
+          ({ _count }) => _count.followups + _count.helpRequests,
+        ),
+        // supportStats.total.total,
         backgroundColor: colors[2],
       },
     ],

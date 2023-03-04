@@ -1,4 +1,4 @@
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canListStructures } from '@mss/web/security/rules'
@@ -6,14 +6,16 @@ import { notFound, redirect } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/ui/table/TableColumnDefinition'
+} from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { ListStructuresServer } from '@mss/web/features/structure/listStructures/listStructures.server'
-import { createPageLinkHelper } from '@mss/web/ui/pagination'
-import { createSortLinkHelper } from '@mss/web/ui/sorting'
-import { TableHeadWithSorting } from '@mss/web/ui/table/TableHeadWithSorting'
-import { structuresListTableColumns } from '@mss/web/app/(private)/structures/(liste)/structuresListTableColumns'
-import { StructuresListTableRows } from '@mss/web/app/(private)/structures/(liste)/StructuresListTableRows'
-import { Table } from '@mss/web/ui/table/Table'
+import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
+import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
+import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
+import {
+  structureColumns,
+  StructureTable,
+} from '@mss/web/components/StructureTable'
+import { Table } from '@mss/web/components/Generic/table/Table'
 import Link from 'next/link'
 
 const itemsPerPage = 15
@@ -51,7 +53,7 @@ const StructuresListPage = async ({
     input: {
       perPage: itemsPerPage,
       page: pageNumber,
-      orderBy: getColumnOrderBy(currentSorting, structuresListTableColumns),
+      orderBy: getColumnOrderBy(currentSorting, structureColumns),
       search,
     },
     securityParams: {},
@@ -77,13 +79,13 @@ const StructuresListPage = async ({
 
   const tableHead = (
     <TableHeadWithSorting
-      columns={structuresListTableColumns}
+      columns={structureColumns}
       createSortLink={createSortLink}
       currentSorting={currentSorting}
     />
   )
 
-  const tableBody = <StructuresListTableRows structures={structures} />
+  const tableBody = <StructureTable structures={structures} />
 
   return (
     <>

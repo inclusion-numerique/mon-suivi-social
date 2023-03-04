@@ -5,7 +5,7 @@ import {
 import {
   getTotalPages,
   takeAndSkipFromPagination,
-} from '@mss/web/ui/pagination'
+} from '@mss/web/components/Generic/pagination'
 import { ListHelpRequestsClient } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.client'
 
 export const ListHelpRequestsServer = createQueryServer({

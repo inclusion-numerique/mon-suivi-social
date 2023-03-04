@@ -1,13 +1,13 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { Options } from '@mss/web/utils/options'
 import { prismaClient } from '@mss/web/prismaClient'
-import { getStructureFollowupTypes } from '@mss/web/structure/getStructureFollowupTypes'
-import { HelpRequestForm } from '@mss/web/app/(private)/accompagnements/demandes-d-aide/HelpRequestForm'
+import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
+import { HelpRequestForm } from '@mss/web/components/HelpRequestForm/HelpRequestForm'
 
 export const revalidate = 0
 

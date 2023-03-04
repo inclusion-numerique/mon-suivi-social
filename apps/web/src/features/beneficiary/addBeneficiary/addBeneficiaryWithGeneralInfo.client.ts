@@ -9,7 +9,7 @@ import {
   BeneficiaryTitle,
   Gender,
 } from '@prisma/client'
-import { Nationalities } from '@mss/web/features/beneficiary/nationality'
+import { Nationalities } from '@mss/web/constants/nationality'
 import { errorMessages, zodEnumFromObjectKeys } from '@mss/web/utils/zod'
 
 export const AddBeneficiaryWithGeneralInfoClient = createMutationClient({

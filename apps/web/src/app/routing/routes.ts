@@ -1,5 +1,5 @@
 import { withSearchParams } from '@mss/web/app/routing/withSearchParams'
-import { beneficiaryDisplayName } from '@mss/web/beneficiary/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { Beneficiary } from '@prisma/client'
 
 export type PaginationParams<T extends Record<string, string | undefined>> = {
@@ -214,7 +214,8 @@ export const Routes = {
 // Helper type for typing props of pages components
 // We need the any type to match Parameters<> check
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type RoutePathParams<T extends (...arguments_: any) => any> = Parameters<T>[0]
+export type RoutePathParams<T extends (...arguments_: any) => any> =
+  Parameters<T>[0]
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RoutePathSearchParams<T extends (...arguments_: any) => any> =
   Parameters<T>[1]

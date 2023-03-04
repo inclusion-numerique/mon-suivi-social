@@ -2,22 +2,21 @@ import Link from 'next/link'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
 import { getUserDisplayName } from '@mss/web/utils/user'
-import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import {
   RoutePathParams,
   RoutePathSearchParams,
   Routes,
 } from '@mss/web/app/routing/routes'
-import { DocumentsTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/DocumentsTab'
-import { HistoryTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/HistoryTab'
-import { InfoTab } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/InfoTab'
+import { DocumentsTab } from '@mss/web/components/DocumentsTab'
+import { HistoryTab } from '@mss/web/components/HistoryTab'
+import { InfoTab } from '@mss/web/components/InfoTab'
 import {
   canDeleteBeneficiary,
   canEditBeneficiaryGeneralInfo,
 } from '@mss/web/security/rules'
-import { AttributesList } from '@mss/web/ui/AttributesList'
-import { TabOptions, Tabs } from '@mss/web/ui/tabs/Tabs'
-import { MutationLog } from '@mss/web/app/(private)/MutationLog'
+import { AttributesList, TabOptions, Tabs } from '@mss/web/components/Generic'
+import { MutationLog } from '@mss/web/components/MutationLog'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 
 export const revalidate = 0
@@ -46,7 +45,7 @@ const getSupports = async ({
         include: {
           createdBy: true,
           type: true,
-          prescribingOrganization : true
+          prescribingOrganization: true,
         },
         orderBy: {
           openingDate: 'desc',

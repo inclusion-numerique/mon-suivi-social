@@ -1,0 +1,1 @@
+export { BeneficiarySearchBar } from './BeneficiarySearchBar'

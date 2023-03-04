@@ -1,5 +1,5 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
@@ -7,8 +7,8 @@ import { EditFollowupClient } from '@mss/web/features/followup/editFollowup.clie
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { prismaClient } from '@mss/web/prismaClient'
 import { EditFollowupServer } from '@mss/web/features/followup/editFollowup.server'
-import { FollowupForm } from '@mss/web/app/(private)/accompagnements/entretiens/FollowupForm'
-import { getStructureFollowupTypes } from '@mss/web/structure/getStructureFollowupTypes'
+import { FollowupForm } from '@mss/web/components/FollowupForm/FollowupForm'
+import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryFollowupPrivateSynthesis,

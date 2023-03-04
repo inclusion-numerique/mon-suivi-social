@@ -1,4 +1,4 @@
-import { PublicLayout } from '@mss/web/app/(public)/PublicLayout'
+import { PublicLayout } from '@mss/web/components/PublicLayout/PublicLayout'
 import { PropsWithChildren } from 'react'
 
 export default function Layout({ children }: PropsWithChildren) {

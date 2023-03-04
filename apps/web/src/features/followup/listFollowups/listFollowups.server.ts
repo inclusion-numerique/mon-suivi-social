@@ -6,7 +6,7 @@ import {
 import {
   getTotalPages,
   takeAndSkipFromPagination,
-} from '@mss/web/ui/pagination'
+} from '@mss/web/components/Generic/pagination'
 
 export const ListFollowupsServer = createQueryServer({
   client: ListFollowupsClient,

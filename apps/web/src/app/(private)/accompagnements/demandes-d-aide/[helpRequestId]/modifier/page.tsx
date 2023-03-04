@@ -1,13 +1,13 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { prismaClient } from '@mss/web/prismaClient'
-import { HelpRequestForm } from '@mss/web/app/(private)/accompagnements/demandes-d-aide/HelpRequestForm'
-import { getStructureFollowupTypes } from '@mss/web/structure/getStructureFollowupTypes'
+import { HelpRequestForm } from '@mss/web/components/HelpRequestForm'
+import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryHelpRequestPrivateSynthesis,

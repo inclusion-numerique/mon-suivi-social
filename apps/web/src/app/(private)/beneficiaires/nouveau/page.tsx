@@ -1,8 +1,8 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { getAgentOptions } from '@mss/web/app/(private)/beneficiaires/getAgentOptions'
+import { getAgentOptions } from '@mss/web/data/getAgentOptions'
 import { Routes } from '@mss/web/app/routing/routes'
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
-import { BeneficiaryForm } from '@mss/web/beneficiary/BeneficiaryForm'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { BeneficiaryForm } from '@mss/web/components/BeneficiaryForm/BeneficiaryForm'
 import { notFound } from 'next/navigation'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
@@ -10,7 +10,7 @@ import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/
 const AddBeneficiaryPage = async () => {
   const user = await getAuthenticatedAgent()
   const agents = await getAgentOptions(user)
-  const {structureId} = user
+  const { structureId } = user
 
   if (
     !AddBeneficiaryWithGeneralInfoClient.securityCheck(

@@ -1,0 +1,1 @@
+export { BeneficiaryArchiveForm } from './BeneficiaryArchiveForm'

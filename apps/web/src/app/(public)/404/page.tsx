@@ -1,4 +1,4 @@
-import { NotFoundError } from '@mss/web/app/ServerError'
+import { NotFoundError } from '@mss/web/components/ServerError'
 
 const Error404Page = () => <NotFoundError />
 

@@ -1,14 +1,17 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageConfig, PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { canViewStructure } from '@mss/web/security/rules'
 import { prismaClient } from '@mss/web/prismaClient'
-import { groupFollowupTypesByLegality } from '@mss/web/structure/groupFollowupTypes'
+import { groupFollowupTypesByLegality } from '@mss/web/helper/groupFollowupTypes'
 import Link from 'next/link'
-import { AttributeItem, AttributesList } from '@mss/web/ui/AttributesList'
+import {
+  AttributeItem,
+  AttributesList,
+} from '@mss/web/components/Generic/AttributesList'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
-import { MutationLog } from '@mss/web/app/(private)/MutationLog'
+import { MutationLog } from '@mss/web/components/MutationLog'
 
 export const revalidate = 0
 

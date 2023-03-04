@@ -4,7 +4,7 @@ import { prismaClient } from '@mss/web/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
-import { Nationalities } from '@mss/web/features/beneficiary/nationality'
+import { Nationalities } from '@mss/web/constants/nationality'
 
 export const EditBeneficiaryGeneralInfoServer =
   createMutationServerWithInitialState({
@@ -62,11 +62,11 @@ export const EditBeneficiaryGeneralInfoServer =
       nationality,
       ...data
     }): MutationInput<EditBeneficiaryGeneralInfoClient> => ({
-        beneficiaryId: id,
-        nationality: nationality as keyof typeof Nationalities,
-        referents: referents.map((referent) => referent.id),
-        ...removeNullAndUndefinedValues(data),
-      }),
+      beneficiaryId: id,
+      nationality: nationality as keyof typeof Nationalities,
+      referents: referents.map((referent) => referent.id),
+      ...removeNullAndUndefinedValues(data),
+    }),
     executeMutation: async ({ input, transaction, initialInput }) => {
       const { beneficiaryId, referents, ...data } = input
 

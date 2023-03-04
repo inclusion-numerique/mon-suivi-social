@@ -1,4 +1,4 @@
-import { PageTitle } from '@mss/web/app/(private)/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
 import { getAuthenticatedSessionUser } from '@mss/web/auth/getSessionUser'
 import { prismaClient } from '@mss/web/prismaClient'
 import {
@@ -7,7 +7,7 @@ import {
   inclusionConnectProviderId,
 } from '@mss/web/auth/inclusionConnect'
 import Link from 'next/link'
-import { Card } from '@mss/web/ui/Card'
+import { Card } from '@mss/web/components/Generic'
 import { Routes } from '@mss/web/app/routing/routes'
 
 const MonComptePage = async () => {
