@@ -4,12 +4,14 @@ const nodeEnvironment = process.env.NODE_ENV
 const isProd = nodeEnvironment === 'production'
 
 // FIXME : write tests. It should match
-//   default-src 'self'; script-src 'self' ${isProd ? '' : "'unsafe-inline' 'unsafe-eval'"}; script-src-attr 'none'; style-src 'self' https: 'unsafe-inline'; img-src 'self' data:; object-src 'none'; font-src 'self' https: data:; frame-ancestors 'self'; form-action 'self'; base-uri 'self'; upgrade-insecure-requests
+//   default-src 'self'; script-src 'self' https://sentry.incubateur.net https://matomo.incubateur.anct.gouv.fr ${isProd ? '' : "'unsafe-inline' 'unsafe-eval'"}; script-src-attr 'none'; style-src 'self' https: 'unsafe-inline'; img-src 'self' data:; object-src 'none'; font-src 'self' https: data:; frame-ancestors 'self'; form-action 'self'; base-uri 'self'; upgrade-insecure-requests
 // Build the CSP policy
 function getCsp() {
   const csp = {
     'default-src': "'self'",
-    'script-src': `'self' ${isProd ? '' : "'unsafe-inline' 'unsafe-eval'"}`,
+    'script-src': `'self' https://sentry.incubateur.net https://matomo.incubateur.anct.gouv.fr ${
+      isProd ? '' : "'unsafe-inline' 'unsafe-eval'"
+    }`,
     'script-src-attr': "'none'",
     'style-src': "'self' https: 'unsafe-inline'",
     'img-src': "'self' data:",
