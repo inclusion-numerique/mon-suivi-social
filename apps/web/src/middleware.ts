@@ -1,16 +1,11 @@
-import { NextMiddleware, NextResponse } from 'next/server'
+import { NextMiddleware, NextRequest, NextResponse } from 'next/server'
 
-const nodeEnvironment = process.env.NODE_ENV
-const isProd = nodeEnvironment === 'production'
-
-// FIXME : write tests. It should match
-//   default-src 'self'; script-src 'self' https://sentry.incubateur.net https://matomo.incubateur.anct.gouv.fr ${isProd ? '' : "'unsafe-inline' 'unsafe-eval'"}; script-src-attr 'none'; style-src 'self' https: 'unsafe-inline'; img-src 'self' data:; object-src 'none'; font-src 'self' https: data:; frame-ancestors 'self'; form-action 'self'; base-uri 'self'; upgrade-insecure-requests
 // Build the CSP policy
-function getCsp() {
+function getCsp(isProd: boolean) {
   const csp = {
     'default-src': "'self'",
-    'script-src': `'self' https://sentry.incubateur.net https://matomo.incubateur.anct.gouv.fr ${
-      isProd ? '' : "'unsafe-inline' 'unsafe-eval'"
+    'script-src': `'self' https://sentry.incubateur.net https://matomo.incubateur.anct.gouv.fr${
+      isProd ? '' : " 'unsafe-inline' 'unsafe-eval'"
     }`,
     'script-src-attr': "'none'",
     'style-src': "'self' https: 'unsafe-inline'",
@@ -29,8 +24,10 @@ function getCsp() {
   }, '')
 }
 
-const middleware: NextMiddleware = (request) => {
+const middleware = (request: NextRequest) => {
   const forwardedProto = request.headers.get('X-Forwarded-Proto')
+  const nodeEnvironment = process.env.NODE_ENV
+  const isProd = nodeEnvironment === 'production'
   const requestHost = request.headers.get('host')
   const baseUrl = process.env.BASE_URL
 
@@ -70,7 +67,7 @@ const middleware: NextMiddleware = (request) => {
 
   // TODO To test on preview environment
   // Next requires unsafe-eval script sources in dev mode - See https://github.com/vercel/next.js/issues/18557#issuecomment-727160210
-  response.headers.append('Content-Security-Policy-Report-Only', getCsp())
+  response.headers.append('Content-Security-Policy-Report-Only', getCsp(isProd))
   return response
 }
 
