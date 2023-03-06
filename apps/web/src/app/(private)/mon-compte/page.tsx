@@ -1,6 +1,5 @@
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { getAuthenticatedSessionUser } from '@mss/web/auth/getSessionUser'
-import { prismaClient } from '@mss/web/prismaClient'
 import {
   getInclusionConnectChangePasswordUrl,
   getInclusionConnectLogoutUrl,
@@ -9,12 +8,14 @@ import {
 import Link from 'next/link'
 import { Card } from '@mss/web/components/Generic'
 import { Routes } from '@mss/web/app/routing/routes'
+import { AccountQuery } from '@mss/web/data'
 
 const MonComptePage = async () => {
   const user = await getAuthenticatedSessionUser()
-  const inclusionConnectAccount = await prismaClient.account.findFirst({
-    where: { userId: user.id, provider: inclusionConnectProviderId },
-  })
+  const inclusionConnectAccount = await AccountQuery.getInclusionConnectAccount(
+    user.id,
+    inclusionConnectProviderId,
+  )
 
   return (
     <>

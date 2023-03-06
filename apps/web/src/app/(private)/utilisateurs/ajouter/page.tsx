@@ -1,5 +1,5 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { CreateUserClient } from '@mss/web/features/user/createUser/createUser.client'
@@ -13,7 +13,6 @@ const AddUserPage = async () => {
   const { structureId } = user
   if (!CreateUserClient.securityCheck(user, { structureId }, {})) {
     notFound()
-    return null
   }
 
   return (

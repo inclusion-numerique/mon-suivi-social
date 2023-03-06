@@ -1,4 +1,4 @@
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canListStructures } from '@mss/web/security/rules'
@@ -6,16 +6,16 @@ import { notFound, redirect } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/components/Generic/table/TableColumnDefinition'
+  createPageLinkHelper,
+  createSortLinkHelper,
+  TableHeadWithSorting,
+  Table,
+} from '@mss/web/components/Generic'
 import { ListStructuresServer } from '@mss/web/features/structure/listStructures/listStructures.server'
-import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
-import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
-import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
 import {
   structureColumns,
   StructureTable,
 } from '@mss/web/components/StructureTable'
-import { Table } from '@mss/web/components/Generic/table/Table'
 import Link from 'next/link'
 
 const itemsPerPage = 15
@@ -33,7 +33,6 @@ const StructuresListPage = async ({
   const user = await getAuthenticatedAgent()
   if (!canListStructures(user)) {
     notFound()
-    return null
   }
 
   // TODO We could put all this in a big list page helper function...
@@ -68,7 +67,6 @@ const StructuresListPage = async ({
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > totalPages) {
     redirect(createPageLink(totalPages))
-    return null
   }
 
   // Linking logic for sorting

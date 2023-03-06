@@ -1,13 +1,8 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { GenderChart } from '@mss/web/app/(private)/statistiques/GenderChart'
 import { SupportChart } from '@mss/web/app/(private)/statistiques/SupportChart'
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
-import {
-  getAgeStats,
-  getFamilyStats,
-  getGenderStats,
-  getSupportStats,
-} from '@mss/web/data/StatisticsService'
+import { PageTitle } from '@mss/web/components/PageTitle'
+import { StatisticQuery } from '@mss/web/data'
 import { CSSProperties, PropsWithChildren, ReactNode } from 'react'
 import { FamilySituationChart } from '@mss/web/app/(private)/statistiques/FamilySituationChart'
 import { AgeChart } from '@mss/web/app/(private)/statistiques/AgeChart'
@@ -18,10 +13,10 @@ const StatistiquesPage = async () => {
   const { structureId } = await getAuthenticatedAgent()
   const [genderStats, familySituationStats, ageStats, supportStats] =
     await Promise.all([
-      getGenderStats(structureId),
-      getFamilyStats(structureId),
-      getAgeStats(structureId),
-      getSupportStats(structureId),
+      StatisticQuery.getGenderStats(structureId),
+      StatisticQuery.getFamilyStats(structureId),
+      StatisticQuery.getAgeStats(structureId),
+      StatisticQuery.getSupportStats(structureId),
     ])
 
   return (

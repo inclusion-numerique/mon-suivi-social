@@ -1,5 +1,5 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { getAgentOptions } from '@mss/web/data/getAgentOptions'
+import { UserQuery } from '@mss/web/data'
 import { notFound } from 'next/navigation'
 import { prismaClient } from '@mss/web/prismaClient'
 import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
@@ -41,10 +41,9 @@ const EditBeneficiaryPage = async ({
 
   if (!EditBeneficiaryGeneralInfoClient.securityCheck(user, beneficiary, {})) {
     notFound()
-    return null
   }
 
-  const agents = await getAgentOptions(user)
+  const agents = await UserQuery.getAgentOptions(user)
 
   const formProperties = EditBeneficiaryFullDataClient.securityCheck(
     user,

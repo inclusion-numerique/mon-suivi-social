@@ -1,10 +1,10 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { notFound } from 'next/navigation'
-import { prismaClient } from '@mss/web/prismaClient'
-import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { Routes } from '@mss/web/app/routing/routes'
 import { BeneficiaryArchiveForm } from '@mss/web/components/BeneficiaryArchiveForm'
+import { BeneficiaryQuery } from '@mss/web/data'
 
 export const revalidate = 0
 
@@ -18,9 +18,7 @@ const EditBeneficiaryPage = async ({
   }
 
   const user = await getAuthenticatedAgent()
-  const beneficiary = await prismaClient.beneficiary.findUnique({
-    where: { fileNumber },
-  })
+  const beneficiary = await BeneficiaryQuery.findByFileNumber(fileNumber)
 
   if (!beneficiary || beneficiary.structureId != user.structureId) {
     return notFound()

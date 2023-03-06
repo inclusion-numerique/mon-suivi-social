@@ -4,14 +4,14 @@ import { Doughnut } from 'react-chartjs-2'
 import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
-import { FamilySituationStats } from '@mss/web/data/StatisticsService'
 import { getFamilySituationWording } from '@mss/web/constants/familySituation'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
+import { GetFamilyStatsReturn } from '@mss/web/data'
 
 export function FamilySituationChart({
   familySituationStats,
 }: {
-  familySituationStats: FamilySituationStats
+  familySituationStats: GetFamilyStatsReturn
 }) {
   const colors = useCssProperties([
     '--artwork-minor-green-emeraude',

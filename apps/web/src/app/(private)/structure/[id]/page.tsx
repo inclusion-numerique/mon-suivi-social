@@ -1,9 +1,8 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { canViewStructure } from '@mss/web/security/rules'
-import { prismaClient } from '@mss/web/prismaClient'
 import { groupFollowupTypesByLegality } from '@mss/web/helper/groupFollowupTypes'
 import Link from 'next/link'
 import {
@@ -12,6 +11,7 @@ import {
 } from '@mss/web/components/Generic/AttributesList'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { MutationLog } from '@mss/web/components/MutationLog'
+import { StructureQuery } from '@mss/web/data'
 
 export const revalidate = 0
 
@@ -25,21 +25,9 @@ const StructurePage = async ({
   // TODO ViewStructure feature ?
   if (!canViewStructure(user, { structureId })) {
     notFound()
-    return null
   }
 
-  const structure = await prismaClient.structure.findUniqueOrThrow({
-    where: { id: structureId },
-    include: {
-      proposedFollowupTypes: {
-        select: {
-          followupType: {
-            select: { id: true, name: true, legallyRequired: true },
-          },
-        },
-      },
-    },
-  })
+  const structure = await StructureQuery.findById(structureId)
 
   const page: PageConfig = {
     ...Routes.Structure.Index,

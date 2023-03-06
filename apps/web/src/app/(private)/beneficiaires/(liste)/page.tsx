@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import {
@@ -7,14 +7,16 @@ import {
   beneficiaryColumns,
 } from '@mss/web/components/BeneficiaryTable'
 import { redirect } from 'next/navigation'
-import { Table } from '@mss/web/components/Generic/table/Table'
+import {
+  Table,
+  TableHeadWithSorting,
+  createPageLinkHelper,
+  createSortLinkHelper,
+} from '@mss/web/components/Generic'
 import {
   getColumnOrderBy,
   Sorting,
 } from '@mss/web/components/Generic/table/TableColumnDefinition'
-import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
-import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
-import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
 

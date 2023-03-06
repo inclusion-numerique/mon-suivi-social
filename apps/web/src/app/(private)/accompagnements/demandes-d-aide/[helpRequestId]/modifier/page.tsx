@@ -4,16 +4,15 @@ import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
-import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { prismaClient } from '@mss/web/prismaClient'
 import { HelpRequestForm } from '@mss/web/components/HelpRequestForm'
-import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
+import { getStructureFollowupTypes } from '@mss/web/data/proposedFollowupType/getStructureFollowupTypes'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryHelpRequestPrivateSynthesis,
   canViewBeneficiaryHelpRequestSynthesis,
 } from '@mss/web/security/rules'
 import { EditHelpRequestServer } from '@mss/web/features/helpRequest/editHelpRequest.server'
+import { HelpRequestQuery } from '@mss/web/data'
 
 export const revalidate = 0
 
@@ -25,32 +24,11 @@ const EditHelpRequestPage = async ({
   >
 }) => {
   const user = await getAuthenticatedAgent()
-  const helpRequest = await prismaClient.helpRequest.findFirst({
-    where: {
-      id: helpRequestId,
-    },
-    select: {
-      structureId: true,
-      createdById: true,
-      beneficiary: {
-        select: {
-          ...beneficiarySecurityTargetSelect,
-          firstName: true,
-          birthName: true,
-          usualName: true,
-          email: true,
-          fileNumber: true,
-          documents: {
-            select: { key: true, type: true, name: true },
-          },
-        },
-      },
-    },
-  })
+
+  const helpRequest = await HelpRequestQuery.findById(helpRequestId)
 
   if (!helpRequest) {
     notFound()
-    return null
   }
 
   if (

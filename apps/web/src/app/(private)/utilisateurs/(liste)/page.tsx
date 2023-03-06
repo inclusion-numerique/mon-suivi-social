@@ -1,4 +1,4 @@
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canListUsers } from '@mss/web/security/rules'
@@ -6,13 +6,13 @@ import { notFound, redirect } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/components/Generic/table/TableColumnDefinition'
-import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
-import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
+  createPageLinkHelper,
+  createSortLinkHelper,
+  Table,
+  TableHeadWithSorting,
+} from '@mss/web/components/Generic'
 import { ListUsersServer } from '@mss/web/features/user/listUsers/listUsers.server'
-import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
 import Link from 'next/link'
-import { Table } from '@mss/web/components/Generic/table/Table'
 import { UserTable, userTableColumns } from '@mss/web/components/UserTable'
 
 const itemsPerPage = 15
@@ -33,7 +33,6 @@ const ListeDesUtilisateursPage = async ({
   const { structureId } = user
   if (!canListUsers(user, { structureId })) {
     notFound()
-    return null
   }
 
   // Get pagination and sorting info from searchParams
@@ -67,7 +66,6 @@ const ListeDesUtilisateursPage = async ({
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > totalPages) {
     redirect(createPageLink(totalPages))
-    return null
   }
 
   // Linking logic for sorting

@@ -1,18 +1,20 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canAccessFollowupsPage } from '@mss/web/security/rules'
 import { notFound, redirect } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/components/Generic/table/TableColumnDefinition'
-import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
-import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
+  createPageLinkHelper,
+  createSortLinkHelper,
+  Table,
+  TableHeadWithSorting,
+  TabOptions,
+  Tabs,
+} from '@mss/web/components/Generic'
 import { ListFollowupsServer } from '@mss/web/features/followup/listFollowups/listFollowups.server'
 import { ListHelpRequestsServer } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.server'
-import { Table } from '@mss/web/components/Generic/table/Table'
-import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
 import {
   FollowupListTableRows,
   FollowupListTableColumns,
@@ -21,7 +23,6 @@ import {
   HelpRequestListTableRows,
   helpRequestListTableColumns,
 } from '@mss/web/components/HelpRequestListTable'
-import { TabOptions, Tabs } from '@mss/web/components/Generic/tabs/Tabs'
 
 const itemsPerPage = 15
 
@@ -35,7 +36,6 @@ const AccompagnementsListPage = async ({
   const user = await getAuthenticatedAgent()
   if (!canAccessFollowupsPage(user, { structureId: user.structureId })) {
     notFound()
-    return null
   }
   const { structureId } = user
 

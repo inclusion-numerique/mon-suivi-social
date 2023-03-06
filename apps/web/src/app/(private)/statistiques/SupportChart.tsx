@@ -4,10 +4,14 @@ import { Bar } from 'react-chartjs-2'
 import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
-import { SupportStats } from '@mss/web/data/StatisticsService'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
+import { GetSupportStatsReturn } from '@mss/web/data'
 
-export function SupportChart({ supportStats }: { supportStats: SupportStats }) {
+export function SupportChart({
+  supportStats,
+}: {
+  supportStats: GetSupportStatsReturn
+}) {
   const colors = useCssProperties([
     '--artwork-minor-pink-tuile',
     '--artwork-minor-blue-cumulus',

@@ -3,11 +3,11 @@
 import { Bar } from 'react-chartjs-2'
 import { ChartData, ChartOptions } from 'chart.js'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
-import { AgeStats } from '@mss/web/data/StatisticsService'
+import { GetAgeStatsReturn } from '@mss/web/data'
 import { AgeGroupLabels } from '@mss/web/constants/ageGroup'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
-export function AgeChart({ ageStats }: { ageStats: AgeStats }) {
+export function AgeChart({ ageStats }: { ageStats: GetAgeStatsReturn }) {
   const colors = useCssProperties([
     '--artwork-minor-blue-cumulus',
     '--artwork-minor-beige-gris-galet',

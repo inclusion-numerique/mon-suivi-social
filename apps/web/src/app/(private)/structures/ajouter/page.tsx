@@ -1,9 +1,9 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
-import { StructureForm } from '@mss/web/components/StructureForm/StructureForm'
+import { StructureForm } from '@mss/web/components/StructureForm'
 import { CreateStructureClient } from '@mss/web/features/structure/createStructure/createStructure.client'
 import { getFollowupTypesForStructureCreation } from '@mss/web/features/structure/createStructure/createStructure.server'
 
@@ -14,7 +14,6 @@ const AddStructurePage = async () => {
 
   if (!CreateStructureClient.securityCheck(user, {}, {})) {
     notFound()
-    return null
   }
 
   const availableFollowupTypes = await getFollowupTypesForStructureCreation()

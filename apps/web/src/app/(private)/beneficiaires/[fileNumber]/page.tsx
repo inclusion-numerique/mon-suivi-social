@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { prismaClient } from '@mss/web/prismaClient'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import {
@@ -18,119 +17,13 @@ import {
 import { AttributesList, TabOptions, Tabs } from '@mss/web/components/Generic'
 import { MutationLog } from '@mss/web/components/MutationLog'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
+import {
+  BeneficiaryQuery,
+  DocumentQuery,
+  FollowupTypeQuery,
+} from '@mss/web/data'
 
 export const revalidate = 0
-
-const getSupports = async ({
-  beneficiaryId,
-  agentId,
-}: {
-  beneficiaryId: string
-  agentId: string
-}) => {
-  const result = await prismaClient.beneficiary.findUniqueOrThrow({
-    where: { id: beneficiaryId },
-    select: {
-      id: true,
-      followups: {
-        include: {
-          createdBy: true,
-          types: true,
-        },
-        orderBy: {
-          date: 'desc',
-        },
-      },
-      helpRequests: {
-        include: {
-          createdBy: true,
-          type: true,
-          prescribingOrganization: true,
-        },
-        orderBy: {
-          openingDate: 'desc',
-        },
-      },
-    },
-  })
-
-  // Remove private info
-  const followups = result.followups.map((followup) => {
-    if (followup.createdById !== agentId) {
-      followup.privateSynthesis = null
-    }
-
-    return {
-      ...followup,
-      historyDate: followup.date,
-      __type: 'followup' as const,
-    }
-  })
-  const helpRequests = result.helpRequests.map((helpRequest) => {
-    if (helpRequest.createdById !== agentId) {
-      helpRequest.privateSynthesis = null
-    }
-    return {
-      ...helpRequest,
-      historyDate: helpRequest.openingDate,
-      __type: 'helpRequest' as const,
-    }
-  })
-
-  return [...followups, ...helpRequests].sort(
-    (a, b) => b.historyDate.getTime() - a.historyDate.getTime(),
-  )
-}
-
-export type BeneficiaryPageSupport = Awaited<ReturnType<typeof getSupports>>[0]
-
-const getBeneficiary = ({
-  fileNumber,
-  structureId,
-}: {
-  structureId: string
-  fileNumber: string
-}) =>
-  prismaClient.beneficiary.findFirstOrThrow({
-    where: { structureId, fileNumber },
-    include: {
-      referents: true,
-    },
-  })
-export type BeneficiaryPageInfo = Awaited<ReturnType<typeof getBeneficiary>>
-
-const getDocuments = ({
-  beneficiaryId,
-}: {
-  userId: string
-  beneficiaryId: string
-}) =>
-  prismaClient.document.findMany({
-    where: { beneficiaryId },
-  })
-
-export type BeneficiaryPageDocuments = Awaited<ReturnType<typeof getDocuments>>
-
-const getBeneficiaryFollowupTypes = ({
-  beneficiaryId,
-}: {
-  beneficiaryId: string
-}) =>
-  prismaClient.followupType.findMany({
-    where: {
-      OR: [
-        {
-          followups: { some: { beneficiaryId } },
-        },
-        {
-          helpRequests: { some: { beneficiaryId } },
-        },
-      ],
-    },
-  })
-export type BeneficiaryFollowupTypes = Awaited<
-  ReturnType<typeof getBeneficiaryFollowupTypes>
->
 
 const BeneficiaryPage = async ({
   params: { fileNumber },
@@ -143,20 +36,20 @@ const BeneficiaryPage = async ({
 }) => {
   const user = await getAuthenticatedAgent()
   // TODO use security rules instead of where filters
-  const beneficiary = await getBeneficiary({
+  const beneficiary = await BeneficiaryQuery.findByFileNumberAndStructure({
     fileNumber,
     structureId: user.structureId,
   })
   const [supports, documents, followupTypes] = await Promise.all([
-    getSupports({
+    BeneficiaryQuery.getBeneficiarySupportsByAgent({
       beneficiaryId: beneficiary.id,
       agentId: user.id,
     }),
-    getDocuments({
+    DocumentQuery.findByBeneficiary({
       beneficiaryId: beneficiary.id,
       userId: user.id,
     }),
-    getBeneficiaryFollowupTypes({
+    FollowupTypeQuery.findByBeneficiary({
       beneficiaryId: beneficiary.id,
     }),
   ])

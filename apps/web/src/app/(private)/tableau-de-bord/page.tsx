@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
