@@ -12,9 +12,6 @@ const getSupports = async ({
     select: {
       id: true,
       followups: {
-        select: {
-          id: true,
-        },
         include: {
           createdBy: true,
           types: true,
