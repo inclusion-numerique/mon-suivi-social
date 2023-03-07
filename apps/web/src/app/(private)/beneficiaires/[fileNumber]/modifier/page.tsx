@@ -1,5 +1,5 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { BeneficiairesBusiness } from '@mss/web/business'
+import { BeneficiairesBusiness } from '@mss/web/query'
 import { notFound } from 'next/navigation'
 import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'

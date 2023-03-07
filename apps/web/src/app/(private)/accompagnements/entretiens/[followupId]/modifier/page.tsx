@@ -11,7 +11,7 @@ import {
   canViewBeneficiaryFollowupPrivateSynthesis,
   canViewBeneficiaryFollowupSynthesis,
 } from '@mss/web/security/rules'
-import { AccompagnementsBusiness } from '@mss/web/business'
+import { AccompagnementsBusiness } from '@mss/web/query'
 
 export const revalidate = 0
 

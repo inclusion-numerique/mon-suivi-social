@@ -27,10 +27,7 @@ import {
 } from '@mss/web/security/rules'
 import { Routes } from '@mss/web/app/routing/routes'
 import Link from 'next/link'
-import {
-  GetSupportsReturn,
-  GetBeneficiaireToViewReturn,
-} from '@mss/web/business'
+import { GetSupportsReturn, GetBeneficiaireToViewReturn } from '@mss/web/query'
 
 export function HistoryTab({
   user,

@@ -4,7 +4,7 @@ import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { Routes } from '@mss/web/app/routing/routes'
 import { BeneficiaryArchiveForm } from '@mss/web/components/BeneficiaryArchiveForm'
-import { BeneficiairesBusiness } from '@mss/web/business'
+import { BeneficiairesBusiness } from '@mss/web/query'
 
 export const revalidate = 0
 

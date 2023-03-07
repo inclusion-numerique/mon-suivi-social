@@ -5,7 +5,7 @@ import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
-import { GetSupportStatsReturn } from '@mss/web/business'
+import { GetSupportStatsReturn } from '@mss/web/query'
 
 export function SupportChart({
   supportStats,

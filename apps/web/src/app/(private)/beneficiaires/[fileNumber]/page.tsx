@@ -17,7 +17,7 @@ import {
 import { AttributesList, TabOptions, Tabs } from '@mss/web/components/Generic'
 import { MutationLog } from '@mss/web/components/MutationLog'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
-import { BeneficiairesBusiness } from '@mss/web/business'
+import { BeneficiairesBusiness } from '@mss/web/query'
 
 export const revalidate = 0
 

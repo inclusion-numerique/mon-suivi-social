@@ -11,7 +11,7 @@ import {
 } from '@mss/web/components/Generic/AttributesList'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { MutationLog } from '@mss/web/components/MutationLog'
-import { StructureBusiness } from '@mss/web/business'
+import { StructureBusiness } from '@mss/web/query'
 
 export const revalidate = 0
 

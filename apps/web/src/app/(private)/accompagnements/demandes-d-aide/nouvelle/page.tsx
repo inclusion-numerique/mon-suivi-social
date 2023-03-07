@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { Options } from '@mss/web/utils/options'
 import { HelpRequestForm } from '@mss/web/components/HelpRequestForm/HelpRequestForm'
-import { AccompagnementsBusiness } from '@mss/web/business'
+import { AccompagnementsBusiness } from '@mss/web/query'
 
 export const revalidate = 0
 

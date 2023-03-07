@@ -6,7 +6,7 @@ import { pick } from '@mss/web/utils/pick'
 import { getGenderWording } from '@mss/web/constants/gender'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
-import { GetGenderStatsReturn } from '@mss/web/business'
+import { GetGenderStatsReturn } from '@mss/web/query'
 
 export function GenderChart({
   genderStats,
