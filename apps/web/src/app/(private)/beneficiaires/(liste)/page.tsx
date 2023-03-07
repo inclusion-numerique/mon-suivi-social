@@ -47,16 +47,12 @@ const BeneficiariesListPage = async ({
   // Get filters info from searchParams
   const search = searchParams?.recherche
 
-  const beneficiariesList = await ListBeneficiariesServer.execute({
-    user,
-    input: {
-      perPage: itemsPerPage,
-      page: pageNumber,
-      orderBy: getColumnOrderBy(currentSorting, beneficiaryColumns),
-      structureId,
-      search,
-    },
-    securityParams: { structureId },
+  const beneficiariesList = await BeneficiairesQuery.iterateBeneficiaries({
+    perPage: itemsPerPage,
+    page: pageNumber,
+    orderBy: getColumnOrderBy(currentSorting, beneficiaryColumns),
+    structureId,
+    search,
   })
 
   // Linking logic for pages navigation

@@ -13,4 +13,5 @@ export {
 export {
   type GetBeneficiaryToViewReturn,
   type GetSupportsReturn,
+  type IterateBeneficiariesReturn,
 } from './beneficiaires'

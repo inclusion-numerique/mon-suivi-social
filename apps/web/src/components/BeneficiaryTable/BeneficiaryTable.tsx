@@ -3,13 +3,12 @@ import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { Routes } from '@mss/web/app/routing/routes'
 import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
-import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
-import type { QueryResult } from '@mss/web/features/createQuery.server'
+import { IterateBeneficiariesReturn } from '@mss/web/query'
 
 export const BeneficiaryTable = asyncComponent(
   async ({
     beneficiaries,
-  }: Pick<QueryResult<typeof ListBeneficiariesServer>, 'beneficiaries'>) => {
+  }: Pick<IterateBeneficiariesReturn, 'beneficiaries'>) => {
     if (beneficiaries.length === 0) {
       return (
         <tr>

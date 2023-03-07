@@ -33,7 +33,7 @@ const BeneficiaryPage = async ({
   const user = await getAuthenticatedAgent()
   // TODO use security rules instead of where filters
 
-  const beneficiary = await BeneficiairesQuery.getBeneficiaireToView(fileNumber)
+  const beneficiary = await BeneficiairesQuery.getBeneficiaryToView(fileNumber)
   const [supports, documents, followupTypes] = await Promise.all([
     BeneficiairesQuery.getSupports({
       beneficiaryId: beneficiary.id,

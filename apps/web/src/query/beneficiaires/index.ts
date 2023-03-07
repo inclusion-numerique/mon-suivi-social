@@ -20,3 +20,4 @@ export const BeneficiairesQuery = {
 
 export type { GetSupportsReturn } from './getSupports'
 export type { GetBeneficiaryToViewReturn } from './getBeneficiaryToView'
+export type { IterateBeneficiariesReturn } from './iterateBeneficiaries'

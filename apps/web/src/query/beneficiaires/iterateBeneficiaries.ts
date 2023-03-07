@@ -1,5 +1,5 @@
-import { prismaClient } from '@mss/web/prismaClient'
-import { takeAndSkipFromPagination } from '@mss/web/utils/table'
+import { Prisma, prismaClient } from '@mss/web/prismaClient'
+import { getTotalPages, takeAndSkipFromPagination } from '@mss/web/utils/table'
 
 type ListBeneficiariesInput = {
   structureId: string
@@ -73,3 +73,7 @@ export const iterateBeneficiaries = async ({
 
   return { beneficiaries, count, totalPages }
 }
+
+export type IterateBeneficiariesReturn = Prisma.PromiseReturnType<
+  typeof iterateBeneficiaries
+>

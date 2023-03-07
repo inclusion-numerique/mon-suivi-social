@@ -19,10 +19,10 @@ export type TableColumnDefinition<Item = unknown, OrderByCondition = object> = {
 export const getColumnOrderBy = <Item>(
   sorting: Sorting,
   columns: TableColumnDefinition<Item>[],
-): object[] | undefined => {
+): object[] => {
   const column = columns.find(({ label }) => label === sorting.by)
   if (!column || !column.sortable) {
-    return undefined
+    return []
   }
 
   return column.sortable(sorting.direction)

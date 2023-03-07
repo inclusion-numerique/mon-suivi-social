@@ -22,7 +22,7 @@ const EditBeneficiaryPage = async ({
   const user = await getAuthenticatedAgent()
 
   // TODO put this in feature file
-  const beneficiary = await BeneficiairesQuery.getBeneficiaireToUpdate(
+  const beneficiary = await BeneficiairesQuery.getBeneficiaryToUpdate(
     fileNumber,
   )
   if (!beneficiary) {

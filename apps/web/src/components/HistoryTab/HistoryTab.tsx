@@ -27,7 +27,7 @@ import {
 } from '@mss/web/security/rules'
 import { Routes } from '@mss/web/app/routing/routes'
 import Link from 'next/link'
-import { GetSupportsReturn, GetBeneficiaireToViewReturn } from '@mss/web/query'
+import { GetSupportsReturn, GetBeneficiaryToViewReturn } from '@mss/web/query'
 
 export function HistoryTab({
   user,
@@ -36,7 +36,7 @@ export function HistoryTab({
   scrollToItem,
 }: {
   user: SessionUser
-  beneficiary: GetBeneficiaireToViewReturn
+  beneficiary: GetBeneficiaryToViewReturn
   supports: GetSupportsReturn
   scrollToItem?: string
 }) {
@@ -65,7 +65,7 @@ function SupportCard({
   user,
   scrollToItem,
 }: {
-  beneficiary: GetBeneficiaireToViewReturn
+  beneficiary: GetBeneficiaryToViewReturn
   support: GetSupportsReturn[number]
   user: SessionUser
   scrollToItem?: string

@@ -3,10 +3,7 @@ import {
   createQueryServer,
   QueryResult,
 } from '@mss/web/features/createQuery.server'
-import {
-  getTotalPages,
-  takeAndSkipFromPagination,
-} from '@mss/web/components/Generic/pagination'
+import { getTotalPages, takeAndSkipFromPagination } from '@mss/web/utils/table'
 
 export const ListStructuresServer = createQueryServer({
   client: ListStructuresClient,

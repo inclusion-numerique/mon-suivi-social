@@ -18,7 +18,7 @@ const EditBeneficiaryPage = async ({
   }
 
   const user = await getAuthenticatedAgent()
-  const beneficiary = await BeneficiairesQuery.getBeneficiaire(fileNumber)
+  const beneficiary = await BeneficiairesQuery.getBeneficiary(fileNumber)
 
   if (!beneficiary || beneficiary.structureId != user.structureId) {
     return notFound()
