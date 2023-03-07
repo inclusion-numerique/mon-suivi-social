@@ -3,8 +3,8 @@ import { NextMiddleware, NextRequest, NextResponse } from 'next/server'
 // Build the CSP policy
 function getCsp(isProd: boolean) {
   const csp = {
-    'default-src': "'self'",
-    'script-src': `'self' https://sentry.incubateur.net https://matomo.incubateur.anct.gouv.fr${
+    'default-src': "'self' https://sentry.incubateur.net",
+    'script-src': `'self' https://matomo.incubateur.anct.gouv.fr${
       isProd ? '' : " 'unsafe-inline' 'unsafe-eval'"
     }`,
     'script-src-attr': "'none'",
