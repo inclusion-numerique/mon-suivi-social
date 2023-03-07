@@ -4,10 +4,8 @@ import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
-import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { prismaClient } from '@mss/web/prismaClient'
 import { HelpRequestForm } from '@mss/web/components/HelpRequestForm'
-import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
+import { AccompagnementsQuery } from '@mss/web/query'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryHelpRequestPrivateSynthesis,
@@ -25,32 +23,11 @@ const EditHelpRequestPage = async ({
   >
 }) => {
   const user = await getAuthenticatedAgent()
-  const helpRequest = await prismaClient.helpRequest.findFirst({
-    where: {
-      id: helpRequestId,
-    },
-    select: {
-      structureId: true,
-      createdById: true,
-      beneficiary: {
-        select: {
-          ...beneficiarySecurityTargetSelect,
-          firstName: true,
-          birthName: true,
-          usualName: true,
-          email: true,
-          fileNumber: true,
-          documents: {
-            select: { key: true, type: true, name: true },
-          },
-        },
-      },
-    },
-  })
+
+  const helpRequest = await AccompagnementsQuery.getHelpRequest(helpRequestId)
 
   if (!helpRequest) {
     notFound()
-    return null
   }
 
   if (
@@ -59,10 +36,9 @@ const EditHelpRequestPage = async ({
     })
   ) {
     notFound()
-    return null
   }
 
-  const followupTypes = await getStructureFollowupTypes({
+  const followupTypes = await AccompagnementsQuery.getStructureFollowupTypes({
     structureId: helpRequest.structureId,
   })
   const followupTypeOptions: Options = followupTypes.map(

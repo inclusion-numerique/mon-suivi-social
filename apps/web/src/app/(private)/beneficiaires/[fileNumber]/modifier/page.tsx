@@ -1,13 +1,11 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { getAgentOptions } from '@mss/web/data/getAgentOptions'
+import { BeneficiairesQuery } from '@mss/web/query'
 import { notFound } from 'next/navigation'
-import { prismaClient } from '@mss/web/prismaClient'
 import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { BeneficiaryForm } from '@mss/web/components/BeneficiaryForm'
 import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
-import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { EditBeneficiaryFullDataServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.server'
@@ -24,27 +22,18 @@ const EditBeneficiaryPage = async ({
   const user = await getAuthenticatedAgent()
 
   // TODO put this in feature file
-  const beneficiary = await prismaClient.beneficiary.findFirst({
-    where: { fileNumber, archived: null },
-    select: {
-      ...beneficiarySecurityTargetSelect,
-      fileNumber: true,
-      firstName: true,
-      birthName: true,
-      usualName: true,
-      email: true,
-    },
-  })
+  const beneficiary = await BeneficiairesQuery.getBeneficiaryToUpdate(
+    fileNumber,
+  )
   if (!beneficiary) {
     return notFound()
   }
 
   if (!EditBeneficiaryGeneralInfoClient.securityCheck(user, beneficiary, {})) {
     notFound()
-    return null
   }
 
-  const agents = await getAgentOptions(user)
+  const agents = await BeneficiairesQuery.getAgentOptions(user)
 
   const formProperties = EditBeneficiaryFullDataClient.securityCheck(
     user,

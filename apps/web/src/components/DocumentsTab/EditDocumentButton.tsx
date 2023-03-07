@@ -1,13 +1,9 @@
 import { EditDocumentModalForm } from './EditDocumentModalForm'
-import { BeneficiaryPageDocuments } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { EditDocumentServer } from '@mss/web/features/document/editDocument.server'
 import { serialize } from '@mss/web/utils/serialization'
+import { Document } from '@prisma/client'
 
-export function EditDocumentButton({
-  document,
-}: {
-  document: BeneficiaryPageDocuments[number]
-}) {
+export function EditDocumentButton({ document }: { document: Document }) {
   const defaultValues = EditDocumentServer.dataFromServerState(document)
   const dialogId = `edit-document-modal-${document.key}`
 

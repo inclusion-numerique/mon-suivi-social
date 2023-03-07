@@ -1,19 +1,17 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageConfig, PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditFollowupClient } from '@mss/web/features/followup/editFollowup.client'
-import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { prismaClient } from '@mss/web/prismaClient'
 import { EditFollowupServer } from '@mss/web/features/followup/editFollowup.server'
-import { FollowupForm } from '@mss/web/components/FollowupForm/FollowupForm'
-import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
+import { FollowupForm } from '@mss/web/components/FollowupForm'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryFollowupPrivateSynthesis,
   canViewBeneficiaryFollowupSynthesis,
 } from '@mss/web/security/rules'
+import { AccompagnementsQuery } from '@mss/web/query'
 
 export const revalidate = 0
 
@@ -23,32 +21,10 @@ const EditFollowupPage = async ({
   params: RoutePathParams<typeof Routes.Accompagnements.Entretien.Modifier.path>
 }) => {
   const user = await getAuthenticatedAgent()
-  const followup = await prismaClient.followup.findFirst({
-    where: {
-      id: followupId,
-    },
-    select: {
-      createdById: true,
-      structureId: true,
-      beneficiary: {
-        select: {
-          ...beneficiarySecurityTargetSelect,
-          firstName: true,
-          birthName: true,
-          usualName: true,
-          email: true,
-          fileNumber: true,
-          documents: {
-            select: { key: true, type: true, name: true },
-          },
-        },
-      },
-    },
-  })
+  const followup = await AccompagnementsQuery.getFollowup(followupId)
 
   if (!followup) {
     notFound()
-    return null
   }
 
   if (
@@ -57,10 +33,9 @@ const EditFollowupPage = async ({
     })
   ) {
     notFound()
-    return null
   }
 
-  const followupTypes = await getStructureFollowupTypes({
+  const followupTypes = await AccompagnementsQuery.getStructureFollowupTypes({
     structureId: followup.structureId,
   })
   const followupTypeOptions: Options = followupTypes.map(

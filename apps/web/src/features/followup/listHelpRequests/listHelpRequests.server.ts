@@ -2,10 +2,7 @@ import {
   createQueryServer,
   QueryResult,
 } from '@mss/web/features/createQuery.server'
-import {
-  getTotalPages,
-  takeAndSkipFromPagination,
-} from '@mss/web/components/Generic/pagination'
+import { getTotalPages, takeAndSkipFromPagination } from '@mss/web/utils/table'
 import { ListHelpRequestsClient } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.client'
 
 export const ListHelpRequestsServer = createQueryServer({

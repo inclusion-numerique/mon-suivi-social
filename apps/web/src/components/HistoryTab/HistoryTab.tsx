@@ -1,6 +1,5 @@
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import type { BeneficiaryPageSupport } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import {
   AttributeItem,
   AttributesList,
@@ -26,9 +25,9 @@ import {
   canViewBeneficiaryHelpRequestPrivateSynthesis,
   canViewBeneficiaryHelpRequestSynthesis,
 } from '@mss/web/security/rules'
-import { BeneficiaryPageInfo } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { Routes } from '@mss/web/app/routing/routes'
 import Link from 'next/link'
+import { GetSupportsReturn, GetBeneficiaryToViewReturn } from '@mss/web/query'
 
 export function HistoryTab({
   user,
@@ -37,8 +36,8 @@ export function HistoryTab({
   scrollToItem,
 }: {
   user: SessionUser
-  beneficiary: BeneficiaryPageInfo
-  supports: BeneficiaryPageSupport[]
+  beneficiary: GetBeneficiaryToViewReturn
+  supports: GetSupportsReturn
   scrollToItem?: string
 }) {
   return (
@@ -66,8 +65,8 @@ function SupportCard({
   user,
   scrollToItem,
 }: {
-  beneficiary: BeneficiaryPageInfo
-  support: BeneficiaryPageSupport
+  beneficiary: GetBeneficiaryToViewReturn
+  support: GetSupportsReturn[number]
   user: SessionUser
   scrollToItem?: string
 }) {
@@ -228,7 +227,9 @@ function FollowupTypeTag({ name }: { name: string }) {
   return <span className="fr-tag fr-tag--sm fr-mt-1v fr-mr-1v">{name}</span>
 }
 
-const supportAttributes = (support: BeneficiaryPageSupport): AttributeItem[] =>
+const supportAttributes = (
+  support: GetSupportsReturn[number],
+): AttributeItem[] =>
   support.__type === 'helpRequest'
     ? [
         [

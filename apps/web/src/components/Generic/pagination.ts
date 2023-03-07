@@ -34,17 +34,6 @@ export const createPagesNumbersToDisplay = (
   ]
 }
 
-export const takeAndSkipFromPagination = ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}): { take: number; skip: number } => ({
-  take: perPage,
-  skip: (page - 1) * perPage,
-})
-
 // TODO clean this and factorize with sorting helper for default removal logic that helps cache hits
 export const createPageLinkHelper =
   <T extends { currentSorting?: Sorting; defaultSorting?: Sorting }>(
@@ -70,11 +59,3 @@ export const createPageLinkHelper =
           : currentSorting.direction,
       ...otherParameters,
     })
-
-export const getTotalPages = ({
-  perPage,
-  count,
-}: {
-  perPage: number
-  count: number
-}): number => Math.ceil(count / perPage) || 1

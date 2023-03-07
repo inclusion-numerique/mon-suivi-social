@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import {
@@ -7,16 +7,16 @@ import {
   beneficiaryColumns,
 } from '@mss/web/components/BeneficiaryTable'
 import { redirect } from 'next/navigation'
-import { Table } from '@mss/web/components/Generic/table/Table'
 import {
+  Table,
+  TableHeadWithSorting,
+  createPageLinkHelper,
+  createSortLinkHelper,
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/components/Generic/table/TableColumnDefinition'
-import { TableHeadWithSorting } from '@mss/web/components/Generic/table/TableHeadWithSorting'
-import { createPageLinkHelper } from '@mss/web/components/Generic/pagination'
-import { createSortLinkHelper } from '@mss/web/components/Generic/sorting'
-import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
+} from '@mss/web/components/Generic'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
+import { BeneficiairesQuery } from '@mss/web/query'
 
 const itemsPerPage = 15
 
@@ -47,16 +47,12 @@ const BeneficiariesListPage = async ({
   // Get filters info from searchParams
   const search = searchParams?.recherche
 
-  const beneficiariesList = await ListBeneficiariesServer.execute({
-    user,
-    input: {
-      perPage: itemsPerPage,
-      page: pageNumber,
-      orderBy: getColumnOrderBy(currentSorting, beneficiaryColumns),
-      structureId,
-      search,
-    },
-    securityParams: { structureId },
+  const beneficiariesList = await BeneficiairesQuery.iterateBeneficiaries({
+    perPage: itemsPerPage,
+    page: pageNumber,
+    orderBy: getColumnOrderBy(currentSorting, beneficiaryColumns),
+    structureId,
+    search,
   })
 
   // Linking logic for pages navigation
@@ -68,7 +64,6 @@ const BeneficiariesListPage = async ({
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > beneficiariesList.totalPages) {
     redirect(createPageLink(beneficiariesList.totalPages))
-    return null
   }
 
   // Linking logic for sorting

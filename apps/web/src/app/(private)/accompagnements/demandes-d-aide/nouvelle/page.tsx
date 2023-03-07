@@ -1,13 +1,11 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { PageTitle } from '@mss/web/components/PageTitle/PageTitle'
+import { PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
-import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { Options } from '@mss/web/utils/options'
-import { prismaClient } from '@mss/web/prismaClient'
-import { getStructureFollowupTypes } from '@mss/web/data/getStructureFollowupTypes'
 import { HelpRequestForm } from '@mss/web/components/HelpRequestForm/HelpRequestForm'
+import { AccompagnementsQuery } from '@mss/web/query'
 
 export const revalidate = 0
 
@@ -20,37 +18,21 @@ const AddHelpRequestPage = async ({
 }) => {
   if (!searchParams) {
     notFound()
-    return null
   }
   const user = await getAuthenticatedAgent()
-  const beneficiary = await prismaClient.beneficiary.findFirst({
-    where: {
-      fileNumber: searchParams.dossier,
-    },
-    select: {
-      ...beneficiarySecurityTargetSelect,
-      firstName: true,
-      birthName: true,
-      usualName: true,
-      fileNumber: true,
-      email: true,
-      documents: {
-        select: { key: true, type: true, name: true },
-      },
-    },
-  })
+  const beneficiary = await AccompagnementsQuery.getBeneficiary(
+    searchParams.dossier,
+  )
 
   if (!beneficiary) {
     notFound()
-    return null
   }
 
   if (!AddHelpRequestClient.securityCheck(user, beneficiary, {})) {
     notFound()
-    return null
   }
 
-  const followupTypes = await getStructureFollowupTypes({
+  const followupTypes = await AccompagnementsQuery.getStructureFollowupTypes({
     structureId: beneficiary.structureId,
   })
   const followupTypeOptions: Options = followupTypes.map(

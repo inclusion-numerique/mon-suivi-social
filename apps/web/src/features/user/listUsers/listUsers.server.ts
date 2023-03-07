@@ -3,10 +3,7 @@ import {
   createQueryServer,
   QueryResult,
 } from '@mss/web/features/createQuery.server'
-import {
-  getTotalPages,
-  takeAndSkipFromPagination,
-} from '@mss/web/components/Generic/pagination'
+import { getTotalPages, takeAndSkipFromPagination } from '@mss/web/utils/table'
 import { UserRole } from '@prisma/client'
 
 export const ListUsersServer = createQueryServer({
