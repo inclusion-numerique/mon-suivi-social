@@ -1,12 +1,10 @@
-import { NextMiddleware, NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // Build the CSP policy
-function getCsp(isProd: boolean) {
+function getCsp() {
   const csp = {
     'default-src': "'self' https://sentry.incubateur.net",
-    'script-src': `'self' https://matomo.incubateur.anct.gouv.fr${
-      isProd ? '' : " 'unsafe-inline' 'unsafe-eval'"
-    }`,
+    'script-src': "'self' https://matomo.incubateur.anct.gouv.fr",
     'script-src-attr': "'none'",
     'style-src': "'self' https: 'unsafe-inline'",
     'img-src': "'self' data:",
@@ -62,9 +60,9 @@ const middleware = (request: NextRequest) => {
   response.headers.delete('X-Powered-By')
   response.headers.append('Strict-Transport-Security', 'max-age=63072000')
 
-  // TODO To test on preview environment
-  // Next requires unsafe-eval script sources in dev mode - See https://github.com/vercel/next.js/issues/18557#issuecomment-727160210
-  response.headers.append('Content-Security-Policy-Report-Only', getCsp(isProd))
+  if (isProd)
+    response.headers.append('Content-Security-Policy-Report-Only', getCsp())
+
   return response
 }
 
