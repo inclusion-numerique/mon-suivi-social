@@ -1,14 +1,40 @@
-import { findById } from './findById'
-import type { FindByIdType } from './findById'
+import { Prisma, prismaClient } from '@mss/web/prismaClient'
 
-const getBeneficiarySupportsByAgent = async ({
+const getSupports = async ({
   beneficiaryId,
   agentId,
 }: {
   beneficiaryId: string
   agentId: string
 }) => {
-  const result: FindByIdType = await findById(beneficiaryId)
+  const result = await prismaClient.beneficiary.findUniqueOrThrow({
+    where: { id: beneficiaryId },
+    select: {
+      id: true,
+      followups: {
+        select: {
+          id: true,
+        },
+        include: {
+          createdBy: true,
+          types: true,
+        },
+        orderBy: {
+          date: 'desc',
+        },
+      },
+      helpRequests: {
+        include: {
+          createdBy: true,
+          type: true,
+          prescribingOrganization: true,
+        },
+        orderBy: {
+          openingDate: 'desc',
+        },
+      },
+    },
+  })
 
   if (!result) {
     return []
@@ -42,4 +68,6 @@ const getBeneficiarySupportsByAgent = async ({
   )
 }
 
-export { getBeneficiarySupportsByAgent }
+export { getSupports }
+
+export type GetSupportsReturn = Prisma.PromiseReturnType<typeof getSupports>

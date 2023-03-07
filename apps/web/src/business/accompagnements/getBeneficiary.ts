@@ -1,7 +1,7 @@
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { prismaClient } from '@mss/web/prismaClient'
 
-const loadByFileNumber = async (fileNumber: string) =>
+const getBeneficiary = async (fileNumber: string) =>
   prismaClient.beneficiary.findUnique({
     where: {
       fileNumber,
@@ -19,4 +19,4 @@ const loadByFileNumber = async (fileNumber: string) =>
     },
   })
 
-export { loadByFileNumber }
+export { getBeneficiary }

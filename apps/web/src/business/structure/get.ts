@@ -1,6 +1,6 @@
 import { prismaClient } from '@mss/web/prismaClient'
 
-const findById = async (structureId: string) =>
+const get = async (structureId: string) =>
   prismaClient.structure.findUniqueOrThrow({
     where: { id: structureId },
     include: {
@@ -14,4 +14,4 @@ const findById = async (structureId: string) =>
     },
   })
 
-export { findById }
+export { get }

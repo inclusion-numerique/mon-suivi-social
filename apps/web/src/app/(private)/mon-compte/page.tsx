@@ -8,14 +8,15 @@ import {
 import Link from 'next/link'
 import { Card } from '@mss/web/components/Generic'
 import { Routes } from '@mss/web/app/routing/routes'
-import { AccountQuery } from '@mss/web/data'
+import { MonCompteBusiness } from '@mss/web/business'
 
 const MonComptePage = async () => {
   const user = await getAuthenticatedSessionUser()
-  const inclusionConnectAccount = await AccountQuery.getInclusionConnectAccount(
-    user.id,
-    inclusionConnectProviderId,
-  )
+  const inclusionConnectAccount =
+    await MonCompteBusiness.getInclusionConnectAccount(
+      user.id,
+      inclusionConnectProviderId,
+    )
 
   return (
     <>

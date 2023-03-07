@@ -1,12 +1,12 @@
 import { prismaClient } from '@mss/web/prismaClient'
 
-export function findByBeneficiary({
+export function getDocuments({
   beneficiaryId,
 }: {
   userId: string
   beneficiaryId: string
 }) {
-  prismaClient.document.findMany({
+  return prismaClient.document.findMany({
     where: { beneficiaryId },
   })
 }

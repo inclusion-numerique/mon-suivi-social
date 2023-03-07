@@ -1,18 +1,18 @@
 'use client'
 
-import { BeneficiaryPageDocuments } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { trpc } from '@mss/web/trpc'
 import { withTrpc } from '@mss/web/withTrpc'
 import { documentTypeLabels } from '@mss/web/features/document/addDocument.client'
 import Downloader from 'js-file-downloader'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
+import { Document } from '@prisma/client'
 
 export const DocumentFileButton = withTrpc(
   ({
     serializedDocument,
     download,
   }: {
-    serializedDocument: Serialized<BeneficiaryPageDocuments[number]>
+    serializedDocument: Serialized<Document>
     download?: boolean
   }) => {
     const document = deserialize(serializedDocument)

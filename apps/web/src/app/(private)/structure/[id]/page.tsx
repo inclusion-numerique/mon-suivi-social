@@ -11,7 +11,7 @@ import {
 } from '@mss/web/components/Generic/AttributesList'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { MutationLog } from '@mss/web/components/MutationLog'
-import { StructureQuery } from '@mss/web/data'
+import { StructureBusiness } from '@mss/web/business'
 
 export const revalidate = 0
 
@@ -27,7 +27,7 @@ const StructurePage = async ({
     notFound()
   }
 
-  const structure = await StructureQuery.findById(structureId)
+  const structure = await StructureBusiness.get(structureId)
 
   const page: PageConfig = {
     ...Routes.Structure.Index,

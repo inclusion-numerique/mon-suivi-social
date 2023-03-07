@@ -1,11 +1,7 @@
-import { BeneficiaryPageDocuments } from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
+import { Document } from '@prisma/client'
 import { DeleteDocumentModalForm } from './DeleteDocumentModalForm'
 
-export function DeleteDocumentButton({
-  document,
-}: {
-  document: BeneficiaryPageDocuments[number]
-}) {
+export function DeleteDocumentButton({ document }: { document: Document }) {
   const dialogId = `delete-document-modal-${document.key}`
 
   return (

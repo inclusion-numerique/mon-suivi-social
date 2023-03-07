@@ -1,21 +1,18 @@
 import { getAge } from '@mss/web/utils/age'
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import type {
-  BeneficiaryFollowupTypes,
-  BeneficiaryPageInfo,
-} from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { AttributesList } from '@mss/web/components/Generic'
 import { beneficiaryTitleLabels } from '@mss/web/constants/beneficiary'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { isEmptyValue } from '@mss/web/utils/isEmptyValue'
+import { Beneficiary, FollowupType } from '@prisma/client'
 
 export function InfoTab({
   beneficiary,
   followupTypes,
 }: {
   user: SessionUser
-  beneficiary: BeneficiaryPageInfo
-  followupTypes: BeneficiaryFollowupTypes
+  beneficiary: Beneficiary
+  followupTypes: FollowupType[]
 }) {
   const legals = followupTypes.filter(({ legallyRequired }) => legallyRequired)
   const optionals = followupTypes.filter(

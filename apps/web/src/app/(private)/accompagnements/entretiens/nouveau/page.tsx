@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { FollowupForm } from '@mss/web/components/FollowupForm'
 import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client'
 import { Options } from '@mss/web/utils/options'
-import { BeneficiaryQuery, ProposedFollowupTypeQuery } from '@mss/web/data'
+import { AccompagnementsBusiness } from '@mss/web/business'
 
 export const revalidate = 0
 
@@ -20,7 +20,7 @@ const AddFollowupPage = async ({
     notFound()
   }
   const user = await getAuthenticatedAgent()
-  const beneficiary = await BeneficiaryQuery.loadByFileNumber(
+  const beneficiary = await AccompagnementsBusiness.getBeneficiary(
     searchParams.dossier,
   )
 
@@ -32,10 +32,11 @@ const AddFollowupPage = async ({
     notFound()
   }
 
-  const followupTypes =
-    await ProposedFollowupTypeQuery.getStructureFollowupTypes({
+  const followupTypes = await AccompagnementsBusiness.getStructureFollowupTypes(
+    {
       structureId: beneficiary.structureId,
-    })
+    },
+  )
   const followupTypeOptions: Options = followupTypes.map(
     ({ followupType: { name, id } }) => ({
       name,

@@ -1,14 +1,16 @@
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { prismaClient } from '@mss/web/prismaClient'
+import { Prisma, prismaClient } from '@mss/web/prismaClient'
 
-const findById = async (helpRequestId: string) =>
-  prismaClient.helpRequest.findFirst({
+type GetFollowupReturn = Prisma.PromiseReturnType<typeof getFollowup>
+
+const getFollowup = async (followupId: string) =>
+  prismaClient.followup.findFirst({
     where: {
-      id: helpRequestId,
+      id: followupId,
     },
     select: {
-      structureId: true,
       createdById: true,
+      structureId: true,
       beneficiary: {
         select: {
           ...beneficiarySecurityTargetSelect,
@@ -25,4 +27,6 @@ const findById = async (helpRequestId: string) =>
     },
   })
 
-export { findById }
+export { getFollowup }
+
+export type { GetFollowupReturn }

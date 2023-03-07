@@ -12,11 +12,9 @@ import {
   TableHeadWithSorting,
   createPageLinkHelper,
   createSortLinkHelper,
-} from '@mss/web/components/Generic'
-import {
   getColumnOrderBy,
   Sorting,
-} from '@mss/web/components/Generic/table/TableColumnDefinition'
+} from '@mss/web/components/Generic'
 import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
 

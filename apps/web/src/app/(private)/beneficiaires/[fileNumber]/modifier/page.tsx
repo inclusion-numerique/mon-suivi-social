@@ -1,13 +1,11 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { UserQuery } from '@mss/web/data'
+import { BeneficiairesBusiness } from '@mss/web/business'
 import { notFound } from 'next/navigation'
-import { prismaClient } from '@mss/web/prismaClient'
 import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { BeneficiaryForm } from '@mss/web/components/BeneficiaryForm'
 import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
-import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { EditBeneficiaryFullDataServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.server'
@@ -24,17 +22,9 @@ const EditBeneficiaryPage = async ({
   const user = await getAuthenticatedAgent()
 
   // TODO put this in feature file
-  const beneficiary = await prismaClient.beneficiary.findFirst({
-    where: { fileNumber, archived: null },
-    select: {
-      ...beneficiarySecurityTargetSelect,
-      fileNumber: true,
-      firstName: true,
-      birthName: true,
-      usualName: true,
-      email: true,
-    },
-  })
+  const beneficiary = await BeneficiairesBusiness.getBeneficiaireToUpdate(
+    fileNumber,
+  )
   if (!beneficiary) {
     return notFound()
   }
@@ -43,7 +33,7 @@ const EditBeneficiaryPage = async ({
     notFound()
   }
 
-  const agents = await UserQuery.getAgentOptions(user)
+  const agents = await BeneficiairesBusiness.getAgentOptions(user)
 
   const formProperties = EditBeneficiaryFullDataClient.securityCheck(
     user,

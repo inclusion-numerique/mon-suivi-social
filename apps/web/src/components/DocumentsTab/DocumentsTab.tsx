@@ -1,8 +1,4 @@
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import {
-  BeneficiaryPageDocuments,
-  BeneficiaryPageInfo,
-} from '@mss/web/app/(private)/beneficiaires/[fileNumber]/page'
 import { AddDocumentButton } from './AddDocumentButton'
 import { formatByteSize } from '@mss/web/utils/formatByteSize'
 import mime from 'mime-types'
@@ -15,14 +11,15 @@ import { EditDocumentButton } from './EditDocumentButton'
 import { DeleteDocumentButton } from './DeleteDocumentButton'
 import { DocumentFileButton } from './DocumentFileButton'
 import { serialize } from '@mss/web/utils/serialization'
+import { Beneficiary, Document } from '@prisma/client'
 
 export function DocumentsTab({
   documents,
   beneficiary,
 }: {
   user: SessionUser
-  documents: BeneficiaryPageDocuments
-  beneficiary: Pick<BeneficiaryPageInfo, 'id' | 'archived'>
+  documents: Document[]
+  beneficiary: Pick<Beneficiary, 'id' | 'archived'>
 }) {
   if (documents.length === 0) {
     return (
@@ -37,10 +34,7 @@ export function DocumentsTab({
     )
   }
 
-  const documentsByType = new Map<
-    BeneficiaryPageDocuments[number]['type'],
-    BeneficiaryPageDocuments
-  >()
+  const documentsByType = new Map<Document['type'], Document[]>()
   for (const document of documents) {
     const group = documentsByType.get(document.type)
     if (!group) {
@@ -77,11 +71,7 @@ export function DocumentsTab({
   )
 }
 
-function DocumentCard({
-  document,
-}: {
-  document: BeneficiaryPageDocuments[number]
-}) {
+function DocumentCard({ document }: { document: Document }) {
   const { name, size, mimeType, tags } = document
 
   const tagLabels = tags

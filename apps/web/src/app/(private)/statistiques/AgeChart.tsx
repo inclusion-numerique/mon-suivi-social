@@ -3,7 +3,7 @@
 import { Bar } from 'react-chartjs-2'
 import { ChartData, ChartOptions } from 'chart.js'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
-import { GetAgeStatsReturn } from '@mss/web/data'
+import { GetAgeStatsReturn } from '@mss/web/business'
 import { AgeGroupLabels } from '@mss/web/constants/ageGroup'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 

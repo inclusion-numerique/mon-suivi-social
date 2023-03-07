@@ -1,15 +1,15 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { UserQuery } from '@mss/web/data'
 import { Routes } from '@mss/web/app/routing/routes'
 import { PageTitle } from '@mss/web/components/PageTitle'
 import { BeneficiaryForm } from '@mss/web/components/BeneficiaryForm'
 import { notFound } from 'next/navigation'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
+import { BeneficiairesBusiness } from '@mss/web/business'
 
 const AddBeneficiaryPage = async () => {
   const user = await getAuthenticatedAgent()
-  const agents = await UserQuery.getAgentOptions(user)
+  const agents = await BeneficiairesBusiness.getAgentOptions(user)
   const { structureId } = user
 
   if (
@@ -20,7 +20,6 @@ const AddBeneficiaryPage = async () => {
     )
   ) {
     notFound()
-    return null
   }
 
   const full = AddBeneficiaryWithFullDataClient.securityCheck(

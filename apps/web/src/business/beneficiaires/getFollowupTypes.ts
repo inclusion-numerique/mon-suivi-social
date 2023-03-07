@@ -1,6 +1,6 @@
 import { prismaClient } from '@mss/web/prismaClient'
 
-const findByBeneficiary = ({ beneficiaryId }: { beneficiaryId: string }) =>
+const getFollowupTypes = ({ beneficiaryId }: { beneficiaryId: string }) =>
   prismaClient.followupType.findMany({
     where: {
       OR: [
@@ -14,4 +14,4 @@ const findByBeneficiary = ({ beneficiaryId }: { beneficiaryId: string }) =>
     },
   })
 
-export { findByBeneficiary }
+export { getFollowupTypes }

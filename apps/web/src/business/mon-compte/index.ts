@@ -1,7 +1,7 @@
 import { getInclusionConnectAccount } from './getInclusionConnectAccount'
 
-const AccountQuery = {
+const MonCompteBusiness = {
   getInclusionConnectAccount,
 }
 
-export { AccountQuery }
+export { MonCompteBusiness }

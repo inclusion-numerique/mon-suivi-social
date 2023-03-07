@@ -5,14 +5,13 @@ import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
 import { HelpRequestForm } from '@mss/web/components/HelpRequestForm'
-import { getStructureFollowupTypes } from '@mss/web/data/proposedFollowupType/getStructureFollowupTypes'
+import { AccompagnementsBusiness } from '@mss/web/business'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryHelpRequestPrivateSynthesis,
   canViewBeneficiaryHelpRequestSynthesis,
 } from '@mss/web/security/rules'
 import { EditHelpRequestServer } from '@mss/web/features/helpRequest/editHelpRequest.server'
-import { HelpRequestQuery } from '@mss/web/data'
 
 export const revalidate = 0
 
@@ -25,7 +24,9 @@ const EditHelpRequestPage = async ({
 }) => {
   const user = await getAuthenticatedAgent()
 
-  const helpRequest = await HelpRequestQuery.findById(helpRequestId)
+  const helpRequest = await AccompagnementsBusiness.getHelpRequest(
+    helpRequestId,
+  )
 
   if (!helpRequest) {
     notFound()
@@ -37,12 +38,13 @@ const EditHelpRequestPage = async ({
     })
   ) {
     notFound()
-    return null
   }
 
-  const followupTypes = await getStructureFollowupTypes({
-    structureId: helpRequest.structureId,
-  })
+  const followupTypes = await AccompagnementsBusiness.getStructureFollowupTypes(
+    {
+      structureId: helpRequest.structureId,
+    },
+  )
   const followupTypeOptions: Options = followupTypes.map(
     ({ followupType: { name, id } }) => ({
       name,

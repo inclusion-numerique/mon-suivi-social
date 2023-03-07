@@ -4,9 +4,8 @@ import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { Options } from '@mss/web/utils/options'
-import { getStructureFollowupTypes } from '@mss/web/data/proposedFollowupType/getStructureFollowupTypes'
 import { HelpRequestForm } from '@mss/web/components/HelpRequestForm/HelpRequestForm'
-import { BeneficiaryQuery } from '@mss/web/data'
+import { AccompagnementsBusiness } from '@mss/web/business'
 
 export const revalidate = 0
 
@@ -21,7 +20,7 @@ const AddHelpRequestPage = async ({
     notFound()
   }
   const user = await getAuthenticatedAgent()
-  const beneficiary = await BeneficiaryQuery.loadByFileNumber(
+  const beneficiary = await AccompagnementsBusiness.getBeneficiary(
     searchParams.dossier,
   )
 
@@ -33,9 +32,11 @@ const AddHelpRequestPage = async ({
     notFound()
   }
 
-  const followupTypes = await getStructureFollowupTypes({
-    structureId: beneficiary.structureId,
-  })
+  const followupTypes = await AccompagnementsBusiness.getStructureFollowupTypes(
+    {
+      structureId: beneficiary.structureId,
+    },
+  )
   const followupTypeOptions: Options = followupTypes.map(
     ({ followupType: { name, id } }) => ({
       name,
