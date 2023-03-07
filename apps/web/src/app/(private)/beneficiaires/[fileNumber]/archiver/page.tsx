@@ -4,7 +4,7 @@ import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
 import { Routes } from '@mss/web/app/routing/routes'
 import { BeneficiaryArchiveForm } from '@mss/web/components/BeneficiaryArchiveForm'
-import { BeneficiairesBusiness } from '@mss/web/query'
+import { BeneficiairesQuery } from '@mss/web/query'
 
 export const revalidate = 0
 
@@ -18,7 +18,7 @@ const EditBeneficiaryPage = async ({
   }
 
   const user = await getAuthenticatedAgent()
-  const beneficiary = await BeneficiairesBusiness.getBeneficiaire(fileNumber)
+  const beneficiary = await BeneficiairesQuery.getBeneficiaire(fileNumber)
 
   if (!beneficiary || beneficiary.structureId != user.structureId) {
     return notFound()

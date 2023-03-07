@@ -11,7 +11,7 @@ import {
   canViewBeneficiaryFollowupPrivateSynthesis,
   canViewBeneficiaryFollowupSynthesis,
 } from '@mss/web/security/rules'
-import { AccompagnementsBusiness } from '@mss/web/query'
+import { AccompagnementsQuery } from '@mss/web/query'
 
 export const revalidate = 0
 
@@ -21,7 +21,7 @@ const EditFollowupPage = async ({
   params: RoutePathParams<typeof Routes.Accompagnements.Entretien.Modifier.path>
 }) => {
   const user = await getAuthenticatedAgent()
-  const followup = await AccompagnementsBusiness.getFollowup(followupId)
+  const followup = await AccompagnementsQuery.getFollowup(followupId)
 
   if (!followup) {
     notFound()
@@ -35,11 +35,9 @@ const EditFollowupPage = async ({
     notFound()
   }
 
-  const followupTypes = await AccompagnementsBusiness.getStructureFollowupTypes(
-    {
-      structureId: followup.structureId,
-    },
-  )
+  const followupTypes = await AccompagnementsQuery.getStructureFollowupTypes({
+    structureId: followup.structureId,
+  })
   const followupTypeOptions: Options = followupTypes.map(
     ({ followupType: { name, id } }) => ({
       name,

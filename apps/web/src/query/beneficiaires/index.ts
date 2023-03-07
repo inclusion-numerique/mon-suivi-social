@@ -1,20 +1,22 @@
-import { getBeneficiaireToView } from './getBeneficiaireToView'
-import { getBeneficiaireToUpdate } from './getBeneficiaireToUpdate'
+import { getBeneficiaryToView } from './getBeneficiaryToView'
+import { getBeneficiaryToUpdate } from './getBeneficiaryToUpdate'
 import { getDocuments } from './getDocuments'
 import { getFollowupTypes } from './getFollowupTypes'
 import { getSupports } from './getSupports'
 import { getAgentOptions } from './getAgentOptions'
-import { getBeneficiaire } from './getBeneficiaire'
+import { getBeneficiary } from './getBeneficiary'
+import { iterateBeneficiaries } from './iterateBeneficiaries'
 
-export const BeneficiairesBusiness = {
-  getBeneficiaireToUpdate,
+export const BeneficiairesQuery = {
+  getBeneficiaryToUpdate,
   getDocuments,
   getFollowupTypes,
   getSupports,
-  getBeneficiaireToView,
+  getBeneficiaryToView,
   getAgentOptions,
-  getBeneficiaire,
+  getBeneficiary,
+  iterateBeneficiaries,
 }
 
 export type { GetSupportsReturn } from './getSupports'
-export type { GetBeneficiaireToViewReturn } from './getBeneficiaireToView'
+export type { GetBeneficiaryToViewReturn } from './getBeneficiaryToView'

@@ -1,6 +1,6 @@
 import { Prisma, prismaClient } from '@mss/web/prismaClient'
 
-const getBeneficiaireToView = (fileNumber: string) =>
+const getBeneficiaryToView = (fileNumber: string) =>
   prismaClient.beneficiary.findFirstOrThrow({
     where: { fileNumber },
     include: {
@@ -8,8 +8,8 @@ const getBeneficiaireToView = (fileNumber: string) =>
     },
   })
 
-export { getBeneficiaireToView }
+export { getBeneficiaryToView }
 
-export type GetBeneficiaireToViewReturn = Prisma.PromiseReturnType<
-  typeof getBeneficiaireToView
+export type GetBeneficiaryToViewReturn = Prisma.PromiseReturnType<
+  typeof getBeneficiaryToView
 >

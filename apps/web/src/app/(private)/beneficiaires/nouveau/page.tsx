@@ -5,11 +5,11 @@ import { BeneficiaryForm } from '@mss/web/components/BeneficiaryForm'
 import { notFound } from 'next/navigation'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
-import { BeneficiairesBusiness } from '@mss/web/query'
+import { BeneficiairesQuery } from '@mss/web/query'
 
 const AddBeneficiaryPage = async () => {
   const user = await getAuthenticatedAgent()
-  const agents = await BeneficiairesBusiness.getAgentOptions(user)
+  const agents = await BeneficiairesQuery.getAgentOptions(user)
   const { structureId } = user
 
   if (

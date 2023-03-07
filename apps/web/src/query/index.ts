@@ -1,8 +1,8 @@
-export { AccompagnementsBusiness } from './accompagnements'
-export { BeneficiairesBusiness } from './beneficiaires'
-export { StructureBusiness } from './structure'
-export { StatisticsBusiness } from './statistics'
-export { MonCompteBusiness } from './mon-compte'
+export { AccompagnementsQuery } from './accompagnements'
+export { BeneficiairesQuery } from './beneficiaires'
+export { StructureQuery } from './structure'
+export { StatisticsQuery } from './statistics'
+export { MonCompteQuery } from './mon-compte'
 
 export {
   type GetAgeStatsReturn,
@@ -11,6 +11,6 @@ export {
   type GetSupportStatsReturn,
 } from './statistics'
 export {
-  type GetBeneficiaireToViewReturn,
+  type GetBeneficiaryToViewReturn,
   type GetSupportsReturn,
 } from './beneficiaires'

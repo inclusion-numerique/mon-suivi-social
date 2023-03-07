@@ -4,14 +4,14 @@ import { getFamilyStats } from './getFamilyStats'
 import { getGenderStats } from './getGenderStats'
 import { getSupportStats } from './getSupportStats'
 
-const StatisticsBusiness = {
+const StatisticsQuery = {
   getAgeStats,
   getFamilyStats,
   getGenderStats,
   getSupportStats,
 }
 
-export { StatisticsBusiness }
+export { StatisticsQuery }
 
 export { type GetAgeStatsReturn } from './getAgeStats'
 export { type GetFamilyStatsReturn } from './getFamilyStats'

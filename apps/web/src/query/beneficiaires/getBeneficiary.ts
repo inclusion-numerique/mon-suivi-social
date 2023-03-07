@@ -1,8 +1,8 @@
 import { prismaClient } from '@mss/web/prismaClient'
 
-const getBeneficiaire = (fileNumber: string) =>
+const getBeneficiary = (fileNumber: string) =>
   prismaClient.beneficiary.findFirstOrThrow({
     where: { fileNumber },
   })
 
-export { getBeneficiaire }
+export { getBeneficiary }

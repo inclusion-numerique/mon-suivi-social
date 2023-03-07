@@ -17,7 +17,7 @@ import {
 import { AttributesList, TabOptions, Tabs } from '@mss/web/components/Generic'
 import { MutationLog } from '@mss/web/components/MutationLog'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
-import { BeneficiairesBusiness } from '@mss/web/query'
+import { BeneficiairesQuery } from '@mss/web/query'
 
 export const revalidate = 0
 
@@ -33,19 +33,17 @@ const BeneficiaryPage = async ({
   const user = await getAuthenticatedAgent()
   // TODO use security rules instead of where filters
 
-  const beneficiary = await BeneficiairesBusiness.getBeneficiaireToView(
-    fileNumber,
-  )
+  const beneficiary = await BeneficiairesQuery.getBeneficiaireToView(fileNumber)
   const [supports, documents, followupTypes] = await Promise.all([
-    BeneficiairesBusiness.getSupports({
+    BeneficiairesQuery.getSupports({
       beneficiaryId: beneficiary.id,
       agentId: user.id,
     }),
-    BeneficiairesBusiness.getDocuments({
+    BeneficiairesQuery.getDocuments({
       beneficiaryId: beneficiary.id,
       userId: user.id,
     }),
-    BeneficiairesBusiness.getFollowupTypes({
+    BeneficiairesQuery.getFollowupTypes({
       beneficiaryId: beneficiary.id,
     }),
   ])

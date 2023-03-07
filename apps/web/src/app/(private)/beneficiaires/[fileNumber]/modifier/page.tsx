@@ -1,5 +1,5 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { BeneficiairesBusiness } from '@mss/web/query'
+import { BeneficiairesQuery } from '@mss/web/query'
 import { notFound } from 'next/navigation'
 import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { serialize } from '@mss/web/utils/serialization'
@@ -22,7 +22,7 @@ const EditBeneficiaryPage = async ({
   const user = await getAuthenticatedAgent()
 
   // TODO put this in feature file
-  const beneficiary = await BeneficiairesBusiness.getBeneficiaireToUpdate(
+  const beneficiary = await BeneficiairesQuery.getBeneficiaireToUpdate(
     fileNumber,
   )
   if (!beneficiary) {
@@ -33,7 +33,7 @@ const EditBeneficiaryPage = async ({
     notFound()
   }
 
-  const agents = await BeneficiairesBusiness.getAgentOptions(user)
+  const agents = await BeneficiairesQuery.getAgentOptions(user)
 
   const formProperties = EditBeneficiaryFullDataClient.securityCheck(
     user,

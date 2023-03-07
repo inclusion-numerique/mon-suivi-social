@@ -1,5 +1,5 @@
 import { get } from './get'
 
-export const StructureBusiness = {
+export const StructureQuery = {
   get,
 }

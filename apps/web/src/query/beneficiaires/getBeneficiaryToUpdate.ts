@@ -1,7 +1,7 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
 
-const getBeneficiaireToUpdate = async (fileNumber: string) =>
+const getBeneficiaryToUpdate = async (fileNumber: string) =>
   prismaClient.beneficiary.findFirst({
     where: { fileNumber, archived: null },
     select: {
@@ -14,4 +14,4 @@ const getBeneficiaireToUpdate = async (fileNumber: string) =>
     },
   })
 
-export { getBeneficiaireToUpdate }
+export { getBeneficiaryToUpdate }

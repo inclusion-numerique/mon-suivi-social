@@ -15,8 +15,8 @@ import {
   getColumnOrderBy,
   Sorting,
 } from '@mss/web/components/Generic'
-import { ListBeneficiariesServer } from '@mss/web/features/beneficiary/listBeneficiaries/listBeneficiaries.server'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
+import { BeneficiairesQuery } from '@mss/web/query'
 
 const itemsPerPage = 15
 
@@ -68,7 +68,6 @@ const BeneficiariesListPage = async ({
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > beneficiariesList.totalPages) {
     redirect(createPageLink(beneficiariesList.totalPages))
-    return null
   }
 
   // Linking logic for sorting
