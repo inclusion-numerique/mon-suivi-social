@@ -1,26 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { generateContentSecurityPolicyScriptNonce } from '@mss/web/utils/generateContentSecurityPolicyScriptNonce'
 
-// Build the CSP policy
-function getCsp() {
-  const csp = {
-    'default-src': "'self' https://sentry.incubateur.net",
-    'script-src': "'self' https://matomo.incubateur.anct.gouv.fr",
-    'script-src-attr': "'none'",
-    'style-src': "'self' https: 'unsafe-inline'",
-    'img-src': "'self' data:",
-    'object-src': "'none'",
-    'font-src': "'self' https: data:",
-    'frame-ancestors': "'self'",
-    'form-action': "'self'",
-    'base-uri': "'self'",
-    'upgrade-insecure-requests': true,
-  }
-
-  return Object.entries(csp).reduce((_csp, [policy, source]) => {
-    if (typeof source === 'boolean') return `${_csp} ${policy};`
-    return `${_csp} ${policy} ${source};`
-  }, '')
-}
+const ContentSecurityPolicy = `
+  default-src 'self' https://sentry.incubateur.net;
+  script-src 'self' https://matomo.incubateur.anct.gouv.fr 'nonce-<<nonce>>';
+  script-src-attr 'none';
+  style-src 'self' https: 'unsafe-inline';
+  img-src 'self' data:;
+  object-src 'none';
+  connect-src 'self' https://matomo.incubateur.anct.gouv.fr; 
+  font-src 'self' https: data:;
+  frame-ancestors 'self';
+  form-action 'self';
+  base-uri 'self';
+  upgrade-insecure-requests true;
+`
+  .replace(/\s{2,}/g, ' ')
+  .trim()
 
 const middleware = (request: NextRequest) => {
   const forwardedProto = request.headers.get('X-Forwarded-Proto')
@@ -28,7 +24,7 @@ const middleware = (request: NextRequest) => {
   const isProd = nodeEnvironment === 'production'
   const requestHost = request.headers.get('host')
   const baseUrl = process.env.BASE_URL
-  const useCsp = 0 && isProd // FIXME: CSP are disabled while waiting for Next 13 to support nonce feature on NextScript - See https://github.com/vercel/next.js/issues/42330
+  const useCsp = isProd
 
   /**
    * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
@@ -54,7 +50,17 @@ const middleware = (request: NextRequest) => {
     return NextResponse.redirect(redirectTo)
   }
 
-  const response = NextResponse.next()
+  const nonce = generateContentSecurityPolicyScriptNonce()
+  const securityPolicy = ContentSecurityPolicy.replace('<<nonce>>', nonce)
+
+  // CSP nonce configuration is expected by next to be in request headers, and the nonce will be added to next inline scripts
+  // Overriding request headers in middleware is the way Next internally handles request handling advanced configuration
+  // This is not documented but for more information see next.js source code (next-server.ts::generateCatchAllMiddlewareRoute() and app-render.tsx)
+  const response = NextResponse.next({
+    request: {
+      headers: new Headers({ 'Content-Security-Policy': securityPolicy }),
+    },
+  })
 
   if (nodeEnvironment === 'development') {
     response.headers.append('Access-Control-Allow-Headers', '*')
@@ -69,7 +75,10 @@ const middleware = (request: NextRequest) => {
 
   if (useCsp)
     // FIXME: Replace with Content-Security-Policy
-    response.headers.append('Content-Security-Policy-Report-Only', getCsp())
+    response.headers.append(
+      'Content-Security-Policy-Report-Only',
+      securityPolicy,
+    )
 
   return response
 }
