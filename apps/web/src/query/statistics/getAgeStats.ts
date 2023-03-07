@@ -5,9 +5,9 @@ export const getAgeStats = async (structureId: string) => {
   const stats: [{ [ageGroup in AgeGroup]: number }] =
     await prismaClient.$queryRaw`
   WITH "BeneficiaryAge" AS (
-    SELECT date_part('year', age("birthDate")) AS age, "birthDate"
-    FROM "Beneficiary"
-    WHERE "structureId" = ${structureId}::uuid
+    SELECT date_part('year', age("birth_date")) AS age, "birth_date"
+    FROM "beneficiary"
+    WHERE "structure_id" = ${structureId}::uuid
   )
   SELECT
     (count(*) filter (where age<25))::int as "less-25",
@@ -16,7 +16,7 @@ export const getAgeStats = async (structureId: string) => {
     (count(*) filter (where age>=45 and age<55))::int as "45-54",
     (count(*) filter (where age>=55 and age<65))::int as "55-64",
     (count(*) filter (where age>=65))::int as "65-more",
-    (count(*) filter (where "birthDate" IS NULL))::int as "null"
+    (count(*) filter (where "birth_date" IS NULL))::int as "null"
   FROM "BeneficiaryAge"
     `
 
