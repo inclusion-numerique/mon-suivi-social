@@ -344,7 +344,6 @@ function ConfidentialityPage() {
               <a
                 href="https://www.cnil.fr/fr/cookies-traceurs-que-dit-la-loi"
                 target="_blank"
-                rel="noreferrer"
               >
                 Cookies &amp; traceurs : que dit la loi ?
                 <span className="fr-sr-only">Ouvre une nouvelle fenêtre</span>
@@ -354,7 +353,6 @@ function ConfidentialityPage() {
               <a
                 href="https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser"
                 target="_blank"
-                rel="noreferrer"
               >
                 Cookies : les outils pour les maîtriser
                 <span className="fr-sr-only">Ouvre une nouvelle fenêtre</span>
@@ -367,11 +365,7 @@ function ConfidentialityPage() {
           <p>
             Bien sûr ! Les statistiques d’usage de la majorité de nos produits
             sont disponibles en accès libre sur&nbsp;
-            <a
-              href="https://stats.data.gouv.fr/"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="https://stats.data.gouv.fr/" target="_blank">
               stats.data.gouv.fr
               <span className="fr-sr-only">Ouvre une nouvelle fenêtre</span>
             </a>
@@ -450,7 +444,7 @@ function ConfidentialityPage() {
             pas respectés ou que le traitement n’est pas conforme à la
             réglementation sur la protection des données à caractère personnel,
             vous pouvez adresser une réclamation à{' '}
-            <a href="https://www.cnil.fr" target="_blank" rel="noreferrer">
+            <a href="https://www.cnil.fr" target="_blank">
               la CNIL
               <span className="fr-sr-only">Ouvre une nouvelle fenêtre</span>
             </a>
