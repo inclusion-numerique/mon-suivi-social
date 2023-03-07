@@ -60,10 +60,7 @@ const middleware = (request: NextRequest) => {
   response.headers.append('X-Content-Type-Options', 'nosniff')
   response.headers.append('X-XSS-Protection', '1; mode=block')
   response.headers.delete('X-Powered-By')
-  response.headers.append(
-    'Strict-Transport-Security',
-    'max-age=63072000 always',
-  )
+  response.headers.append('Strict-Transport-Security', 'max-age=63072000')
 
   // TODO To test on preview environment
   // Next requires unsafe-eval script sources in dev mode - See https://github.com/vercel/next.js/issues/18557#issuecomment-727160210
