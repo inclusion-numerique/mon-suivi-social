@@ -28,6 +28,7 @@ const middleware = (request: NextRequest) => {
   const isProd = nodeEnvironment === 'production'
   const requestHost = request.headers.get('host')
   const baseUrl = process.env.BASE_URL
+  const useCsp = 0 && isProd // FIXME: CSP are disabled while waiting for Next 13 to support nonce feature on NextScript - See https://github.com/vercel/next.js/issues/42330
 
   // FIXME: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security states "Note: This is more secure than simply configuring a HTTP to HTTPS (301) redirect on your server, where the initial HTTP connection is still vulnerable to a man-in-the-middle attack.". But they keep applying this redirect in recommended SSL configs: https://ssl-config.mozilla.org/
   if (
@@ -60,7 +61,8 @@ const middleware = (request: NextRequest) => {
   response.headers.delete('X-Powered-By')
   response.headers.append('Strict-Transport-Security', 'max-age=63072000')
 
-  if (isProd)
+  if (useCsp)
+    // FIXME: Replace with Content-Security-Policy
     response.headers.append('Content-Security-Policy-Report-Only', getCsp())
 
   return response
