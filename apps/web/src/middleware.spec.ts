@@ -15,7 +15,7 @@ describe('middleware', () => {
   })
 
   // FIXME: Enable this test once Next 13 supports nonce feature on NextScript - See https://github.com/vercel/next.js/issues/42330
-  xit('Adds CSP headers in production environment', () => {
+  it.skip('Adds CSP headers in production environment', () => {
     process.env = { NODE_ENV: 'production' }
     const result = middleware(new NextRequest('http://example.com/'))
     // FIXME: replace with Content-Security-Policy
