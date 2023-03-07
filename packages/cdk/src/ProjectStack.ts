@@ -1,8 +1,11 @@
 import { TerraformStack } from 'cdktf'
 import { Construct } from 'constructs'
-import { ProjectCdkOutput } from '@mss/cdk/getCdkOutput'
+import { ProjectCdkOutput, WebCdkOutput } from '@mss/cdk/getCdkOutput'
 import { environmentVariable } from '@mss/cdk/environmentVariable'
 import { createOutput } from '@mss/cdk/output'
+import { databaseInstanceName, region } from '@mss/cdk/project'
+import { ScalewayProvider } from '@mss/scaleway/provider'
+import { RdbInstance } from '@mss/scaleway/rdb-instance'
 
 /**
  * This stack represents the resources shared by other project stacks
@@ -15,17 +18,43 @@ export class ProjectStack extends TerraformStack {
     // ⚠️ When calling this function, do not forget to update typings in src/getCdkOutput.ts
     const output = createOutput<ProjectCdkOutput>(this)
 
-    const testEnvironmentVariable = environmentVariable(this, 'TEST_ENV_VAR', {
-      sensitive: false,
+    // Configuring env secrets
+    const accessKey = environmentVariable(this, 'SCW_ACCESS_KEY', {
+      sensitive: true,
     })
-    const sensitiveTestEnvironmentVariable = environmentVariable(
+    const secretKey = environmentVariable(this, 'SCW_SECRET_KEY', {
+      sensitive: true,
+    })
+    const organizationId = environmentVariable(
       this,
-      'TEST_SENSITIVE_ENV_VAR',
+      'SCW_DEFAULT_ORGANIZATION_ID',
       {
         sensitive: true,
       },
     )
+    const projectId = environmentVariable(this, 'SCW_PROJECT_ID', {
+      sensitive: true,
+    })
 
-    output('databaseInstanceId', 'huit')
+    // Configuring provider that will be used for the rest of the stack
+    new ScalewayProvider(this, 'provider', {
+      region,
+      accessKey: accessKey.value,
+      secretKey: secretKey.value,
+      organizationId: organizationId.value,
+      projectId: projectId.value,
+    })
+
+    const database = new RdbInstance(this, 'database', {
+      name: databaseInstanceName,
+      engine: 'PostgreSQL-14',
+      disableBackup: false,
+      backupScheduleFrequency: 24,
+      backupScheduleRetention: 14,
+    })
+
+    output('databaseInstanceId', database.id)
+    output('databaseEndpointIp', database.endpointIp)
+    output('databaseEndpointPort', database.endpointPort)
   }
 }

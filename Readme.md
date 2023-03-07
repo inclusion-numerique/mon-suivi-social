@@ -61,7 +61,7 @@ To run the web app development server:
 ### Misc utility commands
 
 Using ncu for updating dependencies :
-`ncu -u && cd apps/web && ncu -u && cd ../cli && ncu -u && cd ../../packages/cdk && ncu -u && cd ../e2e && ncu -u && cd ../emails && ncu -u && cd ../lint && ncu -u && cd ../storybook && ncu -u && cd ../test && ncu -u && cd ../..`
+`ncu -u && cd apps/web && ncu -u && cd ../cli && ncu -u && cd ../../packages/cdk && ncu -u && cd ../config && ncu -u && cd ../e2e && ncu -u && cd ../emails && ncu -u && cd ../lint && ncu -u && cd ../storybook && ncu -u && cd ../test && ncu -u && cd ../..`
 
 ### Testing
 

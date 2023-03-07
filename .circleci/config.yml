@@ -312,7 +312,7 @@ jobs:
       - run:
           name: 'Load fixtures'
           command: |
-            pnpm -F @mss/cli fixtures:load
+            pnpm --silent cli fixtures:load
       - run:
           name: Set deployment status to success
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID success -d 'Deploy successful' -u https://$WEB_BASE_URL -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID

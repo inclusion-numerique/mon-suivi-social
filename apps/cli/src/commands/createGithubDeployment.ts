@@ -6,8 +6,6 @@ import { output } from '../output'
 export const createGithubDeployment = new Command()
   .command('github:deployment:create')
   .argument('<branch>', 'branch target')
-  // TODO remove this eslint disable when https://github.com/commander-js/extra-typings/pull/35 is merged
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   .action(async (branch) => {
     const environment = computeBranchNamespace(branch)
     const isMain = branch === 'main'

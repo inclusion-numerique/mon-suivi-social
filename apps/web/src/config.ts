@@ -20,11 +20,6 @@ export const PrivateConfig = {
       }>`,
     },
   },
-  Grist: {
-    apiKey: process.env.GRIST_API_KEY ?? '',
-    documentId: process.env.GRIST_DOCUMENT_ID ?? '',
-    tableId: process.env.GRIST_TABLE_ID ?? '',
-  },
   S3: {
     uploadsBucketId: process.env.UPLOADS_BUCKET_ID ?? '',
     host: process.env.SCW_S3_HOST ?? '',
@@ -55,6 +50,5 @@ export const PublicConfig = {
   InclusionConnect: {
     issuer: process.env.NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER ?? '',
     clientId: process.env.NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID ?? '',
-    from: 'monsuivisocial',
   },
 }

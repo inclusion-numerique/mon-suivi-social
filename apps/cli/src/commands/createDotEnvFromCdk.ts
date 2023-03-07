@@ -10,8 +10,6 @@ const stacks = ['web', 'project']
 export const createDotEnvFromCdk = new Command()
   .command('dotenv:from-cdk')
   .addArgument(new Argument('<stack>', 'cdk stack').choices(stacks))
-  // TODO remove this eslint disable when https://github.com/commander-js/extra-typings/pull/35 is merged
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   .action(async (stack) => {
     if (stack === 'web') {
       const { databaseUrl, webBaseUrl } = await getCdkOutput('web')
