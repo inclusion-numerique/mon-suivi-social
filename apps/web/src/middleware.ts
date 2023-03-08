@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { generateContentSecurityPolicyScriptNonce } from '@mss/web/utils/generateContentSecurityPolicyScriptNonce'
 
 const ContentSecurityPolicy = `
-  default-src 'self' https://sentry.incubateur.net;
+  default-src 'self' https://matomo.incubateur.anct.gouv.fr https://sentry.incubateur.net;
   script-src 'self' https://matomo.incubateur.anct.gouv.fr <<nonce>>;
   script-src-attr 'none';
   style-src 'self' https: 'unsafe-inline';
