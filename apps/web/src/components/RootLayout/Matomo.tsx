@@ -1,7 +1,6 @@
 import Script from 'next/script'
 
-export function Matomo() {
-  return process.env.NODE_ENV === 'production' ? (
-    <Script src="/matomo/matomo.js" strategy="lazyOnload" />
+export const Matomo = ({ nonce }: { nonce?: string }) =>
+  process.env.NODE_ENV === 'production' ? (
+    <Script nonce={nonce} src="/matomo/matomo.min.js" strategy="lazyOnload" />
   ) : null
-}

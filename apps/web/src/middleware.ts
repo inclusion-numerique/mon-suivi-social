@@ -3,7 +3,7 @@ import { generateContentSecurityPolicyScriptNonce } from '@mss/web/utils/generat
 
 const ContentSecurityPolicy = `
   default-src 'self' https://sentry.incubateur.net;
-  script-src 'self' https://matomo.incubateur.anct.gouv.fr 'nonce-<<nonce>>';
+  script-src 'self' https://matomo.incubateur.anct.gouv.fr <<nonce>>;
   script-src-attr 'none';
   style-src 'self' https: 'unsafe-inline';
   img-src 'self' data:;
@@ -13,7 +13,6 @@ const ContentSecurityPolicy = `
   frame-ancestors 'self';
   form-action 'self';
   base-uri 'self';
-  upgrade-insecure-requests true;
 `
   .replace(/\s{2,}/g, ' ')
   .trim()
@@ -24,7 +23,6 @@ const middleware = (request: NextRequest) => {
   const isProd = nodeEnvironment === 'production'
   const requestHost = request.headers.get('host')
   const baseUrl = process.env.BASE_URL
-  const useCsp = isProd
 
   /**
    * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
@@ -50,10 +48,25 @@ const middleware = (request: NextRequest) => {
     return NextResponse.redirect(redirectTo)
   }
 
-  const nonce = generateContentSecurityPolicyScriptNonce()
-  const securityPolicy = ContentSecurityPolicy.replace('<<nonce>>', nonce)
+  const cspScriptNonce = `'nonce-${generateContentSecurityPolicyScriptNonce()}'`
 
-  // CSP nonce configuration is expected by next to be in request headers, and the nonce will be added to next inline scripts
+  const securityPolicyWithNonce = ContentSecurityPolicy
+    // Add nonce conditions
+    .replace(
+      '<<nonce>>',
+      isProd
+        ? // Production only gets nonce
+          cspScriptNonce
+        : // Development server also needs eval
+          `${cspScriptNonce} 'unsafe-eval'`,
+    )
+
+  // Add upgrade directive in prod environment
+  const securityPolicy = isProd
+    ? `${securityPolicyWithNonce}upgrade-insecure-requests true;`
+    : securityPolicyWithNonce
+
+  // CSP nonce configuration for next scripts is expected by next to be in request headers
   // Overriding request headers in middleware is the way Next internally handles request handling advanced configuration
   // This is not documented but for more information see next.js source code (next-server.ts::generateCatchAllMiddlewareRoute() and app-render.tsx)
   const response = NextResponse.next({
@@ -73,12 +86,7 @@ const middleware = (request: NextRequest) => {
   response.headers.delete('X-Powered-By')
   response.headers.append('Strict-Transport-Security', 'max-age=63072000')
 
-  if (useCsp)
-    // FIXME: Replace with Content-Security-Policy
-    response.headers.append(
-      'Content-Security-Policy-Report-Only',
-      securityPolicy,
-    )
+  response.headers.append('Content-Security-Policy', securityPolicy)
 
   return response
 }
