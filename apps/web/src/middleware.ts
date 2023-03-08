@@ -8,7 +8,8 @@ const ContentSecurityPolicy = `
   style-src 'self' https: 'unsafe-inline';
   img-src 'self' data:;
   object-src 'none';
-  connect-src 'self' https://matomo.incubateur.anct.gouv.fr; 
+  connect-src 'self' https://matomo.incubateur.anct.gouv.fr https://sentry.incubateur.net;
+  worker-src 'self'; 
   font-src 'self' https: data:;
   frame-ancestors 'self';
   form-action 'self';
