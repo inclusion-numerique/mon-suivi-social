@@ -95,7 +95,7 @@ const middleware = (request: NextRequest) => {
   response.headers.delete('X-Powered-By')
   response.headers.append('Strict-Transport-Security', 'max-age=63072000')
 
-  response.headers.append('Content-Security-Policy', securityPolicy)
+  response.headers.append('Content-Security-Policy-Report-Only', securityPolicy)
 
   return response
 }
