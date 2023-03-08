@@ -48,7 +48,8 @@ const middleware = (request: NextRequest) => {
     return NextResponse.redirect(redirectTo)
   }
 
-  const cspScriptNonce = `'nonce-${generateContentSecurityPolicyScriptNonce()}'`
+  const nonce = generateContentSecurityPolicyScriptNonce()
+  const cspNonceCondition = `'nonce-${nonce}'`
 
   const securityPolicyWithNonce = ContentSecurityPolicy
     // Add nonce conditions
@@ -56,9 +57,9 @@ const middleware = (request: NextRequest) => {
       '<<nonce>>',
       isProd
         ? // Production only gets nonce
-          cspScriptNonce
+          cspNonceCondition
         : // Development server also needs eval
-          `${cspScriptNonce} 'unsafe-eval'`,
+          `${cspNonceCondition} 'unsafe-eval'`,
     )
 
   // Add upgrade directive in prod environment
@@ -66,12 +67,19 @@ const middleware = (request: NextRequest) => {
     ? `${securityPolicyWithNonce}upgrade-insecure-requests true;`
     : securityPolicyWithNonce
 
-  // CSP nonce configuration for next scripts is expected by next to be in request headers
-  // Overriding request headers in middleware is the way Next internally handles request handling advanced configuration
-  // This is not documented but for more information see next.js source code (next-server.ts::generateCatchAllMiddlewareRoute() and app-render.tsx)
+  /**
+   * CSP nonce configuration for next scripts is expected by next to be in request headers
+   * Overriding request headers in middleware is the way Next internally handles request handling advanced configuration
+   * This is not documented but for more information see next.js source code (next-server.ts::generateCatchAllMiddlewareRoute() and app-render.tsx)
+   * Modified headers are NOT available in the reponse for the client
+   */
   const response = NextResponse.next({
     request: {
-      headers: new Headers({ 'Content-Security-Policy': securityPolicy }),
+      headers: new Headers({
+        'content-security-policy': securityPolicy,
+        // Custom header for use in server component
+        'x-mss-script-nonce': nonce,
+      }),
     },
   })
 

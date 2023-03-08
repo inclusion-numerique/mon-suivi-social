@@ -1,14 +1,12 @@
 import { PrivateConfig } from '@mss/web/config'
 import { Dsfr } from '@mss/web/components/RootLayout/Dsfr'
 import { Matomo } from '@mss/web/components/RootLayout/Matomo'
-import { getNonceFromCspHeader } from '@mss/web/utils/getNonceFromCspHeader'
 import { headers } from 'next/headers'
 
 const fontsToPreload = ['Marianne-Regular', 'Marianne-Bold', 'Marianne-Medium']
 
 export const Head = () => {
-  // TODO using dynamic nonce disable static generation for public page as a nonce has too be generated for each request. Is this ok?
-  const nonce = getNonceFromCspHeader(headers().get('content-security-policy'))
+  const nonce = headers().get('x-mss-script-nonce') ?? undefined
 
   return (
     <>
