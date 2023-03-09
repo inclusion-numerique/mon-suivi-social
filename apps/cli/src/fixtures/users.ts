@@ -43,7 +43,7 @@ export const userFixtures = [
     role: 'Instructor',
   },
   {
-    id: 'bcce3ab0-5761-4d25-b7f3-24e67bba5caf',
+    id: '34fba7af-071c-49c4-af86-48ba2d7377b4',
     firstName: 'Jean',
     lastName: 'Agent',
     name: 'Jean Agent',
