@@ -74,13 +74,11 @@ const middleware = (request: NextRequest) => {
    * This is not documented but for more information see next.js source code (next-server.ts::generateCatchAllMiddlewareRoute() and app-render.tsx)
    * Modified headers are NOT available in the reponse for the client
    */
+  request.headers.append('content-security-policy', securityPolicy)
+  request.headers.append('x-mss-script-nonce', nonce)
   const response = NextResponse.next({
     request: {
-      headers: new Headers({
-        'content-security-policy': securityPolicy,
-        // Custom header for use in server component
-        'x-mss-script-nonce': nonce,
-      }),
+      headers: request.headers,
     },
   })
 
