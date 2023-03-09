@@ -13,6 +13,7 @@ import { InfoTab } from '@mss/web/components/InfoTab'
 import {
   canDeleteBeneficiary,
   canEditBeneficiaryGeneralInfo,
+  canCreateBeneficiaryHelpRequest,
 } from '@mss/web/security/rules'
 import { AttributesList, TabOptions, Tabs } from '@mss/web/components/Generic'
 import { MutationLog } from '@mss/web/components/MutationLog'
@@ -57,6 +58,10 @@ const BeneficiaryPage = async ({
 
   const canEdit = canEditBeneficiaryGeneralInfo(user, beneficiary)
   const canArchive = canDeleteBeneficiary(user, beneficiary)
+  const canCreateHelpRequest = canCreateBeneficiaryHelpRequest(
+    user,
+    beneficiary,
+  )
 
   const tab = searchParams?.tab ?? 'info'
   const tabs = [
@@ -179,16 +184,18 @@ const BeneficiaryPage = async ({
                 Synthèse d&apos;entretien
               </Link>
             </li>
-            <li>
-              <Link
-                href={Routes.Accompagnements.DemandeDAide.Nouvelle.path({
-                  dossier: fileNumber,
-                })}
-                className="fr-btn fr-icon-file-add-line fr-btn--secondary"
-              >
-                Demande d&apos;aide
-              </Link>
-            </li>{' '}
+            {canCreateHelpRequest ? (
+              <li>
+                <Link
+                  href={Routes.Accompagnements.DemandeDAide.Nouvelle.path({
+                    dossier: fileNumber,
+                  })}
+                  className="fr-btn fr-icon-file-add-line fr-btn--secondary"
+                >
+                  Demande d&apos;aide
+                </Link>
+              </li>
+            ) : null}
             {canArchive ? (
               <li>
                 <Link
