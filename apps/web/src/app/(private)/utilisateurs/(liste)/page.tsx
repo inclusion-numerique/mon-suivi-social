@@ -11,9 +11,9 @@ import {
   Table,
   TableHeadWithSorting,
 } from '@mss/web/components/Generic'
-import { ListUsersServer } from '@mss/web/features/user/listUsers/listUsers.server'
 import Link from 'next/link'
 import { UserTable, userTableColumns } from '@mss/web/components/UserTable'
+import { iterateUsers } from '@mss/web/query/utilisateurs/iterateUsers'
 
 const itemsPerPage = 15
 
@@ -45,16 +45,10 @@ const ListeDesUtilisateursPage = async ({
   // Get filters info from searchParams
   const search = searchParams?.recherche
 
-  const { users, totalPages, count } = await ListUsersServer.execute({
-    user,
-    input: {
-      structureId,
-      perPage: itemsPerPage,
-      page: pageNumber,
-      orderBy: getColumnOrderBy(currentSorting, userTableColumns),
-      search,
-    },
-    securityParams: {},
+  const { users, totalPages, count } = await iterateUsers({
+    perPage: itemsPerPage,
+    page: pageNumber,
+    orderBy: getColumnOrderBy(currentSorting, userTableColumns),
   })
 
   // Linking logic for pages navigation

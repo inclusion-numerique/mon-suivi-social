@@ -1,9 +1,9 @@
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import { ListUsersItem } from '@mss/web/features/user/listUsers/listUsers.server'
 import { UserRoleLabels } from '@mss/web/features/user/createUser/createUser.client'
+import { UserListItem } from '@mss/web/query/utilisateurs'
 
-export const userTableColumns: TableColumnDefinition<ListUsersItem>[] = [
+export const userTableColumns: TableColumnDefinition<UserListItem>[] = [
   {
     label: 'Nom',
     sortable: (direction) => [{ lastName: direction }],

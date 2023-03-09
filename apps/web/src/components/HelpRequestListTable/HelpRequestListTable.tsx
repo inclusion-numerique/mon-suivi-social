@@ -1,6 +1,5 @@
 import { Routes } from '@mss/web/app/routing/routes'
-import { HelpRequestsList, HelpRequestsListResult } from '@mss/web/query'
-import { asyncComponent } from '@mss/web/utils/asyncComponent'
+import { HelpRequestsListResult } from '@mss/web/query'
 import { getTotalPages } from '@mss/web/utils/table'
 import {
   createPageLinkHelper,
