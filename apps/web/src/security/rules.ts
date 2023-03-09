@@ -27,16 +27,20 @@ type AllowedRoles =
   | [UserRole, UserRole, UserRole, UserRole, UserRole, UserRole]
 
 // Grantee role utilities
+export const isActiveWithAllowedRole = (
+  grantee: SecurityRuleGrantee,
+  allowedRoles: AllowedRoles,
+) => grantee.status === 'Active' && allowedRoles.includes(grantee.role)
+
 export const isAdministrator = (grantee: SecurityRuleGrantee) =>
-  grantee.role === 'Administrator' && grantee.status === 'Active'
+  isActiveWithAllowedRole(grantee, ['Administrator'])
 
 export const isStructureManager = (
   grantee: SecurityRuleGrantee,
   target: SecurityTargetWithStructure,
 ) =>
-  grantee.role === 'StructureManager' &&
-  grantee.structureId === target.structureId &&
-  grantee.status === 'Active'
+  isActiveWithAllowedRole(grantee, ['StructureManager']) &&
+  grantee.structureId === target.structureId
 
 export const isInSameStructureAs = (
   grantee: SecurityRuleGrantee,
@@ -45,15 +49,13 @@ export const isInSameStructureAs = (
 ) =>
   !!grantee.structureId &&
   grantee.structureId === target.structureId &&
-  grantee.status === 'Active' &&
-  allowedRoles.includes(grantee.role)
+  isActiveWithAllowedRole(grantee, allowedRoles)
 
 export const isReferentFor = (
   grantee: SecurityRuleGrantee,
   target: SecurityTargetWithReferents,
 ) =>
-  grantee.status === 'Active' &&
-  grantee.role === 'Referent' &&
+  isActiveWithAllowedRole(grantee, ['Referent']) &&
   target.referents.some(({ id }) => id === grantee.id)
 
 export const isCreator = (
@@ -62,8 +64,7 @@ export const isCreator = (
   allowedRoles: AllowedRoles,
 ) =>
   grantee.id === target.createdById &&
-  grantee.status === 'Active' &&
-  allowedRoles.includes(grantee.role)
+  isActiveWithAllowedRole(grantee, allowedRoles)
 
 export type SecurityRule<
   Grantee extends SecurityRuleGrantee = SecurityRuleGrantee,
@@ -75,7 +76,7 @@ export type SecurityRule<
   securityParameters: SecurityParameters,
 ) => boolean
 
-// A rule is a syncronous function taking
+// A rule is a synchronous function taking
 // -- grantee (the authenticated user)
 // -- target (aggregate info or scope of the action)
 // -- params (specifics about the action)
@@ -472,12 +473,9 @@ export const canExportFollowupsData = (
     'Referent',
   ])
 
-export const canAccessStatsPage = (
-  grantee: SecurityRuleGrantee,
-  target: SecurityTargetWithStructure,
-): boolean =>
+export const canAccessStatsPage = (grantee: SecurityRuleGrantee): boolean =>
   isAdministrator(grantee) ||
-  isInSameStructureAs(grantee, target, [
+  isActiveWithAllowedRole(grantee, [
     'StructureManager',
     'SocialWorker',
     'Instructor',
