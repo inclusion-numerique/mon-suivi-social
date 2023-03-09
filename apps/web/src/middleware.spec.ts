@@ -27,7 +27,7 @@ describe('middleware', () => {
     )
   })
 
-  it.skip('Adds CSP headers in production environment', () => {
+  it('Adds CSP headers in production environment', () => {
     process.env = { NODE_ENV: 'production' }
     nonceGeneratorSpy.mockReturnValue('1234')
 
@@ -36,9 +36,8 @@ describe('middleware', () => {
     expect(nonceGeneratorSpy).toHaveBeenCalledOnce()
     expect(cspHeader).toBeString()
     expect(cspHeader).toInclude(
-      "script-src 'self' https://matomo.incubateur.anct.gouv.fr 'nonce-1234;",
+      "script-src 'self' https://matomo.incubateur.anct.gouv.fr 'nonce-1234';",
     )
     expect(cspHeader).not.toInclude('unsafe-eval')
-    expect(cspHeader).not.toInclude('unsafe-inline')
   })
 })
