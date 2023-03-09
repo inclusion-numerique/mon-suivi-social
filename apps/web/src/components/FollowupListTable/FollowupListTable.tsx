@@ -1,19 +1,15 @@
 import { Routes } from '@mss/web/app/routing/routes'
 import { FollowupsListResult } from '@mss/web/query'
-import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { getTotalPages } from '@mss/web/utils/table'
 import {
   createPageLinkHelper,
   createSortLinkHelper,
-  getColumnOrderBy,
   Sorting,
   Table,
   TableHeadWithSorting,
 } from '../Generic'
 import { followupListTableColumns } from './followupListTableColumns'
 import { FollowupListTableRows } from './FollowupListTableRows'
-
-const perPage = 2
 
 export const FollowupListTable = ({
   followupsListResult,
