@@ -11,7 +11,7 @@ const ContentSecurityPolicy = `
   connect-src 'self' https://matomo.incubateur.anct.gouv.fr https://sentry.incubateur.net;
   worker-src 'self'; 
   font-src 'self' https: data:;
-  frame-ancestors 'self';
+  frame-ancestors 'self' https://matomo.incubateur.anct.gouv.fr;
   form-action 'self';
   base-uri 'self';
 `
