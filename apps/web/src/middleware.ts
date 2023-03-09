@@ -1,22 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateContentSecurityPolicyScriptNonce } from '@mss/web/utils/generateContentSecurityPolicyScriptNonce'
 
-const ContentSecurityPolicy = `
+const getContentSecurityPolicy = (isProd: boolean, nonce: string) =>
+  `
   default-src 'self' https://matomo.incubateur.anct.gouv.fr https://sentry.incubateur.net;
-  script-src 'self' https://matomo.incubateur.anct.gouv.fr <<nonce>>;
+  script-src 'self' https://matomo.incubateur.anct.gouv.fr 'nonce-${nonce}'${
+    isProd ? '' : " 'unsafe-eval'"
+  };
   script-src-attr 'none';
   style-src 'self' https: 'unsafe-inline';
   img-src 'self' data:;
   object-src 'none';
   connect-src 'self' https://matomo.incubateur.anct.gouv.fr https://sentry.incubateur.net;
-  worker-src 'self'; 
+  worker-src 'self';
   font-src 'self' https: data:;
   frame-ancestors 'self' https://matomo.incubateur.anct.gouv.fr;
   form-action 'self';
   base-uri 'self';
+  ${isProd ? 'upgrade-insecure-requests true;' : ''}
 `
-  .replace(/\s{2,}/g, ' ')
-  .trim()
+    .replace(/\s{2,}/g, ' ')
+    .trim()
 
 const middleware = (request: NextRequest) => {
   const forwardedProto = request.headers.get('X-Forwarded-Proto')
@@ -50,29 +54,13 @@ const middleware = (request: NextRequest) => {
   }
 
   const nonce = generateContentSecurityPolicyScriptNonce()
-  const cspNonceCondition = `'nonce-${nonce}'`
-
-  const securityPolicyWithNonce = ContentSecurityPolicy
-    // Add nonce conditions
-    .replace(
-      '<<nonce>>',
-      isProd
-        ? // Production only gets nonce
-          cspNonceCondition
-        : // Development server also needs eval
-          `${cspNonceCondition} 'unsafe-eval'`,
-    )
-
-  // Add upgrade directive in prod environment
-  const securityPolicy = isProd
-    ? `${securityPolicyWithNonce}upgrade-insecure-requests true;`
-    : securityPolicyWithNonce
+  const securityPolicy = getContentSecurityPolicy(isProd, nonce)
 
   /**
    * CSP nonce configuration for next scripts is expected by next to be in request headers
    * Overriding request headers in middleware is the way Next internally handles request handling advanced configuration
    * This is not documented but for more information see next.js source code (next-server.ts::generateCatchAllMiddlewareRoute() and app-render.tsx)
-   * Modified headers are NOT available in the reponse for the client
+   * Modified headers are NOT available in the response for the client
    */
   request.headers.append('content-security-policy', securityPolicy)
   request.headers.append('x-mss-script-nonce', nonce)
