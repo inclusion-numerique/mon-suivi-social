@@ -1,5 +1,5 @@
 import Script from 'next/script'
 
-export const Dsfr = () => (
-  <Script src="/dsfr/dsfr.module.min.js" strategy="lazyOnload" />
+export const Dsfr = ({ nonce }: { nonce?: string }) => (
+  <Script nonce={nonce} src="/dsfr/dsfr.module.min.js" strategy="lazyOnload" />
 )

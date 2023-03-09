@@ -54,7 +54,7 @@ export const isReferentFor = (
 ) =>
   grantee.status === 'Active' &&
   grantee.role === 'Referent' &&
-  !!target.referents.find(({ id }) => id === grantee.id)
+  target.referents.some(({ id }) => id === grantee.id)
 
 export const isCreator = (
   grantee: SecurityRuleGrantee,

@@ -45,7 +45,6 @@ const temporarilyDisabledRules = [
   'unicorn/filename-case',
   'unicorn/no-array-callback-reference',
   'unicorn/no-array-reduce',
-  'unicorn/prefer-array-some',
   'unicorn/prefer-logical-operator-over-ternary',
   'unicorn/prefer-query-selector',
   'unicorn/prefer-spread',

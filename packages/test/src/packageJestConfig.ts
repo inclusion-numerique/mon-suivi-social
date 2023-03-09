@@ -10,20 +10,38 @@ export const testDotenvConfig = () => {
   dotenv.config({ path: dotenvFile })
 }
 
+/**
+ * Swc jest is not compatible with spy and jest mock. For mocking add the modules in mockableFilePatterns.
+ * This will at some point be addressed by @swc/jest and we will remove this compatibility layer.
+ */
 export const packageJestConfig = ({
   transformIgnorePackages = [],
   testPathIgnorePatterns = [],
+  mockableFilePatterns = [],
 }: {
   transformIgnorePackages?: string[]
   testPathIgnorePatterns?: string[]
+  mockableFilePatterns?: string[]
 }) => {
   testDotenvConfig()
 
+  // Swc jest is not compatible with spy and jest mock. For mocking add the modules here.
+  // See https://github.com/swc-project/swc/issues/5059
+  // '^.+packages/foo/src/common/cache\\.ts$': 'ts-jest',
+  const tsJestTransformPattern = mockableFilePatterns.join('|')
+
+  const transform = tsJestTransformPattern
+    ? {
+        [tsJestTransformPattern]: 'ts-jest',
+        '^.+\\.(t|j)sx?$': '@swc/jest',
+      }
+    : {
+        '^.+\\.(t|j)sx?$': '@swc/jest',
+      }
+
   return {
     moduleFileExtensions: ['js', 'ts', 'tsx'],
-    transform: {
-      '^.+\\.(t|j)sx?$': '@swc/jest',
-    },
+    transform,
     transformIgnorePatterns: [
       createNodeModulesTransformIgnorePattern(transformIgnorePackages),
     ],
