@@ -5,16 +5,13 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import { useIsCurrentPathname } from '@mss/web/hooks/useIsCurrentPathname'
 import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
-import { canListStructures } from '@mss/web/security/rules'
+import {
+  canAccessStatsPage,
+  canListStructures,
+  canListUsers,
+} from '@mss/web/security/rules'
 
 type MenuLink = { title: string; path: string; icon: string }
-const mainLinks: MenuLink[] = [
-  Routes.Index,
-  Routes.Beneficiaires.Index,
-  Routes.Accompagnements.Index,
-  Routes.Statistiques.Index,
-  Routes.MonCompte.Index,
-]
 
 function MenuLinkItem({
   item: { current, icon, path, title },
@@ -53,33 +50,34 @@ function SideMenuLinks({
   const isCurrent = useIsCurrentPathname()
 
   // TODO MSS depends on role
-  const userSpecificLinks: MenuLink[] = []
+  const menuLinks: MenuLink[] = [
+    Routes.Index,
+    Routes.Beneficiaires.Index,
+    Routes.Accompagnements.Index,
+  ]
 
-  if (canListStructures(user)) {
-    userSpecificLinks.push({
-      title: 'Structures',
-      path: Routes.Structures.Index.path,
-      icon: 'building-line',
-    })
-  } else if (user.structureId) {
-    userSpecificLinks.push({
+  if (canAccessStatsPage(user)) menuLinks.push(Routes.Statistiques.Index)
+
+  menuLinks.push(Routes.MonCompte.Index)
+
+  if (canListStructures(user)) menuLinks.push(Routes.Structures.Index)
+  else if (user.structureId) {
+    menuLinks.push({
+      ...Routes.Structure.Index,
       title: 'Structure',
       path: Routes.Structure.Index.path({
         id: user.structureId,
       }),
-      icon: 'building-line',
     })
   }
 
-  // TODO MSS if admin or structure boss??
-  userSpecificLinks.push(Routes.Utilisateurs.Index)
+  if (canListUsers(user, { structureId: user.structureId }))
+    menuLinks.push(Routes.Utilisateurs.Index)
 
-  const menuLinksWithCurrent = [...mainLinks, ...userSpecificLinks].map(
-    (link) => ({
-      ...link,
-      current: isCurrent(link.path, link.path === Routes.Index.path),
-    }),
-  )
+  const menuLinksWithCurrent = menuLinks.map((link) => ({
+    ...link,
+    current: isCurrent(link.path, link.path === Routes.Index.path),
+  }))
 
   return (
     <ul className="fr-sidemenu__list">

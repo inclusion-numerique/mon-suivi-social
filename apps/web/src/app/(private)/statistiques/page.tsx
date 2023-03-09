@@ -8,15 +8,23 @@ import { FamilySituationChart } from '@mss/web/app/(private)/statistiques/Family
 import { AgeChart } from '@mss/web/app/(private)/statistiques/AgeChart'
 import { ChartJs } from '@mss/web/app/(private)/statistiques/ChartJs'
 import { Routes } from '@mss/web/app/routing/routes'
+import { canAccessStatsPage } from '@mss/web/security/rules'
+import { notFound } from 'next/navigation'
 
 const StatistiquesPage = async () => {
-  const { structureId } = await getAuthenticatedAgent()
+  const user = await getAuthenticatedAgent()
+
+  if (!canAccessStatsPage(user)) {
+    notFound()
+    return null
+  }
+
   const [genderStats, familySituationStats, ageStats, supportStats] =
     await Promise.all([
-      StatisticsQuery.getGenderStats(structureId),
-      StatisticsQuery.getFamilyStats(structureId),
-      StatisticsQuery.getAgeStats(structureId),
-      StatisticsQuery.getSupportStats(structureId),
+      StatisticsQuery.getGenderStats(user.structureId),
+      StatisticsQuery.getFamilyStats(user.structureId),
+      StatisticsQuery.getAgeStats(user.structureId),
+      StatisticsQuery.getSupportStats(user.structureId),
     ])
 
   return (
