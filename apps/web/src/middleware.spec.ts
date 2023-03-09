@@ -18,7 +18,7 @@ describe('middleware', () => {
     nonceGeneratorSpy.mockReturnValue('ABCD')
 
     const result = middleware(new NextRequest('http://example.com/'))
-    const cspHeader = result.headers.get('Content-Security-Policy-Report-Only')
+    const cspHeader = result.headers.get('Content-Security-Policy')
 
     expect(nonceGeneratorSpy).toHaveBeenCalledOnce()
     expect(cspHeader).toBeString()
@@ -32,7 +32,7 @@ describe('middleware', () => {
     nonceGeneratorSpy.mockReturnValue('1234')
 
     const result = middleware(new NextRequest('http://example.com/'))
-    const cspHeader = result.headers.get('Content-Security-Policy-Report-Only')
+    const cspHeader = result.headers.get('Content-Security-Policy')
     expect(nonceGeneratorSpy).toHaveBeenCalledOnce()
     expect(cspHeader).toBeString()
     expect(cspHeader).toInclude(
