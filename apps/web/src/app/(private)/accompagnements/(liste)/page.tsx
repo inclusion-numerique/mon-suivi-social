@@ -2,29 +2,19 @@ import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { canAccessFollowupsPage } from '@mss/web/security/rules'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-  createPageLinkHelper,
-  createSortLinkHelper,
-  Table,
-  TableHeadWithSorting,
   TabOptions,
   Tabs,
 } from '@mss/web/components/Generic'
-import { ListFollowupsServer } from '@mss/web/features/followup/listFollowups/listFollowups.server'
-import { ListHelpRequestsServer } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.server'
-import {
-  FollowupListTableRows,
-  FollowupListTableColumns,
-} from '@mss/web/components/FollowupListTable'
-import {
-  HelpRequestListTableRows,
-  helpRequestListTableColumns,
-} from '@mss/web/components/HelpRequestListTable'
+import { FollowupListTable } from '@mss/web/components/FollowupListTable/FollowupListTable'
+import { HelpRequestListTable } from '@mss/web/components/HelpRequestListTable/HelpRequestListTable'
+import { AccompagnementsQuery } from '@mss/web/query'
+import { helpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
 
-const itemsPerPage = 15
+const perPage = 15
 
 const AccompagnementsListPage = async ({
   searchParams,
@@ -37,97 +27,31 @@ const AccompagnementsListPage = async ({
   if (!canAccessFollowupsPage(user, { structureId: user.structureId })) {
     notFound()
   }
-  const { structureId } = user
-
   const tab = searchParams?.tab ?? 'entretiens'
-
-  const defaultSorting: Sorting =
-    tab === 'entretiens'
-      ? {
-          by: 'date',
-          direction: 'desc',
-        }
-      : { by: 'openingDate', direction: 'desc' }
 
   // Get pagination and sorting info from searchParams
   const pageNumber = searchParams?.page ? Number.parseInt(searchParams.page) : 1
-  const currentSorting: Sorting = {
-    by: searchParams?.tri ?? defaultSorting.by,
-    direction: searchParams?.ordre ?? defaultSorting.direction,
-  }
 
   // Get filters info from searchParams
   const search = searchParams?.recherche
 
-  const [followupsList, helpRequestsList] = await Promise.all([
-    ListFollowupsServer.execute({
-      user,
-      input:
-        tab === 'entretiens'
-          ? {
-              structureId,
-              perPage: itemsPerPage,
-              page: pageNumber,
-              orderBy: getColumnOrderBy(
-                currentSorting,
-                FollowupListTableColumns,
-              ),
-              search,
-            }
-          : { structureId, page: 1, perPage: itemsPerPage },
-      securityParams: {},
-    }),
-    ListHelpRequestsServer.execute({
-      user,
-      input:
-        tab === 'demandes-d-aide'
-          ? {
-              structureId,
-              perPage: itemsPerPage,
-              page: pageNumber,
-              orderBy: getColumnOrderBy(
-                currentSorting,
-                helpRequestListTableColumns,
-              ),
-              search,
-            }
-          : { structureId, page: 1, perPage: itemsPerPage },
-      securityParams: {},
-    }),
-  ])
-
-  // Linking logic for pages navigation
-  const createPageLink = createPageLinkHelper(
-    {
-      currentSorting,
-      defaultSorting,
-      search,
-      tab: searchParams?.tab,
-    },
-    Routes.Accompagnements.Index.pathWithParams,
-  )
-
-  // Redirect to last page if pageNumber is outside of bounds
-  const totalPages =
-    tab === 'entretiens'
-      ? followupsList.totalPages
-      : helpRequestsList.totalPages
-  if (pageNumber > totalPages) {
-    redirect(createPageLink(totalPages))
-    return null
+  const currentSorting: Sorting = {
+    by: searchParams?.tri ?? '',
+    direction: searchParams?.ordre ?? 'asc',
   }
 
-  // Linking logic for sorting
-  const createSortLink = createSortLinkHelper(
-    {
-      pageNumber,
-      defaultSorting,
-      search,
-
-      tab: searchParams?.tab,
-    },
-    Routes.Accompagnements.Index.pathWithParams,
-  )
+  const [helpRequestsListResult, followupsListResult] = await Promise.all([
+    AccompagnementsQuery.iterateHelpRequests({
+      page: pageNumber,
+      perPage,
+      orderBy: getColumnOrderBy(currentSorting, helpRequestListTableColumns),
+    }),
+    AccompagnementsQuery.iterateFollowups({
+      page: pageNumber,
+      perPage,
+      orderBy: getColumnOrderBy(currentSorting, helpRequestListTableColumns),
+    }),
+  ])
 
   const tabs = [
     {
@@ -137,22 +61,12 @@ const AccompagnementsListPage = async ({
         tab === 'entretiens' ? searchParams : {},
       ),
       content: (
-        <Table
-          tableHead={
-            <TableHeadWithSorting
-              columns={FollowupListTableColumns}
-              createSortLink={createSortLink}
-              currentSorting={currentSorting}
-            />
-          }
-          tableBody={
-            <FollowupListTableRows followups={followupsList.followups} />
-          }
-          pagination={{
-            pageNumber,
-            totalPages,
-            createPageLink,
-          }}
+        <FollowupListTable
+          sorting={currentSorting}
+          perPage={perPage}
+          pageNumber={pageNumber}
+          search={search}
+          followupsListResult={followupsListResult}
         />
       ),
     },
@@ -163,24 +77,12 @@ const AccompagnementsListPage = async ({
         tab === 'demandes-d-aide' ? searchParams : { tab: 'demandes-d-aide' },
       ),
       content: (
-        <Table
-          tableHead={
-            <TableHeadWithSorting
-              columns={helpRequestListTableColumns}
-              createSortLink={createSortLink}
-              currentSorting={currentSorting}
-            />
-          }
-          tableBody={
-            <HelpRequestListTableRows
-              helpRequests={helpRequestsList.helpRequests}
-            />
-          }
-          pagination={{
-            pageNumber,
-            totalPages,
-            createPageLink,
-          }}
+        <HelpRequestListTable
+          sorting={currentSorting}
+          perPage={perPage}
+          pageNumber={pageNumber}
+          search={search}
+          helpRequestsListResult={helpRequestsListResult}
         />
       ),
     },

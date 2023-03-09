@@ -5,15 +5,6 @@ import {
   AttributesList,
 } from '@mss/web/components/Generic/AttributesList'
 import { formatBoolean } from '@mss/web/utils/formatBoolean'
-import {
-  followupMediumLabels,
-  followupStatusClasses,
-  followupStatusLabels,
-} from '@mss/web/features/followup/addFollowup.client'
-import {
-  helpRequestStatusBadgeClasses,
-  helpRequestStatusLabels,
-} from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { ScrollToSupportItem } from './ScrollToSupportItem'
@@ -28,6 +19,15 @@ import {
 import { Routes } from '@mss/web/app/routing/routes'
 import Link from 'next/link'
 import { GetSupportsReturn, GetBeneficiaryToViewReturn } from '@mss/web/query'
+import {
+  followupMediumLabels,
+  followupStatusClasses,
+  followupStatusLabels,
+} from '@mss/web/constants/followup'
+import {
+  helpRequestStatusBadgeClasses,
+  helpRequestStatusLabels,
+} from '@mss/web/constants/helpRequest'
 
 export function HistoryTab({
   user,

@@ -15,3 +15,12 @@ export {
   type GetSupportsReturn,
   type IterateBeneficiariesReturn,
 } from './beneficiaires'
+
+export {
+  type FollowupsListResult,
+  type FollowupsList,
+  type FollowupsListItem,
+  type HelpRequestsListResult,
+  type HelpRequestsList,
+  type HelpRequestsListItem,
+} from './accompagnements'
