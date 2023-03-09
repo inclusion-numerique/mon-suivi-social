@@ -8,8 +8,8 @@ import { FamilySituationChart } from '@mss/web/app/(private)/statistiques/Family
 import { AgeChart } from '@mss/web/app/(private)/statistiques/AgeChart'
 import { ChartJs } from '@mss/web/app/(private)/statistiques/ChartJs'
 import { Routes } from '@mss/web/app/routing/routes'
-import notFound from './not-found'
 import { canAccessStatsPage } from '@mss/web/security/rules'
+import { notFound } from 'next/navigation'
 
 const StatistiquesPage = async () => {
   const user = await getAuthenticatedAgent()

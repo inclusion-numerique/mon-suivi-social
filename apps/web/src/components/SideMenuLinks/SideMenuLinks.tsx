@@ -71,7 +71,6 @@ function SideMenuLinks({
     })
   }
 
-  // TODO MSS if admin or structure boss??
   if (canListUsers(user, { structureId: user.structureId }))
     menuLinks.push(Routes.Utilisateurs.Index)
 
