@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import { ComponentProps } from 'react'
 import { createPagesNumbersToDisplay } from './pagination'
-import { mockProviders } from 'next-auth/client/__tests__/helpers/mocks'
-import type = mockProviders.github.type
 
 export type PaginationNavProps = ComponentProps<typeof PaginationNav>
 
