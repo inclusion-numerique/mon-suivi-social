@@ -388,7 +388,6 @@ export const canListBeneficiaryHelpRequests = (
     'StructureManager',
     'SocialWorker',
     'Instructor',
-    'ReceptionAgent',
   ]) ||
   isReferentFor(grantee, beneficiary)
 

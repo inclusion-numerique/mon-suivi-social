@@ -11,6 +11,8 @@ import { ScrollToSupportItem } from './ScrollToSupportItem'
 import {
   canEditBeneficiaryFollowup,
   canEditBeneficiaryHelpRequest,
+  canListBeneficiaryFollowups,
+  canListBeneficiaryHelpRequests,
   canViewBeneficiaryFollowupPrivateSynthesis,
   canViewBeneficiaryFollowupSynthesis,
   canViewBeneficiaryHelpRequestPrivateSynthesis,
@@ -40,11 +42,16 @@ export function HistoryTab({
   supports: GetSupportsReturn
   scrollToItem?: string
 }) {
+  const accessibleSupports = supports.filter((support) =>
+    support.__type === 'helpRequest'
+      ? canListBeneficiaryHelpRequests(user, beneficiary)
+      : canListBeneficiaryFollowups(user, beneficiary),
+  )
+
   return (
     <>
       <div>
-        {/* TODO use security rules instead of inlining security decisions with conditions */}
-        {supports.map((support) => (
+        {accessibleSupports.map((support) => (
           <SupportCard
             key={support.id}
             beneficiary={beneficiary}
