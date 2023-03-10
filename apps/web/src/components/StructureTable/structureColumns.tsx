@@ -1,52 +1,52 @@
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
-import { ListStructuresItem } from '@mss/web/features/structure/listStructures/listStructures.server'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { StructureTypeLabels } from '@mss/web/features/structure/createStructure/createStructure.client'
+import { StructuresListItem } from '@mss/web/query/structure'
 
 export const structureColumns = [
   {
     label: 'Nom',
     sortable: (direction) => [{ name: direction }],
-    content: ({ name }: ListStructuresItem) => nonBreakable(name),
+    content: ({ name }: StructuresListItem) => nonBreakable(name),
   },
   {
     label: 'Type',
     sortable: (direction) => [{ type: direction }],
-    content: ({ type }: ListStructuresItem) =>
+    content: ({ type }: StructuresListItem) =>
       nonBreakable(StructureTypeLabels[type]),
   },
   {
     label: 'Utilisateurs',
     sortable: (direction) => [{ users: { _count: direction } }],
-    content: ({ _count: { users } }: ListStructuresItem) => users,
+    content: ({ _count: { users } }: StructuresListItem) => users,
   },
   {
     label: 'Bénéficiaires',
     sortable: (direction) => [{ beneficiaries: { _count: direction } }],
-    content: ({ _count: { beneficiaries } }: ListStructuresItem) =>
+    content: ({ _count: { beneficiaries } }: StructuresListItem) =>
       beneficiaries,
   },
   {
     label: 'Entretiens',
     sortable: (direction) => [{ followups: { _count: direction } }],
-    content: ({ _count: { followups } }: ListStructuresItem) => followups,
+    content: ({ _count: { followups } }: StructuresListItem) => followups,
   },
   {
     label: "Demandes d'aide",
     sortable: (direction) => [{ helpRequests: { _count: direction } }],
-    content: ({ _count: { helpRequests } }: ListStructuresItem) => helpRequests,
+    content: ({ _count: { helpRequests } }: StructuresListItem) => helpRequests,
   },
   {
     label: 'Ville',
-    content: ({ city, zipcode }: ListStructuresItem) =>
+    content: ({ city, zipcode }: StructuresListItem) =>
       zipcode ? nonBreakable(`${city ?? ''} (${zipcode})`).trim() : city,
   },
   {
     label: 'Email',
-    content: ({ email }: ListStructuresItem) => email,
+    content: ({ email }: StructuresListItem) => email,
   },
   {
     label: 'Téléphone',
-    content: ({ phone }: ListStructuresItem) => nonBreakable(phone),
+    content: ({ phone }: StructuresListItem) => nonBreakable(phone),
   },
-] satisfies TableColumnDefinition<ListStructuresItem>[]
+] satisfies TableColumnDefinition<StructuresListItem>[]

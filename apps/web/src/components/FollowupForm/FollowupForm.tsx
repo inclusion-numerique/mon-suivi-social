@@ -15,12 +15,12 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditFollowupClient } from '@mss/web/features/followup/editFollowup.client'
+import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client'
+import { Options } from '@mss/web/utils/options'
 import {
-  AddFollowupClient,
   followupMediumOptions,
   followupStatusOptions,
-} from '@mss/web/features/followup/addFollowup.client'
-import { Options } from '@mss/web/utils/options'
+} from '@mss/web/constants/followup'
 
 const FieldLabels = EditFollowupClient.fieldLabels
 

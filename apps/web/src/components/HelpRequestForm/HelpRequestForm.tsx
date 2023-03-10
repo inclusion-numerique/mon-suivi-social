@@ -15,15 +15,15 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
+import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpRequest.client'
+import { Options } from '@mss/web/utils/options'
 import {
-  AddHelpRequestClient,
   externalOrganisationOptions,
   financialSupportOptions,
   helpRequestReasonOptions,
   helpRequestStatusOptions,
   paymentMethodOptions,
-} from '@mss/web/features/helpRequest/addHelpRequest.client'
-import { Options } from '@mss/web/utils/options'
+} from '@mss/web/constants/helpRequest'
 
 const FieldLabels = EditHelpRequestClient.fieldLabels
 

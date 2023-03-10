@@ -11,12 +11,12 @@ import {
   TableHeadWithSorting,
   Table,
 } from '@mss/web/components/Generic'
-import { ListStructuresServer } from '@mss/web/features/structure/listStructures/listStructures.server'
 import {
   structureColumns,
   StructureTable,
 } from '@mss/web/components/StructureTable'
 import Link from 'next/link'
+import { StructureQuery } from '@mss/web/query'
 
 const itemsPerPage = 15
 
@@ -47,16 +47,12 @@ const StructuresListPage = async ({
   // Get filters info from searchParams
   const search = searchParams?.recherche
 
-  const { structures, totalPages, count } = await ListStructuresServer.execute({
-    user,
-    input: {
+  const { structures, totalPages, count } =
+    await StructureQuery.iterateStructures({
       perPage: itemsPerPage,
       page: pageNumber,
       orderBy: getColumnOrderBy(currentSorting, structureColumns),
-      search,
-    },
-    securityParams: {},
-  })
+    })
 
   // Linking logic for pages navigation
   const createPageLink = createPageLinkHelper(

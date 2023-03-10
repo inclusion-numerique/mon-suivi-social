@@ -1,18 +1,18 @@
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
-import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
-import { getUserDisplayName } from '@mss/web/utils/user'
-import { ListHelpRequestsItem } from '@mss/web/features/followup/listHelpRequests/listHelpRequests.server'
 import {
   helpRequestStatusBadgeClasses,
   helpRequestStatusLabels,
-} from '@mss/web/features/helpRequest/addHelpRequest.client'
+} from '@mss/web/constants/helpRequest'
+import { HelpRequestsListItem } from '@mss/web/query'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
+import { nonBreakable } from '@mss/web/utils/nonBreakable'
+import { getUserDisplayName } from '@mss/web/utils/user'
 
 export const helpRequestListTableColumns = [
   {
     label: 'Statut',
-    content: ({ status }: ListHelpRequestsItem) => (
+    content: ({ status }: HelpRequestsListItem) => (
       <span
         className={`fr-badge fr-badge--sm ${helpRequestStatusBadgeClasses[status]}`}
       >
@@ -22,14 +22,14 @@ export const helpRequestListTableColumns = [
   },
   {
     label: "Type d'accompagnement",
-    content: ({ type: { name } }: ListHelpRequestsItem) => (
+    content: ({ type: { name } }: HelpRequestsListItem) => (
       <span className="fr-tag fr-tag--sm fr-mr-1w">{nonBreakable(name)}</span>
     ),
   },
   {
     label: "Date d'échéance",
     sortable: (direction) => [{ dueDate: direction }],
-    content: ({ dueDate }: ListHelpRequestsItem) => dateAsDay(dueDate),
+    content: ({ dueDate }: HelpRequestsListItem) => dateAsDay(dueDate),
   },
   {
     label: 'Bénéficiaire',
@@ -37,46 +37,46 @@ export const helpRequestListTableColumns = [
       { beneficiary: { usualName: direction } },
       { beneficiary: { birthName: direction } },
     ],
-    content: ({ beneficiary }: ListHelpRequestsItem) =>
+    content: ({ beneficiary }: HelpRequestsListItem) =>
       nonBreakable(beneficiaryDisplayName(beneficiary)),
   },
   {
     label: 'Organisme instructeur',
     sortable: (direction) => [{ examiningOrganisation: direction }],
-    content: ({ examiningOrganisation }: ListHelpRequestsItem) =>
+    content: ({ examiningOrganisation }: HelpRequestsListItem) =>
       nonBreakable(examiningOrganisation),
   },
   {
     label: 'Date de passage en commission',
     sortable: (direction) => [{ examinationDate: direction }],
-    content: ({ examinationDate }: ListHelpRequestsItem) =>
+    content: ({ examinationDate }: HelpRequestsListItem) =>
       dateAsDay(examinationDate),
   },
   {
     label: 'Montant demandé',
     sortable: (direction) => [{ askedAmount: direction }],
-    content: ({ askedAmount }: ListHelpRequestsItem) => askedAmount?.toString(),
+    content: ({ askedAmount }: HelpRequestsListItem) => askedAmount?.toString(),
   },
   {
     label: 'Montant attribué',
     sortable: (direction) => [{ allocatedAmount: direction }],
-    content: ({ allocatedAmount }: ListHelpRequestsItem) =>
+    content: ({ allocatedAmount }: HelpRequestsListItem) =>
       allocatedAmount?.toString(),
   },
   {
     label: 'Date du paiement',
     sortable: (direction) => [{ paymentDate: direction }],
-    content: ({ paymentDate }: ListHelpRequestsItem) => dateAsDay(paymentDate),
+    content: ({ paymentDate }: HelpRequestsListItem) => dateAsDay(paymentDate),
   },
   {
     label: 'Date de fin de prise en charge',
     sortable: (direction) => [{ handlingDate: direction }],
-    content: ({ handlingDate }: ListHelpRequestsItem) =>
+    content: ({ handlingDate }: HelpRequestsListItem) =>
       dateAsDay(handlingDate),
   },
   {
     label: 'Agent',
-    content: ({ createdBy }: ListHelpRequestsItem) =>
+    content: ({ createdBy }: HelpRequestsListItem) =>
       createdBy ? nonBreakable(getUserDisplayName(createdBy)) : '',
   },
   {
@@ -87,4 +87,4 @@ export const helpRequestListTableColumns = [
       </span>
     ),
   },
-] satisfies TableColumnDefinition<ListHelpRequestsItem>[]
+] satisfies TableColumnDefinition<HelpRequestsListItem>[]

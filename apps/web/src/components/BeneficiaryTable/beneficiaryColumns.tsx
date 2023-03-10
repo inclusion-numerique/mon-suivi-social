@@ -4,10 +4,7 @@ import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableCo
 import { getAge } from '@mss/web/utils/age'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { beneficiaryStatusLabels } from '@mss/web/constants/beneficiary'
-import { IterateBeneficiariesReturn } from '@mss/web/query'
-
-type IterateBeneficiariesItem =
-  IterateBeneficiariesReturn['beneficiaries'][number]
+import { BeneficiaryListItem } from '@mss/web/query'
 
 export const beneficiaryColumns = [
   {
@@ -16,40 +13,40 @@ export const beneficiaryColumns = [
       { usualName: direction },
       { birthName: direction },
     ],
-    content: (beneficiary: IterateBeneficiariesItem) =>
+    content: (beneficiary: BeneficiaryListItem) =>
       beneficiary.usualName ? beneficiary.usualName : beneficiary.birthName,
   },
   {
     label: 'Prénom',
     sortable: (direction) => [{ firstName: direction }],
-    content: ({ firstName }: IterateBeneficiariesItem) => firstName,
+    content: ({ firstName }: BeneficiaryListItem) => firstName,
   },
   {
     label: 'Âge',
-    content: ({ birthDate }: IterateBeneficiariesItem) =>
+    content: ({ birthDate }: BeneficiaryListItem) =>
       birthDate ? getAge(birthDate) : null,
   },
   {
     label: 'Date de naissance',
-    content: ({ birthDate }: IterateBeneficiariesItem) => dateAsDay(birthDate),
+    content: ({ birthDate }: BeneficiaryListItem) => dateAsDay(birthDate),
   },
   {
     label: 'Adresse',
-    content: ({ streetNumber, street }: IterateBeneficiariesItem) =>
+    content: ({ streetNumber, street }: BeneficiaryListItem) =>
       `${streetNumber ?? ''} ${street ?? ''}`.trim(),
   },
   {
     label: 'Ville',
-    content: ({ city }: IterateBeneficiariesItem) => city,
+    content: ({ city }: BeneficiaryListItem) => city,
   },
   {
     label: 'Téléphone',
-    content: ({ phone1, phone2 }: IterateBeneficiariesItem) =>
+    content: ({ phone1, phone2 }: BeneficiaryListItem) =>
       phone1 ?? phone2 ?? '',
   },
   {
     label: 'Accompagnements',
-    content: ({ followups, helpRequests }: IterateBeneficiariesItem) => {
+    content: ({ followups, helpRequests }: BeneficiaryListItem) => {
       const deduplicatedTypesMap = new Map<string, string>(
         [
           ...followups.flatMap((followup) => followup.types),
@@ -70,7 +67,7 @@ export const beneficiaryColumns = [
   },
   {
     label: 'Référents',
-    content: ({ referents }: IterateBeneficiariesItem) => (
+    content: ({ referents }: BeneficiaryListItem) => (
       <>
         {referents.map((referent) => (
           <div key={referent.id} className="fr-tag fr-tag--sm">
@@ -82,13 +79,13 @@ export const beneficiaryColumns = [
   },
   {
     label: 'Statut du dossier',
-    content: ({ status }: IterateBeneficiariesItem) =>
+    content: ({ status }: BeneficiaryListItem) =>
       beneficiaryStatusLabels[status],
   },
   {
     label: 'N° dossier',
-    content: ({ fileNumber }: IterateBeneficiariesItem) => (
+    content: ({ fileNumber }: BeneficiaryListItem) => (
       <span className="fr-badge fr-badge--blue-cumulus">{fileNumber}</span>
     ),
   },
-] satisfies TableColumnDefinition<IterateBeneficiariesItem>[]
+] satisfies TableColumnDefinition<BeneficiaryListItem>[]

@@ -1,19 +1,20 @@
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
-import { ListFollowupsItem } from '@mss/web/features/followup/listFollowups/listFollowups.server'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
+
+import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
+import { getUserDisplayName } from '@mss/web/utils/user'
+import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import {
   followupMediumLabels,
   followupStatusClasses,
   followupStatusLabels,
-} from '@mss/web/features/followup/addFollowup.client'
-import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
-import { getUserDisplayName } from '@mss/web/utils/user'
-import { dateAsDay } from '@mss/web/utils/dateAsDay'
+} from '@mss/web/constants/followup'
+import { FollowupsListItem } from '@mss/web/query'
 
-export const FollowupListTableColumns = [
+export const followupListTableColumns = [
   {
     label: 'Statut',
-    content: ({ status }: ListFollowupsItem) => (
+    content: ({ status }: FollowupsListItem) => (
       <span
         className={`fr-badge fr-badge--sm ${followupStatusClasses[status]}`}
       >
@@ -23,12 +24,12 @@ export const FollowupListTableColumns = [
   },
   {
     label: "Type d'entretien",
-    content: ({ medium }: ListFollowupsItem) =>
+    content: ({ medium }: FollowupsListItem) =>
       nonBreakable(followupMediumLabels[medium]),
   },
   {
     label: "Types d'accompagnement",
-    content: ({ types }: ListFollowupsItem) => (
+    content: ({ types }: FollowupsListItem) => (
       <div style={{ marginTop: '-0.25rem', marginLeft: '-0.25rem' }}>
         {types.map(({ name }) => (
           <span key={name} className="fr-tag fr-tag--sm fr-mt-1v fr-ml-1v">
@@ -41,7 +42,7 @@ export const FollowupListTableColumns = [
   {
     label: "Date d'échéance",
     sortable: (direction) => [{ dueDate: direction }],
-    content: ({ dueDate }: ListFollowupsItem) => dateAsDay(dueDate),
+    content: ({ dueDate }: FollowupsListItem) => dateAsDay(dueDate),
   },
   {
     label: 'Bénéficiaire',
@@ -49,12 +50,12 @@ export const FollowupListTableColumns = [
       { beneficiary: { usualName: direction } },
       { beneficiary: { birthName: direction } },
     ],
-    content: ({ beneficiary }: ListFollowupsItem) =>
+    content: ({ beneficiary }: FollowupsListItem) =>
       nonBreakable(beneficiaryDisplayName(beneficiary)),
   },
   {
     label: 'Agent',
-    content: ({ createdBy }: ListFollowupsItem) =>
+    content: ({ createdBy }: FollowupsListItem) =>
       createdBy ? nonBreakable(getUserDisplayName(createdBy)) : '',
   },
   {
@@ -65,4 +66,4 @@ export const FollowupListTableColumns = [
       </span>
     ),
   },
-] satisfies TableColumnDefinition<ListFollowupsItem>[]
+] satisfies TableColumnDefinition<FollowupsListItem>[]

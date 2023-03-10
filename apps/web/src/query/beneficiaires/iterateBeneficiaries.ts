@@ -74,6 +74,9 @@ export const iterateBeneficiaries = async ({
   return { beneficiaries, count, totalPages }
 }
 
-export type IterateBeneficiariesReturn = Prisma.PromiseReturnType<
+export type BeneficiaryListResult = Prisma.PromiseReturnType<
   typeof iterateBeneficiaries
 >
+
+export type BeneficiaryList = BeneficiaryListResult['beneficiaries']
+export type BeneficiaryListItem = BeneficiaryList[number]
