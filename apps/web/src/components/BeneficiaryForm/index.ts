@@ -1,1 +1,2 @@
-export { BeneficiaryForm } from './BeneficiaryForm'
+export { BeneficiaryFormCreation } from './BeneficiaryFormCreation'
+export { BeneficiaryFormEdition } from './BeneficiaryFormEdition'

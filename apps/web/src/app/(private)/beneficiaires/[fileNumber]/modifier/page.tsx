@@ -1,14 +1,14 @@
-import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { BeneficiairesQuery } from '@mss/web/query'
-import { notFound } from 'next/navigation'
-import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
-import { serialize } from '@mss/web/utils/serialization'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
-import { BeneficiaryForm } from '@mss/web/components/BeneficiaryForm'
-import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
-import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
+import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
+import { BeneficiaryFormEdition } from '@mss/web/components/BeneficiaryForm'
+import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { EditBeneficiaryFullDataServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.server'
+import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
+import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
+import { BeneficiairesQuery } from '@mss/web/query'
+import { serialize } from '@mss/web/utils/serialization'
+import { notFound } from 'next/navigation'
 
 export const revalidate = 0
 
@@ -85,13 +85,13 @@ const EditBeneficiaryPage = async ({
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
               {formProperties.full ? (
-                <BeneficiaryForm
+                <BeneficiaryFormEdition
                   full={formProperties.full}
                   agents={agents}
                   defaultInput={serialize(formProperties.defaultInput)}
                 />
               ) : (
-                <BeneficiaryForm
+                <BeneficiaryFormEdition
                   full={formProperties.full}
                   agents={agents}
                   defaultInput={serialize(formProperties.defaultInput)}

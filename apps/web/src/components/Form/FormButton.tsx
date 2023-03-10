@@ -1,4 +1,4 @@
-export const UserFormButton = ({
+export const FormButton = ({
   disabled,
   label,
 }: {
