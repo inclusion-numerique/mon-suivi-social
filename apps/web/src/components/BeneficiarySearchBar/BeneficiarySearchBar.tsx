@@ -56,7 +56,7 @@ export const BeneficiarySearchBar = withTrpc(
         </label>
         <input
           className="fr-input"
-          placeholder="Rechercher un bénéficiaire"
+          placeholder="Rechercher un·e bénéficiaire"
           type="search"
           id="search"
           autoFocus

@@ -19,7 +19,7 @@ export const Routes = {
   Index: {
     title: 'Tableau de bord',
     path: '/tableau-de-bord',
-    icon: 'profil-line',
+    icon: 'home-4-line',
   },
   MonCompte: {
     Index: {
