@@ -28,7 +28,7 @@ export const followupListTableColumns = [
       nonBreakable(followupMediumLabels[medium]),
   },
   {
-    label: "Types d'accompagnement",
+    label: "Objets d'entretien",
     content: ({ types }: FollowupsListItem) => (
       <div style={{ marginTop: '-0.25rem', marginLeft: '-0.25rem' }}>
         {types.map(({ name }) => (

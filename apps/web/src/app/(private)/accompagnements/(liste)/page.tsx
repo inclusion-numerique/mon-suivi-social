@@ -13,6 +13,8 @@ import { FollowupListTable } from '@mss/web/components/FollowupListTable/Followu
 import { HelpRequestListTable } from '@mss/web/components/HelpRequestListTable/HelpRequestListTable'
 import { AccompagnementsQuery } from '@mss/web/query'
 import { helpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
+import { followupListTableColumns } from '@mss/web/components/FollowupListTable'
+import { serialize } from '@mss/web/utils/serialization'
 
 const perPage = 15
 
@@ -49,7 +51,7 @@ const AccompagnementsListPage = async ({
     AccompagnementsQuery.iterateFollowups({
       page: pageNumber,
       perPage,
-      orderBy: getColumnOrderBy(currentSorting, helpRequestListTableColumns),
+      orderBy: getColumnOrderBy(currentSorting, followupListTableColumns),
     }),
   ])
 
@@ -78,6 +80,7 @@ const AccompagnementsListPage = async ({
       ),
       content: (
         <HelpRequestListTable
+          serializedUser={serialize(user)}
           sorting={currentSorting}
           perPage={perPage}
           pageNumber={pageNumber}

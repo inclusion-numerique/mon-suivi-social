@@ -21,7 +21,7 @@ export const helpRequestListTableColumns = [
     ),
   },
   {
-    label: "Type d'accompagnement",
+    label: 'Objet de la demande',
     content: ({ type: { name } }: HelpRequestsListItem) => (
       <span className="fr-tag fr-tag--sm fr-mr-1w">{nonBreakable(name)}</span>
     ),
@@ -30,6 +30,7 @@ export const helpRequestListTableColumns = [
     label: "Date d'échéance",
     sortable: (direction) => [{ dueDate: direction }],
     content: ({ dueDate }: HelpRequestsListItem) => dateAsDay(dueDate),
+    isProtected: true,
   },
   {
     label: 'Bénéficiaire',
@@ -45,34 +46,40 @@ export const helpRequestListTableColumns = [
     sortable: (direction) => [{ examiningOrganisation: direction }],
     content: ({ examiningOrganisation }: HelpRequestsListItem) =>
       nonBreakable(examiningOrganisation),
+    isProtected: true,
   },
   {
     label: 'Date de passage en commission',
     sortable: (direction) => [{ examinationDate: direction }],
     content: ({ examinationDate }: HelpRequestsListItem) =>
       dateAsDay(examinationDate),
+    isProtected: true,
   },
   {
     label: 'Montant demandé',
     sortable: (direction) => [{ askedAmount: direction }],
     content: ({ askedAmount }: HelpRequestsListItem) => askedAmount?.toString(),
+    isProtected: true,
   },
   {
     label: 'Montant attribué',
     sortable: (direction) => [{ allocatedAmount: direction }],
     content: ({ allocatedAmount }: HelpRequestsListItem) =>
       allocatedAmount?.toString(),
+    isProtected: true,
   },
   {
     label: 'Date du paiement',
     sortable: (direction) => [{ paymentDate: direction }],
     content: ({ paymentDate }: HelpRequestsListItem) => dateAsDay(paymentDate),
+    isProtected: true,
   },
   {
     label: 'Date de fin de prise en charge',
     sortable: (direction) => [{ handlingDate: direction }],
     content: ({ handlingDate }: HelpRequestsListItem) =>
       dateAsDay(handlingDate),
+    isProtected: true,
   },
   {
     label: 'Agent',

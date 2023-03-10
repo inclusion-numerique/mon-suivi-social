@@ -14,6 +14,8 @@ export type TableColumnDefinition<Item = unknown, OrderByCondition = object> = {
     justify?: CSSProperties['justifyContent']
     containerClassName?: string
   }
+  // Whether the column contains data that may be protected based on rules
+  isProtected?: boolean
 }
 
 export const getColumnOrderBy = <Item>(

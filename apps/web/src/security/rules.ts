@@ -383,6 +383,17 @@ export const canListBeneficiaryHelpRequests = (
   ]) ||
   isReferentFor(grantee, beneficiary)
 
+export const canAccessProtectedDataInHelpRequest = (
+  grantee: SecurityRuleGrantee,
+): boolean =>
+  isActiveWithAllowedRole(grantee, [
+    'Administrator',
+    'StructureManager',
+    'SocialWorker',
+    'Instructor',
+    'Referent',
+  ])
+
 export const canViewBeneficiaryHelpRequestSynthesis = (
   grantee: SecurityRuleGrantee,
   beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,
