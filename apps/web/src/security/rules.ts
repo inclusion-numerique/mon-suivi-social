@@ -358,6 +358,15 @@ export const canDeleteBeneficiaryFollowup = (
   isCreator(grantee, followup, ['SocialWorker', 'Instructor']) ||
   isReferentFor(grantee, beneficiary)
 
+export const canAccessHelpRequests = (grantee: SecurityRuleGrantee): boolean =>
+  isAdministrator(grantee) ||
+  isActiveWithAllowedRole(grantee, [
+    'StructureManager',
+    'SocialWorker',
+    'Instructor',
+    'Referent',
+  ])
+
 export const canCreateBeneficiaryHelpRequest = (
   grantee: SecurityRuleGrantee,
   beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,

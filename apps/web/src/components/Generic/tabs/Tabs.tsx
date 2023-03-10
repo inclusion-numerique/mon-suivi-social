@@ -13,6 +13,12 @@ export type TabOptions<T extends string = string> = {
 const tabId = (id: string) => `tab-${id}`
 const tabPanelId = (id: string) => `tab-${id}__panel`
 
+function getSafeCurrent<T extends string>(current: T, tabs: T[]): string {
+  if (tabs.includes(current)) return current
+  if (tabs.length === 0) return 'null'
+  return tabs[0]
+}
+
 export function Tabs<T extends string>({
   className,
   ariaLabel,
@@ -24,6 +30,9 @@ export function Tabs<T extends string>({
   current: T
   tabs: TabOptions<T>[]
 }) {
+  const tabIds = tabs.map(({ id }) => id)
+  const safeCurrent = getSafeCurrent<T>(current, tabIds)
+
   return (
     <div
       className={`fr-tabs fr-mt-4v ${styles.tabs} ${className ?? ''}`}
@@ -42,7 +51,7 @@ export function Tabs<T extends string>({
             ? `fr-tabs__tab fr-tabs__tab--icon-left fr-icon-${icon} `
             : 'fr-tabs__tab'
 
-          const ariaSelected = id === current ? 'true' : 'false'
+          const ariaSelected = id === safeCurrent ? 'true' : 'false'
 
           return (
             <li role="presentation" key={id}>
@@ -77,7 +86,7 @@ export function Tabs<T extends string>({
       </ul>
       {tabs.map(({ id, content }) => {
         const className =
-          id === current
+          id === safeCurrent
             ? 'fr-tabs__panel fr-tabs__panel--selected'
             : 'fr-tabs__panel'
 

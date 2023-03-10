@@ -18,10 +18,12 @@ export {
   type FollowupsListResult,
   type FollowupsList,
   type FollowupsListItem,
+  type IterateFollowupsReturn,
 } from './iterateFollowups'
 
 export {
   type HelpRequestsListResult,
   type HelpRequestsList,
   type HelpRequestsListItem,
+  type IterateHelpRequestsReturn,
 } from './iterateHelpRequests'

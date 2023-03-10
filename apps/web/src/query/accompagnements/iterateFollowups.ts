@@ -2,6 +2,8 @@ import { getTotalPages, takeAndSkipFromPagination } from '@mss/web/utils/table'
 import { prismaClient } from '@mss/web/prismaClient'
 import { Prisma } from '@prisma/client'
 
+export type IterateFollowupsReturn = ReturnType<typeof iterateFollowups>
+
 export type FollowupsListResult = Prisma.PromiseReturnType<
   typeof iterateFollowups
 >

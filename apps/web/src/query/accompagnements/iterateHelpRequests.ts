@@ -2,6 +2,8 @@ import { getTotalPages, takeAndSkipFromPagination } from '@mss/web/utils/table'
 import { prismaClient } from '@mss/web/prismaClient'
 import { Prisma } from '@prisma/client'
 
+export type IterateHelpRequestsReturn = ReturnType<typeof iterateHelpRequests>
+
 export type HelpRequestsListResult = Prisma.PromiseReturnType<
   typeof iterateHelpRequests
 >

@@ -1,7 +1,10 @@
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
-import { canAccessFollowupsPage } from '@mss/web/security/rules'
+import {
+  canAccessFollowupsPage,
+  canAccessHelpRequests,
+} from '@mss/web/security/rules'
 import { notFound } from 'next/navigation'
 import {
   getColumnOrderBy,
@@ -13,6 +16,11 @@ import { FollowupListTable } from '@mss/web/components/FollowupListTable/Followu
 import { HelpRequestListTable } from '@mss/web/components/HelpRequestListTable/HelpRequestListTable'
 import { AccompagnementsQuery } from '@mss/web/query'
 import { helpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
+import { followupListTableColumns } from '@mss/web/components/FollowupListTable'
+import {
+  IterateFollowupsReturn,
+  IterateHelpRequestsReturn,
+} from '@mss/web/query/accompagnements'
 
 const perPage = 15
 
@@ -40,20 +48,29 @@ const AccompagnementsListPage = async ({
     direction: searchParams?.ordre ?? 'asc',
   }
 
-  const [helpRequestsListResult, followupsListResult] = await Promise.all([
-    AccompagnementsQuery.iterateHelpRequests({
-      page: pageNumber,
-      perPage,
-      orderBy: getColumnOrderBy(currentSorting, helpRequestListTableColumns),
-    }),
+  const queries: [IterateFollowupsReturn, IterateHelpRequestsReturn?] = [
     AccompagnementsQuery.iterateFollowups({
       page: pageNumber,
       perPage,
-      orderBy: getColumnOrderBy(currentSorting, helpRequestListTableColumns),
+      orderBy: getColumnOrderBy(currentSorting, followupListTableColumns),
     }),
-  ])
+  ]
 
-  const tabs = [
+  if (canAccessHelpRequests(user)) {
+    queries.push(
+      AccompagnementsQuery.iterateHelpRequests({
+        page: pageNumber,
+        perPage,
+        orderBy: getColumnOrderBy(currentSorting, helpRequestListTableColumns),
+      }),
+    )
+  }
+
+  const [followupsListResult, helpRequestsListResult] = await Promise.all(
+    queries,
+  )
+
+  const tabs: TabOptions<typeof tab>[] = [
     {
       id: 'entretiens',
       title: 'Entretiens',
@@ -70,7 +87,10 @@ const AccompagnementsListPage = async ({
         />
       ),
     },
-    {
+  ]
+
+  if (helpRequestsListResult) {
+    tabs.push({
       id: 'demandes-d-aide',
       title: "Demandes d'aide",
       href: Routes.Accompagnements.Index.pathWithParams(
@@ -85,8 +105,8 @@ const AccompagnementsListPage = async ({
           helpRequestsListResult={helpRequestsListResult}
         />
       ),
-    },
-  ] satisfies TabOptions<typeof tab>[]
+    })
+  }
 
   return (
     <>
