@@ -1,7 +1,7 @@
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import { UserRoleLabels } from '@mss/web/features/user/createUser/createUser.client'
 import { UserListItem } from '@mss/web/query/utilisateurs'
+import { UserRoleLabels } from '@mss/web/constants/user'
 
 export const userTableColumns: TableColumnDefinition<UserListItem>[] = [
   {

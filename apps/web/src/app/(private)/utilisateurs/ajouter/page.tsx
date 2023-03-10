@@ -3,7 +3,7 @@ import { PageTitle } from '@mss/web/components/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { CreateUserClient } from '@mss/web/features/user/createUser/createUser.client'
-import { UserForm } from '@mss/web/components/UserForm/UserForm'
+import { UserFormCreation } from '@mss/web/components/UserForm'
 
 export const revalidate = 0
 
@@ -25,7 +25,7 @@ const AddUserPage = async () => {
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <UserForm creation defaultInput={{ structureId }} />
+              <UserFormCreation defaultInput={{ structureId }} />
             </div>
           </div>
         </div>
