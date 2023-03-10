@@ -19,6 +19,9 @@ export const createSortLinkHelper =
     parametersToLink({
       page: pageNumber === 1 ? undefined : pageNumber?.toString(),
       tri: sorting.by === defaultSorting?.by ? undefined : sorting.by,
-      ordre: sorting.direction,
+      ordre:
+        sorting.direction === defaultSorting?.direction
+          ? undefined
+          : sorting.direction,
       ...otherParameters,
     })
