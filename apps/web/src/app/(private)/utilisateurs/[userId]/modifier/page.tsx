@@ -5,7 +5,7 @@ import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
 import { EditUserServer } from '@mss/web/features/user/editUser/editUser.server'
-import { UserForm } from '@mss/web/components/UserForm'
+import { UserFormEdition } from '@mss/web/components/UserForm'
 import { MutationLog } from '@mss/web/components/MutationLog'
 
 export const revalidate = 0
@@ -29,7 +29,6 @@ const UserEditPage = async ({
     !EditUserClient.securityCheck(user, { structureId }, {})
   ) {
     notFound()
-    return null
   }
 
   const defaultInput = EditUserServer.dataFromServerState(serverState)
@@ -46,7 +45,7 @@ const UserEditPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <UserForm
+              <UserFormEdition
                 serverState={serialize(serverState)}
                 defaultInput={serialize(defaultInput)}
               />
