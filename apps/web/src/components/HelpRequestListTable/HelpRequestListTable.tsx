@@ -49,11 +49,17 @@ export const HelpRequestListTable = ({
     Routes.Accompagnements.Index.pathWithParams,
   )
 
-  const createSortLink = createSortLinkHelper(
+  const createSortLink = createSortLinkHelper<{
+    pageNumber: number
+    defaultSorting: Sorting
+    tab: 'demandes-d-aide'
+    search?: string
+  }>(
     {
       pageNumber,
       defaultSorting,
       search,
+      tab: 'demandes-d-aide',
     },
     Routes.Accompagnements.Index.pathWithParams,
   )
