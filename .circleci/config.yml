@@ -246,6 +246,7 @@ jobs:
     steps:
       - checkout
       - install_pnpm
+      - install_dependencies
       - setup_docker_web_env
       - setup_remote_docker:
           docker_layer_caching: true
@@ -254,7 +255,7 @@ jobs:
       - run:
           name: 'Login to registry and pull image'
           command: |
-            docker login $REGISTRY -u nologin --password-stdin \<<< "$SCW_SECRET_KEY"
+            docker login $REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
             docker pull $IMAGE_BUILD_TAG
       - run:
           name: 'Install playwright'
