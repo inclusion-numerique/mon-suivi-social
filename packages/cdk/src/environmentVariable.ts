@@ -28,7 +28,7 @@ export const environmentVariable = (
 
 export const environmentVariablesFromList = <T extends string>(
   scope: Construct,
-  variableNames: T[],
+  variableNames: readonly T[],
   { sensitive }: { sensitive: boolean },
 ): { [key in T]: EnvironmentVariable } => {
   const result = {} as { [key in T]: EnvironmentVariable }

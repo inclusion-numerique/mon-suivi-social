@@ -4,6 +4,14 @@ import { Argument, Command } from '@commander-js/extra-typings'
 import { resolve } from 'node:path'
 import { writeFile } from 'node:fs/promises'
 import { output } from '@mss/cli/output'
+import {
+  projectStackSensitiveVariables,
+  projectStackVariables,
+} from '@mss/cdk/ProjectStack'
+import {
+  webAppStackSensitiveVariables,
+  webAppStackVariables,
+} from '@mss/cdk/WebAppStack'
 
 // See https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files
 // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -14,32 +22,9 @@ export const createTfVarsFileFromEnvironment = new Command()
     // TODO Factorize this list with cdk vars list
     const variableNames =
       stack === 'web'
-        ? [
-            'WEB_CONTAINER_IMAGE',
-            'INCLUSION_CONNECT_PREVIEW_ISSUER',
-            'INCLUSION_CONNECT_MAIN_ISSUER',
-            'INCLUSION_CONNECT_PREVIEW_CLIENT_ID',
-            'INCLUSION_CONNECT_MAIN_CLIENT_ID',
-            'SCW_DEFAULT_ORGANIZATION_ID',
-            'SCW_PROJECT_ID',
-            'SCW_ACCESS_KEY',
-            'SCW_SECRET_KEY',
-            'DATABASE_PASSWORD',
-            'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
-            'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
-          ]
+        ? [...webAppStackVariables, ...webAppStackSensitiveVariables]
         : stack === 'project'
-        ? [
-            'SCW_DEFAULT_ORGANIZATION_ID',
-            'SCW_PROJECT_ID',
-            'NEXTAUTH_SECRET',
-            'SCW_ACCESS_KEY',
-            'SCW_SECRET_KEY',
-            'SENTRY_AUTH_TOKEN',
-            'SMTP_PASSWORD',
-            'SMTP_SERVER',
-            'SMTP_USERNAME',
-          ]
+        ? [...projectStackVariables, ...projectStackSensitiveVariables]
         : null
 
     if (!variableNames) {

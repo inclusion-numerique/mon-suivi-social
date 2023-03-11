@@ -22,6 +22,20 @@ import {
   smtpPort,
 } from '@mss/config/config'
 
+export const projectStackVariables = [
+  'SCW_DEFAULT_ORGANIZATION_ID',
+  'SCW_PROJECT_ID',
+] as const
+export const projectStackSensitiveVariables = [
+  'NEXTAUTH_SECRET',
+  'SCW_ACCESS_KEY',
+  'SCW_SECRET_KEY',
+  'SENTRY_AUTH_TOKEN',
+  'SMTP_PASSWORD',
+  'SMTP_SERVER',
+  'SMTP_USERNAME',
+] as const
+
 /**
  * This stack represents the resources shared by other project stacks
  * It aims to be deployed only once, and used by other stacks
@@ -35,21 +49,13 @@ export class ProjectStack extends TerraformStack {
 
     const environmentVariables = environmentVariablesFromList(
       this,
-      ['SCW_DEFAULT_ORGANIZATION_ID', 'SCW_PROJECT_ID'],
+      projectStackVariables,
       { sensitive: false },
     )
 
     const sensitiveEnvironmentVariables = environmentVariablesFromList(
       this,
-      [
-        'NEXTAUTH_SECRET',
-        'SCW_ACCESS_KEY',
-        'SCW_SECRET_KEY',
-        'SENTRY_AUTH_TOKEN',
-        'SMTP_PASSWORD',
-        'SMTP_SERVER',
-        'SMTP_USERNAME',
-      ],
+      projectStackSensitiveVariables,
       { sensitive: true },
     )
 

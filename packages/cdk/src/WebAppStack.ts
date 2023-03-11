@@ -30,6 +30,23 @@ import {
 import { environmentVariablesFromList } from '@mss/cdk/environmentVariable'
 import { createOutput } from '@mss/cdk/output'
 
+export const webAppStackVariables = [
+  'WEB_CONTAINER_IMAGE',
+  'INCLUSION_CONNECT_PREVIEW_ISSUER',
+  'INCLUSION_CONNECT_MAIN_ISSUER',
+  'INCLUSION_CONNECT_PREVIEW_CLIENT_ID',
+  'INCLUSION_CONNECT_MAIN_CLIENT_ID',
+  'SCW_DEFAULT_ORGANIZATION_ID',
+  'SCW_PROJECT_ID',
+] as const
+export const webAppStackSensitiveVariables = [
+  'SCW_ACCESS_KEY',
+  'SCW_SECRET_KEY',
+  'DATABASE_PASSWORD',
+  'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
+  'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
+] as const
+
 /**
  * This stack represents the web app for a given branch (namespace).
  * It can be deployed for each branch.
@@ -53,26 +70,12 @@ export class WebAppStack extends TerraformStack {
 
     const environmentVariables = environmentVariablesFromList(
       this,
-      [
-        'WEB_CONTAINER_IMAGE',
-        'INCLUSION_CONNECT_PREVIEW_ISSUER',
-        'INCLUSION_CONNECT_MAIN_ISSUER',
-        'INCLUSION_CONNECT_PREVIEW_CLIENT_ID',
-        'INCLUSION_CONNECT_MAIN_CLIENT_ID',
-        'SCW_DEFAULT_ORGANIZATION_ID',
-        'SCW_PROJECT_ID',
-      ],
+      webAppStackVariables,
       { sensitive: false },
     )
     const sensitiveEnvironmentVariables = environmentVariablesFromList(
       this,
-      [
-        'SCW_ACCESS_KEY',
-        'SCW_SECRET_KEY',
-        'DATABASE_PASSWORD',
-        'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
-        'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
-      ],
+      webAppStackSensitiveVariables,
       { sensitive: true },
     )
 
