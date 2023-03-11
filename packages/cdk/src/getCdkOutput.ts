@@ -23,6 +23,7 @@ export type ProjectCdkOutput = {
   databaseEndpointIp: string
   databaseEndpointPort: number
   mainDomainZoneId: string
+  transactionalEmailDomainStatus: string
   webContainersId: string
 }
 

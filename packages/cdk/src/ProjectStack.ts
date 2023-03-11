@@ -7,6 +7,7 @@ import { ScalewayProvider } from '@mss/scaleway/provider'
 import { RdbInstance } from '@mss/scaleway/rdb-instance'
 import { DomainZone } from '@mss/scaleway/domain-zone'
 import { ContainerNamespace } from '@mss/scaleway/container-namespace'
+import { TemDomain } from '@mss/scaleway/tem-domain'
 import {
   chromaticAppId,
   containerNamespaceName,
@@ -25,7 +26,9 @@ import {
 export const projectStackVariables = [
   'SCW_DEFAULT_ORGANIZATION_ID',
   'SCW_PROJECT_ID',
+  'EMAIL_FROM_DOMAIN',
 ] as const
+
 export const projectStackSensitiveVariables = [
   'NEXTAUTH_SECRET',
   'SCW_ACCESS_KEY',
@@ -72,6 +75,15 @@ export class ProjectStack extends TerraformStack {
       domain: mainDomain,
       subdomain: '',
     })
+
+    const transactionalEmailDomain = new TemDomain(
+      this,
+      'transactionalEmailDomain',
+      {
+        name: environmentVariables.EMAIL_FROM_DOMAIN.value,
+      },
+    )
+
     // For now preview and main are in the same domain zone.
     // const previewDomainZone = domainZone
 
@@ -112,6 +124,7 @@ export class ProjectStack extends TerraformStack {
     })
 
     output('mainDomainZoneId', mainDomainZone.id)
+    output('transactionalEmailDomainStatus', transactionalEmailDomain.status)
     output('webContainersId', webContainers.id)
     output('databaseInstanceId', database.id)
     output('databaseEndpointIp', database.endpointIp)

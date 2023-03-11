@@ -10,7 +10,6 @@ Project is hosted by Scaleway, provisioning is done via Terraform with CDK.
 * Add relevant users to the projects with full access on project resources (and secret manager)
 * Create an IAM Application with with full access on project resources (and secret manager) with credentials to use in CI / CD deployments
 * Add your domain name, and another preview domain name, and validate it using DNS
-* Add your email sending domain name and validate it using DNS
 * Add secrets to the Secret manager (you will find them documented in .env.dist), with "web" or "project" tags, depending on which stack is using it.
 
 ### Project Stack
