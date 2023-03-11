@@ -286,7 +286,7 @@ jobs:
           name: 'Setup and export database password'
           command: |
             pnpm --silent cli secrets:database:setup $NAMESPACE
-            echo "export DATABASE_URL=$(pnpm --silent cli secrets:get DATABASE_PASSWORD_$NAMESPACE)" >> ${BASH_ENV}
+            echo "export DATABASE_PASSWORD=$(pnpm --silent cli secrets:get DATABASE_PASSWORD_$NAMESPACE)" >> ${BASH_ENV}
       - run:
           name: "Create terraform variables file from environment variables"
           command: |
