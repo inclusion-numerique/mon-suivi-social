@@ -20,6 +20,10 @@ export type WebCdkOutput = {
 
 export type ProjectCdkOutput = {
   databaseInstanceId: string
+  databaseEndpointIp: string
+  databaseEndpointPort: number
+  mainDomainZoneId: string
+  webContainersId: string
 }
 
 export type CdkOutput = {

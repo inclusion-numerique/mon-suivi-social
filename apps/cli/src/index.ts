@@ -1,17 +1,19 @@
 import { Command } from '@commander-js/extra-typings'
-import { createDotEnvFromCdk } from '@mss/cli/commands/createDotEnvFromCdk'
-import { updateGithubDeployment } from '@mss/cli/commands/updateGithubDeployment'
-import { createGithubDeployment } from '@mss/cli/commands/createGithubDeployment'
-import { deactivateGithubDeployment } from '@mss/cli/commands/deactivateGithubDeployment'
-import { createDotEnvFromSecrets } from '@mss/cli/commands/createDotEnvFromSecrets'
-import { listSecrets } from '@mss/cli/commands/listSecrets'
-import { getSecretValue } from '@mss/cli/commands/getSecretValue'
-import { loadFixtures } from '@mss/cli/commands/loadFixtures'
+import { createDotEnvFromSecrets } from '@mss/cli/commands/secrets/createDotEnvFromSecrets'
+import { createGithubDeployment } from '@mss/cli/commands/github/createGithubDeployment'
+import { updateGithubDeployment } from '@mss/cli/commands/github/updateGithubDeployment'
+import { deactivateGithubDeployment } from '@mss/cli/commands/github/deactivateGithubDeployment'
+import { loadFixtures } from '@mss/cli/commands/database/loadFixtures'
+import { createDotEnvFromCdk } from '@mss/cli/commands/infrastructure/createDotEnvFromCdk'
+import { listSecrets } from '@mss/cli/commands/secrets/listSecrets'
+import { getSecretValue } from '@mss/cli/commands/secrets/getSecretValue'
+import { setupDatabaseSecret } from '@mss/cli/commands/secrets/setupDatabaseSecret'
 
 const program = new Command()
 
 program.addCommand(listSecrets)
 program.addCommand(getSecretValue)
+program.addCommand(setupDatabaseSecret)
 program.addCommand(createDotEnvFromCdk)
 program.addCommand(createDotEnvFromSecrets)
 program.addCommand(createGithubDeployment)

@@ -1,4 +1,4 @@
-export const findSecretIdByName = <Secret extends { id: string; name: string }>(
+export const findSecretByName = <Secret extends { id: string; name: string }>(
   secrets: Secret[],
   name: string,
 ): Secret => {

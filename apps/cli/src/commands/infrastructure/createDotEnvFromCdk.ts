@@ -7,6 +7,7 @@ import { appendEnvVariablesToDotEnvFile } from '@mss/cli/dotEnvFile'
 
 const stacks = ['web', 'project']
 
+// eslint-disable-next-line unicorn/prevent-abbreviations
 export const createDotEnvFromCdk = new Command()
   .command('dotenv:from-cdk')
   .addArgument(new Argument('<stack>', 'cdk stack').choices(stacks))

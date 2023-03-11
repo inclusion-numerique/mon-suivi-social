@@ -24,11 +24,12 @@ import {
   mainDomain,
   previewDomain,
   projectSlug,
+  projectTitle,
   region,
-} from '@mss/cdk/project'
-import { generateDatabasePassword } from '@mss/cdk/databasePassword'
-import { environmentVariable } from '@mss/cdk/environmentVariable'
+} from '@mss/config/config'
+import { environmentVariablesFromList } from '@mss/cdk/environmentVariable'
 import { createOutput } from '@mss/cdk/output'
+import { databasePasswordSecretName } from '@mss/config/secrets/databasePasswordSecretName'
 
 /**
  * This stack represents the web app for a given branch (namespace).
@@ -51,85 +52,39 @@ export class WebAppStack extends TerraformStack {
       ? { hostname: mainDomain, subdomain: '' }
       : createPreviewSubdomain(namespace, previewDomain)
 
-    // Configuring env variables
-    const webContainerImage = environmentVariable(this, 'WEB_CONTAINER_IMAGE', {
-      sensitive: false,
-    })
-    const inclusionConnectPreviewIssuer = environmentVariable(
+    const environmentVariables = environmentVariablesFromList(
       this,
-      'INCLUSION_CONNECT_PREVIEW_ISSUER',
-      {
-        sensitive: false,
-      },
+      [
+        'WEB_CONTAINER_IMAGE',
+        'INCLUSION_CONNECT_PREVIEW_ISSUER',
+        'INCLUSION_CONNECT_MAIN_ISSUER',
+        'INCLUSION_CONNECT_PREVIEW_CLIENT_ID',
+        'INCLUSION_CONNECT_MAIN_CLIENT_ID',
+        'SCW_DEFAULT_ORGANIZATION_ID',
+        'SCW_PROJECT_ID',
+      ],
+      { sensitive: false },
     )
-    const inclusionConnectMainIssuer = environmentVariable(
+    const databasePasswordVariable = databasePasswordSecretName(namespace)
+    const sensitiveEnvironmentVariables = environmentVariablesFromList(
       this,
-      'INCLUSION_CONNECT_MAIN_ISSUER',
-      {
-        sensitive: false,
-      },
-    )
-    const inclusionConnectPreviewClientId = environmentVariable(
-      this,
-      'INCLUSION_CONNECT_PREVIEW_CLIENT_ID',
-      {
-        sensitive: false,
-      },
-    )
-    const inclusionConnectMainClientId = environmentVariable(
-      this,
-      'INCLUSION_CONNECT_MAIN_CLIENT_ID',
-      {
-        sensitive: false,
-      },
-    )
-
-    // Configuring env secrets
-    const accessKey = environmentVariable(this, 'SCW_ACCESS_KEY', {
-      sensitive: true,
-    })
-    const secretKey = environmentVariable(this, 'SCW_SECRET_KEY', {
-      sensitive: true,
-    })
-    const organizationId = environmentVariable(
-      this,
-      'SCW_DEFAULT_ORGANIZATION_ID',
-      {
-        sensitive: true,
-      },
-    )
-    const projectId = environmentVariable(this, 'SCW_PROJECT_ID', {
-      sensitive: true,
-    })
-    const databasePasswordSalt = environmentVariable(
-      this,
-      'DATABASE_PASSWORD_SALT',
-      {
-        sensitive: true,
-      },
-    )
-    const inclusionConnectPreviewClientSecret = environmentVariable(
-      this,
-      'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
-      {
-        sensitive: true,
-      },
-    )
-    const inclusionConnectMainClientSecret = environmentVariable(
-      this,
-      'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
-      {
-        sensitive: true,
-      },
+      [
+        'SCW_ACCESS_KEY',
+        'SCW_SECRET_KEY',
+        databasePasswordVariable,
+        'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
+        'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
+      ],
+      { sensitive: true },
     )
 
     // Configuring provider that will be used for the rest of the stack
     new ScalewayProvider(this, 'provider', {
       region,
-      accessKey: accessKey.value,
-      secretKey: secretKey.value,
-      organizationId: organizationId.value,
-      projectId: projectId.value,
+      accessKey: sensitiveEnvironmentVariables.SCW_ACCESS_KEY.value,
+      secretKey: sensitiveEnvironmentVariables.SCW_SECRET_KEY.value,
+      organizationId: environmentVariables.SCW_DEFAULT_ORGANIZATION_ID.value,
+      projectId: environmentVariables.SCW_PROJECT_ID.value,
     })
 
     // State of deployed infrastructure for each branch will be stored in the
@@ -155,10 +110,7 @@ export class WebAppStack extends TerraformStack {
     const databaseConfig = {
       name: namespaced(projectSlug),
       user: namespaced(projectSlug),
-      password: generateDatabasePassword(
-        databasePasswordSalt.value,
-        namespaced(projectSlug),
-      ),
+      password: sensitiveEnvironmentVariables[databasePasswordVariable].value,
     }
 
     const databaseUser = new RdbUser(this, 'databaseUser', {
@@ -210,8 +162,8 @@ export class WebAppStack extends TerraformStack {
       : `bot+${namespace}@${mainDomain}`
 
     const emailFromName = isMain
-      ? 'Mon Suivi Social'
-      : `[${namespace}] Mon Suivi Social`
+      ? projectTitle
+      : `[${namespace}] ${projectTitle}`
 
     const databaseUrl = generateDatabaseUrl({
       user: databaseConfig.user,
@@ -231,29 +183,31 @@ export class WebAppStack extends TerraformStack {
 
     const container = new Container(this, 'webContainer', {
       namespaceId: containerNamespace.namespaceId,
-      registryImage: webContainerImage.value,
+      registryImage: environmentVariables.WEB_CONTAINER_IMAGE.value,
       environmentVariables: {
         EMAIL_FROM_ADDRESS: emailFromAddress,
         EMAIL_FROM_NAME: emailFromName,
-        MSS_WEB_IMAGE: webContainerImage.value,
+        MSS_WEB_IMAGE: environmentVariables.WEB_CONTAINER_IMAGE.value,
         UPLOADS_BUCKET_ID: uploadsBucket.id,
         BASE_URL: hostname,
         BRANCH: branch,
         NAMESPACE: namespace,
         SCW_DEFAULT_REGION: region,
         NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER: isMain
-          ? inclusionConnectMainIssuer.value
-          : inclusionConnectPreviewIssuer.value,
+          ? environmentVariables.INCLUSION_CONNECT_MAIN_ISSUER.value
+          : environmentVariables.INCLUSION_CONNECT_PREVIEW_ISSUER.value,
         NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID: isMain
-          ? inclusionConnectMainClientId.value
-          : inclusionConnectPreviewClientId.value,
+          ? environmentVariables.INCLUSION_CONNECT_MAIN_CLIENT_ID.value
+          : environmentVariables.INCLUSION_CONNECT_PREVIEW_CLIENT_ID.value,
         NEXT_PUBLIC_SENTRY_ENVIRONMENT: namespace,
       },
       secretEnvironmentVariables: {
         DATABASE_URL: databaseUrl,
         INCLUSION_CONNECT_CLIENT_SECRET: isMain
-          ? inclusionConnectMainClientSecret.value
-          : inclusionConnectPreviewClientSecret.value,
+          ? sensitiveEnvironmentVariables.INCLUSION_CONNECT_MAIN_CLIENT_SECRET
+              .value
+          : sensitiveEnvironmentVariables
+              .INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET.value,
       },
       name: containerName,
       minScale: isMain ? 2 : 0,
@@ -306,6 +260,6 @@ export class WebAppStack extends TerraformStack {
       container.status as WebCdkOutput['webContainerStatus'],
     )
     output('webContainerId', container.id)
-    output('webContainerImage', webContainerImage.value)
+    output('webContainerImage', environmentVariables.WEB_CONTAINER_IMAGE.value)
   }
 }

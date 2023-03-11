@@ -1,4 +1,4 @@
-import { PublicConfig } from '@mss/web/config'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 function AccessibilityStatementPage() {
   return (
@@ -14,15 +14,15 @@ function AccessibilityStatementPage() {
       </p>
       <p>
         Cette déclaration d’accessibilité s’applique à{' '}
-        <strong>Mon Suivi Social</strong>{' '}
+        <strong>{PublicWebAppConfig.projectTitle}</strong>{' '}
         <span>
-          (<span>https://monsuivisocial.anct.gouv.fr/</span>)
+          (<span>{PublicWebAppConfig.mainLiveUrl}</span>)
         </span>
         .
       </p>
       <h2>État de conformité</h2>
       <p>
-        <strong>Mon Suivi Social</strong> est{' '}
+        <strong>{PublicWebAppConfig.projectTitle}</strong> est{' '}
         <strong>
           <span data-printfilter="lowercase">non conforme</span>
         </strong>{' '}
@@ -35,15 +35,15 @@ function AccessibilityStatementPage() {
       <h2>Amélioration et contact</h2>
       <p>
         Si vous n’arrivez pas à accéder à un contenu ou à un service, vous
-        pouvez contacter le responsable de <span>Mon Suivi Social</span> pour
-        être orienté vers une alternative accessible ou obtenir le contenu sous
-        une autre forme.
+        pouvez contacter le responsable de{' '}
+        <span>{PublicWebAppConfig.projectTitle}</span> pour être orienté vers
+        une alternative accessible ou obtenir le contenu sous une autre forme.
       </p>
       <ul className="basic-information feedback h-card">
         <li>
           E-mail&nbsp;:{' '}
-          <a href={`mailto:${PublicConfig.contactEmail}`}>
-            {PublicConfig.contactEmail}
+          <a href={`mailto:${PublicWebAppConfig.contactEmail}`}>
+            {PublicWebAppConfig.contactEmail}
           </a>
         </li>
       </ul>

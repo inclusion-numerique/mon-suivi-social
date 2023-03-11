@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { region } from '@mss/cdk/project'
+import { region } from '@mss/config/config'
 
 export const projectId = process.env.SCW_PROJECT_ID ?? ''
 

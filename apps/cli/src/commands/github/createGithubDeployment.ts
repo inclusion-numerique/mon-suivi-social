@@ -1,7 +1,7 @@
 import { Command } from '@commander-js/extra-typings'
 import { computeBranchNamespace } from '@mss/cdk/utils'
-import { getOctokit, owner, repo } from '../github'
-import { output } from '../output'
+import { getOctokit, owner, repo } from '@mss/cli/github'
+import { output } from '@mss/cli/output'
 
 export const createGithubDeployment = new Command()
   .command('github:deployment:create')

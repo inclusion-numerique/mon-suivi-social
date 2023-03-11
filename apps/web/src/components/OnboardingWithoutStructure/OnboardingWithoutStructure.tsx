@@ -4,6 +4,7 @@ import { getUserDisplayName } from '@mss/web/utils/user'
 import Link from 'next/link'
 import { Routes } from '@mss/web/app/routing/routes'
 import { AuthCard } from '../SigninPanel'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 function OnboardingWithoutStructure({ user }: { user: SessionUser }) {
   return (
@@ -23,9 +24,10 @@ function OnboardingWithoutStructure({ user }: { user: SessionUser }) {
       <p style={{ textAlign: 'center' }}>
         Bienvenue {getUserDisplayName(user)}.<br />
         <br />
-        Vous aurez accès aux fonctionnalités de Mon suivi social une fois que
-        votre responsable de structure ou un administrateur aura terminé la
-        configuration de votre compte.
+        Vous aurez accès aux fonctionnalités de{' '}
+        {PublicWebAppConfig.projectTitle} une fois que votre responsable de
+        structure ou un administrateur aura terminé la configuration de votre
+        compte.
         <br />
         <br />
         En cas de questions, veuillez contacter votre responsable de structure.

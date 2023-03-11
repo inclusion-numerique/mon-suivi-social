@@ -1,4 +1,4 @@
-import { PublicConfig } from '@mss/web/config'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 import { AuthCard } from '../SigninPanel'
 import { cookies } from 'next/headers'
 
@@ -31,8 +31,8 @@ export function Verify() {
         Vous pouvez fermer cet onglet de navigation.
         <br />
         En cas de problème ou de questions, merci de contacter{' '}
-        <a href={`mailto:${PublicConfig.contactEmail}`}>
-          {PublicConfig.contactEmail}
+        <a href={`mailto:${PublicWebAppConfig.contactEmail}`}>
+          {PublicWebAppConfig.contactEmail}
         </a>
         .
       </p>

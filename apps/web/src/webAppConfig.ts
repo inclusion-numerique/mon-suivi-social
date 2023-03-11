@@ -1,10 +1,20 @@
+import { mainLiveUrl, projectTitle, repositoryUrl } from '@mss/config/config'
+
+/**
+ * Necessary environment variables for web app are listed here.
+ */
+
 const NodeEnvironment = process.env.NODE_ENV
 
 const emailServer = `smtp://${process.env.SMTP_USERNAME ?? ''}:${
   process.env.SMTP_PASSWORD ?? ''
 }@${process.env.SMTP_SERVER ?? ''}:${process.env.SMTP_PORT ?? ''}`
 
-export const PrivateConfig = {
+/**
+ * Only use ServerWebAppConfig on server side
+ * It contains secrets that must not be sent to the client
+ */
+export const ServerWebAppConfig = {
   NodeEnv: NodeEnvironment,
   Branch: process.env.BRANCH ?? '',
   Namespace: process.env.NAMESPACE ?? '',
@@ -35,10 +45,13 @@ export const PrivateConfig = {
   },
 }
 
-export const PublicConfig = {
-  productTitle: 'Mon Suivi Social',
-  mainLiveUrl: 'https://v2.monsuivisocial.incubateur.anct.gouv.fr',
-  repository: 'https://github.com/inclusion-numerique/mon-suivi-social',
+/**
+ * Public config can be used on client side or server side
+ */
+export const PublicWebAppConfig = {
+  projectTitle,
+  mainLiveUrl,
+  repository: repositoryUrl,
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? '',
   sirenApiKey: process.env.NEXT_PUBLIC_SIREN_API_KEY ?? '',
 

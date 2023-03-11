@@ -1,15 +1,15 @@
 import 'tsconfig-paths/register'
 import { prismaClient } from '@mss/web/src/prismaClient'
-import { PrivateConfig } from '@mss/web/src/config'
-import { fixtureStructure } from '../fixtures/structures'
-import { fixturesFollowupTypes } from '../fixtures/followupTypes'
-import { previewUserFixtures, userFixtures } from '../fixtures/users'
-import { fixtureBeneficiaries } from '../fixtures/beneficiaries'
-import { fixtureFollowups } from '../fixtures/followups'
-import { fixturesHelpRequests } from '../fixtures/helpRequests'
-import { fixturesProposedFollowupTypes } from '../fixtures/proposedFollowupTypes'
+import { fixtureStructure } from '@mss/cli/fixtures/structures'
+import { fixturesFollowupTypes } from '@mss/cli/fixtures/followupTypes'
+import { previewUserFixtures, userFixtures } from '@mss/cli/fixtures/users'
+import { fixtureBeneficiaries } from '@mss/cli/fixtures/beneficiaries'
+import { fixtureFollowups } from '@mss/cli/fixtures/followups'
+import { fixturesHelpRequests } from '@mss/cli/fixtures/helpRequests'
+import { fixturesProposedFollowupTypes } from '@mss/cli/fixtures/proposedFollowupTypes'
 import { output } from '@mss/cli/output'
 import { Command } from '@commander-js/extra-typings'
+import { ServerWebAppConfig } from '@mss/web/webAppConfig'
 
 // Loaded on all environments
 export const commonFixtures = () => [
@@ -60,7 +60,7 @@ export const previewFixtures = () => [
 export const loadFixtures = new Command()
   .command('fixtures:load')
   .action(async () => {
-    if (PrivateConfig.isMain) {
+    if (ServerWebAppConfig.isMain) {
       output(`⏱️  Loading common fixtures...`)
       await prismaClient.$transaction(commonFixtures())
       output('👍 Done !')

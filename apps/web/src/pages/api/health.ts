@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prismaClient } from '@mss/web/prismaClient'
-import { PublicConfig } from '@mss/web/config'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 const databaseStatus = () =>
   prismaClient.$queryRaw`SELECT 1`
@@ -8,10 +8,10 @@ const databaseStatus = () =>
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     .catch((error) => ({ status: 'error', error }))
 
-const sentryStatus = PublicConfig.Sentry.dsn
+const sentryStatus = PublicWebAppConfig.Sentry.dsn
   ? {
       enabled: true,
-      environment: PublicConfig.Sentry.environment,
+      environment: PublicWebAppConfig.Sentry.environment,
     }
   : { enabled: false }
 
@@ -20,9 +20,9 @@ export default async function health(
   res: NextApiResponse,
 ) {
   const database = await databaseStatus()
-  const {status} = database
-  const {headers} = request
-  const {host} = request.headers
+  const { status } = database
+  const { headers } = request
+  const { host } = request.headers
   const containerImage = process.env.MSS_WEB_IMAGE
 
   res.status(status === 'ok' ? 200 : 503).json({

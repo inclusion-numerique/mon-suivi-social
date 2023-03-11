@@ -7,7 +7,7 @@ import { getUserDisplayName } from '@mss/web/utils/user'
 import { MutationDiff } from '@mss/web/features/mutationLog'
 import * as Sentry from '@sentry/nextjs'
 import { getMutationClient } from '@mss/web/features/mutationClients'
-import { PrivateConfig } from '@mss/web/config'
+import { ServerWebAppConfig } from '@mss/web/webAppConfig'
 import { asyncComponent } from '@mss/web/utils/asyncComponent'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import styles from './MutationLog.module.css'
@@ -196,7 +196,7 @@ function MutationLogDiff({
   const changes = diff[type]
   const client = getMutationClient(name)
   if (!client) {
-    if (PrivateConfig.NodeEnv !== 'production') {
+    if (ServerWebAppConfig.NodeEnv !== 'production') {
       throw new Error(
         `Mutation "${name}" is not registered, did you forget to import it in MutationLog.tsx .`,
       )

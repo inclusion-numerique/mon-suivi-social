@@ -1,26 +1,29 @@
 import { PropsWithChildren } from 'react'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 function HomeCard({
   title,
   image,
   children,
 }: PropsWithChildren<{ image: string; title: string }>) {
-  return <div className="fr-card">
-    <div className="fr-card__body">
-      <div className="fr-card__content">
-        <h3 className="fr-card__title">{title}</h3>
-        <div className="fr-card__desc">{children}</div>
+  return (
+    <div className="fr-card">
+      <div className="fr-card__body">
+        <div className="fr-card__content">
+          <h3 className="fr-card__title">{title}</h3>
+          <div className="fr-card__desc">{children}</div>
+        </div>
+      </div>
+      <div className="fr-card__header">
+        <div className="fr-card__img fr-pt-4v" style={{ textAlign: 'center' }}>
+          <picture>
+            <source srcSet={image} type="image/svg" />
+            <img src={image} alt={title} className="fr-mx-auto" />
+          </picture>
+        </div>
       </div>
     </div>
-    <div className="fr-card__header">
-      <div className="fr-card__img fr-pt-4v" style={{ textAlign: 'center' }}>
-        <picture>
-          <source srcSet={image} type="image/svg" />
-          <img src={image} alt={title} className="fr-mx-auto" />
-        </picture>
-      </div>
-    </div>
-  </div>
+  )
 }
 
 export default function HomePage() {
@@ -42,7 +45,7 @@ export default function HomePage() {
           </picture>
         </div>
         <div className="fr-col-12 fr-col-md-6">
-          <h1>Bienvenue sur Mon suivi social</h1>
+          <h1>Bienvenue sur {PublicWebAppConfig.projectTitle}</h1>
           <h5>
             Ce service facilite le suivi des bénéficiaires des structures
             d&apos;accompagnement social

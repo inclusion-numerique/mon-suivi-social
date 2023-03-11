@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Routes } from '@mss/web/app/routing/routes'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 function PublicHeader({ hideSigninButton }: { hideSigninButton?: boolean }) {
   const links = hideSigninButton
@@ -25,7 +26,7 @@ function PublicHeader({ hideSigninButton }: { hideSigninButton?: boolean }) {
                   href="/"
                   aria-current="page"
                   target="_self"
-                  title="Mon Suivi Social"
+                  title={PublicWebAppConfig.projectTitle}
                   style={{ display: 'flex' }}
                 >
                   <div className="fr-header__logo">
@@ -38,7 +39,7 @@ function PublicHeader({ hideSigninButton }: { hideSigninButton?: boolean }) {
                   <div className="fr-header__logo">
                     <picture>
                       <img
-                        alt="Mon Suivi Social"
+                        alt={PublicWebAppConfig.projectTitle}
                         width={240}
                         src="/images/logo.svg"
                       />

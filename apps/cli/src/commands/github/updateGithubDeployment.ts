@@ -1,6 +1,6 @@
 import { Argument, Command } from '@commander-js/extra-typings'
-import { getOctokit, owner, repo } from '../github'
-import { output } from '../output'
+import { getOctokit, owner, repo } from '@mss/cli/github'
+import { output } from '@mss/cli/output'
 
 const DeploymentStates = [
   'error',

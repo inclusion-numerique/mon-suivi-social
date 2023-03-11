@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { PrivateConfig } from '@mss/web/config'
+import { ServerWebAppConfig } from '@mss/web/webAppConfig'
 import { s3 } from '@mss/web/server/s3/s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
@@ -14,7 +14,7 @@ export const createSignedGetUrl = async ({
     s3,
     new GetObjectCommand({
       Key: key,
-      Bucket: PrivateConfig.S3.uploadsBucketId,
+      Bucket: ServerWebAppConfig.S3.uploadsBucketId,
     }),
     {
       expiresIn: 600,
@@ -39,7 +39,7 @@ export const createSignedUploadUrl = async ({
     s3,
     new PutObjectCommand({
       Key: key,
-      Bucket: PrivateConfig.S3.uploadsBucketId,
+      Bucket: ServerWebAppConfig.S3.uploadsBucketId,
       ContentType: type,
     }),
     { expiresIn: 3600 },

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Breadcrumbs } from '@mss/web/components/Generic'
 import { AuthCard } from '@mss/web/components/SigninPanel'
 import { Routes } from '@mss/web/app/routing/routes'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 const errorMessage = (error?: string): string | undefined => {
   if (error === 'Verification') {
@@ -20,7 +21,7 @@ const ErrorPage = async ({
     <Breadcrumbs currentPage="Connexion" />
     <AuthCard>
       <h2 style={{ textAlign: 'center' }} className="fr-mb-12v">
-        Connexion à Mon Suivi Social
+        Connexion à {PublicWebAppConfig.projectTitle}
       </h2>
       <div className="fr-alert fr-alert--error fr-alert--sm fr-mb-6v">
         <h6>Connexion impossible</h6>

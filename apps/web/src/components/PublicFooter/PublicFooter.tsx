@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PublicConfig } from '@mss/web/config'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 function PublicFooter() {
   return (
@@ -80,7 +80,7 @@ function PublicFooter() {
             <li className="fr-footer__bottom-item">
               <a
                 className="fr-footer__bottom-link"
-                href={PublicConfig.repository}
+                href={PublicWebAppConfig.repository}
                 target="_blank"
                 rel="noreferrer"
                 title="Code source"
