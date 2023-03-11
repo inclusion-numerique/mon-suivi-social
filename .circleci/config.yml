@@ -177,7 +177,7 @@ jobs:
           command: pnpm --silent -F @mss/web prisma:generate
       - run:
           name: 'Test @mss/web'
-          command: pnpm -F @mss/web test
+          command: pnpm --silent -F @mss/web test
 
   build_web:
     executor: node
@@ -192,13 +192,13 @@ jobs:
       - add_secrets_to_dotenv_file
       - run:
           name: 'Prisma generate'
-          command: pnpm -F @mss/web prisma:generate
+          command: pnpm --silent -F @mss/web prisma:generate
       - run:
           name: 'Install DSFR'
-          command: pnpm -F @mss/web setup:dsfr
+          command: pnpm --silent -F @mss/web setup:dsfr
       - run:
           name: 'Build next app'
-          command: pnpm -F @mss/web build
+          command: pnpm --silent -F @mss/web build
       - run:
           name: 'Clear dependencies to install only prod dependencies'
           command: |
@@ -209,7 +209,7 @@ jobs:
             - << pipeline.parameters.cache_version >>-web-prod-{{ checksum "<< pipeline.parameters.lockfile >>" }}
       - run:
           name: 'Re-generate Prisma after cleaning dependencies'
-          command: pnpm -F @mss/web prisma:generate
+          command: pnpm --silent -F @mss/web prisma:generate
       - run:
           name: 'Cleanup build'
           command: |
@@ -234,10 +234,10 @@ jobs:
       - add_secrets_to_dotenv_file
       - run:
           name: 'Setup DSFR'
-          command: pnpm -F @mss/web setup:dsfr
+          command: pnpm --silent -F @mss/web setup:dsfr
       - run:
           name: 'Build storybook and test components'
-          command: pnpm -F @mss/storybook chromatic
+          command: pnpm --silent -F @mss/storybook chromatic
 
   test_e2e:
     executor: node-browsers
@@ -260,7 +260,7 @@ jobs:
           name: 'Install playwright'
           # This will be instantly resolved from global store thanks to custom image playwright setup
           command: |
-            pnpm -F @mss/e2e install
+            pnpm --silent -F @mss/e2e install
             pnpx playwright install
       #      - run:
       #          name: 'Up docker-compose'
@@ -270,7 +270,7 @@ jobs:
           name: 'Run playwright'
           command: |
             SHARD="$((${CIRCLE_NODE_INDEX}+1))"
-            pnpm -F @mss/e2e playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+            pnpm --silent -F @mss/e2e playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
 
   deploy_web:
     executor: node
@@ -324,7 +324,7 @@ jobs:
       - run:
           name: 'Migrate database'
           command: |
-            pnpm -F @mss/web prisma db push --skip-generate --accept-data-loss
+            pnpm --silent -F @mss/web prisma db push --skip-generate --accept-data-loss
       - run:
           name: Set deployment status to fixtures load
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID in_progress -d 'Loading fixtures' -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
@@ -364,7 +364,7 @@ jobs:
       - run:
           name: 'Destroy stack'
           command: |
-            TF_VAR_WEB_CONTAINER_IMAGE='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm -F @mss/cdk cdktf destroy web --auto-approve
+            TF_VAR_WEB_CONTAINER_IMAGE='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm --silent -F @mss/cdk cdktf destroy web --auto-approve
       - run:
           name: Deactivate Github deployments
           command: pnpm --silent cli github:deployment:deactivate << pipeline.parameters.scrap_environment_for_branch >>
