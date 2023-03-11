@@ -278,6 +278,7 @@ jobs:
     steps:
       - checkout
       - create_dotenv_file
+      - install_dependencies
       - add_secrets_to_dotenv_file
       - setup_docker_web_env
       - run:
@@ -289,7 +290,6 @@ jobs:
           name: "Create terraform variables file from environment variables"
           command: |
             pnpm --silent cli terraform:vars-from-env web
-      - install_dependencies
       - setup_remote_docker:
           docker_layer_caching: true
       - install_terraform
