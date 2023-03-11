@@ -404,7 +404,7 @@ commands:
       - run:
           name: "Add project secrets to .env"
           command: |
-            pnpm --silent cli dotenv:from-secrets project
+            SCW_ACCESS_KEY=$CI_SCW_ACCESS_KEY SCW_SECRET_KEY=$CI_SCW_SECRET_KEY pnpm --silent cli dotenv:from-secrets project
       - run:
           name: "Add web secrets to .env"
           command: |
