@@ -1,4 +1,4 @@
-import { secretClient } from '@mss/config/secrets/secretClient'
+import { projectId, secretClient } from '@mss/config/secrets/secretClient'
 
 export const createSecret = async ({
   name,
@@ -27,6 +27,7 @@ export const createSecret = async ({
       name,
       tags,
       description,
+      project_id: projectId,
     })
     .then(({ data }) => data)
 
@@ -37,8 +38,8 @@ export const createSecret = async ({
     created_at: string
     updated_at: string
     description: string
-  }>(`/secrets/${secret.id}/versions`, {
-    data: value,
+  }>(`/${secret.id}/versions`, {
+    data: Buffer.from(value, 'utf8').toString('base64'),
     description,
   })
 

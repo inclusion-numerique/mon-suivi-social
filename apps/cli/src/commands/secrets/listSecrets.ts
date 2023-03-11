@@ -9,7 +9,10 @@ import { output } from '@mss/cli/output'
 export const listSecrets = new Command()
   .command('secrets:list')
   .addArgument(
-    new Argument('[tags]', 'comma delimited secret tags. e.g. "ci,web"'),
+    new Argument(
+      '[tags]',
+      'comma delimited secret tags. e.g. "ci,web,project"',
+    ),
   )
   .action(async (tagsString) => {
     const tags = tagsString ? tagsString.split(',') : []

@@ -1,7 +1,6 @@
 import { Argument, Command } from '@commander-js/extra-typings'
 import { output } from '@mss/cli/output'
 import { listSecrets } from '@mss/config/secrets/listSecrets'
-import { findSecretByName } from '@mss/config/secrets/findSecretByName'
 import { databasePasswordSecretName } from '@mss/config/secrets/databasePasswordSecretName'
 import { createSecret } from '@mss/config/secrets/createSecret'
 import { generateDatabasePassword } from '@mss/config/secrets/generateDatabasePassword'
@@ -10,8 +9,8 @@ import { generateDatabasePassword } from '@mss/config/secrets/generateDatabasePa
  * This command outputs available secrets names
  */
 export const setupDatabaseSecret = new Command()
-  .command(
-    'secrets:database:setup',
+  .command('secrets:database:setup')
+  .description(
     'This will create a new Database password if it does not already exists',
   )
   .addArgument(new Argument('<namespace>', 'Name of the preview deployment'))
@@ -19,7 +18,7 @@ export const setupDatabaseSecret = new Command()
     const secretName = databasePasswordSecretName(namespace)
     const { secrets } = await listSecrets()
 
-    const existing = findSecretByName(secrets, secretName)
+    const existing = secrets.find((secret) => secret.name === secretName)
 
     if (existing) {
       output(`Secret ${secretName} already exists. Aborting setup.`)

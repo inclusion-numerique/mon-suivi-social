@@ -1,6 +1,6 @@
 import { secretClient } from '@mss/config/secrets/secretClient'
 
-export const listSecrets = (_options: { tags?: string[] } = {}) =>
+export const listSecrets = ({ tags }: { tags?: string[] } = {}) =>
   secretClient
     .get<{
       secrets: {
@@ -17,8 +17,8 @@ export const listSecrets = (_options: { tags?: string[] } = {}) =>
       }[]
     }>('/', {
       params: {
-        // FIXME invalid params tags[]=one&tags[]=two, what is Scaleway specs on query params for arrays ?
-        // tags,
+        tags: tags?.join(','),
+        page_size: 100,
       },
     })
     .then(({ data }) => data)

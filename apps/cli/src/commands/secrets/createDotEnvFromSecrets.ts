@@ -2,8 +2,8 @@
 import { Argument, Command } from '@commander-js/extra-typings'
 import { listSecrets } from '@mss/config/secrets/listSecrets'
 import { output } from '@mss/cli/output'
-
-const tags = ['web', 'project', 'ci']
+import { getSecretValue } from '@mss/config/secrets/getSecretValue'
+import { appendEnvVariablesToDotEnvFile } from '@mss/cli/dotEnvFile'
 
 /**
  * This command fetches secrets from Secret Vault using scaleway keys and put them into .env
@@ -11,11 +11,23 @@ const tags = ['web', 'project', 'ci']
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const createDotEnvFromSecrets = new Command()
   .command('dotenv:from-secrets')
-  .addArgument(new Argument('<tags>', 'secret tags').choices(tags))
-  .action(async (_tags) => {
-    const list = await listSecrets()
+  .addArgument(new Argument('<tags>', 'Tags (project, web, ci, dev'))
+  .action(async (tags) => {
+    const list = await listSecrets({ tags: tags.split(',') })
 
-    output(list)
+    const environmentVariables = await Promise.all(
+      list.secrets.map(async ({ name, id }) => {
+        const value = await getSecretValue({ id })
+        return { name, value }
+      }),
+    )
 
-    throw new Error('WIP')
+    await appendEnvVariablesToDotEnvFile({
+      comment: `Secrets variables with tag${
+        tags.length === 1 ? '' : 's'
+      } "${tags}"`,
+      environmentVariables,
+    })
+
+    output(`${environmentVariables.length} secrets added to .env file`)
   })

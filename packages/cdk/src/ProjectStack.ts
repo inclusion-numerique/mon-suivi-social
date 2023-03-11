@@ -42,13 +42,10 @@ export class ProjectStack extends TerraformStack {
     const sensitiveEnvironmentVariables = environmentVariablesFromList(
       this,
       [
-        'DATABASE_PASSWORD_SALT',
         'NEXTAUTH_SECRET',
         'SCW_ACCESS_KEY',
         'SCW_SECRET_KEY',
         'SENTRY_AUTH_TOKEN',
-        'SIREN_ACCESS_TOKEN',
-        'SIREN_CONSUMER_SECRET',
         'SMTP_PASSWORD',
         'SMTP_SERVER',
         'SMTP_USERNAME',
@@ -97,17 +94,11 @@ export class ProjectStack extends TerraformStack {
         SMTP_PORT: smtpPort,
       },
       secretEnvironmentVariables: {
-        DATABASE_PASSWORD_SALT:
-          sensitiveEnvironmentVariables.DATABASE_PASSWORD_SALT.value,
         NEXTAUTH_SECRET: sensitiveEnvironmentVariables.NEXTAUTH_SECRET.value,
         SCW_ACCESS_KEY: sensitiveEnvironmentVariables.SCW_ACCESS_KEY.value,
         SCW_SECRET_KEY: sensitiveEnvironmentVariables.SCW_SECRET_KEY.value,
         SENTRY_AUTH_TOKEN:
           sensitiveEnvironmentVariables.SENTRY_AUTH_TOKEN.value,
-        SIREN_ACCESS_TOKEN:
-          sensitiveEnvironmentVariables.SIREN_ACCESS_TOKEN.value,
-        SIREN_CONSUMER_SECRET:
-          sensitiveEnvironmentVariables.SIREN_CONSUMER_SECRET.value,
         SMTP_PASSWORD: sensitiveEnvironmentVariables.SMTP_PASSWORD.value,
         SMTP_SERVER: sensitiveEnvironmentVariables.SMTP_SERVER.value,
         SMTP_USERNAME: sensitiveEnvironmentVariables.SMTP_USERNAME.value,

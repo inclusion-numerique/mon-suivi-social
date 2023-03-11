@@ -12,6 +12,5 @@ export const secretClient = axios.create({
   headers: { 'X-Auth-Token': authToken },
   params: {
     project_id: projectId,
-    page_size: 100,
   },
 })

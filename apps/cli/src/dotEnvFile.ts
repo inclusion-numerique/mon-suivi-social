@@ -11,7 +11,7 @@ export const appendTextToDotEnvFile = async (text: string) => {
   const dotenvFile = resolve(
     // eslint-disable-next-line unicorn/prefer-module
     __dirname,
-    '../../../../.env',
+    '../../../.env',
   )
   await appendFile(dotenvFile, `\n${text}\n`)
 }
