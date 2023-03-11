@@ -29,7 +29,6 @@ import {
 } from '@mss/config/config'
 import { environmentVariablesFromList } from '@mss/cdk/environmentVariable'
 import { createOutput } from '@mss/cdk/output'
-import { databasePasswordSecretName } from '@mss/config/secrets/databasePasswordSecretName'
 
 /**
  * This stack represents the web app for a given branch (namespace).
@@ -65,13 +64,12 @@ export class WebAppStack extends TerraformStack {
       ],
       { sensitive: false },
     )
-    const databasePasswordVariable = databasePasswordSecretName(namespace)
     const sensitiveEnvironmentVariables = environmentVariablesFromList(
       this,
       [
         'SCW_ACCESS_KEY',
         'SCW_SECRET_KEY',
-        databasePasswordVariable,
+        'DATABASE_PASSWORD',
         'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
         'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
       ],
@@ -110,7 +108,7 @@ export class WebAppStack extends TerraformStack {
     const databaseConfig = {
       name: namespaced(projectSlug),
       user: namespaced(projectSlug),
-      password: sensitiveEnvironmentVariables[databasePasswordVariable].value,
+      password: sensitiveEnvironmentVariables.DATABASE_PASSWORD.value,
     }
 
     const databaseUser = new RdbUser(this, 'databaseUser', {

@@ -22,6 +22,10 @@ node_modules
 .DS_Store
 *.pem
 
+# terraform
+.tfvars
+.tfvars.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*

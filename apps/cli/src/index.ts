@@ -8,6 +8,7 @@ import { createDotEnvFromCdk } from '@mss/cli/commands/infrastructure/createDotE
 import { listSecrets } from '@mss/cli/commands/secrets/listSecrets'
 import { getSecretValue } from '@mss/cli/commands/secrets/getSecretValue'
 import { setupDatabaseSecret } from '@mss/cli/commands/secrets/setupDatabaseSecret'
+import { createTfVarsFileFromEnvironment } from '@mss/cli/commands/infrastructure/createTfVarsFileFromEnvironment'
 
 const program = new Command()
 
@@ -20,5 +21,6 @@ program.addCommand(createGithubDeployment)
 program.addCommand(updateGithubDeployment)
 program.addCommand(deactivateGithubDeployment)
 program.addCommand(loadFixtures)
+program.addCommand(createTfVarsFileFromEnvironment)
 
 program.parse()

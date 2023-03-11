@@ -17,7 +17,8 @@ export const listSecrets = ({ tags }: { tags?: string[] } = {}) =>
       }[]
     }>('/', {
       params: {
-        tags: tags?.join(','),
+        // FIX ME does not work for multiple tags and not documented by Scaleway API
+        tags: tags?.join(', '),
         page_size: 100,
       },
     })

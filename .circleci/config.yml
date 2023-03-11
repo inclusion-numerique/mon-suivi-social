@@ -170,6 +170,7 @@ jobs:
     steps:
       - checkout
       - install_dependencies
+      - create_dotenv_file
       - run:
           name: 'Prisma generate'
           command: pnpm --silent -F @mss/web prisma:generate
@@ -182,10 +183,12 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - setup_docker_env
+      - setup_docker_web_env
       - setup_remote_docker:
           docker_layer_caching: true
       - install_dependencies
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
       - run:
           name: 'Prisma generate'
           command: pnpm -F @mss/web prisma:generate
@@ -226,6 +229,8 @@ jobs:
     steps:
       - checkout
       - install_dependencies
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
       - run:
           name: 'Setup DSFR'
           command: pnpm -F @mss/web setup:dsfr
@@ -243,6 +248,8 @@ jobs:
       - setup_docker_env
       - setup_remote_docker:
           docker_layer_caching: true
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
       - run:
           name: 'Login to registry and pull image'
           command: |
@@ -269,7 +276,18 @@ jobs:
     resource_class: large
     steps:
       - checkout
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
       - setup_docker_env
+      - run:
+          name: 'Setup and export database password'
+          command: |
+            pnpm --silent cli secrets:database:setup $NAMESPACE
+            echo "export DATABASE_URL=$(pnpm --silent cli secrets:get DATABASE_PASSWORD_$NAMESPACE)" >> ${BASH_ENV}
+      - run:
+          name: "Create terraform variables file from environment variables"
+          command: |
+            pnpm --silent cli terraform:vars-from-env web
       - install_dependencies
       - setup_remote_docker:
           docker_layer_caching: true
@@ -328,6 +346,8 @@ jobs:
       - checkout
       - install_dependencies
       - install_terraform
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
       - when:
           condition:
             or:
@@ -343,7 +363,7 @@ jobs:
       - run:
           name: 'Destroy stack'
           command: |
-            TF_VAR_web_webContainerImage_C5B2590D='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm -F @mss/cdk cdktf destroy web --auto-approve
+            TF_VAR_WEB_CONTAINER_IMAGE='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm -F @mss/cdk cdktf destroy web --auto-approve
       - run:
           name: Deactivate Github deployments
           command: pnpm --silent cli github:deployment:deactivate << pipeline.parameters.scrap_environment_for_branch >>
@@ -371,7 +391,25 @@ commands:
           keys:
             - << pipeline.parameters.cache_version >>-pnpm-{{ checksum "<< pipeline.parameters.lockfile >>" }}
 
-  setup_docker_env:
+  create_dotenv_file:
+    steps:
+      - run:
+          name: "Create .env file from .env.dist"
+          command: |
+            cp .env.dist .env
+
+  add_secrets_to_dotenv_file:
+    steps:
+      - run:
+          name: "Add project secrets to .env"
+          command: |
+            pnpm --silent cli dotenv:from-secrets project
+      - run:
+          name: "Add web secrets to .env"
+          command: |
+            pnpm --silent cli dotenv:from-secrets web
+
+  setup_docker_web_env:
     steps:
       - run:
           name: "Set docker env vars"
@@ -383,5 +421,5 @@ commands:
             echo "export IMAGE_BUILD_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
             echo "export IMAGE_DEPLOY_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.deploy_version >>')" >> ${BASH_ENV}
             echo "export IMAGE_E2E_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.e2e_version >>')" >> ${BASH_ENV}
-            echo "export TF_VAR_web_webContainerImage_C5B2590D=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
+            echo "export WEB_CONTAINER_IMAGE=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
 
