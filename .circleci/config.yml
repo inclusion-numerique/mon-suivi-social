@@ -245,7 +245,7 @@ jobs:
     steps:
       - checkout
       - install_pnpm
-      - setup_docker_env
+      - setup_docker_web_env
       - setup_remote_docker:
           docker_layer_caching: true
       - create_dotenv_file
@@ -278,7 +278,7 @@ jobs:
       - checkout
       - create_dotenv_file
       - add_secrets_to_dotenv_file
-      - setup_docker_env
+      - setup_docker_web_env
       - run:
           name: 'Setup and export database password'
           command: |
