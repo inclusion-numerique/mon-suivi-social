@@ -4,6 +4,7 @@ import 'tsconfig-paths/register'
 import { getCdkOutput } from '@mss/cdk/getCdkOutput'
 import { Argument, Command } from '@commander-js/extra-typings'
 import { appendEnvVariablesToDotEnvFile } from '@mss/cli/dotEnvFile'
+import { output } from '@mss/cli/output'
 
 const stacks = ['web', 'project']
 
@@ -28,6 +29,8 @@ export const createDotEnvFromCdk = new Command()
           },
         ],
       })
+      output('Added web stack variables to .env file')
+      return
     }
     if (stack === 'project') {
       const { databaseInstanceId } = await getCdkOutput('project')
@@ -41,6 +44,8 @@ export const createDotEnvFromCdk = new Command()
           },
         ],
       })
+      output('Added project stack variables to .env file')
+      return
     }
 
     throw new Error('Invalid stack provided')
