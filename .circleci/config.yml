@@ -40,7 +40,7 @@ parameters:
     default: e2e
   trigger_workflow:
     type: string
-    default: "lint_test_build_deploy"
+    default: "web_app_deployment"
   # Name of the environment to scrap
   scrap_environment_for_branch:
     type: string
@@ -48,9 +48,9 @@ parameters:
 
 workflows:
   version: 2
-  lint_test_build_deploy:
+  web_app_deployment:
     when:
-      equal: [ lint_test_build_deploy, << pipeline.parameters.trigger_workflow >> ]
+      equal: [ web_app_deployment, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
       - prepare_web_prod_dependencies
@@ -81,7 +81,7 @@ workflows:
             - build_web
             # - test_e2e
 
-  deploy_project_infrastructure:
+  project_infrastructure_deployment:
     # This workflow exclusively runs on the infra branch
     when:
       equal: [ infra, << pipeline.git.branch >> ]
@@ -98,11 +98,11 @@ workflows:
           requires:
             - lint_and_test_cdk_package
             - compute_project_infrastructure_diff
-      - deploy_project_infrastructure:
+      - project_infrastructure_deployment:
           requires:
             - approve_infra_deployment
 
-  scrap_preview_environment:
+  web_app_preview_deletion:
     # This workflow exclusively runs on the dev branch, with target env to destroy as parameter
     # It should never run with main as a parameter
     when:
@@ -112,10 +112,10 @@ workflows:
         - not:
             equal: [ main, << pipeline.parameters.scrap_environment_for_branch >>]
         - << pipeline.parameters.scrap_environment_for_branch >>
-        - equal: [ scrap_preview_environment, << pipeline.parameters.trigger_workflow >> ]
+        - equal: [ web_app_preview_deletion, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
-      - scrap_preview_environment:
+      - web_app_preview_deletion:
           requires:
             - prepare_workspace_dependencies
 
@@ -408,7 +408,7 @@ jobs:
             pnpm --silent -F @mss/cdk cdktf diff project --var-file .tfvars.json
             
 
-  deploy_project_infrastructure:
+  project_infrastructure_deployment:
     executor: node
     resource_class: large
     steps:
@@ -426,7 +426,7 @@ jobs:
           command: |
             pnpm --silent -F @mss/cdk cdktf deploy project --var-file .tfvars.json --auto-approve --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs
 
-  scrap_preview_environment:
+  web_app_preview_deletion:
     executor: node
     resource_class: large
     steps:

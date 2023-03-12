@@ -4,7 +4,7 @@ on:
 jobs:
   trigger-circleci:
     if: github.event.ref_type == 'branch'
-    name: Trigger CircleCI scrap_preview_environment workflow
+    name: Trigger CircleCI web_app_preview_deletion workflow
     runs-on: ubuntu-latest
     steps:
       - name: Trigger CircleCI workflow
@@ -14,4 +14,4 @@ jobs:
           project-slug: inclusion-numerique/mon-suivi-social
           # Branch from environment has been deleted, workflow will run from branch dev
           branch: dev
-          payload: '{"trigger_workflow": "scrap_preview_environment", "scrap_environment_for_branch": "${{ github.event.ref }}"}'
+          payload: '{"trigger_workflow": "web_app_preview_deletion", "scrap_environment_for_branch": "${{ github.event.ref }}"}'
