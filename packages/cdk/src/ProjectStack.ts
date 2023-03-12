@@ -5,7 +5,6 @@ import { environmentVariablesFromList } from '@mss/cdk/environmentVariable'
 import { createOutput } from '@mss/cdk/output'
 import { ScalewayProvider } from '@mss/scaleway/provider'
 import { RdbInstance } from '@mss/scaleway/rdb-instance'
-import { DomainZone } from '@mss/scaleway/domain-zone'
 import { ContainerNamespace } from '@mss/scaleway/container-namespace'
 import { TemDomain } from '@mss/scaleway/tem-domain'
 import {
@@ -27,6 +26,7 @@ import { terraformBackend } from '@mss/cdk/terraformBackend'
 import { ObjectBucket } from '@mss/scaleway/object-bucket'
 import { RegistryNamespace } from '@mss/scaleway/registry-namespace'
 import { Cockpit } from '@mss/scaleway/cockpit'
+import { DataScalewayDomainZone } from '@mss/scaleway/data-scaleway-domain-zone'
 
 export const projectStackVariables = [
   'SCW_DEFAULT_ORGANIZATION_ID',
@@ -80,7 +80,7 @@ export class ProjectStack extends TerraformStack {
 
     terraformBackend(this, 'project')
 
-    const mainDomainZone = new DomainZone(this, 'mainDomainZone', {
+    const mainDomainZone = new DataScalewayDomainZone(this, 'mainDomainZone', {
       domain: mainDomain,
       subdomain: '',
     })
