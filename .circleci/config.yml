@@ -267,7 +267,6 @@ jobs:
       - run:
           name: 'Login to registry and push image'
           command: |
-            source .env
             docker login $WEB_APP_DOCKER_REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
             docker push $IMAGE_BUILD_TAG
 
@@ -302,7 +301,6 @@ jobs:
       - run:
           name: 'Login to registry and pull image'
           command: |
-            source .env
             docker login $WEB_APP_DOCKER_REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
             docker pull $IMAGE_BUILD_TAG
       - run:
@@ -505,6 +503,8 @@ commands:
       - run:
           name: "Set docker env vars"
           command: |
+            source .env
+            echo "export WEB_APP_DOCKER_REGISTRY='$WEB_APP_DOCKER_REGISTRY'" >> ${BASH_ENV}
             echo "export BRANCH='<< pipeline.git.branch >>'" >> ${BASH_ENV}
             echo "export NAMESPACE=$(echo '<< pipeline.git.branch >>' | sed -e 's/\//-/g')" >> ${BASH_ENV}
             echo "export IMAGE_NAME=$(echo 'mss-web-<< pipeline.git.branch >>' | sed -e 's/\//-/g')" >> ${BASH_ENV}
