@@ -26,9 +26,6 @@ parameters:
   lockfile:
     type: string
     default: './pnpm-lock.yaml'
-  registry:
-    type: string
-    default: rg.fr-par.scw.cloud/mss-web-app
   image:
     type: string
     default: mss-web-<< pipeline.git.branch >> | sed -e 's/\//-/g'
@@ -233,12 +230,12 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - setup_docker_web_env
       - setup_remote_docker:
           docker_layer_caching: true
       - install_dependencies
       - create_dotenv_file
       - add_secrets_to_dotenv_file
+      - setup_docker_web_env
       - run:
           name: 'Prisma generate'
           command: pnpm --silent -F @mss/web prisma:generate
@@ -270,7 +267,8 @@ jobs:
       - run:
           name: 'Login to registry and push image'
           command: |
-            docker login $REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
+            source .env
+            docker login $WEB_APP_DOCKER_REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
             docker push $IMAGE_BUILD_TAG
 
   chromatic:
@@ -296,15 +294,16 @@ jobs:
       - checkout
       - install_pnpm
       - install_dependencies
-      - setup_docker_web_env
       - setup_remote_docker:
           docker_layer_caching: true
       - create_dotenv_file
       - add_secrets_to_dotenv_file
+      - setup_docker_web_env
       - run:
           name: 'Login to registry and pull image'
           command: |
-            docker login $REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
+            source .env
+            docker login $WEB_APP_DOCKER_REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
             docker pull $IMAGE_BUILD_TAG
       - run:
           name: 'Install playwright'
@@ -506,12 +505,11 @@ commands:
       - run:
           name: "Set docker env vars"
           command: |
-            echo "export REGISTRY=<< pipeline.parameters.registry >>" >> ${BASH_ENV}
             echo "export BRANCH='<< pipeline.git.branch >>'" >> ${BASH_ENV}
             echo "export NAMESPACE=$(echo '<< pipeline.git.branch >>' | sed -e 's/\//-/g')" >> ${BASH_ENV}
             echo "export IMAGE_NAME=$(echo 'mss-web-<< pipeline.git.branch >>' | sed -e 's/\//-/g')" >> ${BASH_ENV}
-            echo "export IMAGE_BUILD_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
-            echo "export IMAGE_DEPLOY_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.deploy_version >>')" >> ${BASH_ENV}
-            echo "export IMAGE_E2E_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.e2e_version >>')" >> ${BASH_ENV}
-            echo "export WEB_CONTAINER_IMAGE=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
+            echo "export IMAGE_BUILD_TAG=$(echo '$WEB_APP_DOCKER_REGISTRY/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
+            echo "export IMAGE_DEPLOY_TAG=$(echo '$WEB_APP_DOCKER_REGISTRY/$IMAGE_NAME:<< pipeline.parameters.deploy_version >>')" >> ${BASH_ENV}
+            echo "export IMAGE_E2E_TAG=$(echo '$WEB_APP_DOCKER_REGISTRY/$IMAGE_NAME:<< pipeline.parameters.e2e_version >>')" >> ${BASH_ENV}
+            echo "export WEB_CONTAINER_IMAGE=$(echo '$WEB_APP_DOCKER_REGISTRY/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
 

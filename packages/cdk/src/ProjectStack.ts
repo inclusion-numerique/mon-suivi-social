@@ -25,12 +25,14 @@ import {
 import { DomainRecord } from '@mss/scaleway/domain-record'
 import { terraformBackend } from '@mss/cdk/terraformBackend'
 import { ObjectBucket } from '@mss/scaleway/object-bucket'
+import { RegistryNamespace } from '@mss/scaleway/registry-namespace'
 
 export const projectStackVariables = [
   'SCW_DEFAULT_ORGANIZATION_ID',
   'SCW_PROJECT_ID',
   'EMAIL_FROM_DOMAIN',
   'UPLOADS_BUCKET_ID',
+  'WEB_APP_DOCKER_REGISTRY_NAME',
 ] as const
 
 export const projectStackSensitiveVariables = [
@@ -145,6 +147,11 @@ export class ProjectStack extends TerraformStack {
         SMTP_SERVER: sensitiveEnvironmentVariables.SMTP_SERVER.value,
         SMTP_USERNAME: sensitiveEnvironmentVariables.SMTP_USERNAME.value,
       },
+    })
+
+    new RegistryNamespace(this, 'webApp', {
+      name: environmentVariables.WEB_APP_DOCKER_REGISTRY_NAME.value,
+      description: 'Built Web App docker images, ready to use in containers',
     })
 
     // Main domain DNS Records
