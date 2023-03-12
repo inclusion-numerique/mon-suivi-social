@@ -6,15 +6,17 @@ import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 
 export const createSignedGetUrl = async ({
   key,
+  bucket,
 }: {
   key: string
+  bucket: string
 }): Promise<{ url: string }> => {
   // Signed URL
   const url = await getSignedUrl(
     s3,
     new GetObjectCommand({
       Key: key,
-      Bucket: ServerWebAppConfig.S3.uploadsBucketId,
+      Bucket: bucket,
     }),
     {
       expiresIn: 600,
@@ -27,10 +29,12 @@ export const createSignedUploadUrl = async ({
   directory,
   name,
   type,
+  bucket,
 }: {
   name: string
   type: string
   directory: string
+  bucket: string
 }): Promise<{ url: string; key: string }> => {
   const key = `${directory}/${nanoid()}_${name}`
 
@@ -39,7 +43,7 @@ export const createSignedUploadUrl = async ({
     s3,
     new PutObjectCommand({
       Key: key,
-      Bucket: ServerWebAppConfig.S3.uploadsBucketId,
+      Bucket: bucket,
       ContentType: type,
     }),
     { expiresIn: 3600 },

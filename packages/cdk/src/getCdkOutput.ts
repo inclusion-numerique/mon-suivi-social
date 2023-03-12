@@ -11,8 +11,8 @@ export type WebCdkOutput = {
   databaseUser: string
   databaseHost: string
   databasePort: number
-  uploadsBucketEndpoint: string
-  uploadsBucketName: string
+  documentsBucketEndpoint: string
+  documentsBucketName: string
   webContainerId: string
   webContainerImage: string
   webContainerStatus: 'ready' | 'error'

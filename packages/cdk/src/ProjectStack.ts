@@ -32,7 +32,7 @@ export const projectStackVariables = [
   'SCW_DEFAULT_ORGANIZATION_ID',
   'SCW_PROJECT_ID',
   'EMAIL_FROM_DOMAIN',
-  'UPLOADS_BUCKET_ID',
+  'DOCUMENTS_BUCKET_ID',
   'WEB_APP_DOCKER_REGISTRY_NAME',
 ] as const
 
@@ -99,7 +99,7 @@ export class ProjectStack extends TerraformStack {
 
     // Uploads bucket for usage in integration testing and dev environments
     new ObjectBucket(this, 'devUploads', {
-      name: environmentVariables.UPLOADS_BUCKET_ID.value,
+      name: environmentVariables.DOCUMENTS_BUCKET_ID.value,
       corsRule: [
         {
           allowedHeaders: ['*'],

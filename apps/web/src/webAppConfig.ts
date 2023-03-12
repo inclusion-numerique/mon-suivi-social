@@ -31,7 +31,7 @@ export const ServerWebAppConfig = {
     },
   },
   S3: {
-    uploadsBucketId: process.env.UPLOADS_BUCKET_ID ?? '',
+    documentsBucketId: process.env.DOCUMENTS_BUCKET_ID ?? '',
     host: process.env.SCW_S3_HOST ?? '',
     region: process.env.SCW_DEFAULT_REGION ?? '',
     accessKey: process.env.SCW_ACCESS_KEY ?? '',
