@@ -90,6 +90,7 @@ workflows:
       equal: [ infra, << pipeline.git.branch >> ]
     jobs:
       - prepare_workspace_dependencies
+      - lint_cdk_package
       - compute_project_infrastructure_diff:
           requires:
             - prepare_workspace_dependencies
@@ -181,6 +182,29 @@ jobs:
       - run:
           name: 'Lint'
           command: pnpm lint
+
+  lint_cdk_package:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - run:
+          name: 'Prisma generate'
+          command: pnpm --silent -F @mss/web prisma:generate
+      - run:
+          name: 'Monorepo manypkg check'
+          command: pnpm manypkg check
+      - run:
+          name: 'Tsc'
+          command: pnpm tsc
+      - run:
+          name: 'Lint config'
+          command: pnpm -F @mss/config lint
+      - run:
+          name: 'Lint cdk'
+          command: pnpm -F @mss/cdk lint
+
 
   test:
     executor: node
