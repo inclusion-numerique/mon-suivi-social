@@ -54,8 +54,8 @@ export class DataScalewayK8SVersion extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_k8s_version',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.11.1',
-        providerVersionConstraint: '>= 2.11.1'
+        providerVersion: '2.13.1',
+        providerVersionConstraint: '>= 2.13.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

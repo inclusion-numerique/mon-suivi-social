@@ -27,6 +27,12 @@ export interface InstancePrivateNicConfig extends cdktf.TerraformMetaArguments {
   */
   readonly serverId: string;
   /**
+  * The tags associated with the private-nic
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/instance_private_nic#tags InstancePrivateNic#tags}
+  */
+  readonly tags?: string[];
+  /**
   * The zone you want to attach the resource to
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/instance_private_nic#zone InstancePrivateNic#zone}
@@ -249,8 +255,8 @@ export class InstancePrivateNic extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_instance_private_nic',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.11.1',
-        providerVersionConstraint: '>= 2.11.1'
+        providerVersion: '2.13.1',
+        providerVersionConstraint: '>= 2.13.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -263,6 +269,7 @@ export class InstancePrivateNic extends cdktf.TerraformResource {
     this._id = config.id;
     this._privateNetworkId = config.privateNetworkId;
     this._serverId = config.serverId;
+    this._tags = config.tags;
     this._zone = config.zone;
     this._timeouts.internalValue = config.timeouts;
   }
@@ -318,6 +325,22 @@ export class InstancePrivateNic extends cdktf.TerraformResource {
     return this._serverId;
   }
 
+  // tags - computed: false, optional: true, required: false
+  private _tags?: string[]; 
+  public get tags() {
+    return this.getListAttribute('tags');
+  }
+  public set tags(value: string[]) {
+    this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsInput() {
+    return this._tags;
+  }
+
   // zone - computed: true, optional: true, required: false
   private _zone?: string; 
   public get zone() {
@@ -359,6 +382,7 @@ export class InstancePrivateNic extends cdktf.TerraformResource {
       id: cdktf.stringToTerraform(this._id),
       private_network_id: cdktf.stringToTerraform(this._privateNetworkId),
       server_id: cdktf.stringToTerraform(this._serverId),
+      tags: cdktf.listMapper(cdktf.stringToTerraform, false)(this._tags),
       zone: cdktf.stringToTerraform(this._zone),
       timeouts: instancePrivateNicTimeoutsToTerraform(this._timeouts.internalValue),
     };

@@ -66,8 +66,8 @@ export class IamSshKey extends cdktf.TerraformResource {
       terraformResourceType: 'scaleway_iam_ssh_key',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.11.1',
-        providerVersionConstraint: '>= 2.11.1'
+        providerVersion: '2.13.1',
+        providerVersionConstraint: '>= 2.13.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
