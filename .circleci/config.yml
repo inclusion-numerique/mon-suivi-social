@@ -103,7 +103,7 @@ workflows:
             - approve_infra_deployment
 
   web_app_preview_deletion:
-    # This workflow exclusively runs on the dev branch, with target env to destroy as parameter
+    # This workflow exclusively runs on the infra branch, with target env to destroy as parameter
     # It should never run with main as a parameter
     when:
       and:

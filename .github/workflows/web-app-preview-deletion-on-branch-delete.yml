@@ -1,4 +1,4 @@
-name: Scrap preview environment
+name: Web application preview environment deletion on branch delete
 on:
   delete
 jobs:
@@ -12,6 +12,6 @@ jobs:
         with:
           user-token: ${{ secrets.CIRCLE_CI_TOKEN }}
           project-slug: inclusion-numerique/mon-suivi-social
-          # Branch from environment has been deleted, workflow will run from branch dev
-          branch: dev
+          # Branch from environment does not exists anymore, workflow will run from branch infra
+          branch: infra
           payload: '{"trigger_workflow": "web_app_preview_deletion", "scrap_environment_for_branch": "${{ github.event.ref }}"}'
