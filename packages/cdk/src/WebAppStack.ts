@@ -1,4 +1,4 @@
-import { TerraformStack } from 'cdktf'
+import { Fn, TerraformStack } from 'cdktf'
 import { Construct } from 'constructs'
 import { ScalewayProvider } from '@mss/scaleway/provider'
 import { RdbDatabase } from '@mss/scaleway/rdb-database'
@@ -14,7 +14,6 @@ import { ContainerDomain } from '@mss/scaleway/container-domain'
 import {
   computeBranchNamespace,
   createPreviewSubdomain,
-  generateDatabaseUrl,
   namespacer,
 } from '@mss/cdk/utils'
 import { ObjectBucket } from '@mss/scaleway/object-bucket'
@@ -102,32 +101,31 @@ export class WebAppStack extends TerraformStack {
     output('databaseHost', databaseInstance.endpointIp)
     output('databasePort', databaseInstance.endpointPort)
 
-    const databaseConfig = {
-      name: namespaced(projectSlug),
-      user: namespaced(projectSlug),
-      password: sensitiveEnvironmentVariables.DATABASE_PASSWORD.value,
-    }
+    const databaseName = namespaced(projectSlug)
+    const databaseUser = namespaced(projectSlug)
+    const databasePasswordVariable =
+      sensitiveEnvironmentVariables.DATABASE_PASSWORD
 
-    const databaseUser = new RdbUser(this, 'databaseUser', {
-      name: databaseConfig.name,
+    const rdbDatabaseUser = new RdbUser(this, 'databaseUser', {
+      name: databaseUser,
       instanceId: databaseInstance.instanceId,
-      password: databaseConfig.password,
+      password: databasePasswordVariable.value,
     })
 
     const database = new RdbDatabase(this, 'database', {
-      name: databaseConfig.name,
+      name: databaseName,
       instanceId: databaseInstance.instanceId,
     })
 
-    output('databaseUser', databaseConfig.user)
-    output('databaseName', databaseConfig.name)
+    output('databaseUser', databaseUser)
+    output('databaseName', databaseName)
 
     new RdbPrivilege(this, 'databasePrivilege', {
       instanceId: databaseInstance.instanceId,
-      databaseName: databaseConfig.name,
-      userName: databaseConfig.user,
+      databaseName,
+      userName: databaseUser,
       permission: 'all',
-      dependsOn: [database, databaseUser],
+      dependsOn: [database, rdbDatabaseUser],
     })
 
     const documentsBucket = new ObjectBucket(this, 'documents', {
@@ -160,13 +158,13 @@ export class WebAppStack extends TerraformStack {
       ? projectTitle
       : `[${namespace}] ${projectTitle}`
 
-    const databaseUrl = generateDatabaseUrl({
-      user: databaseConfig.user,
-      password: databaseConfig.password,
-      host: databaseInstance.endpointIp,
-      port: databaseInstance.endpointPort,
-      name: databaseConfig.name,
-    })
+    const databaseUrl = Fn.format('postgres://%s:%s@%s:%s/%s', [
+      databaseUser,
+      databasePasswordVariable.value,
+      databaseInstance.endpointIp,
+      databaseInstance.endpointPort,
+      databaseName,
+    ])
 
     // Changing the name will recreate a new container
     // The names fails with max length so we shorten it
@@ -249,7 +247,7 @@ export class WebAppStack extends TerraformStack {
     output('webBaseUrl', hostname)
     output('containerDomainName', container.domainName)
     output('databaseUrl', databaseUrl, 'sensitive')
-    output('databasePassword', databaseConfig.password, 'sensitive')
+    output('databasePassword', databasePasswordVariable.value, 'sensitive')
     output(
       'webContainerStatus',
       container.status as WebCdkOutput['webContainerStatus'],

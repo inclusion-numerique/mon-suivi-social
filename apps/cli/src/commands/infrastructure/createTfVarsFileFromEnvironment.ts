@@ -19,7 +19,6 @@ export const createTfVarsFileFromEnvironment = new Command()
   .command('terraform:vars-from-env')
   .addArgument(new Argument('<stack>', 'CDK Stack').choices(['web', 'project']))
   .action(async (stack) => {
-    // TODO Factorize this list with cdk vars list
     const variableNames =
       stack === 'web'
         ? [...webAppStackVariables, ...webAppStackSensitiveVariables]
