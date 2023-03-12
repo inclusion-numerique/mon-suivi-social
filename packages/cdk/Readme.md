@@ -17,6 +17,12 @@ Project is hosted by Scaleway, provisioning is done via Terraform with CDK.
 
 Project stack will deploy only on a pipeline triggered from the "infra" branch and will provision resources shared between all services of this project.
 
+* First, deploy the project stack by triggering a ci workflow on "infra branch".
+* Cancel other workflows until project infrastructure is deployed
+* When project infrastructure is deployed, manually validate the transactional email domain in scaleway console to verify the domain
+
 ### Web App Stack
 
 Web App Stack will deploy on every branch and provision all resources nessecary for a preview environment or production version of the app
+
+* Once project infrastructure is deployed, every push will trigger a web app deployment workflow !
