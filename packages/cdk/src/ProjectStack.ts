@@ -26,6 +26,7 @@ import { DomainRecord } from '@mss/scaleway/domain-record'
 import { terraformBackend } from '@mss/cdk/terraformBackend'
 import { ObjectBucket } from '@mss/scaleway/object-bucket'
 import { RegistryNamespace } from '@mss/scaleway/registry-namespace'
+import { Cockpit } from '@mss/scaleway/cockpit'
 
 export const projectStackVariables = [
   'SCW_DEFAULT_ORGANIZATION_ID',
@@ -154,6 +155,8 @@ export class ProjectStack extends TerraformStack {
       description: 'Built Web App docker images, ready to use in containers',
     })
 
+    const cockpit = new Cockpit(this, 'cockpit', {})
+
     // Main domain DNS Records
     new DomainRecord(this, 'ns0', {
       dnsZone: mainDomainZone.domain,
@@ -194,6 +197,7 @@ export class ProjectStack extends TerraformStack {
       ttl: 3600,
     })
 
+    output('cockpitId', cockpit.id)
     output('mainDomainZoneId', mainDomainZone.id)
     output('transactionalEmailDomainStatus', transactionalEmailDomain.status)
     output('webContainersId', webContainers.id)
