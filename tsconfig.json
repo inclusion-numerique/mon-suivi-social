@@ -18,6 +18,7 @@
       "@mss/cli/*": ["apps/cli/src/*"],
       "@mss/web/*": ["apps/web/src/*"],
       "@mss/cdk/*": ["packages/cdk/src/*"],
+      "@mss/config/*": ["packages/config/src/*"],
       "@mss/e2e/*": ["packages/e2e/src/*"],
       "@mss/emails/*": ["packages/emails/src/*"],
       "@mss/lint/*": ["packages/lint/src/*"],

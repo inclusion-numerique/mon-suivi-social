@@ -56,6 +56,7 @@ export const packageJestConfig = ({
       '^@mss/web/(.*)$': '<rootDir>/../../apps/web/src/$1',
       '^@mss/cli/(.*)$': '<rootDir>/../../apps/cli/src/$1',
       '^@mss/cdk/(.*)$': '<rootDir>/../../packages/cdk/src/$1',
+      '^@mss/config/(.*)$': '<rootDir>/../../packages/config/src/$1',
       '^@mss/e2e/(.*)$': '<rootDir>/../../packages/e2e/src/$1',
       '^@mss/emails/(.*)$': '<rootDir>/../../packages/emails/src/$1',
       '^@mss/lint/(.*)$': '<rootDir>/../../packages/lint/src/$1',

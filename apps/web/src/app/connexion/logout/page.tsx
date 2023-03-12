@@ -39,7 +39,7 @@ function SignoutPage() {
           {/*    disabled={isLoading} */}
           {/*    onClick={onTotalLogout} */}
           {/*  > */}
-          {/*    Se déconnecter de {PublicConfig.productTitle} et de mon compte */}
+          {/*    Se déconnecter de {PublicWebAppConfig.projectTitle} et de mon compte */}
           {/*    Inclusion Connect */}
           {/*  </button> */}
           {/* </li> */}

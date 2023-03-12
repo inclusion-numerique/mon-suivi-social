@@ -19,16 +19,13 @@ executors:
 parameters:
   cache_version:
     type: string
-    default: '20230123-01'
+    default: '2023-03-11-02'
   virtual_store_dir:
     type: string
     default: './.pnpm'
   lockfile:
     type: string
     default: './pnpm-lock.yaml'
-  registry:
-    type: string
-    default: rg.fr-par.scw.cloud/mss-web-app
   image:
     type: string
     default: mss-web-<< pipeline.git.branch >> | sed -e 's/\//-/g'
@@ -43,7 +40,7 @@ parameters:
     default: e2e
   trigger_workflow:
     type: string
-    default: "lint_test_build_deploy"
+    default: "web_app_deployment"
   # Name of the environment to scrap
   scrap_environment_for_branch:
     type: string
@@ -51,9 +48,9 @@ parameters:
 
 workflows:
   version: 2
-  lint_test_build_deploy:
+  web_app_deployment:
     when:
-      equal: [ lint_test_build_deploy, << pipeline.parameters.trigger_workflow >> ]
+      equal: [ web_app_deployment, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
       - prepare_web_prod_dependencies
@@ -84,8 +81,29 @@ workflows:
             - build_web
             # - test_e2e
 
-  scrap_preview_environment:
-    # This workflow exclusively runs on the dev branch, with target env to destroy as parameter
+  project_infrastructure_deployment:
+    # This workflow exclusively runs on the infra branch
+    when:
+      equal: [ infra, << pipeline.git.branch >> ]
+    jobs:
+      - prepare_workspace_dependencies
+      - lint_and_test_cdk_package:
+          requires:
+            - prepare_workspace_dependencies
+      - compute_project_infrastructure_diff:
+          requires:
+            - prepare_workspace_dependencies
+      - approve_infra_deployment:
+          type: approval
+          requires:
+            - lint_and_test_cdk_package
+            - compute_project_infrastructure_diff
+      - project_infrastructure_deployment:
+          requires:
+            - approve_infra_deployment
+
+  web_app_preview_deletion:
+    # This workflow exclusively runs on the infra branch, with target env to destroy as parameter
     # It should never run with main as a parameter
     when:
       and:
@@ -94,10 +112,10 @@ workflows:
         - not:
             equal: [ main, << pipeline.parameters.scrap_environment_for_branch >>]
         - << pipeline.parameters.scrap_environment_for_branch >>
-        - equal: [ scrap_preview_environment, << pipeline.parameters.trigger_workflow >> ]
+        - equal: [ web_app_preview_deletion, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
-      - scrap_preview_environment:
+      - web_app_preview_deletion:
           requires:
             - prepare_workspace_dependencies
 
@@ -121,6 +139,7 @@ jobs:
             - ./apps/web/node_modules
             - ./apps/cli/node_modules
             - ./packages/cdk/node_modules
+            - ./packages/config/node_modules
             - ./packages/e2e/node_modules
             - ./packages/emails/node_modules
             - ./packages/lint/node_modules
@@ -164,7 +183,7 @@ jobs:
           name: 'Lint'
           command: pnpm lint
 
-  test:
+  lint_and_test_cdk_package:
     executor: node
     resource_class: large
     steps:
@@ -174,27 +193,58 @@ jobs:
           name: 'Prisma generate'
           command: pnpm --silent -F @mss/web prisma:generate
       - run:
+          name: 'Monorepo manypkg check'
+          command: pnpm manypkg check
+      - run:
+          name: 'Tsc'
+          command: pnpm tsc
+      - run:
+          name: 'Lint config'
+          command: pnpm -F @mss/config lint
+      - run:
+          name: 'Lint cdk'
+          command: pnpm -F @mss/cdk lint
+      - run:
+          name: 'Test config'
+          command: pnpm -F @mss/config test
+      - run:
+          name: 'Test cdk'
+          command: pnpm -F @mss/cdk test
+
+  test:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - create_dotenv_file
+      - run:
+          name: 'Prisma generate'
+          command: pnpm --silent -F @mss/web prisma:generate
+      - run:
           name: 'Test @mss/web'
-          command: pnpm -F @mss/web test
+          command: pnpm --silent -F @mss/web test
 
   build_web:
     executor: node
     resource_class: large
     steps:
       - checkout
-      - setup_docker_env
       - setup_remote_docker:
           docker_layer_caching: true
       - install_dependencies
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
+      - setup_docker_web_env
       - run:
           name: 'Prisma generate'
-          command: pnpm -F @mss/web prisma:generate
+          command: pnpm --silent -F @mss/web prisma:generate
       - run:
           name: 'Install DSFR'
-          command: pnpm -F @mss/web setup:dsfr
+          command: pnpm --silent -F @mss/web setup:dsfr
       - run:
           name: 'Build next app'
-          command: pnpm -F @mss/web build
+          command: pnpm --silent -F @mss/web build
       - run:
           name: 'Clear dependencies to install only prod dependencies'
           command: |
@@ -205,7 +255,7 @@ jobs:
             - << pipeline.parameters.cache_version >>-web-prod-{{ checksum "<< pipeline.parameters.lockfile >>" }}
       - run:
           name: 'Re-generate Prisma after cleaning dependencies'
-          command: pnpm -F @mss/web prisma:generate
+          command: pnpm --silent -F @mss/web prisma:generate
       - run:
           name: 'Cleanup build'
           command: |
@@ -217,7 +267,7 @@ jobs:
       - run:
           name: 'Login to registry and push image'
           command: |
-            docker login $REGISTRY -u nologin --password-stdin \<<< "$SCW_SECRET_KEY"
+            docker login $WEB_APP_DOCKER_REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
             docker push $IMAGE_BUILD_TAG
 
   chromatic:
@@ -226,12 +276,14 @@ jobs:
     steps:
       - checkout
       - install_dependencies
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
       - run:
           name: 'Setup DSFR'
-          command: pnpm -F @mss/web setup:dsfr
+          command: pnpm --silent -F @mss/web setup:dsfr
       - run:
           name: 'Build storybook and test components'
-          command: pnpm -F @mss/storybook chromatic
+          command: pnpm --silent -F @mss/storybook chromatic
 
   test_e2e:
     executor: node-browsers
@@ -240,19 +292,22 @@ jobs:
     steps:
       - checkout
       - install_pnpm
-      - setup_docker_env
+      - install_dependencies
       - setup_remote_docker:
           docker_layer_caching: true
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
+      - setup_docker_web_env
       - run:
           name: 'Login to registry and pull image'
           command: |
-            docker login $REGISTRY -u nologin --password-stdin \<<< "$SCW_SECRET_KEY"
+            docker login $WEB_APP_DOCKER_REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
             docker pull $IMAGE_BUILD_TAG
       - run:
           name: 'Install playwright'
           # This will be instantly resolved from global store thanks to custom image playwright setup
           command: |
-            pnpm -F @mss/e2e install
+            pnpm --silent -F @mss/e2e install
             pnpx playwright install
       #      - run:
       #          name: 'Up docker-compose'
@@ -262,15 +317,26 @@ jobs:
           name: 'Run playwright'
           command: |
             SHARD="$((${CIRCLE_NODE_INDEX}+1))"
-            pnpm -F @mss/e2e playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+            pnpm --silent -F @mss/e2e playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
 
   deploy_web:
     executor: node
     resource_class: large
     steps:
       - checkout
-      - setup_docker_env
+      - create_dotenv_file
       - install_dependencies
+      - add_secrets_to_dotenv_file
+      - setup_docker_web_env
+      - run:
+          name: 'Setup and export database password'
+          command: |
+            pnpm --silent cli secrets:database:setup $NAMESPACE
+            echo "export DATABASE_PASSWORD=$(pnpm --silent cli secrets:get DATABASE_PASSWORD_$NAMESPACE)" >> ${BASH_ENV}
+      - run:
+          name: "Create terraform variables file from environment variables"
+          command: |
+            pnpm --silent cli terraform:vars-from-env web
       - setup_remote_docker:
           docker_layer_caching: true
       - install_terraform
@@ -290,13 +356,13 @@ jobs:
           name: Set deployment status to in progress
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID in_progress 'Terraform stack deployment'
       - run:
-          name: 'Deploy stack'
+          name: 'Deploy web app stack'
           command: |
-            pnpm --silent -F @mss/cdk deploy:web:ci
+            pnpm --silent -F @mss/cdk cdktf deploy web --var-file .tfvars.json --auto-approve --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs
       - run:
           name: 'Create .env file from deployment outputs'
           command: |
-            pnpm --silent -F @mss/cli env:from-cdk
+            pnpm --silent cli dotenv:from-cdk web
       - dotenv/source:
           path: .env
       - run:
@@ -305,14 +371,14 @@ jobs:
       - run:
           name: 'Migrate database'
           command: |
-            pnpm -F @mss/web prisma db push --skip-generate --accept-data-loss
+            pnpm --silent -F @mss/web prisma db push --skip-generate --accept-data-loss
       - run:
           name: Set deployment status to fixtures load
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID in_progress -d 'Loading fixtures' -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
       - run:
           name: 'Load fixtures'
           command: |
-            pnpm -F @mss/cli fixtures:load
+            pnpm --silent cli fixtures:load
       - run:
           name: Set deployment status to success
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID success -d 'Deploy successful' -u https://$WEB_BASE_URL -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
@@ -321,13 +387,56 @@ jobs:
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID failure -d 'Deploy failed' -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
           when: on_fail
 
-  scrap_preview_environment:
+  compute_project_infrastructure_diff:
     executor: node
     resource_class: large
     steps:
       - checkout
       - install_dependencies
       - install_terraform
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
+      - run:
+          name: "Create terraform variables file from environment variables"
+          command: |
+            pnpm --silent cli terraform:vars-from-env project
+      - run:
+          name: 'Compute diff'
+          command: |
+            pnpm --silent -F @mss/cdk cdktf diff project --var-file .tfvars.json
+            
+
+  project_infrastructure_deployment:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - install_terraform
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
+      - run:
+          name: "Create terraform variables file from environment variables"
+          command: |
+            pnpm --silent cli terraform:vars-from-env project
+      - run:
+          name: 'Deploy project infrastructure stack'
+          command: |
+            pnpm --silent -F @mss/cdk cdktf deploy project --var-file .tfvars.json --auto-approve --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs
+
+  web_app_preview_deletion:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - install_terraform
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
+      - run:
+          name: "Create terraform variables file from environment variables"
+          command: |
+            pnpm --silent cli terraform:vars-from-env web
       - when:
           condition:
             or:
@@ -343,7 +452,7 @@ jobs:
       - run:
           name: 'Destroy stack'
           command: |
-            TF_VAR_web_webContainerImage_C5B2590D='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm -F @mss/cdk cdktf destroy web --auto-approve
+            TF_VAR_WEB_CONTAINER_IMAGE='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm --silent -F @mss/cdk cdktf destroy web --auto-approve --var-file .tfvars.json
       - run:
           name: Deactivate Github deployments
           command: pnpm --silent cli github:deployment:deactivate << pipeline.parameters.scrap_environment_for_branch >>
@@ -371,17 +480,36 @@ commands:
           keys:
             - << pipeline.parameters.cache_version >>-pnpm-{{ checksum "<< pipeline.parameters.lockfile >>" }}
 
-  setup_docker_env:
+  create_dotenv_file:
+    steps:
+      - run:
+          name: "Create .env file from .env.dist"
+          command: |
+            cp .env.dist .env
+
+  add_secrets_to_dotenv_file:
+    steps:
+      - run:
+          name: "Add project secrets to .env"
+          command: |
+            SCW_ACCESS_KEY=$CI_SCW_ACCESS_KEY SCW_SECRET_KEY=$CI_SCW_SECRET_KEY pnpm --silent cli dotenv:from-secrets project
+      - run:
+          name: "Add web secrets to .env"
+          command: |
+            pnpm --silent cli dotenv:from-secrets web
+
+  setup_docker_web_env:
     steps:
       - run:
           name: "Set docker env vars"
           command: |
-            echo "export REGISTRY=<< pipeline.parameters.registry >>" >> ${BASH_ENV}
+            source .env
+            echo "export WEB_APP_DOCKER_REGISTRY='$WEB_APP_DOCKER_REGISTRY'" >> ${BASH_ENV}
             echo "export BRANCH='<< pipeline.git.branch >>'" >> ${BASH_ENV}
             echo "export NAMESPACE=$(echo '<< pipeline.git.branch >>' | sed -e 's/\//-/g')" >> ${BASH_ENV}
             echo "export IMAGE_NAME=$(echo 'mss-web-<< pipeline.git.branch >>' | sed -e 's/\//-/g')" >> ${BASH_ENV}
-            echo "export IMAGE_BUILD_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
-            echo "export IMAGE_DEPLOY_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.deploy_version >>')" >> ${BASH_ENV}
-            echo "export IMAGE_E2E_TAG=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.e2e_version >>')" >> ${BASH_ENV}
-            echo "export TF_VAR_web_webContainerImage_C5B2590D=$(echo '<< pipeline.parameters.registry >>/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
+            echo "export IMAGE_BUILD_TAG=$(echo '$WEB_APP_DOCKER_REGISTRY/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
+            echo "export IMAGE_DEPLOY_TAG=$(echo '$WEB_APP_DOCKER_REGISTRY/$IMAGE_NAME:<< pipeline.parameters.deploy_version >>')" >> ${BASH_ENV}
+            echo "export IMAGE_E2E_TAG=$(echo '$WEB_APP_DOCKER_REGISTRY/$IMAGE_NAME:<< pipeline.parameters.e2e_version >>')" >> ${BASH_ENV}
+            echo "export WEB_CONTAINER_IMAGE=$(echo '$WEB_APP_DOCKER_REGISTRY/$IMAGE_NAME:<< pipeline.parameters.build_version >>')" >> ${BASH_ENV}
 

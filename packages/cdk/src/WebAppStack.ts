@@ -1,4 +1,4 @@
-import { S3Backend, TerraformOutput, TerraformStack } from 'cdktf'
+import { Fn, TerraformStack } from 'cdktf'
 import { Construct } from 'constructs'
 import { ScalewayProvider } from '@mss/scaleway/provider'
 import { RdbDatabase } from '@mss/scaleway/rdb-database'
@@ -7,35 +7,60 @@ import { RdbUser } from '@mss/scaleway/rdb-user'
 import { RdbPrivilege } from '@mss/scaleway/rdb-privilege'
 import { DataScalewayContainerNamespace } from '@mss/scaleway/data-scaleway-container-namespace'
 import { Container } from '@mss/scaleway/container'
-import { CdkOutput } from '@mss/cdk/getCdkOutput'
+import { WebCdkOutput } from '@mss/cdk/getCdkOutput'
 import { DataScalewayDomainZone } from '@mss/scaleway/data-scaleway-domain-zone'
 import { DomainRecord, DomainRecordConfig } from '@mss/scaleway/domain-record'
 import { ContainerDomain } from '@mss/scaleway/container-domain'
 import {
   computeBranchNamespace,
   createPreviewSubdomain,
-  environmentVariable,
-  generateDatabaseUrl,
   namespacer,
-  sensitiveEnvironmentVariable,
 } from '@mss/cdk/utils'
 import { ObjectBucket } from '@mss/scaleway/object-bucket'
-import { generateDatabasePassword } from './databasePassword'
+import {
+  containerNamespaceName,
+  databaseInstanceName,
+  mainDomain,
+  previewDomain,
+  projectSlug,
+  projectTitle,
+  region,
+} from '@mss/config/config'
+import { environmentVariablesFromList } from '@mss/cdk/environmentVariable'
+import { createOutput } from '@mss/cdk/output'
+import { terraformBackend } from '@mss/cdk/terraformBackend'
 
-const projectSlug = 'mss'
-const databaseInstanceName = 'incnum-prod'
-const containerNamespaceName = 'mss-web'
-const region = 'fr-par'
-const mainDomain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
-const previewDomain = 'v2.monsuivisocial.incubateur.anct.gouv.fr'
+export const webAppStackVariables = [
+  'WEB_CONTAINER_IMAGE',
+  'INCLUSION_CONNECT_PREVIEW_ISSUER',
+  'INCLUSION_CONNECT_MAIN_ISSUER',
+  'INCLUSION_CONNECT_PREVIEW_CLIENT_ID',
+  'INCLUSION_CONNECT_MAIN_CLIENT_ID',
+  'SCW_DEFAULT_ORGANIZATION_ID',
+  'SCW_PROJECT_ID',
+] as const
+export const webAppStackSensitiveVariables = [
+  'SCW_ACCESS_KEY',
+  'SCW_SECRET_KEY',
+  'DATABASE_PASSWORD',
+  'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
+  'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
+] as const
 
+/**
+ * This stack represents the web app for a given branch (namespace).
+ * It can be deployed for each branch.
+ */
 export class WebAppStack extends TerraformStack {
-  constructor(scope: Construct, id: string, branch: string) {
-    super(scope, id)
+  constructor(scope: Construct, branch: string) {
+    super(scope, 'web')
 
     const namespace = computeBranchNamespace(branch)
 
     const namespaced = namespacer(namespace)
+
+    // ⚠️ When calling this function, do not forget to update typings in src/getCdkOutput.ts
+    const output = createOutput<WebCdkOutput>(this)
 
     const isMain = namespace === 'main'
 
@@ -43,74 +68,29 @@ export class WebAppStack extends TerraformStack {
       ? { hostname: mainDomain, subdomain: '' }
       : createPreviewSubdomain(namespace, previewDomain)
 
-    // Output helper function
-    // ⚠️ When calling this function, do not forget to update typings in src/getCdkOutput.ts
-    const output = <T extends keyof CdkOutput>(
-      name: T,
-      value: CdkOutput[T],
-      sensitive?: 'sensitive',
-    ) =>
-      new TerraformOutput(this, `output_${name}`, {
-        value,
-        sensitive: sensitive === 'sensitive',
-      })
-
-    // Configuring env variables
-    const webContainerImage = environmentVariable(this, 'webContainerImage')
-    const previewInclusionConnectIssuer = environmentVariable(
+    const environmentVariables = environmentVariablesFromList(
       this,
-      'previewInclusionConnectIssuer',
+      webAppStackVariables,
+      { sensitive: false },
     )
-    const mainInclusionConnectIssuer = environmentVariable(
+    const sensitiveEnvironmentVariables = environmentVariablesFromList(
       this,
-      'mainInclusionConnectIssuer',
-    )
-    const previewInclusionConnectClientId = environmentVariable(
-      this,
-      'previewInclusionConnectClientId',
-    )
-    const mainInclusionConnectClientId = environmentVariable(
-      this,
-      'mainInclusionConnectClientId',
-    )
-
-    // Configuring env secrets
-    const accessKey = sensitiveEnvironmentVariable(this, 'accessKey')
-    const secretKey = sensitiveEnvironmentVariable(this, 'secretKey')
-    const organizationId = sensitiveEnvironmentVariable(this, 'organizationId')
-    const projectId = sensitiveEnvironmentVariable(this, 'projectId')
-    const databasePasswordSalt = sensitiveEnvironmentVariable(
-      this,
-      'databasePasswordSalt',
-    )
-    const previewInclusionConnectClientSecret = environmentVariable(
-      this,
-      'previewInclusionConnectClientSecret',
-    )
-    const mainInclusionConnectClientSecret = environmentVariable(
-      this,
-      'mainInclusionConnectClientSecret',
+      webAppStackSensitiveVariables,
+      { sensitive: true },
     )
 
     // Configuring provider that will be used for the rest of the stack
     new ScalewayProvider(this, 'provider', {
       region,
-      accessKey: accessKey.value,
-      secretKey: secretKey.value,
-      organizationId: organizationId.value,
-      projectId: projectId.value,
+      accessKey: sensitiveEnvironmentVariables.SCW_ACCESS_KEY.value,
+      secretKey: sensitiveEnvironmentVariables.SCW_SECRET_KEY.value,
+      organizationId: environmentVariables.SCW_DEFAULT_ORGANIZATION_ID.value,
+      projectId: environmentVariables.SCW_PROJECT_ID.value,
     })
 
     // State of deployed infrastructure for each branch will be stored in the
-    // same 'mss-terraform' bucket
-    new S3Backend(this, {
-      bucket: `${projectSlug}-web-tfstate`,
-      key: `${projectSlug}-web-${namespaced('state')}.tfstate`,
-      // Credentials are provided with AWS_*** env variables
-      endpoint: 'https://s3.fr-par.scw.cloud',
-      skipCredentialsValidation: true,
-      skipRegionValidation: true,
-    })
+    // same 'mss-terraform-state' bucket, with namespace in .tfstate filename.
+    terraformBackend(this, `web-${namespace}`)
 
     // The database instance is shared for each namespace/branch we refer to it (DataScaleway)
     // but do not manage it through this stack
@@ -121,39 +101,35 @@ export class WebAppStack extends TerraformStack {
     output('databaseHost', databaseInstance.endpointIp)
     output('databasePort', databaseInstance.endpointPort)
 
-    const databaseConfig = {
-      name: namespaced(projectSlug),
-      user: namespaced(projectSlug),
-      password: generateDatabasePassword(
-        databasePasswordSalt.value,
-        namespaced(projectSlug),
-      ),
-    }
+    const databaseName = namespaced(projectSlug)
+    const databaseUser = namespaced(projectSlug)
+    const databasePasswordVariable =
+      sensitiveEnvironmentVariables.DATABASE_PASSWORD
 
-    const databaseUser = new RdbUser(this, 'databaseUser', {
-      name: databaseConfig.name,
+    const rdbDatabaseUser = new RdbUser(this, 'databaseUser', {
+      name: databaseUser,
       instanceId: databaseInstance.instanceId,
-      password: databaseConfig.password,
+      password: databasePasswordVariable.value,
     })
 
     const database = new RdbDatabase(this, 'database', {
-      name: databaseConfig.name,
+      name: databaseName,
       instanceId: databaseInstance.instanceId,
     })
 
-    output('databaseUser', databaseConfig.user)
-    output('databaseName', databaseConfig.name)
+    output('databaseUser', databaseUser)
+    output('databaseName', databaseName)
 
     new RdbPrivilege(this, 'databasePrivilege', {
       instanceId: databaseInstance.instanceId,
-      databaseName: databaseConfig.name,
-      userName: databaseConfig.user,
+      databaseName,
+      userName: databaseUser,
       permission: 'all',
-      dependsOn: [database, databaseUser],
+      dependsOn: [database, rdbDatabaseUser],
     })
 
-    const uploadsBucket = new ObjectBucket(this, 'uploads', {
-      name: namespaced(`${projectSlug}-uploads`),
+    const documentsBucket = new ObjectBucket(this, 'documents', {
+      name: namespaced(`${projectSlug}-documents`),
       corsRule: [
         {
           allowedHeaders: ['*'],
@@ -165,8 +141,8 @@ export class WebAppStack extends TerraformStack {
       ],
     })
 
-    output('uploadsBucketName', uploadsBucket.name)
-    output('uploadsBucketEndpoint', uploadsBucket.endpoint)
+    output('documentsBucketName', documentsBucket.name)
+    output('documentsBucketEndpoint', documentsBucket.endpoint)
 
     const containerNamespace = new DataScalewayContainerNamespace(
       this,
@@ -179,16 +155,16 @@ export class WebAppStack extends TerraformStack {
       : `bot+${namespace}@${mainDomain}`
 
     const emailFromName = isMain
-      ? 'Mon Suivi Social'
-      : `[${namespace}] Mon Suivi Social`
+      ? projectTitle
+      : `[${namespace}] ${projectTitle}`
 
-    const databaseUrl = generateDatabaseUrl({
-      user: databaseConfig.user,
-      password: databaseConfig.password,
-      host: databaseInstance.endpointIp,
-      port: databaseInstance.endpointPort,
-      name: databaseConfig.name,
-    })
+    const databaseUrl = Fn.format('postgres://%s:%s@%s:%s/%s', [
+      databaseUser,
+      databasePasswordVariable.value,
+      databaseInstance.endpointIp,
+      databaseInstance.endpointPort,
+      databaseName,
+    ])
 
     // Changing the name will recreate a new container
     // The names fails with max length so we shorten it
@@ -200,29 +176,31 @@ export class WebAppStack extends TerraformStack {
 
     const container = new Container(this, 'webContainer', {
       namespaceId: containerNamespace.namespaceId,
-      registryImage: webContainerImage.value,
+      registryImage: environmentVariables.WEB_CONTAINER_IMAGE.value,
       environmentVariables: {
         EMAIL_FROM_ADDRESS: emailFromAddress,
         EMAIL_FROM_NAME: emailFromName,
-        MSS_WEB_IMAGE: webContainerImage.value,
-        UPLOADS_BUCKET_ID: uploadsBucket.id,
+        MSS_WEB_IMAGE: environmentVariables.WEB_CONTAINER_IMAGE.value,
+        DOCUMENTS_BUCKET_ID: documentsBucket.id,
         BASE_URL: hostname,
         BRANCH: branch,
         NAMESPACE: namespace,
         SCW_DEFAULT_REGION: region,
         NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER: isMain
-          ? mainInclusionConnectIssuer.value
-          : previewInclusionConnectIssuer.value,
+          ? environmentVariables.INCLUSION_CONNECT_MAIN_ISSUER.value
+          : environmentVariables.INCLUSION_CONNECT_PREVIEW_ISSUER.value,
         NEXT_PUBLIC_INCLUSION_CONNECT_CLIENT_ID: isMain
-          ? mainInclusionConnectClientId.value
-          : previewInclusionConnectClientId.value,
+          ? environmentVariables.INCLUSION_CONNECT_MAIN_CLIENT_ID.value
+          : environmentVariables.INCLUSION_CONNECT_PREVIEW_CLIENT_ID.value,
         NEXT_PUBLIC_SENTRY_ENVIRONMENT: namespace,
       },
       secretEnvironmentVariables: {
         DATABASE_URL: databaseUrl,
         INCLUSION_CONNECT_CLIENT_SECRET: isMain
-          ? mainInclusionConnectClientSecret.value
-          : previewInclusionConnectClientSecret.value,
+          ? sensitiveEnvironmentVariables.INCLUSION_CONNECT_MAIN_CLIENT_SECRET
+              .value
+          : sensitiveEnvironmentVariables
+              .INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET.value,
       },
       name: containerName,
       minScale: isMain ? 2 : 0,
@@ -269,12 +247,12 @@ export class WebAppStack extends TerraformStack {
     output('webBaseUrl', hostname)
     output('containerDomainName', container.domainName)
     output('databaseUrl', databaseUrl, 'sensitive')
-    output('databasePassword', databaseConfig.password, 'sensitive')
+    output('databasePassword', databasePasswordVariable.value, 'sensitive')
     output(
       'webContainerStatus',
-      container.status as CdkOutput['webContainerStatus'],
+      container.status as WebCdkOutput['webContainerStatus'],
     )
     output('webContainerId', container.id)
-    output('webContainerImage', webContainerImage.value)
+    output('webContainerImage', environmentVariables.WEB_CONTAINER_IMAGE.value)
   }
 }

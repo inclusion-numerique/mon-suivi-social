@@ -1,19 +1,26 @@
-import * as dotenv from 'dotenv'
-import { resolve } from 'node:path'
 import { Command } from '@commander-js/extra-typings'
-import { updateGithubDeployment } from './commands/updateGithubDeployment'
-import { createGithubDeployment } from './commands/createGithubDeployment'
-import { deactivateGithubDeployment } from './commands/deactivateGithubDeployment'
-
-dotenv.config({
-  // eslint-disable-next-line unicorn/prefer-module
-  path: resolve(__dirname, '../../../.env'),
-})
+import { createDotEnvFromSecrets } from '@mss/cli/commands/secrets/createDotEnvFromSecrets'
+import { createGithubDeployment } from '@mss/cli/commands/github/createGithubDeployment'
+import { updateGithubDeployment } from '@mss/cli/commands/github/updateGithubDeployment'
+import { deactivateGithubDeployment } from '@mss/cli/commands/github/deactivateGithubDeployment'
+import { loadFixtures } from '@mss/cli/commands/database/loadFixtures'
+import { createDotEnvFromCdk } from '@mss/cli/commands/infrastructure/createDotEnvFromCdk'
+import { listSecrets } from '@mss/cli/commands/secrets/listSecrets'
+import { getSecretValue } from '@mss/cli/commands/secrets/getSecretValue'
+import { setupDatabaseSecret } from '@mss/cli/commands/secrets/setupDatabaseSecret'
+import { createTfVarsFileFromEnvironment } from '@mss/cli/commands/infrastructure/createTfVarsFileFromEnvironment'
 
 const program = new Command()
 
+program.addCommand(listSecrets)
+program.addCommand(getSecretValue)
+program.addCommand(setupDatabaseSecret)
+program.addCommand(createDotEnvFromCdk)
+program.addCommand(createDotEnvFromSecrets)
 program.addCommand(createGithubDeployment)
 program.addCommand(updateGithubDeployment)
 program.addCommand(deactivateGithubDeployment)
+program.addCommand(loadFixtures)
+program.addCommand(createTfVarsFileFromEnvironment)
 
 program.parse()

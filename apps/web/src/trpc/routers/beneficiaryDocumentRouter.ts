@@ -24,6 +24,7 @@ import { EditDocumentClient } from '@mss/web/features/document/editDocument.clie
 import { EditDocumentServer } from '@mss/web/features/document/editDocument.server'
 import { DeleteDocumentServer } from '@mss/web/features/document/deleteDocument.server'
 import { DeleteDocumentClient } from '@mss/web/features/document/deleteDocument.client'
+import { ServerWebAppConfig } from '@mss/web/webAppConfig'
 
 export const beneficiaryDocumentRouter = router({
   add: protectedProcedure
@@ -84,6 +85,7 @@ export const beneficiaryDocumentRouter = router({
           name,
           type: mimeType,
           directory,
+          bucket: ServerWebAppConfig.S3.documentsBucketId,
         })
 
         return { url, key }
@@ -107,6 +109,7 @@ export const beneficiaryDocumentRouter = router({
       // TODO Mutation or audit log
       const { url } = await createSignedGetUrl({
         key,
+        bucket: ServerWebAppConfig.S3.documentsBucketId,
       })
 
       return { url }

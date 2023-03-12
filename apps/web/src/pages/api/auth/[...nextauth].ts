@@ -2,7 +2,7 @@ import '@mss/web/auth/nextAuthSetup'
 import EmailProvider from 'next-auth/providers/email'
 import KeycloakProvider, { KeycloakProfile } from 'next-auth/providers/keycloak'
 import NextAuth, { NextAuthOptions } from 'next-auth'
-import { PrivateConfig, PublicConfig } from '@mss/web/config'
+import { ServerWebAppConfig, PublicWebAppConfig } from '@mss/web/webAppConfig'
 import { sendVerificationRequest } from '@mss/web/auth/sendVerificationRequest'
 import { nextAuthAdapter } from '@mss/web/auth/nextAuthAdapter'
 import { Routes } from '@mss/web/app/routing/routes'
@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     EmailProvider({
-      ...PrivateConfig.Auth.Email,
+      ...ServerWebAppConfig.Auth.Email,
       sendVerificationRequest,
     }),
     KeycloakProvider({
@@ -26,10 +26,10 @@ export const authOptions: NextAuthOptions = {
       allowDangerousEmailAccountLinking: true,
       id: inclusionConnectProviderId,
       name: 'Inclusion Connect',
-      clientId: PublicConfig.InclusionConnect.clientId,
-      clientSecret: PrivateConfig.InclusionConnect.clientSecret,
+      clientId: PublicWebAppConfig.InclusionConnect.clientId,
+      clientSecret: ServerWebAppConfig.InclusionConnect.clientSecret,
       // KeycloakProvider adds wellknown open id config path
-      issuer: PublicConfig.InclusionConnect.issuer,
+      issuer: PublicWebAppConfig.InclusionConnect.issuer,
       profile: (profile: KeycloakProfile) => ({
         id: profile.sub,
         name: profile.name ?? profile.preferred_username,

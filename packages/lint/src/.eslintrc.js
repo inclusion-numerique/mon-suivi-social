@@ -17,6 +17,7 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'no-restricted-syntax': 'off',
     'import/prefer-default-export': 'off',
     // We want this on, but a lot of libraries we integrate with need commonJs (eslint, next config ...)
     'unicorn/prefer-module': 'off',
@@ -66,6 +67,7 @@ module.exports = {
         'prettier',
       ],
       rules: {
+        'no-restricted-syntax': 'off',
         // Module resolve leads to false negatives in monorepo, typescript compiler will handle any error
         'import/no-unresolved': [2, { ignore: ['^@mss/'] }],
         'import/prefer-default-export': 'off',

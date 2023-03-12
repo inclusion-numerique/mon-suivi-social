@@ -1,7 +1,8 @@
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { outputPrefix } from '@mss/cdk/output'
 
-export type CdkOutput = {
+export type WebCdkOutput = {
   webBaseUrl: string
   containerDomainName: string
   databaseName: string
@@ -10,31 +11,37 @@ export type CdkOutput = {
   databaseUser: string
   databaseHost: string
   databasePort: number
-  uploadsBucketEndpoint: string
-  uploadsBucketName: string
+  documentsBucketEndpoint: string
+  documentsBucketName: string
   webContainerId: string
   webContainerImage: string
   webContainerStatus: 'ready' | 'error'
 }
 
-// Outputs are prefixed by web_output and suffixed by _{hash}
-// Sometimes (in CI, I don't know why, maybe depending on terraform version), they are just prefixed with output_
-// web_outputuploadsBucketName_14BB6D15 -> uploadsBucketName
-// output_uploadsBucketName -> uploadsBucketName
-export const normalizeCdkOutputKey = (key: string): string => {
-  const withoutPrefix = key.startsWith('web_output')
-    ? key.slice('web_output'.length)
-    : key.slice('output_'.length)
-
-  const parts = withoutPrefix.split('_')
-  if (parts.length > 1) {
-    parts.pop()
-  }
-
-  return parts.join('_')
+export type ProjectCdkOutput = {
+  databaseInstanceId: string
+  databaseEndpointIp: string
+  databaseEndpointPort: number
+  cockpitId: string
+  mainDomainZoneId: string
+  transactionalEmailDomainStatus: string
+  webContainersId: string
 }
 
-export const getCdkOutput = async (): Promise<CdkOutput> => {
+export type CdkOutput = {
+  web: WebCdkOutput
+  project: ProjectCdkOutput
+}
+
+// output_uploadsBucketName -> uploadsBucketName
+export const normalizeCdkOutputKey = (key: string): string =>
+  key.startsWith(outputPrefix) ? key.slice(outputPrefix.length) : key
+
+export async function getCdkOutput(stack: 'web'): Promise<WebCdkOutput>
+export async function getCdkOutput(stack: 'project'): Promise<ProjectCdkOutput>
+export async function getCdkOutput(
+  stack: 'web' | 'project',
+): Promise<WebCdkOutput | ProjectCdkOutput> {
   const outputFile = resolve(
     // eslint-disable-next-line unicorn/prefer-module
     __dirname,
@@ -42,15 +49,15 @@ export const getCdkOutput = async (): Promise<CdkOutput> => {
   )
   const outputContents = await readFile(outputFile, 'utf8')
   const rawOutput = JSON.parse(outputContents) as {
-    web: Record<string, unknown>
+    [key in keyof CdkOutput]: Record<string, unknown>
   }
 
   const output = Object.fromEntries(
-    Object.entries(rawOutput.web).map(([key, value]) => [
+    Object.entries(rawOutput[stack]).map(([key, value]) => [
       normalizeCdkOutputKey(key),
       value,
     ]),
   )
 
-  return output as CdkOutput
+  return output as WebCdkOutput
 }

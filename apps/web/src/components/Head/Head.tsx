@@ -1,4 +1,4 @@
-import { PrivateConfig } from '@mss/web/config'
+import { ServerWebAppConfig, PublicWebAppConfig } from '@mss/web/webAppConfig'
 import { Dsfr } from '@mss/web/components/RootLayout/Dsfr'
 import { Matomo } from '@mss/web/components/RootLayout/Matomo'
 import { headers } from 'next/headers'
@@ -12,11 +12,11 @@ export const Head = () => {
     <>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      {PrivateConfig.isMain ? null : (
+      {ServerWebAppConfig.isMain ? null : (
         // Do not index preview environments
         <meta name="robots" content="noindex" />
       )}
-      <title>Mon Suivi Social</title>
+      <title>{PublicWebAppConfig.projectTitle}</title>
       <meta name="theme-color" content="#000091" />
       <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
       <link rel="icon" href="/favicon/favicon.svg" type="image/svg+xml" />
@@ -30,7 +30,7 @@ export const Head = () => {
         href="/favicon/manifest.webmanifest"
         crossOrigin="use-credentials"
       />
-      <meta name="description" content="Mon Suivi Social" />
+      <meta name="description" content={PublicWebAppConfig.projectTitle} />
       <link rel="icon" href="/favicon.ico" />
       {fontsToPreload.map((font) => (
         <link

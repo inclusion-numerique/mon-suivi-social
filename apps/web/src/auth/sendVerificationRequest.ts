@@ -2,6 +2,7 @@ import { SendVerificationRequestParams } from 'next-auth/providers'
 import { createTransport } from 'nodemailer'
 import { emailSignin } from '@mss/emails/templates/emailSignin'
 import { compileMjml } from '@mss/emails/mjml'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 const debugMagicLink = true
 
@@ -20,7 +21,7 @@ export const sendVerificationRequest = async ({
   const result = await transport.sendMail({
     to: identifier,
     from: provider.from,
-    subject: `Connexion à Mon Suivi Social`,
+    subject: `Connexion à ${PublicWebAppConfig.projectTitle}`,
     text: emailSignin.text({ url }),
     html: compileMjml(emailSignin.mjml({ url })),
   })

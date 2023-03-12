@@ -1,0 +1,18 @@
+/**
+ * These variables are expected to be setup in Secrets Manager service
+ */
+export const secretVariables = [
+  'SCW_ACCESS_KEY',
+  'SCW_SECRET_KEY',
+  'DATABASE_PASSWORD_SALT',
+  'INCLUSION_CONNECT_PREVIEW_CLIENT_SECRET',
+  'INCLUSION_CONNECT_MAIN_CLIENT_SECRET',
+  'DATABASE_PASSWORD_SALT',
+  'NEXTAUTH_SECRET',
+  'SENTRY_AUTH_TOKEN',
+  'SIREN_ACCESS_TOKEN',
+  'SIREN_CONSUMER_SECRET',
+  'SMTP_PASSWORD',
+  'SMTP_SERVER',
+  'SMTP_USERNAME',
+] as const

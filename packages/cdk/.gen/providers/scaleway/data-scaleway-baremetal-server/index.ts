@@ -297,8 +297,8 @@ export class DataScalewayBaremetalServer extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_baremetal_server',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.11.1',
-        providerVersionConstraint: '>= 2.11.1'
+        providerVersion: '2.13.1',
+        providerVersionConstraint: '>= 2.13.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -381,6 +381,11 @@ export class DataScalewayBaremetalServer extends cdktf.TerraformDataSource {
     return this.getStringAttribute('offer_id');
   }
 
+  // offer_name - computed: true, optional: false, required: false
+  public get offerName() {
+    return this.getStringAttribute('offer_name');
+  }
+
   // options - computed: true, optional: false, required: false
   private _options = new DataScalewayBaremetalServerOptionsList(this, "options", true);
   public get options() {
@@ -397,9 +402,9 @@ export class DataScalewayBaremetalServer extends cdktf.TerraformDataSource {
     return this.getStringAttribute('os');
   }
 
-  // os_id - computed: true, optional: false, required: false
-  public get osId() {
-    return this.getStringAttribute('os_id');
+  // os_name - computed: true, optional: false, required: false
+  public get osName() {
+    return this.getStringAttribute('os_name');
   }
 
   // password - computed: true, optional: false, required: false

@@ -60,8 +60,8 @@ export class DataScalewayFunctionNamespace extends cdktf.TerraformDataSource {
       terraformResourceType: 'scaleway_function_namespace',
       terraformGeneratorMetadata: {
         providerName: 'scaleway',
-        providerVersion: '2.11.1',
-        providerVersionConstraint: '>= 2.11.1'
+        providerVersion: '2.13.1',
+        providerVersionConstraint: '>= 2.13.1'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

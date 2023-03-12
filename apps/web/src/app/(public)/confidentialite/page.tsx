@@ -1,4 +1,4 @@
-import { PublicConfig } from '@mss/web/config'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 function ConfidentialityPage() {
   return (
@@ -31,8 +31,8 @@ function ConfidentialityPage() {
           <p>
             Pour toute question ou demande relative à vos droits, vous pouvez
             nous contacter à l&apos;adresse&nbsp;
-            <a href={`mailto:${PublicConfig.contactEmail}`}>
-              {PublicConfig.contactEmail}
+            <a href={`mailto:${PublicWebAppConfig.contactEmail}`}>
+              {PublicWebAppConfig.contactEmail}
             </a>
             .
           </p>
@@ -81,9 +81,10 @@ function ConfidentialityPage() {
           </p>
 
           <p>
-            Mon Suivi Social s’est assurée de la mise en œuvre par ses
-            sous-traitants de garanties adéquates et du respect de conditions
-            strictes de confidentialité, d’usage et de protection des données.
+            {PublicWebAppConfig.projectTitle} s’est assuré de la mise en œuvre
+            par ses sous-traitants de garanties adéquates et du respect de
+            conditions strictes de confidentialité, d’usage et de protection des
+            données.
           </p>
 
           <div className="fr-table">
@@ -161,10 +162,10 @@ function ConfidentialityPage() {
 
           <p>
             La finalité du traitement de données réalisé par{' '}
-            {PublicConfig.productTitle} est de faciliter la connaissance et
-            l&apos;accès aux aides financières et en ingénierie pour permettre
-            aux collectivités et acteurs du territoire de réaliser leurs
-            projets.
+            {PublicWebAppConfig.projectTitle} est de faciliter la connaissance
+            et l&apos;accès aux aides financières et en ingénierie pour
+            permettre aux collectivités et acteurs du territoire de réaliser
+            leurs projets.
           </p>
 
           <h2>Liste des traitements</h2>
@@ -195,8 +196,9 @@ function ConfidentialityPage() {
                   <td>envoi régulier ( mensuel) d’une lettre d’info</td>
                   <td>envoi d’emails</td>
                   <td>
-                    demande adressée à l’équipe Mon Suivi Social, en vue d’une
-                    réponse personnalisée
+                    demande adressée à l’équipe{' '}
+                    {PublicWebAppConfig.projectTitle}, en vue d’une réponse
+                    personnalisée
                   </td>
                 </tr>
                 <tr>
@@ -433,8 +435,8 @@ function ConfidentialityPage() {
           <p>
             Pour toute demande, vous pouvez écrire un email à l’équipe Mon
             espace collectivité&nbsp;:{' '}
-            <a href={`mailto:${PublicConfig.contactEmail}`}>
-              {PublicConfig.contactEmail}
+            <a href={`mailto:${PublicWebAppConfig.contactEmail}`}>
+              {PublicWebAppConfig.contactEmail}
             </a>
             .
           </p>

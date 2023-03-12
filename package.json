@@ -10,7 +10,7 @@
   "packageManager": "pnpm@7.25.1",
   "scripts": {
     "build": "turbo build",
-    "cli": "./apps/cli/node_modules/.bin/ts-node -r tsconfig-paths/register apps/cli/src/index.ts",
+    "cli": "dotenv -- ./apps/cli/node_modules/.bin/ts-node -r tsconfig-paths/register apps/cli/src/index.ts",
     "clean": "rm -rf node_modules",
     "clean:workspaces": "turbo clean",
     "dev": "turbo dev --parallel",
@@ -27,7 +27,7 @@
     "db:stop": "docker-compose -f ./docker-compose.dev.yml down",
     "prisma:generate": "pnpm -F web prisma:generate",
     "prisma:migrate": "pnpm -F web prisma migrate deploy",
-    "prisma:seed": "pnpm -F cli fixtures:load",
+    "prisma:seed": "pnpm cli fixtures:load",
     "docker:build:web": "docker buildx build --platform linux/amd64 -t rg.fr-par.scw.cloud/mec-web/mec-web-dev:latest -f docker/web/Dockerfile .",
     "docker:build:web:debug": "DOCKER_BUILDKIT=0 docker build -t mec-web/mec-web-dev:debug -f docker/web/Dockerfile ."
   },
@@ -37,7 +37,7 @@
   "dependencies": {
     "@manypkg/cli": "^0.20.0",
     "dotenv": "^16.0.3",
-    "dotenv-cli": "^7.0.0",
+    "dotenv-cli": "^7.1.0",
     "turbo": "^1.8.3"
   }
 }

@@ -2,6 +2,7 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import { Routes } from '@mss/web/app/routing/routes'
 import { UserMenu } from '../UserMenu'
 import Link from 'next/link'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 function PrivateHeader({ user }: { user: SessionUser }) {
   const links = [
@@ -36,13 +37,13 @@ function PrivateHeader({ user }: { user: SessionUser }) {
                   href="/"
                   aria-current="page"
                   target="_self"
-                  title="Mon Suivi Social"
+                  title={PublicWebAppConfig.projectTitle}
                   style={{ display: 'flex' }}
                 >
                   <div className="fr-header__logo">
                     <picture>
                       <img
-                        alt="Mon Suivi Social"
+                        alt={PublicWebAppConfig.projectTitle}
                         width={240}
                         src="/images/logo.svg"
                       />

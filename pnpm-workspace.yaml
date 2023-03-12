@@ -2,6 +2,7 @@ packages:
   - apps/cli
   - apps/web
   - packages/cdk
+  - packages/config
   - packages/e2e
   - packages/emails
   - packages/lint

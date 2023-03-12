@@ -1,7 +1,7 @@
-import { PrivateConfig } from '@mss/web/config'
+import { ServerWebAppConfig } from '@mss/web/webAppConfig'
 
 export function GET() {
-  if (PrivateConfig.isMain) {
+  if (ServerWebAppConfig.isMain) {
     return new Response(`User-agent: *
 Allow: /
 `)

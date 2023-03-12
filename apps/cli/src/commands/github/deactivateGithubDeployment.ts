@@ -1,13 +1,11 @@
 import { Command } from '@commander-js/extra-typings'
-import { computeBranchNamespace } from "@mss/cdk/src/utils"
-import { getOctokit, owner, repo } from '../github'
-import { output } from '../output'
+import { computeBranchNamespace } from '@mss/cdk/src/utils'
+import { getOctokit, owner, repo } from '@mss/cli/github'
+import { output } from '@mss/cli/output'
 
 export const deactivateGithubDeployment = new Command()
   .command('github:deployment:deactivate')
   .argument('<branch>', 'branch target')
-  // TODO remove this eslint disable when https://github.com/commander-js/extra-typings/pull/35 is merged
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   .action(async (branch) => {
     const environment = computeBranchNamespace(branch)
     const octokit = getOctokit()

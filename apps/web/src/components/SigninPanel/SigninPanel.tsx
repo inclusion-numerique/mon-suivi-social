@@ -1,6 +1,7 @@
 import { EmailSigninForm } from './EmailSigninForm'
 import { AuthCard } from './AuthCard'
 import { InclusionConnectSigninButton } from './InclusionConnectSigninButton'
+import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 const signinErrorMessage = (error?: string): string | undefined => {
   if (!error) {
@@ -17,7 +18,7 @@ export function SigninPanel({ error }: { error?: string }) {
   return (
     <AuthCard>
       <h2 style={{ textAlign: 'center' }} className="fr-mb-12v">
-        Connexion à Mon Suivi Social
+        Connexion à {PublicWebAppConfig.projectTitle}
       </h2>
       {error ? (
         <div className="fr-alert fr-alert--error fr-alert--sm fr-mb-6v">

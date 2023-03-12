@@ -11,7 +11,7 @@ describe.skip('createSignedUrl', () => {
   //       expect(url).toBeString()
   //       expect(url).toStartWith('https://')
   //       expect(url).toInclude('test/small-test-image.png')
-  //       expect(url).toInclude(PrivateConfig.S3.bucketId)
+  //       expect(url).toInclude(ServerWebAppConfig.S3.bucketId)
   //       expect(url).toInclude(key)
   //
   //       // Try with system lib, should always work if url is correct
@@ -37,7 +37,7 @@ describe.skip('createSignedUrl', () => {
   //       expect(key).toInclude(fileName)
   //       expect(url).toBeString()
   //       expect(url).toStartWith('https://')
-  //       expect(url).toInclude(PrivateConfig.S3.bucketId)
+  //       expect(url).toInclude(ServerWebAppConfig.S3.bucketId)
   //       expect(url).toInclude(fileName)
   //
   //       const { status } = await axios.put(url, {
