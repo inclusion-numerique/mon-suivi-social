@@ -29,6 +29,7 @@ import {
 } from '@mss/config/config'
 import { environmentVariablesFromList } from '@mss/cdk/environmentVariable'
 import { createOutput } from '@mss/cdk/output'
+import { terraformBackend } from '@mss/cdk/terraformBackend'
 
 export const webAppStackVariables = [
   'WEB_CONTAINER_IMAGE',
@@ -89,15 +90,8 @@ export class WebAppStack extends TerraformStack {
     })
 
     // State of deployed infrastructure for each branch will be stored in the
-    // same 'mss-terraform' bucket
-    new S3Backend(this, {
-      bucket: `${projectSlug}-web-tfstate`,
-      key: `${projectSlug}-web-${namespaced('state')}.tfstate`,
-      // Credentials are provided with AWS_*** env variables
-      endpoint: 'https://s3.fr-par.scw.cloud',
-      skipCredentialsValidation: true,
-      skipRegionValidation: true,
-    })
+    // same 'mss-terraform-state' bucket, with namespace in .tfstate filename.
+    terraformBackend(this, `web-${namespace}`)
 
     // The database instance is shared for each namespace/branch we refer to it (DataScaleway)
     // but do not manage it through this stack

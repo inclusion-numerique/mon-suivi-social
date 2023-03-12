@@ -14,6 +14,7 @@ import {
   databaseInstanceName,
   mainDomain,
   nextTelemetryDisabled,
+  projectSlug,
   publicContactEmail,
   publicSentryDsn,
   region,
@@ -22,11 +23,15 @@ import {
   sentryUrl,
   smtpPort,
 } from '@mss/config/config'
+import { DomainRecord } from '@mss/scaleway/domain-record'
+import { terraformBackend } from '@mss/cdk/terraformBackend'
+import { ObjectBucket } from '@mss/scaleway/object-bucket'
 
 export const projectStackVariables = [
   'SCW_DEFAULT_ORGANIZATION_ID',
   'SCW_PROJECT_ID',
   'EMAIL_FROM_DOMAIN',
+  'UPLOADS_BUCKET_ID',
 ] as const
 
 export const projectStackSensitiveVariables = [
@@ -71,10 +76,16 @@ export class ProjectStack extends TerraformStack {
       projectId: environmentVariables.SCW_PROJECT_ID.value,
     })
 
+    terraformBackend(this, 'project')
+
     const mainDomainZone = new DomainZone(this, 'mainDomainZone', {
       domain: mainDomain,
       subdomain: '',
     })
+
+    // If preview domain or email from domain differ, create different zones for those
+    // const previewDomainZone = mainDomainZone
+    const emailDomainZone = mainDomainZone
 
     const transactionalEmailDomain = new TemDomain(
       this,
@@ -84,8 +95,19 @@ export class ProjectStack extends TerraformStack {
       },
     )
 
-    // For now preview and main are in the same domain zone.
-    // const previewDomainZone = domainZone
+    // Uploads bucket for usage in integration testing and dev environments
+    new ObjectBucket(this, 'devUploads', {
+      name: environmentVariables.UPLOADS_BUCKET_ID.value,
+      corsRule: [
+        {
+          allowedHeaders: ['*'],
+          allowedMethods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE'],
+          maxAgeSeconds: 3000,
+          exposeHeaders: ['Etag'],
+          allowedOrigins: ['http://localhost:3000', 'http://localhost'],
+        },
+      ],
+    })
 
     // https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/rdb_instance
     const database = new RdbInstance(this, 'database', {
@@ -124,6 +146,46 @@ export class ProjectStack extends TerraformStack {
         SMTP_SERVER: sensitiveEnvironmentVariables.SMTP_SERVER.value,
         SMTP_USERNAME: sensitiveEnvironmentVariables.SMTP_USERNAME.value,
       },
+    })
+
+    // Main domain DNS Records
+    new DomainRecord(this, 'ns0', {
+      dnsZone: mainDomainZone.domain,
+      type: 'NS',
+      name: '',
+      data: 'ns0.dom.scw.cloud.',
+      ttl: 600,
+    })
+    new DomainRecord(this, 'ns1', {
+      dnsZone: mainDomainZone.domain,
+      type: 'NS',
+      name: '',
+      data: 'ns1.dom.scw.cloud.',
+      ttl: 600,
+    })
+
+    // Email domain DNS Records
+    new DomainRecord(this, 'spf', {
+      dnsZone: emailDomainZone.domain,
+      type: 'TXT',
+      name: '',
+      data: `v=spf1 ${transactionalEmailDomain.spfConfig} -all`,
+      ttl: 3600,
+    })
+    // MX is recommended for improved deverability
+    new DomainRecord(this, 'mx', {
+      dnsZone: emailDomainZone.domain,
+      type: 'MX',
+      name: '',
+      data: '1 incubateur.anct.gouv.fr.',
+      ttl: 3600,
+    })
+    new DomainRecord(this, 'dkim', {
+      dnsZone: emailDomainZone.domain,
+      type: 'TXT',
+      name: `${transactionalEmailDomain.projectId}._domainkey`,
+      data: transactionalEmailDomain.dkimConfig,
+      ttl: 3600,
     })
 
     output('mainDomainZoneId', mainDomainZone.id)
