@@ -14,7 +14,6 @@ import {
   databaseInstanceName,
   mainDomain,
   nextTelemetryDisabled,
-  projectSlug,
   publicContactEmail,
   publicSentryDsn,
   region,

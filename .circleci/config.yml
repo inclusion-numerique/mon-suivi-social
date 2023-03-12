@@ -90,13 +90,16 @@ workflows:
       equal: [ infra, << pipeline.git.branch >> ]
     jobs:
       - prepare_workspace_dependencies
-      - lint_cdk_package
+      - lint_and_test_cdk_package:
+          requires:
+            - prepare_workspace_dependencies
       - compute_project_infrastructure_diff:
           requires:
             - prepare_workspace_dependencies
       - approve_infra_deployment:
           type: approval
           requires:
+            - lint_and_test_cdk_package
             - compute_project_infrastructure_diff
       - deploy_project_infrastructure:
           requires:
@@ -183,7 +186,7 @@ jobs:
           name: 'Lint'
           command: pnpm lint
 
-  lint_cdk_package:
+  lint_and_test_cdk_package:
     executor: node
     resource_class: large
     steps:
@@ -204,7 +207,12 @@ jobs:
       - run:
           name: 'Lint cdk'
           command: pnpm -F @mss/cdk lint
-
+      - run:
+          name: 'Test config'
+          command: pnpm -F @mss/config test
+      - run:
+          name: 'Test cdk'
+          command: pnpm -F @mss/cdk test
 
   test:
     executor: node

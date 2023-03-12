@@ -1,4 +1,4 @@
-import { S3Backend, TerraformStack } from 'cdktf'
+import { TerraformStack } from 'cdktf'
 import { Construct } from 'constructs'
 import { ScalewayProvider } from '@mss/scaleway/provider'
 import { RdbDatabase } from '@mss/scaleway/rdb-database'
