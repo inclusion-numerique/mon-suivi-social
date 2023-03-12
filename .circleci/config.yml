@@ -84,6 +84,23 @@ workflows:
             - build_web
             # - test_e2e
 
+  deploy_project_infrastructure:
+    # This workflow exclusively runs on the infra branch
+    when:
+      equal: [ infra, << pipeline.git.branch >> ]
+    jobs:
+      - prepare_workspace_dependencies
+      - compute_project_infrastructure_diff:
+          requires:
+            - prepare_workspace_dependencies
+      - approve_infra_deployment:
+          type: approval
+          requires:
+            - compute_project_infrastructure_diff
+      - deploy_project_infrastructure:
+          requires:
+            - approve_infra_deployment
+
   scrap_preview_environment:
     # This workflow exclusively runs on the dev branch, with target env to destroy as parameter
     # It should never run with main as a parameter
@@ -310,9 +327,9 @@ jobs:
           name: Set deployment status to in progress
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID in_progress 'Terraform stack deployment'
       - run:
-          name: 'Deploy stack'
+          name: 'Deploy web app stack'
           command: |
-            pnpm --silent -F @mss/cdk deploy:web:ci
+            pnpm --silent -F @mss/cdk cdktf deploy web --var-file .tfvars.json --auto-approve --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs
       - run:
           name: 'Create .env file from deployment outputs'
           command: |
@@ -341,6 +358,43 @@ jobs:
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID failure -d 'Deploy failed' -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
           when: on_fail
 
+  compute_project_infrastructure_diff:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - install_terraform
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
+      - run:
+          name: "Create terraform variables file from environment variables"
+          command: |
+            pnpm --silent cli terraform:vars-from-env project
+      - run:
+          name: 'Compute diff'
+          command: |
+            pnpm --silent -F @mss/cdk cdktf diff project --var-file .tfvars.json
+            
+
+  deploy_project_infrastructure:
+    executor: node
+    resource_class: large
+    steps:
+      - checkout
+      - install_dependencies
+      - install_terraform
+      - create_dotenv_file
+      - add_secrets_to_dotenv_file
+      - run:
+          name: "Create terraform variables file from environment variables"
+          command: |
+            pnpm --silent cli terraform:vars-from-env project
+      - run:
+          name: 'Deploy project infrastructure stack'
+          command: |
+            pnpm --silent -F @mss/cdk cdktf deploy project --var-file .tfvars.json --auto-approve --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs
+
   scrap_preview_environment:
     executor: node
     resource_class: large
@@ -350,6 +404,10 @@ jobs:
       - install_terraform
       - create_dotenv_file
       - add_secrets_to_dotenv_file
+      - run:
+          name: "Create terraform variables file from environment variables"
+          command: |
+            pnpm --silent cli terraform:vars-from-env web
       - when:
           condition:
             or:
@@ -365,7 +423,7 @@ jobs:
       - run:
           name: 'Destroy stack'
           command: |
-            TF_VAR_WEB_CONTAINER_IMAGE='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm --silent -F @mss/cdk cdktf destroy web --auto-approve
+            TF_VAR_WEB_CONTAINER_IMAGE='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm --silent -F @mss/cdk cdktf destroy web --auto-approve --var-file .tfvars.json
       - run:
           name: Deactivate Github deployments
           command: pnpm --silent cli github:deployment:deactivate << pipeline.parameters.scrap_environment_for_branch >>

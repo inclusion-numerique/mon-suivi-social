@@ -8,14 +8,12 @@
     "lint": "eslint src",
     "tsc": "tsc --noEmit",
     "test": "jest --passWithNoTests",
-    "synth": "pnpm with-env cdktf synth",
-    "deploy:web": "pnpm with-env cdktf deploy web",
-    "deploy:web:ci": "cdktf deploy web --auto-approve --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs",
-    "cdktf": "pnpm with-env cdktf",
-    "output": "pnpm clean-cdktf output --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs",
+    "synth": "pnpm --silent with-env cdktf synth",
+    "cdktf": "pnpm --silent with-env cdktf",
+    "output": "pnpm --silent clean-cdktf output --outputs-file=cdk.out.json --outputs-file-include-sensitive-outputs",
     "clean-cdktf": "rm -rf cdktf.out && pnpm with-env cdktf",
     "tf:web:backend-reconfigure": "cd cdktf.out/stacks/web && terraform init -reconfigure",
-    "scw": "pnpm with-env scw"
+    "scw": "pnpm --silent with-env scw"
   },
   "overrides": {
     "cdktf-cli": {

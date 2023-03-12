@@ -87,6 +87,7 @@ export class ProjectStack extends TerraformStack {
     // For now preview and main are in the same domain zone.
     // const previewDomainZone = domainZone
 
+    // https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/rdb_instance
     const database = new RdbInstance(this, 'database', {
       name: databaseInstanceName,
       engine: 'PostgreSQL-14',
@@ -96,6 +97,8 @@ export class ProjectStack extends TerraformStack {
       backupSameRegion: false,
       backupScheduleFrequency: 24,
       backupScheduleRetention: 14,
+      volumeType: 'bssd', // Block storage
+      volumeSizeInGb: 15,
     })
 
     const webContainers = new ContainerNamespace(this, 'webContainers', {

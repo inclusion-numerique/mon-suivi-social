@@ -47,7 +47,7 @@ export const createTfVarsFileFromEnvironment = new Command()
     const tfVariablesFile = resolve(
       // eslint-disable-next-line unicorn/prefer-module
       __dirname,
-      '../../../../../.tfvars.json',
+      '../../../../../packages/cdk/.tfvars.json',
     )
     await writeFile(tfVariablesFile, JSON.stringify(variables, null, 2))
 
