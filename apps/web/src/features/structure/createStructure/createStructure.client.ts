@@ -34,13 +34,3 @@ export const CreateStructureClient = createMutationClient({
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type CreateStructureClient = typeof CreateStructureClient
-
-export const StructureTypeLabels: { [key in StructureType]: string } = {
-  [StructureType.Ccas]: 'CCAS',
-  [StructureType.Cias]: 'CIAS',
-  [StructureType.Association]: 'Association',
-  [StructureType.Commune]: 'Commune',
-  [StructureType.Ministere]: 'Ministère',
-}
-
-export const structureTypeOptions = labelsToOptions(StructureTypeLabels)

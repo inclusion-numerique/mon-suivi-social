@@ -3,7 +3,7 @@ import { PageTitle } from '@mss/web/components/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
-import { StructureForm } from '@mss/web/components/StructureForm'
+import { StructureFormCreation } from '@mss/web/components/StructureForm'
 import { CreateStructureClient } from '@mss/web/features/structure/createStructure/createStructure.client'
 import { getFollowupTypesForStructureCreation } from '@mss/web/features/structure/createStructure/createStructure.server'
 
@@ -28,8 +28,7 @@ const AddStructurePage = async () => {
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <StructureForm
-                creation
+              <StructureFormCreation
                 availableFollowupTypes={serialize(availableFollowupTypes)}
               />
             </div>

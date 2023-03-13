@@ -19,14 +19,16 @@ import {
   AddDocumentClient,
   AddDocumentWithBrowserUploadData,
   AddDocumentWithBrowserUploadValidation,
-  documentFileAllowedTypes,
-  documentFileMaxSize,
-  documentTagOptions,
-  documentTypeOptions,
 } from '@mss/web/features/document/addDocument.client'
 import { useRouter } from 'next/navigation'
 import { modalFadeAnimationTime } from '@mss/web/styles/dsfr'
 import * as Sentry from '@sentry/nextjs'
+import {
+  documentFileAllowedTypes,
+  documentFileMaxSize,
+  documentTagOptions,
+  documentTypeOptions,
+} from '@mss/web/constants/document'
 
 export const AddDocumentModalForm = withTrpc(
   ({

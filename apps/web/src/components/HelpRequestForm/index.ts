@@ -1,1 +1,2 @@
-export { HelpRequestForm } from './HelpRequestForm'
+export { HelpRequestFormCreation } from './HelpRequestFormCreation'
+export { HelpRequestFormEdition } from './HelpRequestFormEdition'

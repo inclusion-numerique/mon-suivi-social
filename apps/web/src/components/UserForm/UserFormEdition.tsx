@@ -12,8 +12,7 @@ import { EditUserServer } from '@mss/web/features/user/editUser/editUser.server'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
 import { Routes } from '@mss/web/app/routing/routes'
 import { UserFormFields } from './UserFormFields'
-import { UserFormButton } from './UserFormButton'
-import { UserFormError } from './UserFormError'
+import { FormButton, FormError } from '../Form'
 
 export const UserFormEdition = withTrpc(
   (properties: {
@@ -34,7 +33,6 @@ export const UserFormEdition = withTrpc(
     const { handleSubmit, control } = form
 
     const { isLoading, isSuccess, error } = editUser
-    const isError = !!error
 
     const fieldsDisabled = isLoading || isSuccess
 
@@ -55,11 +53,11 @@ export const UserFormEdition = withTrpc(
           creation
         />
 
-        {isError ? <UserFormError message={error?.message} /> : ''}
+        <FormError message={error?.message} />
 
-        <UserFormButton
+        <FormButton
           disabled={fieldsDisabled}
-          label={`Ajouter l'utilisateur`}
+          label={`Enregistrer l'utilisateur`}
         />
       </form>
     )

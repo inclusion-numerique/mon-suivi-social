@@ -11,14 +11,14 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MouseEventHandler, useRef } from 'react'
 import { Spinner } from '@mss/web/components/Generic/Spinner'
-import {
-  documentTagOptions,
-  documentTypeOptions,
-} from '@mss/web/features/document/addDocument.client'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { EditDocumentClient } from '@mss/web/features/document/editDocument.client'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { useRouter } from 'next/navigation'
+import {
+  documentTagOptions,
+  documentTypeOptions,
+} from '@mss/web/constants/document'
 
 export const EditDocumentModalForm = withTrpc(
   ({

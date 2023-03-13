@@ -2,16 +2,17 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import { AddDocumentButton } from './AddDocumentButton'
 import { formatByteSize } from '@mss/web/utils/formatByteSize'
 import mime from 'mime-types'
-import {
-  DocumentTag,
-  documentTagLabels,
-  documentTypeLabels,
-} from '@mss/web/features/document/addDocument.client'
+
 import { EditDocumentButton } from './EditDocumentButton'
 import { DeleteDocumentButton } from './DeleteDocumentButton'
 import { DocumentFileButton } from './DocumentFileButton'
 import { serialize } from '@mss/web/utils/serialization'
 import { Beneficiary, Document } from '@prisma/client'
+import {
+  DocumentTag,
+  documentTagLabels,
+  documentTypeLabels,
+} from '@mss/web/constants/document'
 
 export function DocumentsTab({
   documents,

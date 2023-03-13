@@ -2,7 +2,7 @@ import { createMutationServerWithInitialState } from '@mss/web/features/createMu
 import { EditDocumentClient } from '@mss/web/features/document/editDocument.client'
 import { prismaClient } from '@mss/web/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
-import { DocumentTag } from '@mss/web/features/document/addDocument.client'
+import { DocumentTag } from '@mss/web/constants/document'
 
 export const EditDocumentServer = createMutationServerWithInitialState({
   client: EditDocumentClient,
@@ -14,9 +14,9 @@ export const EditDocumentServer = createMutationServerWithInitialState({
     tags,
     ...data
   }): MutationInput<EditDocumentClient> => ({
-      tags: tags as DocumentTag[],
-      ...data,
-    }),
+    tags: tags as DocumentTag[],
+    ...data,
+  }),
   executeMutation: async ({ input, transaction }) => {
     const { key, ...data } = input
 

@@ -5,7 +5,7 @@ import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { EditStructureServer } from '@mss/web/features/structure/editStructure/editStructure.server'
-import { StructureForm } from '@mss/web/components/StructureForm'
+import { StructureFormEdition } from '@mss/web/components/StructureForm'
 import { MutationLog } from '@mss/web/components/MutationLog'
 
 export const revalidate = 0
@@ -50,7 +50,7 @@ const StructureEditPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <StructureForm
+              <StructureFormEdition
                 serverState={serialize(serverState)}
                 defaultInput={serialize(defaultInput)}
               />

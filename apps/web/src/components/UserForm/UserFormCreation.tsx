@@ -8,9 +8,8 @@ import { withTrpc } from '@mss/web/withTrpc'
 import type { MutationInput } from '@mss/web/features/createMutation.client'
 import { Routes } from '@mss/web/app/routing/routes'
 import { UserFormFields } from './UserFormFields'
-import { UserFormButton } from './UserFormButton'
-import { UserFormError } from './UserFormError'
 import { CreateUserClient } from '@mss/web/features/user/createUser/createUser.client'
+import { FormButton, FormError } from '../Form'
 
 export const UserFormCreation = withTrpc(
   (properties: { defaultInput: { structureId: string } }) => {
@@ -28,7 +27,6 @@ export const UserFormCreation = withTrpc(
     const { handleSubmit, control } = form
 
     const { isLoading, isSuccess, error } = addUser
-    const isError = !!error
 
     const fieldsDisabled = isLoading || isSuccess
 
@@ -50,12 +48,9 @@ export const UserFormCreation = withTrpc(
           creation
         />
 
-        {isError ? <UserFormError message={error?.message} /> : ''}
+        <FormError message={error?.message} />
 
-        <UserFormButton
-          disabled={fieldsDisabled}
-          label={`Modifier l'utilisateur`}
-        />
+        <FormButton disabled={fieldsDisabled} label={`Ajouter l'utilisateur`} />
       </form>
     )
   },

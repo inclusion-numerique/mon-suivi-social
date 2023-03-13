@@ -11,9 +11,9 @@ import { MutationInput } from '@mss/web/features/createMutation.client'
 import z from 'zod'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Beneficiary } from '@prisma/client'
-import { CheckboxFormField } from '@mss/web/components/FormField'
-import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import Link from 'next/link'
+import { FormButton, FormError } from '../Form'
+import { BeneficiaryArchiveFormFields } from './BeneficiaryArchiveFormFields'
 
 export const BeneficiaryArchiveForm = withTrpc(
   ({
@@ -67,38 +67,12 @@ export const BeneficiaryArchiveForm = withTrpc(
       </>
     ) : (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="fr-alert fr-alert--warning fr-mb-8v">
-          <h3 className="fr-alert__title">Archivage d&apos;un bénéficiaire</h3>
-          <p>
-            Conformément à la RGPD, l&apos;archivage d&apos;un bénéficiaire
-            supprime toutes ses informations personnelles.
-          </p>
-          <p>
-            Cette opération n&apos;est pas réversible et les données ne pourront
-            en aucun cas être récupérées.
-          </p>
-        </div>
-        <CheckboxFormField
-          checkboxLabel={`Confirmer l'archivage de ${beneficiaryDisplayName(
-            beneficiary,
-          )}`}
+        <BeneficiaryArchiveFormFields
+          serializedBeneficiary={serializedBeneficiary}
           control={control}
-          path="confirm"
         />
-        {error ? (
-          <div className="fr-alert fr-alert--error fr-mb-8v">
-            <h3 className="fr-alert__title">Une erreur est survenue</h3>
-            <p>{error.message}</p>
-            <p>Veuillez réesayer ultérieurement</p>
-          </div>
-        ) : null}
-        <button
-          className="fr-btn fr-btn--icon-left fr-icon-archive-line"
-          type="submit"
-          disabled={isLoading}
-        >
-          Archiver le bénéficiaire
-        </button>
+        <FormError message={error?.message} />
+        <FormButton disabled={isLoading} label=" Archiver le bénéficiaire" />
       </form>
     )
   },

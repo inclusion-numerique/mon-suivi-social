@@ -12,26 +12,7 @@ import {
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { arrayToOptions, labelsToOptions } from '@mss/web/utils/options'
 import { errorMessages } from '@mss/web/utils/zod'
-
-export const PensionOrganisations = [
-  'AGIRC ARRCO',
-  'AG2R',
-  'CNAV/CARSAT',
-  'CIPAV',
-  'CNRACL',
-  'EDF',
-  'IRCANTEC',
-  'KLESIA',
-  'SRE',
-  'SSI (ex-RSI)',
-  'Malakoff Humanis',
-  'MSA',
-  'ProBTP',
-  'Retraite des mines',
-  'Autre(s)',
-] as const
-export type PensionOrganisation = (typeof PensionOrganisations)[number]
-export const pensionOrganisationOptions = arrayToOptions(PensionOrganisations)
+import { PensionOrganisations } from '@mss/web/constants/beneficiary'
 
 export const AddBeneficiaryWithFullDataClient = createMutationClient({
   name: 'beneficiary.addWithFullData',

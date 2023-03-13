@@ -5,7 +5,7 @@ import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditFollowupClient } from '@mss/web/features/followup/editFollowup.client'
 import { EditFollowupServer } from '@mss/web/features/followup/editFollowup.server'
-import { FollowupForm } from '@mss/web/components/FollowupForm'
+import { FollowupFormEdition } from '@mss/web/components/FollowupForm'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryFollowupPrivateSynthesis,
@@ -79,7 +79,7 @@ const EditFollowupPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <FollowupForm
+              <FollowupFormEdition
                 followupTypeOptions={followupTypeOptions}
                 documentOptions={documentOptions}
                 synthesisField={canViewSynthesis}

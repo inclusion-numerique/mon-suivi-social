@@ -4,7 +4,7 @@ import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
-import { HelpRequestForm } from '@mss/web/components/HelpRequestForm'
+import { HelpRequestFormEdition } from '@mss/web/components/HelpRequestForm'
 import { AccompagnementsQuery } from '@mss/web/query'
 import { Options } from '@mss/web/utils/options'
 import {
@@ -82,7 +82,7 @@ const EditHelpRequestPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <HelpRequestForm
+              <HelpRequestFormEdition
                 followupTypeOptions={followupTypeOptions}
                 documentOptions={documentOptions}
                 synthesisField={canViewSynthesis}
