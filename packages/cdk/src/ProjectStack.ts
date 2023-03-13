@@ -139,12 +139,16 @@ export class ProjectStack extends TerraformStack {
         SENTRY_URL: sentryUrl,
         SMTP_PORT: smtpPort,
         SCW_DEFAULT_REGION: region,
+        AWS_DEFAULT_REGION: region,
         SCW_S3_HOST: environmentVariables.SCW_S3_HOST.value,
       },
       secretEnvironmentVariables: {
         NEXTAUTH_SECRET: sensitiveEnvironmentVariables.NEXTAUTH_SECRET.value,
         SCW_ACCESS_KEY: sensitiveEnvironmentVariables.SCW_ACCESS_KEY.value,
         SCW_SECRET_KEY: sensitiveEnvironmentVariables.SCW_SECRET_KEY.value,
+        AWS_ACCESS_KEY_ID: sensitiveEnvironmentVariables.SCW_ACCESS_KEY.value,
+        AWS_SECRET_ACCESS_KEY:
+          sensitiveEnvironmentVariables.SCW_SECRET_KEY.value,
         SENTRY_AUTH_TOKEN:
           sensitiveEnvironmentVariables.SENTRY_AUTH_TOKEN.value,
         SMTP_PASSWORD: sensitiveEnvironmentVariables.SMTP_PASSWORD.value,
