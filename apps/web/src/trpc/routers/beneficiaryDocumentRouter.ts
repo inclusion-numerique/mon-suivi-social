@@ -85,7 +85,7 @@ export const beneficiaryDocumentRouter = router({
           name,
           type: mimeType,
           directory,
-          bucket: ServerWebAppConfig.S3.documentsBucketId,
+          bucket: ServerWebAppConfig.S3.documentsBucket,
         })
 
         return { url, key }
@@ -109,7 +109,7 @@ export const beneficiaryDocumentRouter = router({
       // TODO Mutation or audit log
       const { url } = await createSignedGetUrl({
         key,
-        bucket: ServerWebAppConfig.S3.documentsBucketId,
+        bucket: ServerWebAppConfig.S3.documentsBucket,
       })
 
       return { url }
