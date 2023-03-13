@@ -37,7 +37,7 @@ const AccompagnementsListPage = async ({
 
   const currentSorting: Sorting = {
     by: searchParams?.tri ?? '',
-    direction: searchParams?.ordre ?? 'asc',
+    direction: searchParams?.ordre ?? 'desc',
   }
 
   const [helpRequestsListResult, followupsListResult] = await Promise.all([
