@@ -436,6 +436,7 @@ jobs:
       - run:
           name: "Create terraform variables file from environment variables"
           command: |
+            WEB_CONTAINER_IMAGE='placeholder_for_destroy'
             pnpm --silent cli terraform:vars-from-env web
       - when:
           condition:
@@ -452,7 +453,7 @@ jobs:
       - run:
           name: 'Destroy stack'
           command: |
-            TF_VAR_WEB_CONTAINER_IMAGE='placeholder_for_destroy' CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm --silent -F @mss/cdk cdktf destroy web --auto-approve --var-file .tfvars.json
+            CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm --silent -F @mss/cdk cdktf destroy web --auto-approve --var-file .tfvars.json
       - run:
           name: Deactivate Github deployments
           command: pnpm --silent cli github:deployment:deactivate << pipeline.parameters.scrap_environment_for_branch >>
