@@ -12,6 +12,7 @@
   }
 
   .fr-sidemenu__btn {
+    color: white;
     background-color: var(--mss-primary);
 
     &:hover {
