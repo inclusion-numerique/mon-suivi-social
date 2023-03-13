@@ -1,2 +1,2 @@
 export { HelpRequestListTableRows } from './HelpRequestListTableRows'
-export { helpRequestListTableColumns } from './helpRequestListTableColumns'
+export { buildHelpRequestListTableColumns } from './helpRequestListTableColumns'

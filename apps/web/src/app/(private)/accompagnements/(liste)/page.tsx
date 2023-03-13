@@ -12,8 +12,8 @@ import {
 import { FollowupListTable } from '@mss/web/components/FollowupListTable/FollowupListTable'
 import { HelpRequestListTable } from '@mss/web/components/HelpRequestListTable/HelpRequestListTable'
 import { AccompagnementsQuery } from '@mss/web/query'
-import { helpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
 import { followupListTableColumns } from '@mss/web/components/FollowupListTable'
+import { buildHelpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
 
 const perPage = 15
 
@@ -40,6 +40,8 @@ const AccompagnementsListPage = async ({
     by: searchParams?.tri ?? '',
     direction: searchParams?.ordre ?? 'desc',
   }
+
+  const helpRequestListTableColumns = buildHelpRequestListTableColumns(user)
 
   const [helpRequestsListResult, followupsListResult] = await Promise.all([
     AccompagnementsQuery.iterateHelpRequests({
@@ -79,7 +81,7 @@ const AccompagnementsListPage = async ({
       ),
       content: (
         <HelpRequestListTable
-          user={user}
+          columns={helpRequestListTableColumns}
           sorting={currentSorting}
           perPage={perPage}
           pageNumber={pageNumber}
