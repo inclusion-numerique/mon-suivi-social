@@ -4,7 +4,7 @@ import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpRequest.client'
 import { Options } from '@mss/web/utils/options'
-import { HelpRequestForm } from '@mss/web/components/HelpRequestForm/HelpRequestForm'
+import { HelpRequestFormCreation } from '@mss/web/components/HelpRequestForm'
 import { AccompagnementsQuery } from '@mss/web/query'
 
 export const revalidate = 0
@@ -60,8 +60,7 @@ const AddHelpRequestPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <HelpRequestForm
-                creation
+              <HelpRequestFormCreation
                 followupTypeOptions={followupTypeOptions}
                 documentOptions={documentOptions}
                 defaultInput={{ beneficiaryId: beneficiary.id }}
