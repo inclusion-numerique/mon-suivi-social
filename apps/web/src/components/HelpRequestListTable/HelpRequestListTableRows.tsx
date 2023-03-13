@@ -3,17 +3,15 @@ import { SessionUser } from '@mss/web/auth/sessionUser'
 import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
 import { HelpRequestsList } from '@mss/web/query'
 import { canAccessProtectedDataInHelpRequest } from '@mss/web/security/rules'
-import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { helpRequestListTableColumns } from './helpRequestListTableColumns'
 
 export const HelpRequestListTableRows = ({
-  serializedUser,
+  user,
   helpRequests,
 }: {
-  serializedUser: Serialized<SessionUser>
+  user: SessionUser
   helpRequests: HelpRequestsList
 }) => {
-  const user = deserialize(serializedUser)
   const accessibleColumns = helpRequestListTableColumns.filter(
     ({ isProtected }) =>
       !isProtected || canAccessProtectedDataInHelpRequest(user),

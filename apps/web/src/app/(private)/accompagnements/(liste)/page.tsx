@@ -14,7 +14,6 @@ import { HelpRequestListTable } from '@mss/web/components/HelpRequestListTable/H
 import { AccompagnementsQuery } from '@mss/web/query'
 import { helpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
 import { followupListTableColumns } from '@mss/web/components/FollowupListTable'
-import { serialize } from '@mss/web/utils/serialization'
 
 const perPage = 15
 
@@ -80,7 +79,7 @@ const AccompagnementsListPage = async ({
       ),
       content: (
         <HelpRequestListTable
-          serializedUser={serialize(user)}
+          user={user}
           sorting={currentSorting}
           perPage={perPage}
           pageNumber={pageNumber}

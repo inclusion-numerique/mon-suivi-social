@@ -2,7 +2,6 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { HelpRequestsListResult } from '@mss/web/query'
 import { canAccessProtectedDataInHelpRequest } from '@mss/web/security/rules'
 import { getTotalPages } from '@mss/web/utils/table'
-import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import {
   createPageLinkHelper,
   createSortLinkHelper,
@@ -15,21 +14,20 @@ import { HelpRequestListTableRows } from './HelpRequestListTableRows'
 import { SessionUser } from '@mss/web/auth/sessionUser'
 
 export const HelpRequestListTable = ({
-  serializedUser,
+  user,
   helpRequestsListResult,
   sorting,
   perPage,
   pageNumber,
   search,
 }: {
-  serializedUser: Serialized<SessionUser>
+  user: SessionUser
   helpRequestsListResult: HelpRequestsListResult
   sorting: Sorting
   perPage: number
   pageNumber: number
   search: string | undefined
 }) => {
-  const user = deserialize(serializedUser)
   const defaultSorting: Sorting = {
     by: 'date',
     direction: 'desc',
@@ -86,7 +84,7 @@ export const HelpRequestListTable = ({
       }
       tableBody={
         <HelpRequestListTableRows
-          serializedUser={serializedUser}
+          user={user}
           helpRequests={helpRequestsListResult.helpRequests}
         />
       }
