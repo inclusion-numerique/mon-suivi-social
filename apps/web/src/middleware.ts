@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateContentSecurityPolicyScriptNonce } from '@mss/web/utils/generateContentSecurityPolicyScriptNonce'
+import { ServerWebAppConfig } from '@mss/web/webAppConfig'
 
 const getContentSecurityPolicy = (isProd: boolean, nonce: string) =>
   `
@@ -11,7 +12,9 @@ const getContentSecurityPolicy = (isProd: boolean, nonce: string) =>
   style-src 'self' https: 'unsafe-inline';
   img-src 'self' data:;
   object-src 'none';
-  connect-src 'self' https://matomo.incubateur.anct.gouv.fr https://sentry.incubateur.net;
+  connect-src 'self' https://${ServerWebAppConfig.S3.documentsBucket}.${
+    ServerWebAppConfig.S3.host
+  } https://matomo.incubateur.anct.gouv.fr https://sentry.incubateur.net;
   worker-src 'self';
   font-src 'self' https: data:;
   frame-ancestors 'self' https://matomo.incubateur.anct.gouv.fr;
