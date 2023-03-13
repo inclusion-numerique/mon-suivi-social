@@ -37,9 +37,6 @@ export const ServerWebAppConfig = {
     accessKey: process.env.SCW_ACCESS_KEY ?? '',
     secretKey: process.env.SCW_SECRET_KEY ?? '',
   },
-  Insee: {
-    sirenAccessToken: process.env.SIREN_ACCESS_TOKEN,
-  },
   InclusionConnect: {
     clientSecret: process.env.INCLUSION_CONNECT_CLIENT_SECRET ?? '',
   },
@@ -53,7 +50,6 @@ export const PublicWebAppConfig = {
   mainLiveUrl,
   repository: repositoryUrl,
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? '',
-  sirenApiKey: process.env.NEXT_PUBLIC_SIREN_API_KEY ?? '',
 
   Sentry: {
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN ?? '',

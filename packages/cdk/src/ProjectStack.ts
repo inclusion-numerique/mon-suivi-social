@@ -34,6 +34,7 @@ export const projectStackVariables = [
   'EMAIL_FROM_DOMAIN',
   'DOCUMENTS_BUCKET',
   'WEB_APP_DOCKER_REGISTRY_NAME',
+  'SCW_S3_HOST',
 ] as const
 
 export const projectStackSensitiveVariables = [
@@ -137,6 +138,8 @@ export class ProjectStack extends TerraformStack {
         SENTRY_PROJECT: sentryProject,
         SENTRY_URL: sentryUrl,
         SMTP_PORT: smtpPort,
+        SCW_DEFAULT_REGION: region,
+        SCW_S3_HOST: environmentVariables.SCW_S3_HOST.value,
       },
       secretEnvironmentVariables: {
         NEXTAUTH_SECRET: sensitiveEnvironmentVariables.NEXTAUTH_SECRET.value,

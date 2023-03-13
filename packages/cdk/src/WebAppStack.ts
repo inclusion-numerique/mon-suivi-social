@@ -185,7 +185,6 @@ export class WebAppStack extends TerraformStack {
         BASE_URL: hostname,
         BRANCH: branch,
         NAMESPACE: namespace,
-        SCW_DEFAULT_REGION: region,
         NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER: isMain
           ? environmentVariables.INCLUSION_CONNECT_MAIN_ISSUER.value
           : environmentVariables.INCLUSION_CONNECT_PREVIEW_ISSUER.value,
