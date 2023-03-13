@@ -34,16 +34,18 @@ export const BeneficiaryFormFields = ({
   control,
   agents,
   full,
+  canUpdateReferents,
 }: {
   disabled: boolean
   control: Control<any, any>
   agents: Options
   full: boolean
+  canUpdateReferents?: boolean
 }) => (
   <div>
     <SelectTagsFormField
       label={FieldLabels.referents}
-      disabled={disabled}
+      disabled={!canUpdateReferents || disabled}
       options={agents}
       control={control}
       defaultOptionLabel="Choisissez un référent"

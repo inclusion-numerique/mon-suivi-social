@@ -21,7 +21,7 @@ import { showErrorsOnSubmit } from './showErrorsOnSubmit'
  */
 export const BeneficiaryFormEdition = withTrpc(
   (
-    properties: { agents: Options } & (
+    properties: { agents: Options; canUpdateReferents?: boolean } & (
       | {
           full: false
           defaultInput: Serialized<
@@ -36,7 +36,7 @@ export const BeneficiaryFormEdition = withTrpc(
   ) => {
     const router = useRouter()
 
-    // Hooks can not be called conditionnaly by convention, no performance impact
+    // Hooks can not be called based on conditions by convention, no performance impact
     const editGeneralInfo = trpc.beneficiary.editGeneralInfo.useMutation()
     const editFullData = trpc.beneficiary.editFullData.useMutation()
 
@@ -46,7 +46,7 @@ export const BeneficiaryFormEdition = withTrpc(
       ? EditBeneficiaryFullDataClient
       : EditBeneficiaryGeneralInfoClient
 
-    const { agents } = properties
+    const { agents, canUpdateReferents } = properties
 
     const defaultValues = properties.full
       ? deserialize(properties.defaultInput)
@@ -62,6 +62,8 @@ export const BeneficiaryFormEdition = withTrpc(
     // TODO Maybe create conditional handlers for strict typing while calling hook ?
     const onSubmit = async (data: MutationInput<typeof client>) => {
       try {
+        // FIXME: How can I prevent the user from updating the referents on the server side ?
+
         const result = await mutation.mutateAsync(data as any) // Sorry TS gods
         router.push(
           Routes.Beneficiaires.Beneficiaire.Index.path(result.beneficiary),
@@ -91,6 +93,7 @@ export const BeneficiaryFormEdition = withTrpc(
           control={control}
           agents={agents}
           full={properties.full}
+          canUpdateReferents={canUpdateReferents}
         />
 
         <FormError message={error?.message} />
