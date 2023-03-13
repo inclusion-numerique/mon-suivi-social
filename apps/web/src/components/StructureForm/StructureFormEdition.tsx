@@ -94,9 +94,7 @@ export const StructureFormEdition = withTrpc(
     // TODO better typings for multiple onSubmit add/edit ?
     const onSubmit = async (data: MutationInput<EditStructureClient>) => {
       try {
-        await editStructure.mutateAsync(
-          data as MutationInput<EditStructureClient>,
-        )
+        await editStructure.mutateAsync(data)
 
         setAddedFollowupTypes([])
         router.refresh()

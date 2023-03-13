@@ -44,9 +44,7 @@ export const StructureFormCreation = withTrpc(
     // TODO better typings for multiple onSubmit add/edit ?
     const onSubmit = async (data: MutationInput<CreateStructureClient>) => {
       try {
-        await addStructure.mutateAsync(
-          data as MutationInput<CreateStructureClient>,
-        )
+        await addStructure.mutateAsync(data)
         router.refresh()
       } catch {
         // Error message will be in hook result
@@ -56,7 +54,7 @@ export const StructureFormCreation = withTrpc(
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <StructureFormFields
-          creation={true}
+          creation
           control={control}
           disabled={fieldsDisabled}
           legalFollowupTypeOptions={legalFollowupTypes.map(
