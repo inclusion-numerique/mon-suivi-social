@@ -2,7 +2,7 @@ import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
-import { FollowupForm } from '@mss/web/components/FollowupForm'
+import { FollowupFormCreation } from '@mss/web/components/FollowupForm'
 import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client'
 import { Options } from '@mss/web/utils/options'
 import { AccompagnementsQuery } from '@mss/web/query'
@@ -59,8 +59,7 @@ const AddFollowupPage = async ({
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <FollowupForm
-                creation
+              <FollowupFormCreation
                 followupTypeOptions={followupTypeOptions}
                 documentOptions={documentOptions}
                 defaultInput={{ beneficiaryId: beneficiary.id }}
