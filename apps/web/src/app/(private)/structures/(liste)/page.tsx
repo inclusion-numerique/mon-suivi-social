@@ -34,7 +34,7 @@ const StructuresListPage = async ({
     notFound()
   }
 
-  const { pageNumber, currentSorting, search, createPageLink, createSortLink } =
+  const { pageNumber, currentSorting, createPageLink, createSortLink } =
     tablePage(
       Routes.Structures.Index.pathWithParams,
       searchParams,
