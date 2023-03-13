@@ -5,7 +5,7 @@ import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
 import { Nationalities } from '@mss/web/constants/nationality'
-import { PensionOrganisation } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
+import { PensionOrganisation } from '@mss/web/constants/beneficiary'
 
 export const EditBeneficiaryFullDataServer =
   createMutationServerWithInitialState({

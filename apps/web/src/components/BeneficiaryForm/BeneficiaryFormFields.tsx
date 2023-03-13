@@ -18,9 +18,9 @@ import {
   beneficiaryStatusOptions,
   beneficiaryTitleOptions,
   incomeSourceOptions,
+  pensionOrganisationOptions,
 } from '@mss/web/constants/beneficiary'
 import { nationalityOptions } from '@mss/web/constants/nationality'
-import { pensionOrganisationOptions } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { Options } from '@mss/web/utils/options'
 import { Control } from 'react-hook-form'

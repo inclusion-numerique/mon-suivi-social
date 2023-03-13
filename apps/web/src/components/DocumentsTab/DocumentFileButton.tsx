@@ -2,10 +2,10 @@
 
 import { trpc } from '@mss/web/trpc'
 import { withTrpc } from '@mss/web/withTrpc'
-import { documentTypeLabels } from '@mss/web/features/document/addDocument.client'
 import Downloader from 'js-file-downloader'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Document } from '@prisma/client'
+import { documentTypeLabels } from '@mss/web/constants/document'
 
 export const DocumentFileButton = withTrpc(
   ({

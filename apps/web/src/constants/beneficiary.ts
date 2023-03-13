@@ -12,7 +12,7 @@ import {
   Gender,
   IncomeSource,
 } from '@prisma/client'
-import { labelsToOptions } from '@mss/web/utils/options'
+import { arrayToOptions, labelsToOptions } from '@mss/web/utils/options'
 
 export const beneficiaryStatusLabels: { [key in BeneficiaryStatus]: string } = {
   [BeneficiaryStatus.Active]: 'Actif',
@@ -204,3 +204,23 @@ export const beneficiaryOrientationTypeLabels: {
 export const beneficiaryOrientationTypeOptions = labelsToOptions(
   beneficiaryOrientationTypeLabels,
 )
+
+export const PensionOrganisations = [
+  'AGIRC ARRCO',
+  'AG2R',
+  'CNAV/CARSAT',
+  'CIPAV',
+  'CNRACL',
+  'EDF',
+  'IRCANTEC',
+  'KLESIA',
+  'SRE',
+  'SSI (ex-RSI)',
+  'Malakoff Humanis',
+  'MSA',
+  'ProBTP',
+  'Retraite des mines',
+  'Autre(s)',
+] as const
+export type PensionOrganisation = (typeof PensionOrganisations)[number]
+export const pensionOrganisationOptions = arrayToOptions(PensionOrganisations)
