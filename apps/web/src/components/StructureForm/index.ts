@@ -1,1 +1,2 @@
-export { StructureForm } from './StructureForm'
+export { StructureFormCreation } from './StructureFormCreation'
+export { StructureFormEdition } from './StructureFormEdition'
