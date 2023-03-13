@@ -68,7 +68,7 @@ export const BeneficiaryFormCreation = withTrpc(
       [form.formState.submitCount],
     )
 
-    const { isLoading, isSuccess } = mutation
+    const { isLoading, isSuccess, error } = mutation
 
     const fieldsDisabled = isLoading || isSuccess
 
@@ -81,9 +81,7 @@ export const BeneficiaryFormCreation = withTrpc(
           full={properties.full}
         />
 
-        {mutation.isError ? (
-          <FormError message={mutation.error.message} />
-        ) : null}
+        <FormError message={error?.message} />
 
         <FormButton disabled={fieldsDisabled} label="Ajouter le bénéficiaire" />
       </form>

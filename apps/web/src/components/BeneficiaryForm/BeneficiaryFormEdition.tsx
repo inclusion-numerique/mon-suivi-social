@@ -80,7 +80,7 @@ export const BeneficiaryFormEdition = withTrpc(
       [form.formState.submitCount],
     )
 
-    const { isLoading, isSuccess } = mutation
+    const { isLoading, isSuccess, error } = mutation
 
     const fieldsDisabled = isLoading || isSuccess
 
@@ -93,9 +93,7 @@ export const BeneficiaryFormEdition = withTrpc(
           full={properties.full}
         />
 
-        {mutation.isError ? (
-          <FormError message={mutation.error.message} />
-        ) : null}
+        <FormError message={error?.message} />
 
         <FormButton
           disabled={fieldsDisabled}

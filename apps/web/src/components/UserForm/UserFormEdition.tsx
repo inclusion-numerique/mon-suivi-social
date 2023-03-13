@@ -33,7 +33,6 @@ export const UserFormEdition = withTrpc(
     const { handleSubmit, control } = form
 
     const { isLoading, isSuccess, error } = editUser
-    const isError = !!error
 
     const fieldsDisabled = isLoading || isSuccess
 
@@ -54,7 +53,7 @@ export const UserFormEdition = withTrpc(
           creation
         />
 
-        {isError ? <FormError message={error?.message} /> : ''}
+        <FormError message={error?.message} />
 
         <FormButton
           disabled={fieldsDisabled}

@@ -27,7 +27,6 @@ export const UserFormCreation = withTrpc(
     const { handleSubmit, control } = form
 
     const { isLoading, isSuccess, error } = addUser
-    const isError = !!error
 
     const fieldsDisabled = isLoading || isSuccess
 
@@ -49,7 +48,7 @@ export const UserFormCreation = withTrpc(
           creation
         />
 
-        {isError ? <FormError message={error?.message} /> : ''}
+        <FormError message={error?.message} />
 
         <FormButton disabled={fieldsDisabled} label={`Ajouter l'utilisateur`} />
       </form>
