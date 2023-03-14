@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'

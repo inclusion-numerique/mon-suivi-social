@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import { Routes } from '@mss/web/app/routing/routes'
 import { getUserDisplayName } from '@mss/web/utils/user'

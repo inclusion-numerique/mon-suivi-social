@@ -5,7 +5,7 @@ import {
   getInclusionConnectLogoutUrl,
   inclusionConnectProviderId,
 } from '@mss/web/auth/inclusionConnect'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { Card } from '@mss/web/components/Generic'
 import { Routes } from '@mss/web/app/routing/routes'
 import { MonCompteQuery } from '@mss/web/query'

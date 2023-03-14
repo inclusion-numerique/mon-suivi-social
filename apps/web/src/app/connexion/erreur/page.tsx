@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { Breadcrumbs } from '@mss/web/components/Generic'
 import { AuthCard } from '@mss/web/components/SigninPanel'
 import { Routes } from '@mss/web/app/routing/routes'

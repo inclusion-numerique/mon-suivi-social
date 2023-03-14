@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { ReactNode } from 'react'
 import styles from './Tabs.module.css'
 

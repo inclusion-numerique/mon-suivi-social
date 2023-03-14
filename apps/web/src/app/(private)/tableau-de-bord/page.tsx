@@ -1,8 +1,8 @@
-import Link from 'next/link'
 import { PageTitle } from '@mss/web/components/PageTitle'
 import { Routes } from '@mss/web/app/routing/routes'
 import { getSessionUser } from '@mss/web/auth/getSessionUser'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
+import { Link } from '@mss/web/components/Generic/Link'
 
 const TableauDeBordPage = async () => {
   const user = await getSessionUser()

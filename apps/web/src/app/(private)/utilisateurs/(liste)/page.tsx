@@ -11,7 +11,7 @@ import {
   Table,
   TableHeadWithSorting,
 } from '@mss/web/components/Generic'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { UserTable, userTableColumns } from '@mss/web/components/UserTable'
 import { iterateUsers } from '@mss/web/query/utilisateurs/iterateUsers'
 

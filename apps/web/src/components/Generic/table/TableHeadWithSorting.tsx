@@ -1,5 +1,5 @@
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import {
   Sorting,
   TableColumnDefinition,

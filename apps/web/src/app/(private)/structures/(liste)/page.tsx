@@ -15,7 +15,7 @@ import {
   structureColumns,
   StructureTable,
 } from '@mss/web/components/StructureTable'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { StructureQuery } from '@mss/web/query'
 
 const itemsPerPage = 15

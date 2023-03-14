@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import { useIsCurrentPathname } from '@mss/web/hooks/useIsCurrentPathname'
 import { Routes } from '@mss/web/app/routing/routes'

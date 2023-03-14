@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 function PublicFooter() {

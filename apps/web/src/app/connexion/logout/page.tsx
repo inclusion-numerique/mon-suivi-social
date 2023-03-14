@@ -4,7 +4,7 @@ import { signOut } from 'next-auth/react'
 import { AuthCard } from '@mss/web/components/SigninPanel'
 import { useState } from 'react'
 import { Breadcrumbs } from '@mss/web/components/Generic'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { Routes } from '@mss/web/app/routing/routes'
 
 function SignoutPage() {

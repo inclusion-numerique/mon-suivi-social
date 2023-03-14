@@ -8,7 +8,7 @@ import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { useRouter } from 'next/navigation'
 import { Routes } from '@mss/web/app/routing/routes'
 import styles from './BeneficiarySearchBar.module.css'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 
 export const BeneficiarySearchBar = withTrpc(
   ({ structureId }: { structureId: string }) => {
