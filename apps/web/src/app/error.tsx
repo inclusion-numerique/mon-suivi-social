@@ -1,3 +1,7 @@
 'use client'
 
-export { ServerError as default } from '@mss/web/components/ServerError'
+import { ServerError } from '@mss/web/components/ServerError'
+
+const NotFound = () => <ServerError />
+
+export default NotFound
