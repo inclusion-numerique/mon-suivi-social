@@ -1,17 +1,19 @@
 import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
-import { HelpRequestsList } from '@mss/web/query'
-import { helpRequestListTableColumns } from './helpRequestListTableColumns'
+import { HelpRequestsList, HelpRequestsListItem } from '@mss/web/query'
+import { TableColumnDefinition } from '../Generic'
 
 export const HelpRequestListTableRows = ({
+  columns,
   helpRequests,
 }: {
+  columns: TableColumnDefinition<HelpRequestsListItem>[]
   helpRequests: HelpRequestsList
 }) => {
   if (helpRequests.length === 0) {
     return (
       <tr>
-        <td colSpan={helpRequestListTableColumns.length}>
+        <td colSpan={columns.length}>
           Aucune demande d&apos;aide ne correspond à votre recherche
         </td>
       </tr>
@@ -32,7 +34,7 @@ export const HelpRequestListTableRows = ({
           <TableRowWithRowLink
             key={helpRequest.id}
             item={helpRequest}
-            columns={helpRequestListTableColumns}
+            columns={columns}
             href={href}
             title={title}
           />

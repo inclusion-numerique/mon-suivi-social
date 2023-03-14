@@ -1,5 +1,5 @@
 import { Routes } from '@mss/web/app/routing/routes'
-import { HelpRequestsListResult } from '@mss/web/query'
+import { HelpRequestsListItem, HelpRequestsListResult } from '@mss/web/query'
 import { getTotalPages } from '@mss/web/utils/table'
 import {
   createPageLinkHelper,
@@ -7,17 +7,19 @@ import {
   Sorting,
   Table,
   TableHeadWithSorting,
+  TableColumnDefinition,
 } from '../Generic'
-import { helpRequestListTableColumns } from './helpRequestListTableColumns'
 import { HelpRequestListTableRows } from './HelpRequestListTableRows'
 
 export const HelpRequestListTable = ({
+  columns,
   helpRequestsListResult,
   sorting,
   perPage,
   pageNumber,
   search,
 }: {
+  columns: TableColumnDefinition<HelpRequestsListItem>[]
   helpRequestsListResult: HelpRequestsListResult
   sorting: Sorting
   perPage: number
@@ -63,17 +65,19 @@ export const HelpRequestListTable = ({
     },
     Routes.Accompagnements.Index.pathWithParams,
   )
+
   return (
     <Table
       tableHead={
         <TableHeadWithSorting
-          columns={helpRequestListTableColumns}
+          columns={columns}
           createSortLink={createSortLink}
           currentSorting={currentSorting}
         />
       }
       tableBody={
         <HelpRequestListTableRows
+          columns={columns}
           helpRequests={helpRequestsListResult.helpRequests}
         />
       }
