@@ -1,7 +1,7 @@
 'use client'
 
 import { trpc } from '@mss/web/trpc'
-import { withTrpc } from '@mss/web/withTrpc'
+import { withTrpc } from '@mss/web/components/TrpcProvider'
 import Downloader from 'js-file-downloader'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Document } from '@prisma/client'
