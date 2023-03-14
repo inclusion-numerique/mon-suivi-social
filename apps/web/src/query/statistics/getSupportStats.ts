@@ -7,7 +7,9 @@ export const getSupportStats = async (structureId: string) => {
         some: { structureId },
       },
     },
-    include: {
+    select: {
+      id: true,
+      name: true,
       _count: {
         select: {
           followups: { where: { structureId } },
