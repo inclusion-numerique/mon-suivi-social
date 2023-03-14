@@ -8,7 +8,8 @@ import {
   Sorting,
   TableHeadWithSorting,
   Table,
-  tablePage,
+  parseTableSearchParams,
+  createTableLinks,
 } from '@mss/web/components/Generic'
 import {
   structureColumns,
@@ -34,12 +35,15 @@ const StructuresListPage = async ({
     notFound()
   }
 
-  const { pageNumber, currentSorting, createPageLink, createSortLink } =
-    tablePage(
-      Routes.Structures.Index.pathWithParams,
-      searchParams,
-      defaultSorting,
-    )
+  const { pageNumber, currentSorting } = parseTableSearchParams(
+    searchParams,
+    defaultSorting,
+  )
+
+  const { createPageLink, createSortLink } = createTableLinks(
+    Routes.Structures.Index.pathWithParams,
+    { pageNumber, currentSorting, defaultSorting },
+  )
 
   const { structures, totalPages, count } =
     await StructureQuery.iterateStructures({

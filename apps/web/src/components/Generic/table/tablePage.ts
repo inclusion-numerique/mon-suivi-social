@@ -9,17 +9,14 @@ type SearchParams = {
   currentSorting?: Sorting
   defaultSorting?: Sorting
   search?: any
+  tab?: any
   page?: any
   tri?: any
   ordre?: any
   recherche?: any
 }
 
-export const tablePage = (
-  pathWithParams: PaginationSortingParams<
-    SearchParams,
-    'defaultSorting' | 'currentSorting' | 'pageNumber'
-  >,
+export const parseTableSearchParams = (
   searchParams: RoutePathParams<(params: SearchParams) => any> | undefined,
   defaultSorting: Sorting,
 ) => {
@@ -33,17 +30,39 @@ export const tablePage = (
   // Get filters info from searchParams
   const search = searchParams?.recherche
 
+  return { pageNumber, currentSorting, search }
+}
+
+export const createTableLinks = <T extends string>(
+  pathWithParams: PaginationSortingParams<
+    SearchParams,
+    'defaultSorting' | 'currentSorting' | 'pageNumber'
+  >,
+  {
+    pageNumber,
+    currentSorting,
+    defaultSorting,
+    search,
+    tab,
+  }: {
+    pageNumber: number
+    currentSorting: Sorting
+    defaultSorting: Sorting
+    search?: string
+    tab?: T
+  },
+) => {
   // Linking logic for pages navigation
   const createPageLink = createPageLinkHelper<SearchParams>(
-    { currentSorting, defaultSorting, search },
+    { currentSorting, defaultSorting, search, tab },
     pathWithParams,
   )
 
   // Linking logic for sorting
   const createSortLink = createSortLinkHelper(
-    { pageNumber, defaultSorting, search },
+    { pageNumber, defaultSorting, search, tab },
     pathWithParams,
   )
 
-  return { pageNumber, currentSorting, search, createPageLink, createSortLink }
+  return { createPageLink, createSortLink }
 }
