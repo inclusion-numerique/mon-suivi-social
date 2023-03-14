@@ -32,7 +32,7 @@ export const ServerWebAppConfig = {
   },
   S3: {
     documentsBucket: process.env.DOCUMENTS_BUCKET ?? '',
-    host: process.env.SCW_S3_HOST ?? '',
+    host: process.env.S3_HOST ?? '',
     region: process.env.SCW_DEFAULT_REGION ?? '',
     accessKey: process.env.SCW_ACCESS_KEY ?? '',
     secretKey: process.env.SCW_SECRET_KEY ?? '',
