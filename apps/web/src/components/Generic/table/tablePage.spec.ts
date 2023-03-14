@@ -1,240 +1,279 @@
 import { Routes } from '@mss/web/app/routing/routes'
-import { createPageLinkHelper, createSortLinkHelper } from './tablePage'
+import { createTableLinks } from './tablePage'
 
 describe('tablePage', () => {
-  describe('createSortLinkHelper', () => {
-    it('provides an helper that creates a sort link with no search params provided', () => {
-      const sortLinkHelper = createSortLinkHelper(
+  describe('createTableLinks', () => {
+    it('provides helpers that create sort and page links with no search params provided', () => {
+      const { createSortLink, createPageLink } = createTableLinks(
         {},
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const sortLinkNameAsc = sortLinkHelper({
+      const sortLinkNameAsc = createSortLink({
         by: 'name',
         direction: 'asc',
       })
 
-      expect(sortLinkNameAsc).toEqual('/beneficiaires?tri=name&ordre=asc')
+      expect(sortLinkNameAsc).toBe('/beneficiaires?tri=name&ordre=asc')
 
-      const sortLinkNameDesc = sortLinkHelper({
+      const sortLinkNameDesc = createSortLink({
         by: 'name',
         direction: 'desc',
       })
 
-      expect(sortLinkNameDesc).toEqual('/beneficiaires?tri=name&ordre=desc')
+      expect(sortLinkNameDesc).toBe('/beneficiaires?tri=name&ordre=desc')
 
-      const sortLinkDateAsc = sortLinkHelper({
+      const sortLinkDateAsc = createSortLink({
         by: 'date',
         direction: 'asc',
       })
 
-      expect(sortLinkDateAsc).toEqual('/beneficiaires?tri=date&ordre=asc')
+      expect(sortLinkDateAsc).toBe('/beneficiaires?tri=date&ordre=asc')
 
-      const sortLinkDateDesc = sortLinkHelper({
+      const sortLinkDateDesc = createSortLink({
         by: 'date',
         direction: 'desc',
       })
 
-      expect(sortLinkDateDesc).toEqual('/beneficiaires?tri=date&ordre=desc')
+      expect(sortLinkDateDesc).toBe('/beneficiaires?tri=date&ordre=desc')
+
+      const pageLinkFirstPage = createPageLink(1)
+
+      expect(pageLinkFirstPage).toBe('/beneficiaires')
+
+      const pageLinkThirdPage = createPageLink(3)
+
+      expect(pageLinkThirdPage).toBe('/beneficiaires?page=3')
     })
 
-    it('provides an helper that creates a sort link with default sorting', () => {
-      const sortLinkHelper = createSortLinkHelper(
+    it('provides helpers that create sort and page links with default sorting', () => {
+      const { createSortLink, createPageLink } = createTableLinks(
         { defaultSorting: { by: 'name', direction: 'asc' } },
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const sortLinkNameAsc = sortLinkHelper({
+      const sortLinkNameAsc = createSortLink({
         by: 'name',
         direction: 'asc',
       })
 
-      expect(sortLinkNameAsc).toEqual('/beneficiaires')
+      expect(sortLinkNameAsc).toBe('/beneficiaires')
 
-      const sortLinkNameDesc = sortLinkHelper({
+      const sortLinkNameDesc = createSortLink({
         by: 'name',
         direction: 'desc',
       })
 
-      expect(sortLinkNameDesc).toEqual('/beneficiaires?ordre=desc')
+      expect(sortLinkNameDesc).toBe('/beneficiaires?ordre=desc')
 
-      const sortLinkDateAsc = sortLinkHelper({
+      const sortLinkDateAsc = createSortLink({
         by: 'date',
         direction: 'asc',
       })
 
-      expect(sortLinkDateAsc).toEqual('/beneficiaires?tri=date')
+      expect(sortLinkDateAsc).toBe('/beneficiaires?tri=date')
 
-      const sortLinkDateDesc = sortLinkHelper({
+      const sortLinkDateDesc = createSortLink({
         by: 'date',
         direction: 'desc',
       })
 
-      expect(sortLinkDateDesc).toEqual('/beneficiaires?tri=date&ordre=desc')
+      expect(sortLinkDateDesc).toBe('/beneficiaires?tri=date&ordre=desc')
+
+      const pageLinkFirstPage = createPageLink(1)
+
+      expect(pageLinkFirstPage).toBe('/beneficiaires')
+
+      const pageLinkThirdPage = createPageLink(3)
+
+      expect(pageLinkThirdPage).toBe('/beneficiaires?page=3')
     })
 
-    it('provides an helper that creates a sort link that ignores the page number if it is the first page', () => {
-      const sortLinkHelper = createSortLinkHelper(
+    it('provides helpers that create sort and page links that ignore the page number if it is the first page', () => {
+      const { createSortLink, createPageLink } = createTableLinks(
         { pageNumber: 1 },
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const sortLinkNameAsc = sortLinkHelper({
+      const sortLinkNameAsc = createSortLink({
         by: 'name',
         direction: 'asc',
       })
 
-      expect(sortLinkNameAsc).toEqual('/beneficiaires?tri=name&ordre=asc')
+      expect(sortLinkNameAsc).toBe('/beneficiaires?tri=name&ordre=asc')
 
-      const sortLinkNameDesc = sortLinkHelper({
+      const sortLinkNameDesc = createSortLink({
         by: 'name',
         direction: 'desc',
       })
 
-      expect(sortLinkNameDesc).toEqual('/beneficiaires?tri=name&ordre=desc')
+      expect(sortLinkNameDesc).toBe('/beneficiaires?tri=name&ordre=desc')
 
-      const sortLinkDateAsc = sortLinkHelper({
+      const sortLinkDateAsc = createSortLink({
         by: 'date',
         direction: 'asc',
       })
 
-      expect(sortLinkDateAsc).toEqual('/beneficiaires?tri=date&ordre=asc')
+      expect(sortLinkDateAsc).toBe('/beneficiaires?tri=date&ordre=asc')
 
-      const sortLinkDateDesc = sortLinkHelper({
+      const sortLinkDateDesc = createSortLink({
         by: 'date',
         direction: 'desc',
       })
 
-      expect(sortLinkDateDesc).toEqual('/beneficiaires?tri=date&ordre=desc')
+      expect(sortLinkDateDesc).toBe('/beneficiaires?tri=date&ordre=desc')
+
+      const pageLinkFirstPage = createPageLink(1)
+
+      expect(pageLinkFirstPage).toBe('/beneficiaires')
+
+      const pageLinkThirdPage = createPageLink(3)
+
+      expect(pageLinkThirdPage).toBe('/beneficiaires?page=3')
     })
 
-    it('provides an helper that creates a sort link that keeps the page number if it is not the first page', () => {
-      const sortLinkHelper = createSortLinkHelper(
+    it('provides helpers that create sort and page links that keep the page number if it is not the first page', () => {
+      const { createSortLink, createPageLink } = createTableLinks(
         { pageNumber: 3 },
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const sortLinkNameAsc = sortLinkHelper({
+      const sortLinkNameAsc = createSortLink({
         by: 'name',
         direction: 'asc',
       })
 
-      expect(sortLinkNameAsc).toEqual(
-        '/beneficiaires?page=3&tri=name&ordre=asc',
-      )
+      expect(sortLinkNameAsc).toBe('/beneficiaires?page=3&tri=name&ordre=asc')
 
-      const sortLinkNameDesc = sortLinkHelper({
+      const sortLinkNameDesc = createSortLink({
         by: 'name',
         direction: 'desc',
       })
 
-      expect(sortLinkNameDesc).toEqual(
-        '/beneficiaires?page=3&tri=name&ordre=desc',
-      )
+      expect(sortLinkNameDesc).toBe('/beneficiaires?page=3&tri=name&ordre=desc')
 
-      const sortLinkDateAsc = sortLinkHelper({
+      const sortLinkDateAsc = createSortLink({
         by: 'date',
         direction: 'asc',
       })
 
-      expect(sortLinkDateAsc).toEqual(
-        '/beneficiaires?page=3&tri=date&ordre=asc',
-      )
+      expect(sortLinkDateAsc).toBe('/beneficiaires?page=3&tri=date&ordre=asc')
 
-      const sortLinkDateDesc = sortLinkHelper({
+      const sortLinkDateDesc = createSortLink({
         by: 'date',
         direction: 'desc',
       })
 
-      expect(sortLinkDateDesc).toEqual(
-        '/beneficiaires?page=3&tri=date&ordre=desc',
-      )
+      expect(sortLinkDateDesc).toBe('/beneficiaires?page=3&tri=date&ordre=desc')
+
+      const pageLinkFirstPage = createPageLink(1)
+
+      expect(pageLinkFirstPage).toBe('/beneficiaires')
+
+      const pageLinkThirdPage = createPageLink(3)
+
+      expect(pageLinkThirdPage).toBe('/beneficiaires?page=3')
     })
 
-    it('provides an helper that creates a sort link that keeps other parameters provided', () => {
-      const sortLinkHelper = createSortLinkHelper(
-        { recherche: 'foo' },
+    it('provides helpers that create sort and page links that keep other parameters provided', () => {
+      const { createSortLink, createPageLink } = createTableLinks(
+        { tab: 'foo', search: 'baz' },
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const sortLinkNameAsc = sortLinkHelper({
+      const sortLinkNameAsc = createSortLink({
         by: 'name',
         direction: 'asc',
       })
 
-      expect(sortLinkNameAsc).toEqual(
-        '/beneficiaires?tri=name&ordre=asc&recherche=foo',
+      expect(sortLinkNameAsc).toBe(
+        '/beneficiaires?tri=name&ordre=asc&search=baz&tab=foo',
       )
 
-      const sortLinkNameDesc = sortLinkHelper({
+      const sortLinkNameDesc = createSortLink({
         by: 'name',
         direction: 'desc',
       })
 
-      expect(sortLinkNameDesc).toEqual(
-        '/beneficiaires?tri=name&ordre=desc&recherche=foo',
+      expect(sortLinkNameDesc).toBe(
+        '/beneficiaires?tri=name&ordre=desc&search=baz&tab=foo',
       )
 
-      const sortLinkDateAsc = sortLinkHelper({
+      const sortLinkDateAsc = createSortLink({
         by: 'date',
         direction: 'asc',
       })
 
-      expect(sortLinkDateAsc).toEqual(
-        '/beneficiaires?tri=date&ordre=asc&recherche=foo',
+      expect(sortLinkDateAsc).toBe(
+        '/beneficiaires?tri=date&ordre=asc&search=baz&tab=foo',
       )
 
-      const sortLinkDateDesc = sortLinkHelper({
+      const sortLinkDateDesc = createSortLink({
         by: 'date',
         direction: 'desc',
       })
 
-      expect(sortLinkDateDesc).toEqual(
-        '/beneficiaires?tri=date&ordre=desc&recherche=foo',
-      )
-    })
-  })
-
-  describe('createPageLinkHelper', () => {
-    it('provides an helper that creates a page link that ignores the page number if it is the first page', () => {
-      const pageLinkHelper = createPageLinkHelper(
-        {},
-        Routes.Beneficiaires.Index.pathWithParams,
+      expect(sortLinkDateDesc).toBe(
+        '/beneficiaires?tri=date&ordre=desc&search=baz&tab=foo',
       )
 
-      const pageLinkFirstPage = pageLinkHelper(1)
+      const pageLinkFirst = createPageLink(1)
 
-      expect(pageLinkFirstPage).toEqual('/beneficiaires')
+      expect(pageLinkFirst).toBe('/beneficiaires?search=baz&tab=foo')
+
+      const pageLinkThird = createPageLink(3)
+
+      expect(pageLinkThird).toBe('/beneficiaires?page=3&search=baz&tab=foo')
     })
 
-    it('provides an helper that creates a page link with the page number if it is not the first page', () => {
-      const pageLinkHelper = createPageLinkHelper(
-        {},
-        Routes.Beneficiaires.Index.pathWithParams,
-      )
-
-      const pageLinkThirdPage = pageLinkHelper(3)
-
-      expect(pageLinkThirdPage).toEqual('/beneficiaires?page=3')
-    })
-
-    it('provides an helper that creates a page link that keeps the current sorting', () => {
-      const pageLinkHelper = createPageLinkHelper(
+    it('provides an helper that creates a page link that keep the current sorting', () => {
+      const { createSortLink, createPageLink } = createTableLinks(
         { currentSorting: { by: 'name', direction: 'asc' } },
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const pageLinkFirst = pageLinkHelper(1)
+      const sortLinkNameAsc = createSortLink({
+        by: 'name',
+        direction: 'asc',
+      })
 
-      expect(pageLinkFirst).toEqual('/beneficiaires?tri=name&ordre=asc')
+      expect(sortLinkNameAsc).toBe('/beneficiaires?tri=name&ordre=asc')
 
-      const pageLinkThird = pageLinkHelper(3)
+      const sortLinkNameDesc = createSortLink({
+        by: 'name',
+        direction: 'desc',
+      })
 
-      expect(pageLinkThird).toEqual('/beneficiaires?page=3&tri=name&ordre=asc')
+      expect(sortLinkNameDesc).toBe('/beneficiaires?tri=name&ordre=desc')
+
+      const sortLinkDateAsc = createSortLink({
+        by: 'date',
+        direction: 'asc',
+      })
+
+      expect(sortLinkDateAsc).toBe('/beneficiaires?tri=date&ordre=asc')
+
+      const sortLinkDateDesc = createSortLink({
+        by: 'date',
+        direction: 'desc',
+      })
+
+      expect(sortLinkDateDesc).toBe('/beneficiaires?tri=date&ordre=desc')
+
+      const pageLinkFirst = createPageLink(1)
+
+      expect(pageLinkFirst).toBe('/beneficiaires?tri=name&ordre=asc')
+
+      const pageLinkThird = createPageLink(3)
+
+      expect(pageLinkThird).toBe('/beneficiaires?page=3&tri=name&ordre=asc')
     })
 
-    it('provides an helper that creates a page link that keeps the current sorting with default sorting', () => {
-      const pageLinkHelperNotDefaultSorting = createPageLinkHelper(
+    it('provide helpers that create sort and page links that keep the current sorting with default sorting', () => {
+      const {
+        createPageLink: createPageLinkNotDefaultSorting,
+        createSortLink,
+      } = createTableLinks(
         {
           currentSorting: { by: 'date', direction: 'desc' },
           defaultSorting: { by: 'name', direction: 'asc' },
@@ -242,59 +281,89 @@ describe('tablePage', () => {
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const pageLinkFirstNotDefaultSorting = pageLinkHelperNotDefaultSorting(1)
+      const sortLinkNameAsc = createSortLink({
+        by: 'name',
+        direction: 'asc',
+      })
 
-      expect(pageLinkFirstNotDefaultSorting).toEqual(
+      expect(sortLinkNameAsc).toBe('/beneficiaires')
+
+      const sortLinkNameDesc = createSortLink({
+        by: 'name',
+        direction: 'desc',
+      })
+
+      expect(sortLinkNameDesc).toBe('/beneficiaires?ordre=desc')
+
+      const sortLinkDateAsc = createSortLink({
+        by: 'date',
+        direction: 'asc',
+      })
+
+      expect(sortLinkDateAsc).toBe('/beneficiaires?tri=date')
+
+      const sortLinkDateDesc = createSortLink({
+        by: 'date',
+        direction: 'desc',
+      })
+
+      expect(sortLinkDateDesc).toBe('/beneficiaires?tri=date&ordre=desc')
+
+      const pageLinkFirstNotDefaultSorting = createPageLinkNotDefaultSorting(1)
+
+      expect(pageLinkFirstNotDefaultSorting).toBe(
         '/beneficiaires?tri=date&ordre=desc',
       )
 
-      const pageLinkThirdNotDefaultSorting = pageLinkHelperNotDefaultSorting(3)
+      const pageLinkThirdNotDefaultSorting = createPageLinkNotDefaultSorting(3)
 
-      expect(pageLinkThirdNotDefaultSorting).toEqual(
+      expect(pageLinkThirdNotDefaultSorting).toBe(
         '/beneficiaires?page=3&tri=date&ordre=desc',
       )
 
-      const pageLinkHelperDefaultSortingBy = createPageLinkHelper(
-        {
-          currentSorting: { by: 'name', direction: 'desc' },
-          defaultSorting: { by: 'name', direction: 'asc' },
-        },
-        Routes.Beneficiaires.Index.pathWithParams,
-      )
+      const { createPageLink: createPageLinkDefaultSortingBy } =
+        createTableLinks(
+          {
+            currentSorting: { by: 'name', direction: 'desc' },
+            defaultSorting: { by: 'name', direction: 'asc' },
+          },
+          Routes.Beneficiaires.Index.pathWithParams,
+        )
 
-      const pageLinkFirstDefaultSortingBy = pageLinkHelperDefaultSortingBy(1)
+      const pageLinkFirstDefaultSortingBy = createPageLinkDefaultSortingBy(1)
 
-      expect(pageLinkFirstDefaultSortingBy).toEqual('/beneficiaires?ordre=desc')
+      expect(pageLinkFirstDefaultSortingBy).toBe('/beneficiaires?ordre=desc')
 
-      const pageLinkThirdDefaultSortingBy = pageLinkHelperDefaultSortingBy(3)
+      const pageLinkThirdDefaultSortingBy = createPageLinkDefaultSortingBy(3)
 
-      expect(pageLinkThirdDefaultSortingBy).toEqual(
+      expect(pageLinkThirdDefaultSortingBy).toBe(
         '/beneficiaires?page=3&ordre=desc',
       )
 
-      const pageLinkHelperDefaultSortingDirection = createPageLinkHelper(
-        {
-          currentSorting: { by: 'name', direction: 'desc' },
-          defaultSorting: { by: 'name', direction: 'asc' },
-        },
-        Routes.Beneficiaires.Index.pathWithParams,
-      )
+      const { createPageLink: createPageLinkDefaultSortingDirection } =
+        createTableLinks(
+          {
+            currentSorting: { by: 'name', direction: 'desc' },
+            defaultSorting: { by: 'name', direction: 'asc' },
+          },
+          Routes.Beneficiaires.Index.pathWithParams,
+        )
 
       const pageLinkFirstDefaultSortingDirection =
-        pageLinkHelperDefaultSortingDirection(1)
+        createPageLinkDefaultSortingDirection(1)
 
-      expect(pageLinkFirstDefaultSortingDirection).toEqual(
+      expect(pageLinkFirstDefaultSortingDirection).toBe(
         '/beneficiaires?ordre=desc',
       )
 
       const pageLinkThirdDefaultSortingDirection =
-        pageLinkHelperDefaultSortingBy(3)
+        createPageLinkDefaultSortingBy(3)
 
-      expect(pageLinkThirdDefaultSortingDirection).toEqual(
+      expect(pageLinkThirdDefaultSortingDirection).toBe(
         '/beneficiaires?page=3&ordre=desc',
       )
 
-      const pageLinkHelperDefaultSorting = createPageLinkHelper(
+      const { createPageLink: createPageLinkDefaultSorting } = createTableLinks(
         {
           currentSorting: { by: 'name', direction: 'asc' },
           defaultSorting: { by: 'name', direction: 'asc' },
@@ -302,28 +371,62 @@ describe('tablePage', () => {
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const pageLinkFirstDefaultSorting = pageLinkHelperDefaultSorting(1)
+      const pageLinkFirstDefaultSorting = createPageLinkDefaultSorting(1)
 
-      expect(pageLinkFirstDefaultSorting).toEqual('/beneficiaires')
+      expect(pageLinkFirstDefaultSorting).toBe('/beneficiaires')
 
-      const pageLinkThirdDefaultSorting = pageLinkHelperDefaultSorting(3)
+      const pageLinkThirdDefaultSorting = createPageLinkDefaultSorting(3)
 
-      expect(pageLinkThirdDefaultSorting).toEqual('/beneficiaires?page=3')
+      expect(pageLinkThirdDefaultSorting).toBe('/beneficiaires?page=3')
     })
 
-    it('provides an helper that creates a page link that keeps other parameters provided', () => {
-      const pageLinkHelper = createPageLinkHelper(
-        { recherche: 'foo' },
+    it('provide helpers that create sort and page links - exhaustive example', () => {
+      const { createPageLink, createSortLink } = createTableLinks(
+        {
+          pageNumber: 4,
+          currentSorting: { by: 'date', direction: 'desc' },
+          defaultSorting: { by: 'name', direction: 'desc' },
+        },
         Routes.Beneficiaires.Index.pathWithParams,
       )
 
-      const pageLinkFirst = pageLinkHelper(1)
+      const sortLinkNameAsc = createSortLink({
+        by: 'name',
+        direction: 'asc',
+      })
 
-      expect(pageLinkFirst).toEqual('/beneficiaires?recherche=foo')
+      expect(sortLinkNameAsc).toBe('/beneficiaires?page=4&ordre=asc')
 
-      const pageLinkThird = pageLinkHelper(3)
+      const sortLinkNameDesc = createSortLink({
+        by: 'name',
+        direction: 'desc',
+      })
 
-      expect(pageLinkThird).toEqual('/beneficiaires?page=3&recherche=foo')
+      expect(sortLinkNameDesc).toBe('/beneficiaires?page=4')
+
+      const sortLinkDateAsc = createSortLink({
+        by: 'date',
+        direction: 'asc',
+      })
+
+      expect(sortLinkDateAsc).toBe('/beneficiaires?page=4&tri=date&ordre=asc')
+
+      const sortLinkDateDesc = createSortLink({
+        by: 'date',
+        direction: 'desc',
+      })
+
+      expect(sortLinkDateDesc).toBe('/beneficiaires?page=4&tri=date')
+
+      const pageLinkFirstNotDefaultSorting = createPageLink(1)
+
+      expect(pageLinkFirstNotDefaultSorting).toBe('/beneficiaires?tri=date')
+
+      const pageLinkThirdNotDefaultSorting = createPageLink(3)
+
+      expect(pageLinkThirdNotDefaultSorting).toBe(
+        '/beneficiaires?page=3&tri=date',
+      )
     })
   })
 })
