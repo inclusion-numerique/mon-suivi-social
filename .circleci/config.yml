@@ -42,7 +42,7 @@ parameters:
     type: string
     default: "web_app_deployment"
   # Name of the environment to scrap
-  scrap_environment_for_branch:
+  preview_deletion_branch:
     type: string
     default: ""
 
@@ -84,7 +84,9 @@ workflows:
   project_infrastructure_deployment:
     # This workflow exclusively runs on the infra branch
     when:
-      equal: [ infra, << pipeline.git.branch >> ]
+      and:
+        - equal: [ infra, << pipeline.git.branch >> ]
+        - not: << pipeline.parameters.preview_deletion_branch >>
     jobs:
       - prepare_workspace_dependencies
       - lint_and_test_cdk_package:
@@ -110,8 +112,8 @@ workflows:
         - not:
             equal: [ main, << pipeline.git.branch >> ]
         - not:
-            equal: [ main, << pipeline.parameters.scrap_environment_for_branch >>]
-        - << pipeline.parameters.scrap_environment_for_branch >>
+            equal: [ main, << pipeline.parameters.preview_deletion_branch >>]
+        - << pipeline.parameters.preview_deletion_branch >>
         - equal: [ web_app_preview_deletion, << pipeline.parameters.trigger_workflow >> ]
     jobs:
       - prepare_workspace_dependencies
@@ -441,22 +443,22 @@ jobs:
       - when:
           condition:
             or:
-              - not: << pipeline.parameters.scrap_environment_for_branch >>
-              - equal: [ main, << pipeline.parameters.scrap_environment_for_branch >> ]
-              - equal: [ dev, << pipeline.parameters.scrap_environment_for_branch >> ]
+              - not: << pipeline.parameters.preview_deletion_branch >>
+              - equal: [ main, << pipeline.parameters.preview_deletion_branch >> ]
+              - equal: [ dev, << pipeline.parameters.preview_deletion_branch >> ]
           steps:
             - run:
-                name: 'Canceling job, invalid configuration << pipeline.parameters.scrap_environment_for_branch >>'
+                name: 'Canceling job, invalid configuration << pipeline.parameters.preview_deletion_branch >>'
                 command: |
-                  echo "No scrap_environment_for_branch specified, or invalid one. Canceling job"
+                  echo "No preview_deletion_branch specified, or invalid one. Canceling job"
                   exit 1
       - run:
           name: 'Destroy stack'
           command: |
-            CDK_FORCE_BRANCH='<< pipeline.parameters.scrap_environment_for_branch >>' pnpm --silent -F @mss/cdk cdktf destroy web --auto-approve --var-file .tfvars.json
+            CDK_FORCE_BRANCH='<< pipeline.parameters.preview_deletion_branch >>' pnpm --silent -F @mss/cdk cdktf destroy web --auto-approve --var-file .tfvars.json
       - run:
           name: Deactivate Github deployments
-          command: pnpm --silent cli github:deployment:deactivate << pipeline.parameters.scrap_environment_for_branch >>
+          command: pnpm --silent cli github:deployment:deactivate << pipeline.parameters.preview_deletion_branch >>
 
 commands:
   install_pnpm:

@@ -14,4 +14,4 @@ jobs:
           project-slug: inclusion-numerique/mon-suivi-social
           # Branch from environment does not exists anymore, workflow will run from branch infra
           branch: infra
-          payload: '{"trigger_workflow": "web_app_preview_deletion", "scrap_environment_for_branch": "${{ github.event.ref }}"}'
+          payload: '{"trigger_workflow": "web_app_preview_deletion", "preview_deletion_branch": "${{ github.event.ref }}"}'
