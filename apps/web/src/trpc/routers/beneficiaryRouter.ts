@@ -13,13 +13,16 @@ import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/edi
 import { EditBeneficiaryFullDataServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.server'
 import { ArchiveBeneficiaryClient } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.client'
 import { ArchiveBeneficiaryServer } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.server'
-import { canListBeneficiaries } from '@mss/web/security/rules'
+import {
+  canListBeneficiaries,
+  canUpdateBeneficiaryReferents,
+} from '@mss/web/security/rules'
 import { beneficiaryDocumentRouter } from '@mss/web/trpc/routers/beneficiaryDocumentRouter'
 
 const tokenToSearchCondition = (token: string) => ({
-    contains: token,
-    mode: 'insensitive',
-  })
+  contains: token,
+  mode: 'insensitive',
+})
 export const beneficiaryRouter = router({
   search: protectedProcedure
     .input(z.object({ query: z.string(), structureId: z.string().uuid() }))
@@ -82,6 +85,16 @@ export const beneficiaryRouter = router({
         throw invalidError('Beneficiary not found')
       }
 
+      // FIXME: It should only be done if referents are present in the diff
+      if (
+        !canUpdateBeneficiaryReferents(user, target) &&
+        input.referents?.length
+      ) {
+        throw forbiddenError(
+          'You do not have rights to edit the beneficiary referents',
+        )
+      }
+
       return EditBeneficiaryGeneralInfoServer.execute({
         input,
         user,
@@ -108,6 +121,13 @@ export const beneficiaryRouter = router({
       const target = await getBeneficiarySecurityTarget(input.beneficiaryId)
       if (!target) {
         throw invalidError('Beneficiary not found')
+      }
+
+      // FIXME: It should only be done if referents are present in the diff
+      if (!canUpdateBeneficiaryReferents(user, target)) {
+        throw forbiddenError(
+          'You do not have rights to edit the beneficiary referents',
+        )
       }
 
       return EditBeneficiaryFullDataServer.execute({
