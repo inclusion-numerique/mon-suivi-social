@@ -34,10 +34,12 @@ export const parseTableSearchParams = (
 }
 
 export const createTableLinks = <T extends string>(
-  pathWithParams: PaginationSortingParams<
-    SearchParams,
-    'defaultSorting' | 'currentSorting' | 'pageNumber'
-  >,
+  pathWithParams: (
+    params: PaginationSortingParams<
+      SearchParams,
+      'defaultSorting' | 'currentSorting' | 'pageNumber'
+    >,
+  ) => string,
   {
     pageNumber,
     currentSorting,

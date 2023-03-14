@@ -9,9 +9,4 @@ export type PaginationSortingParams<
     defaultSorting?: Sorting
   },
   G extends 'defaultSorting' | 'currentSorting' | 'pageNumber',
-> = (
-  parameters: { page?: string; tri?: string; ordre?: SortDirection } & Omit<
-    T,
-    G
-  >,
-) => string
+> = { page?: string; tri?: string; ordre?: SortDirection } & Omit<T, G>

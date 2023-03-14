@@ -36,10 +36,9 @@ export const createPagesNumbersToDisplay = (
 export const createPageLinkHelper =
   <T extends { currentSorting?: Sorting; defaultSorting?: Sorting }>(
     { currentSorting, defaultSorting, ...otherParameters }: T,
-    parametersToLink: PaginationSortingParams<
-      T,
-      'defaultSorting' | 'currentSorting'
-    >,
+    parametersToLink: (
+      params: PaginationSortingParams<T, 'defaultSorting' | 'currentSorting'>,
+    ) => string,
   ) =>
   (toPage: number) =>
     parametersToLink({
