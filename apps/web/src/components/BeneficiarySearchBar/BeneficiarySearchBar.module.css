@@ -1,0 +1,11 @@
+.beneficiary-search-result {
+  width: 100%;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  background: none;
+
+  &:hover {
+    font-weight: 600;
+  }
+}

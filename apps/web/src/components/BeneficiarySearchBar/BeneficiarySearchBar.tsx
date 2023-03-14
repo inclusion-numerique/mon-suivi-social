@@ -6,17 +6,9 @@ import { ChangeEventHandler, useDeferredValue, useState } from 'react'
 import { Spinner } from '@mss/web/components/Generic/Spinner'
 import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
 import { useRouter } from 'next/navigation'
-import styled from 'styled-components'
 import { Routes } from '@mss/web/app/routing/routes'
-
-const SearchResult = styled.div`
-  width: 100%;
-  cursor: pointer;
-
-  &:hover {
-    font-weight: 600;
-  }
-`
+import styles from './BeneficiarySearchBar.module.css'
+import Link from 'next/link'
 
 export const BeneficiarySearchBar = withTrpc(
   ({ structureId }: { structureId: string }) => {
@@ -93,11 +85,12 @@ export const BeneficiarySearchBar = withTrpc(
               ) : (
                 <div style={{ width: '100%' }}>
                   {beneficiaries.data.beneficiaries.map((beneficiary) => (
-                    <SearchResult
-                      onClick={() => navigateToBeneficiary(beneficiary)}
-                      onMouseEnter={() => prefetchBeneficiary(beneficiary)}
+                    <Link
+                      className={`fr-py-4v ${styles['beneficiary-search-result']}`}
+                      href={Routes.Beneficiaires.Beneficiaire.Index.path(
+                        beneficiary,
+                      )}
                       key={beneficiary.id}
-                      className="fr-py-4v"
                     >
                       <span className="fr-badge fr-badge--blue-cumulus">
                         {beneficiary.fileNumber}
@@ -105,7 +98,7 @@ export const BeneficiarySearchBar = withTrpc(
                       <span className="fr-ml-1w">
                         {beneficiaryDisplayName(beneficiary)}
                       </span>
-                    </SearchResult>
+                    </Link>
                   ))}
                 </div>
               )
