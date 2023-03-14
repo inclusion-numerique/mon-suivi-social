@@ -184,6 +184,7 @@ jobs:
       - run:
           name: 'Lint'
           command: pnpm lint
+          no_output_timeout: 30m
 
   lint_and_test_cdk_package:
     executor: node
