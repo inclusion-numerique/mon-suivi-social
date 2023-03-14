@@ -42,8 +42,8 @@ const ListeDesUtilisateursPage = async ({
   )
 
   const { createPageLink, createSortLink } = createTableLinks(
-    Routes.Utilisateurs.Index.pathWithParams,
     { pageNumber, currentSorting, defaultSorting, search },
+    Routes.Utilisateurs.Index.pathWithParams,
   )
 
   const { users, totalPages, count } = await iterateUsers({

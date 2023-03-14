@@ -7,17 +7,16 @@ type SearchParams = {
   defaultSorting?: Sorting
   search?: any
   tab?: any
-  page?: any
-  tri?: any
-  ordre?: any
-  recherche?: any
-}
-
-export type PaginationSortingParams = {
   page?: string
   tri?: string
   ordre?: SortDirection
-} & Omit<SearchParams, 'defaultSorting' | 'pageNumber' | 'currentSorting'>
+  recherche?: any
+}
+
+export type PaginationSortingParams = Omit<
+  SearchParams,
+  'defaultSorting' | 'pageNumber' | 'currentSorting'
+>
 
 /**
  * Create the parameters object from the page, the sorting and other search params.
@@ -32,7 +31,7 @@ export type PaginationSortingParams = {
  */
 const createParameters = (
   { page, sorting }: { page: number | undefined; sorting: Sorting | undefined },
-  { defaultSorting, ...otherParameters }: SearchParams,
+  { defaultSorting, search, tab }: SearchParams,
 ): PaginationSortingParams => ({
   page: page === 1 ? undefined : page?.toString(),
   tri: sorting?.by === defaultSorting?.by ? undefined : sorting?.by,
@@ -40,7 +39,8 @@ const createParameters = (
     sorting?.direction === defaultSorting?.direction
       ? undefined
       : sorting?.direction,
-  ...otherParameters,
+  search,
+  tab,
 })
 
 /**
@@ -48,16 +48,16 @@ const createParameters = (
  * @param param0 An object made of the page number, the default sorting and other search params
  * @param parametersToLink A route function used to build the link string from search params, based on a specific sort
  */
-export const createSortLinkHelper =
+const createSortLinkHelper =
   (
-    { pageNumber, defaultSorting, ...otherParameters }: SearchParams,
+    { pageNumber, defaultSorting, search, tab }: SearchParams,
     parametersToLink: (params: PaginationSortingParams) => string,
   ) =>
   (sorting: Sorting) =>
     parametersToLink(
       createParameters(
         { sorting, page: pageNumber },
-        { defaultSorting, ...otherParameters },
+        { defaultSorting, search, tab },
       ),
     )
 
@@ -66,16 +66,16 @@ export const createSortLinkHelper =
  * @param param0 An object made of the current sorting, the default sorting and other search params
  * @param parametersToLink A route function used to build the link string from search params, based on a specific page number
  */
-export const createPageLinkHelper =
+const createPageLinkHelper =
   (
-    { currentSorting, defaultSorting, ...otherParameters }: SearchParams,
+    { currentSorting, defaultSorting, search, tab }: SearchParams,
     parametersToLink: (params: PaginationSortingParams) => string,
   ) =>
   (toPage: number) =>
     parametersToLink(
       createParameters(
         { page: toPage, sorting: currentSorting },
-        { defaultSorting, ...otherParameters },
+        { defaultSorting, search, tab },
       ),
     )
 
@@ -104,7 +104,6 @@ export const parseTableSearchParams = (
  * @param param1 A set of parsed search params
  */
 export const createTableLinks = <T extends string>(
-  pathWithParams: (params: PaginationSortingParams) => string,
   {
     pageNumber,
     currentSorting,
@@ -112,12 +111,13 @@ export const createTableLinks = <T extends string>(
     search,
     tab,
   }: {
-    pageNumber: number
-    currentSorting: Sorting
-    defaultSorting: Sorting
+    pageNumber?: number
+    currentSorting?: Sorting
+    defaultSorting?: Sorting
     search?: string
     tab?: T
   },
+  pathWithParams: (params: PaginationSortingParams) => string,
 ) => {
   // Linking logic for pages navigation
   const createPageLink = createPageLinkHelper(
