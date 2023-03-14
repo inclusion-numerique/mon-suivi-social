@@ -14,8 +14,9 @@ import {
 import { Link } from '@mss/web/components/Generic/Link'
 import { UserTable, userTableColumns } from '@mss/web/components/UserTable'
 import { iterateUsers } from '@mss/web/query/utilisateurs/iterateUsers'
+import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
-const itemsPerPage = 15
+const perPage = DEFAULT_PER_PAGE
 
 const defaultSorting: Sorting = {
   by: 'Nom',
@@ -46,7 +47,7 @@ const ListeDesUtilisateursPage = async ({
   )
 
   const { users, totalPages, count } = await iterateUsers({
-    perPage: itemsPerPage,
+    perPage,
     page: pageNumber,
     orderBy: getColumnOrderBy(currentSorting, userTableColumns),
   })

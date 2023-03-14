@@ -15,8 +15,9 @@ import { HelpRequestListTable } from '@mss/web/components/HelpRequestListTable/H
 import { AccompagnementsQuery } from '@mss/web/query'
 import { followupListTableColumns } from '@mss/web/components/FollowupListTable'
 import { buildHelpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
+import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
-const perPage = 15 // FIXME: Factorise
+const perPage = DEFAULT_PER_PAGE
 
 const defaultSorting: Sorting = {
   by: 'date',

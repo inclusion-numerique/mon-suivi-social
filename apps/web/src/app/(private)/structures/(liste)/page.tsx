@@ -17,8 +17,9 @@ import {
 } from '@mss/web/components/StructureTable'
 import { Link } from '@mss/web/components/Generic/Link'
 import { StructureQuery } from '@mss/web/query'
+import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
-const itemsPerPage = 15
+const perPage = DEFAULT_PER_PAGE
 
 const defaultSorting: Sorting = {
   by: 'Nom',
@@ -47,7 +48,7 @@ const StructuresListPage = async ({
 
   const { structures, totalPages, count } =
     await StructureQuery.iterateStructures({
-      perPage: itemsPerPage,
+      perPage,
       page: pageNumber,
       orderBy: getColumnOrderBy(currentSorting, structureColumns),
     })
