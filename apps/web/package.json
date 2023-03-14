@@ -86,6 +86,7 @@
   },
   "devDependencies": {
     "@mss/test": "*",
+    "@next/bundle-analyzer": "^13.2.4",
     "@types/file-saver": "^2.0.5",
     "@types/js-cookie": "^3.0.3",
     "@types/mime-types": "^2.1.1",

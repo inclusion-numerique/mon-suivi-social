@@ -1,5 +1,5 @@
-import { NotFoundError } from '@mss/web/components/ServerError'
+import { ServerError } from '@mss/web/components/ServerError'
 
-const Error500Page = () => <NotFoundError />
+const Error500Page = () => <ServerError />
 
 export default Error500Page

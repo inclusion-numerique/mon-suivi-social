@@ -1,4 +1,24 @@
 const { withSentryConfig } = require('@sentry/nextjs')
+const packageJson = require('./package.json')
+const bundleAnalyzer = require('@next/bundle-analyzer')
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: false,
+  openAnalyzer: false,
+})
+
+/**
+ * For faster dev UX, server dependencies do not need to be bundled.
+ * Except those that are expected to be bundled for compilation features.
+ */
+const alwaysBundledPackages = new Set(['next', 'server-only'])
+const externalServerPackagesForFasterDevUx =
+  process.env.NODE_ENV === 'development'
+    ? [
+        ...Object.keys(packageJson.dependencies),
+        ...Object.keys(packageJson.devDependencies),
+      ].filter((packageName) => !alwaysBundledPackages.has(packageName))
+    : []
 
 const nextConfig = {
   // FIXME standalone does not support app directory for now
@@ -8,7 +28,12 @@ const nextConfig = {
   experimental: {
     appDir: true,
     // See https://beta.nextjs.org/docs/api-reference/next.config.js#servercomponentsexternalpackages
-    serverComponentsExternalPackages: ['mjml', 'mjml-core'],
+    serverComponentsExternalPackages: [
+      'nanoid',
+      'mjml',
+      'mjml-core',
+      ...externalServerPackagesForFasterDevUx,
+    ],
   },
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
   sentry: {
@@ -19,14 +44,21 @@ const nextConfig = {
     hideSourceMaps: true,
   },
   eslint: {
-    // Lints are done in other parts of the build process
+    // Lints are checked in other parts of the build process
     ignoreDuringBuilds: true,
   },
   typescript: {
     // Type checks are done in other parts of the build process
     ignoreBuildErrors: true,
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Client bundling
+      return config
+    }
+
+    // Server bundling
+
     // Mjml cannot be bundled as it uses dynamic requires
     // Only put library required on the server in externals as they would not be available in client
     config.externals.push('mjml', 'mjml-core')
@@ -41,4 +73,6 @@ const sentryWebpackPluginOptions = {
   silent: true, // Suppresses all logs
 }
 
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
+module.exports = withBundleAnalyzer(
+  withSentryConfig(nextConfig, sentryWebpackPluginOptions),
+)
