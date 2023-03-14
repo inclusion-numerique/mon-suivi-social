@@ -41,8 +41,8 @@ const BeneficiariesListPage = async ({
   )
 
   const { createPageLink, createSortLink } = createTableLinks(
-    Routes.Beneficiaires.Index.pathWithParams,
     { pageNumber, currentSorting, defaultSorting, search },
+    Routes.Beneficiaires.Index.pathWithParams,
   )
 
   const beneficiariesList = await BeneficiairesQuery.iterateBeneficiaries({

@@ -31,8 +31,8 @@ export const FollowupListTable = ({
   })
 
   const { createPageLink, createSortLink } = createTableLinks(
-    Routes.Accompagnements.Index.pathWithParams,
     { pageNumber, currentSorting, defaultSorting, search },
+    Routes.Accompagnements.Index.pathWithParams,
   )
 
   return (

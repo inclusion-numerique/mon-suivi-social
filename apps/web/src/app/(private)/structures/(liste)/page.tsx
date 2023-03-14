@@ -41,8 +41,8 @@ const StructuresListPage = async ({
   )
 
   const { createPageLink, createSortLink } = createTableLinks(
-    Routes.Structures.Index.pathWithParams,
     { pageNumber, currentSorting, defaultSorting },
+    Routes.Structures.Index.pathWithParams,
   )
 
   const { structures, totalPages, count } =
