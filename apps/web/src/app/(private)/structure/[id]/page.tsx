@@ -4,7 +4,7 @@ import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { notFound } from 'next/navigation'
 import { canViewStructure } from '@mss/web/security/rules'
 import { groupFollowupTypesByLegality } from '@mss/web/helper/groupFollowupTypes'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import {
   AttributeItem,
   AttributesList,

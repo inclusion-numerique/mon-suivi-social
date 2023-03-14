@@ -1,6 +1,6 @@
 import styles from './TableRow.module.css'
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 
 export function TableRowWithRowLink<Item extends Record<string, unknown>>({
   item,

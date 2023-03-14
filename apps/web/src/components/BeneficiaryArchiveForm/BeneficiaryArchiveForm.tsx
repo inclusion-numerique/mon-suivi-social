@@ -11,7 +11,7 @@ import { MutationInput } from '@mss/web/features/createMutation.client'
 import z from 'zod'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Beneficiary } from '@prisma/client'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { FormButton, FormError } from '../Form'
 import { BeneficiaryArchiveFormFields } from './BeneficiaryArchiveFormFields'
 

@@ -1,7 +1,7 @@
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import { getUserDisplayName } from '@mss/web/utils/user'
 
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { Routes } from '@mss/web/app/routing/routes'
 import { AuthCard } from '../SigninPanel'
 import { PublicWebAppConfig } from '@mss/web/webAppConfig'

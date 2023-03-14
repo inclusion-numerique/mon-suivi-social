@@ -50,7 +50,9 @@ export const PublicWebAppConfig = {
   mainLiveUrl,
   repository: repositoryUrl,
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? '',
-
+  disableLinkPrefetch:
+    NodeEnvironment === 'development' &&
+    process.env.NEXT_PUBLIC_DEVELOPMENT_DISABLE_LINK_PREFETCH === 'true',
   Sentry: {
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN ?? '',
     environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT ?? 'local',

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { PageTitle } from '@mss/web/components/PageTitle'
 import { RoutePathParams, Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'

@@ -17,7 +17,7 @@ import {
   canViewBeneficiaryHelpRequestSynthesis,
 } from '@mss/web/security/rules'
 import { Routes } from '@mss/web/app/routing/routes'
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 import { GetSupportsReturn, GetBeneficiaryToViewReturn } from '@mss/web/query'
 import {
   followupMediumLabels,

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@mss/web/components/Generic/Link'
 
 export type BreadCrumbParent = { title: string; path: string }
 export type BreadCrumbParents = BreadCrumbParent[]
