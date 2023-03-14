@@ -1,6 +1,6 @@
 import { Routes } from '@mss/web/app/routing/routes'
-import { createSortLinkHelper } from './sorting'
-import { Sorting } from './table'
+import { createSortLinkHelper } from './tablePage'
+import { Sorting } from './TableColumnDefinition'
 
 describe('sorting', () => {
   describe('createSortLinkHelper', () => {
@@ -153,11 +153,10 @@ describe('sorting', () => {
     })
 
     it('provides an helper that creates a sort link that keeps other parameters provided', () => {
-      const sortLinkHelper = createSortLinkHelper<{
-        pageNumber?: number
-        defaultSorting?: Sorting
-        recherche?: string
-      }>({ recherche: 'foo' }, Routes.Beneficiaires.Index.pathWithParams)
+      const sortLinkHelper = createSortLinkHelper(
+        { recherche: 'foo' },
+        Routes.Beneficiaires.Index.pathWithParams,
+      )
 
       const sortLinkNameAsc = sortLinkHelper({
         by: 'name',

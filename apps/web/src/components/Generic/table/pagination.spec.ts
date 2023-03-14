@@ -1,6 +1,5 @@
 import { Routes } from '@mss/web/app/routing/routes'
-import { createPageLinkHelper } from './pagination'
-import { Sorting } from './table'
+import { createPageLinkHelper } from './tablePage'
 
 describe('pagination', () => {
   describe('createPageLinkHelper', () => {
@@ -120,11 +119,10 @@ describe('pagination', () => {
     })
 
     it('provides an helper that creates a page link that keeps other parameters provided', () => {
-      const pageLinkHelper = createPageLinkHelper<{
-        currentSorting?: Sorting
-        defaultSorting?: Sorting
-        recherche?: string
-      }>({ recherche: 'foo' }, Routes.Beneficiaires.Index.pathWithParams)
+      const pageLinkHelper = createPageLinkHelper(
+        { recherche: 'foo' },
+        Routes.Beneficiaires.Index.pathWithParams,
+      )
 
       const pageLinkFirst = pageLinkHelper(1)
 
