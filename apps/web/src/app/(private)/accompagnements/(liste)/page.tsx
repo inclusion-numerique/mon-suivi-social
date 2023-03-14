@@ -16,6 +16,7 @@ import { AccompagnementsQuery } from '@mss/web/query'
 import { followupListTableColumns } from '@mss/web/components/FollowupListTable'
 import { buildHelpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
 
+const perPage = 15 // FIXME: Factorise
 
 const defaultSorting: Sorting = {
   by: 'date',
