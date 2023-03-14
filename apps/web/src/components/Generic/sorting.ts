@@ -6,10 +6,9 @@ import { PaginationSortingParams } from './tabs/paginationSortingParams'
 export const createSortLinkHelper =
   <T extends { pageNumber?: number; defaultSorting?: Sorting }>(
     { pageNumber, defaultSorting, ...otherParameters }: T,
-    parametersToLink: PaginationSortingParams<
-      T,
-      'defaultSorting' | 'pageNumber'
-    >,
+    parametersToLink: (
+      params: PaginationSortingParams<T, 'defaultSorting' | 'pageNumber'>,
+    ) => string,
   ) =>
   (sorting: Sorting) =>
     parametersToLink({
