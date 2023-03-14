@@ -38,6 +38,7 @@ export const webAppStackVariables = [
   'INCLUSION_CONNECT_MAIN_CLIENT_ID',
   'SCW_DEFAULT_ORGANIZATION_ID',
   'SCW_PROJECT_ID',
+  'SCW_S3_HOST',
 ] as const
 export const webAppStackSensitiveVariables = [
   'SCW_ACCESS_KEY',
@@ -187,6 +188,7 @@ export class WebAppStack extends TerraformStack {
         NAMESPACE: namespace,
         // This env variable is reserved at the level of container namespace. We inject it here even if its shared.
         SCW_DEFAULT_REGION: region,
+        SCW_S3_HOST: environmentVariables.SCW_S3_HOST.value,
         NEXT_PUBLIC_INCLUSION_CONNECT_ISSUER: isMain
           ? environmentVariables.INCLUSION_CONNECT_MAIN_ISSUER.value
           : environmentVariables.INCLUSION_CONNECT_PREVIEW_ISSUER.value,
