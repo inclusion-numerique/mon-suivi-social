@@ -9,17 +9,14 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const isDev = process.env.NODE_ENV === 'development'
 
-/**
- * Improve dev compilation times by not compiling everything when importing a module
- */
-const modularizeImports = isDev
-  ? {
-      // TODO What module are we using that could benefit from this ?
-      lodash: {
-        transform: 'lodash/{{member}}',
-      },
-    }
-  : {}
+// Some packages export a lot of modules in a single index file. To avoid them being compiled
+// next has added native support for modularize import transform
+// https://nextjs.org/docs/advanced-features/compiler#modularize-imports
+// https://github.com/vercel/next.js/tree/canary/examples/modularize-imports
+const modularizeImports = {
+  'date-fns': { transform: 'date-fns/{{member}}' },
+  'chart.js': { transform: 'chart.js/{{member}}' },
+}
 
 // https://webpack.js.org/concepts/plugins/
 // class DebugCompiledModulesPlugin {
