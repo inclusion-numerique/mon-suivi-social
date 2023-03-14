@@ -138,7 +138,6 @@ export class ProjectStack extends TerraformStack {
         SENTRY_PROJECT: sentryProject,
         SENTRY_URL: sentryUrl,
         SMTP_PORT: smtpPort,
-        SCW_DEFAULT_REGION: region,
         AWS_DEFAULT_REGION: region,
         SCW_S3_HOST: environmentVariables.SCW_S3_HOST.value,
       },
