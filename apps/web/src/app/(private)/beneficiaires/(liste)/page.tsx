@@ -12,7 +12,8 @@ import {
   TableHeadWithSorting,
   getColumnOrderBy,
   Sorting,
-  tablePage,
+  parseTableSearchParams,
+  createTableLinks,
 } from '@mss/web/components/Generic'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
 import { BeneficiairesQuery } from '@mss/web/query'
@@ -34,12 +35,15 @@ const BeneficiariesListPage = async ({
   const user = await getAuthenticatedAgent()
   const { structureId } = user
 
-  const { pageNumber, currentSorting, search, createPageLink, createSortLink } =
-    tablePage(
-      Routes.Beneficiaires.Index.pathWithParams,
-      searchParams,
-      defaultSorting,
-    )
+  const { pageNumber, currentSorting, search } = parseTableSearchParams(
+    searchParams,
+    defaultSorting,
+  )
+
+  const { createPageLink, createSortLink } = createTableLinks(
+    Routes.Beneficiaires.Index.pathWithParams,
+    { pageNumber, currentSorting, defaultSorting, search },
+  )
 
   const beneficiariesList = await BeneficiairesQuery.iterateBeneficiaries({
     perPage: itemsPerPage,
