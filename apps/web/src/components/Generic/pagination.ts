@@ -1,7 +1,4 @@
 // Only display at most 6 pages numbered links
-import { Sorting } from '@mss/web/components/Generic/table/TableColumnDefinition'
-import { PaginationSortingParams } from './tabs/paginationSortingParams'
-
 /**
  * A string return type means that no pageNumber is to display.
  * These are unique string so they can be used as "key" props in iterators.
@@ -31,29 +28,5 @@ export const createPagesNumbersToDisplay = (
     totalPages,
   ]
 }
-
-// TODO clean this and factorize with sorting helper for default removal logic that helps cache hits
-export const createPageLinkHelper =
-  <T extends { currentSorting?: Sorting; defaultSorting?: Sorting }>(
-    { currentSorting, defaultSorting, ...otherParameters }: T,
-    parametersToLink: PaginationSortingParams<
-      T,
-      'defaultSorting' | 'currentSorting'
-    >,
-  ) =>
-  (toPage: number) =>
-    parametersToLink({
-      page: toPage === 1 ? undefined : toPage.toString(),
-      tri:
-        !currentSorting || currentSorting.by === defaultSorting?.by
-          ? undefined
-          : currentSorting.by,
-      ordre:
-        !currentSorting ||
-        currentSorting.direction === defaultSorting?.direction
-          ? undefined
-          : currentSorting.direction,
-      ...otherParameters,
-    })
 
 export const DEFAULT_PER_PAGE = 15

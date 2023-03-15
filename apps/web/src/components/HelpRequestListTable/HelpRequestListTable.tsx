@@ -34,7 +34,6 @@ export const HelpRequestListTable = ({
 
   const { createPageLink, createSortLink } =
     createTableLinks<'demandes-d-aide'>(
-      Routes.Accompagnements.Index.pathWithParams,
       {
         pageNumber,
         currentSorting,
@@ -42,6 +41,7 @@ export const HelpRequestListTable = ({
         tab: 'demandes-d-aide',
         search,
       },
+      Routes.Accompagnements.Index.pathWithParams,
     )
 
   return (
