@@ -6,10 +6,10 @@ import { notFound, redirect } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-  createPageLinkHelper,
-  createSortLinkHelper,
   Table,
   TableHeadWithSorting,
+  parseTableSearchParams,
+  createTableLinks,
 } from '@mss/web/components/Generic'
 import { Link } from '@mss/web/components/Generic/Link'
 import { UserTable, userTableColumns } from '@mss/web/components/UserTable'
@@ -35,15 +35,15 @@ const ListeDesUtilisateursPage = async ({
     notFound()
   }
 
-  // Get pagination and sorting info from searchParams
-  const pageNumber = searchParams?.page ? Number.parseInt(searchParams.page) : 1
-  const currentSorting: Sorting = {
-    by: searchParams?.tri ?? defaultSorting.by,
-    direction: searchParams?.ordre ?? defaultSorting.direction,
-  }
+  const { pageNumber, currentSorting, search } = parseTableSearchParams(
+    searchParams,
+    defaultSorting,
+  )
 
-  // Get filters info from searchParams
-  const search = searchParams?.recherche
+  const { createPageLink, createSortLink } = createTableLinks(
+    Routes.Utilisateurs.Index.pathWithParams,
+    { pageNumber, currentSorting, defaultSorting, search },
+  )
 
   const { users, totalPages, count } = await iterateUsers({
     perPage: itemsPerPage,
@@ -51,22 +51,11 @@ const ListeDesUtilisateursPage = async ({
     orderBy: getColumnOrderBy(currentSorting, userTableColumns),
   })
 
-  // Linking logic for pages navigation
-  const createPageLink = createPageLinkHelper(
-    { currentSorting, defaultSorting, search },
-    Routes.Utilisateurs.Index.pathWithParams,
-  )
-
+  // FIXME: Not sure if it is possible to factorise the following lines
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > totalPages) {
     redirect(createPageLink(totalPages))
   }
-
-  // Linking logic for sorting
-  const createSortLink = createSortLinkHelper(
-    { pageNumber, defaultSorting, search },
-    Routes.Utilisateurs.Index.pathWithParams,
-  )
 
   const tableHead = (
     <TableHeadWithSorting
