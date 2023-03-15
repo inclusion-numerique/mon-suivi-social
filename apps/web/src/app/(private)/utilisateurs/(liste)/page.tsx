@@ -51,7 +51,6 @@ const ListeDesUtilisateursPage = async ({
     orderBy: getColumnOrderBy(currentSorting, userTableColumns),
   })
 
-  // FIXME: Not sure if it is possible to factorise the following lines
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > totalPages) {
     redirect(createPageLink(totalPages))

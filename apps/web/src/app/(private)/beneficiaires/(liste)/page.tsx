@@ -53,7 +53,6 @@ const BeneficiariesListPage = async ({
     search,
   })
 
-  // FIXME: Not sure if it is possible to factorise the following lines
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > beneficiariesList.totalPages) {
     redirect(createPageLink(beneficiariesList.totalPages))
