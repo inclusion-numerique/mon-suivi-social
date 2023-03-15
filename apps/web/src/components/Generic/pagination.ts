@@ -55,3 +55,5 @@ export const createPageLinkHelper =
           : currentSorting.direction,
       ...otherParameters,
     })
+
+export const DEFAULT_PER_PAGE = 15

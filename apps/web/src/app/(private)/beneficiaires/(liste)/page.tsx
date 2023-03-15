@@ -17,8 +17,9 @@ import {
 } from '@mss/web/components/Generic'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
 import { BeneficiairesQuery } from '@mss/web/query'
+import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
-const itemsPerPage = 15
+const perPage = DEFAULT_PER_PAGE
 
 const defaultSorting: Sorting = {
   by: 'Nom',
@@ -46,7 +47,7 @@ const BeneficiariesListPage = async ({
   )
 
   const beneficiariesList = await BeneficiairesQuery.iterateBeneficiaries({
-    perPage: itemsPerPage,
+    perPage,
     page: pageNumber,
     orderBy: getColumnOrderBy(currentSorting, beneficiaryColumns),
     structureId,
