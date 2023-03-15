@@ -32,13 +32,13 @@ const FieldLabels = EditBeneficiaryFullDataClient.fieldLabels
 export const BeneficiaryFormFields = ({
   disabled,
   control,
-  agents,
+  agentOptions,
   full,
   canUpdateReferents,
 }: {
   disabled: boolean
   control: Control<any, any>
-  agents: Options
+  agentOptions: Options
   full: boolean
   canUpdateReferents?: boolean
 }) => (
@@ -46,7 +46,7 @@ export const BeneficiaryFormFields = ({
     <SelectTagsFormField
       label={FieldLabels.referents}
       disabled={!canUpdateReferents || disabled}
-      options={agents}
+      options={agentOptions}
       control={control}
       defaultOptionLabel="Choisissez un référent"
       defaultOption

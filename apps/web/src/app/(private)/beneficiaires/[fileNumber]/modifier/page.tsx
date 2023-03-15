@@ -34,7 +34,7 @@ const EditBeneficiaryPage = async ({
     notFound()
   }
 
-  const agents = await BeneficiairesQuery.getAgentOptions(user)
+  const agentOptions = await BeneficiairesQuery.getAgentOptions(user)
 
   // NOTE: Could I have done this in BeneficiaryFormFields and keep secure ?
   const canUpdateReferents = canUpdateBeneficiaryReferents(user, beneficiary)
@@ -90,7 +90,7 @@ const EditBeneficiaryPage = async ({
             <div className="fr-card__body fr-py-8v">
               <BeneficiaryFormEdition
                 full={formProperties.full}
-                agents={agents} // FIXME: No need to serialize ?
+                agentOptions={agentOptions}
                 defaultInput={serialize(formProperties.defaultInput)}
                 canUpdateReferents={canUpdateReferents}
               />

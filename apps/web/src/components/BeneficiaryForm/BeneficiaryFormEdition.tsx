@@ -21,7 +21,7 @@ import { showErrorsOnSubmit } from './showErrorsOnSubmit'
  */
 export const BeneficiaryFormEdition = withTrpc(
   (
-    properties: { agents: Options; canUpdateReferents?: boolean } & (
+    properties: { agentOptions: Options; canUpdateReferents?: boolean } & (
       | {
           full: false
           defaultInput: Serialized<
@@ -46,7 +46,7 @@ export const BeneficiaryFormEdition = withTrpc(
       ? EditBeneficiaryFullDataClient
       : EditBeneficiaryGeneralInfoClient
 
-    const { agents, canUpdateReferents } = properties
+    const { agentOptions, canUpdateReferents } = properties
 
     const defaultValues = properties.full
       ? deserialize(properties.defaultInput)
@@ -91,7 +91,7 @@ export const BeneficiaryFormEdition = withTrpc(
         <BeneficiaryFormFields
           disabled={fieldsDisabled}
           control={control}
-          agents={agents}
+          agentOptions={agentOptions}
           full={properties.full}
           canUpdateReferents={canUpdateReferents}
         />
