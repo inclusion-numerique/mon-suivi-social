@@ -3,10 +3,7 @@ import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/
 import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
-import { computeArrayDiff } from '@mss/web/utils/diff'
 import { Nationalities } from '@mss/web/client/options/nationality'
-import { canUpdateBeneficiaryReferents } from '@mss/web/security/rules'
-import { forbiddenError } from '@mss/web/server/trpcErrors'
 
 export const EditBeneficiaryGeneralInfoServer =
   createMutationServerWithInitialState({
@@ -71,26 +68,13 @@ export const EditBeneficiaryGeneralInfoServer =
     }),
     executeMutation: async ({ input, transaction, initialInput, user }) => {
       // FIXME: data contient aussi les données qui n'ont pas changé ? Dans ce cas là
-      const { beneficiaryId, referents, structureId, ...data } = input
-
-      const referentsDiff = computeArrayDiff(initialInput.referents, referents)
-      const referentIds = referents.map((id) => ({ id }))
-      const canUpdateReferents = canUpdateBeneficiaryReferents(user, {
-        referents: referentIds,
-        structureId,
-      })
-
-      if (referentsDiff && !canUpdateReferents) throw forbiddenError()
+      const { beneficiaryId, structureId, ...data } = input
 
       const beneficiary = await transaction.beneficiary.update({
         where: { id: beneficiaryId },
         data: {
           updated: new Date(),
           ...data,
-          referents: {
-            connect: referentsDiff.added.map((id) => ({ id })),
-            disconnect: referentsDiff.removed.map((id) => ({ id })),
-          },
         },
       })
 

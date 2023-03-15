@@ -7,12 +7,11 @@ export const EditBeneficiaryGeneralInfoClient = createMutationClient({
   name: 'beneficiary.editGeneralInfo',
   title: 'Modification de bénéficiaire',
   securityCheck: canEditBeneficiaryGeneralInfo,
-  // FIXME: It would need to adapt the zod validation to avoid requiring referents if disabled (agents)
   inputValidation: AddBeneficiaryWithGeneralInfoClient.inputValidation
     .extend({
       beneficiaryId: z.string().uuid(),
     })
-    .omit({ structureId: true }),
+    .omit({ referents: true }), // FIXME: Would be nice to base it on canUpdateBeneficiaryReferents if possible. Otherwise, GeneralInfo = formulaire d'agent d'accueil
   beneficiaryAnonymization:
     AddBeneficiaryWithGeneralInfoClient.beneficiaryAnonymization,
   fieldLabels: {
