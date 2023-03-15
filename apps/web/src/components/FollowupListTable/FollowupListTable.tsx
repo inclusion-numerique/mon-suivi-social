@@ -2,8 +2,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { FollowupsListResult } from '@mss/web/query'
 import { getTotalPages } from '@mss/web/utils/table'
 import {
-  createPageLinkHelper,
-  createSortLinkHelper,
+  createTableLinks,
   Sorting,
   Table,
   TableHeadWithSorting,
@@ -13,50 +12,29 @@ import { FollowupListTableRows } from './FollowupListTableRows'
 
 export const FollowupListTable = ({
   followupsListResult,
-  sorting,
+  currentSorting,
+  defaultSorting,
   perPage,
   pageNumber,
   search,
 }: {
   followupsListResult: FollowupsListResult
-  sorting: Sorting
+  currentSorting: Sorting
+  defaultSorting: Sorting
   perPage: number
   pageNumber: number
-  search: string | undefined
+  search?: string
 }) => {
-  const defaultSorting: Sorting = {
-    by: 'date',
-    direction: 'desc',
-  }
-
-  const currentSorting: Sorting = {
-    by: sorting?.by ?? defaultSorting.by,
-    direction: sorting?.direction ?? defaultSorting.direction,
-  }
-
   const totalPages = getTotalPages({
     perPage,
     count: followupsListResult.count,
   })
 
-  // Linking logic for pages navigation
-  const createPageLink = createPageLinkHelper(
-    {
-      currentSorting,
-      defaultSorting,
-      search,
-    },
+  const { createPageLink, createSortLink } = createTableLinks(
     Routes.Accompagnements.Index.pathWithParams,
+    { pageNumber, currentSorting, defaultSorting, search },
   )
 
-  const createSortLink = createSortLinkHelper(
-    {
-      pageNumber,
-      defaultSorting,
-      search,
-    },
-    Routes.Accompagnements.Index.pathWithParams,
-  )
   return (
     <Table
       tableHead={
