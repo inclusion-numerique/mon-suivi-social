@@ -5,6 +5,8 @@ import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
 import { Nationalities } from '@mss/web/client/options/nationality'
+import { canUpdateBeneficiaryReferents } from '@mss/web/security/rules'
+import { forbiddenError } from '@mss/web/server/trpcErrors'
 
 export const EditBeneficiaryGeneralInfoServer =
   createMutationServerWithInitialState({
@@ -67,10 +69,18 @@ export const EditBeneficiaryGeneralInfoServer =
       referents: referents.map((referent) => referent.id),
       ...removeNullAndUndefinedValues(data),
     }),
-    executeMutation: async ({ input, transaction, initialInput }) => {
-      const { beneficiaryId, referents, ...data } = input
+    executeMutation: async ({ input, transaction, initialInput, user }) => {
+      // FIXME: data contient aussi les données qui n'ont pas changé ? Dans ce cas là
+      const { beneficiaryId, referents, structureId, ...data } = input
 
       const referentsDiff = computeArrayDiff(initialInput.referents, referents)
+      const referentIds = referents.map((id) => ({ id }))
+      const canUpdateReferents = canUpdateBeneficiaryReferents(user, {
+        referents: referentIds,
+        structureId,
+      })
+
+      if (referentsDiff && !canUpdateReferents) throw forbiddenError()
 
       const beneficiary = await transaction.beneficiary.update({
         where: { id: beneficiaryId },
