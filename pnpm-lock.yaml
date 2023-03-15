@@ -119,7 +119,6 @@ importers:
       react-chartjs-2: ^5.2.0
       react-dom: ^18.2.0
       react-hook-form: ^7.43.5
-      react-intersection-observer: ^9.4.3
       react-is: ^18.2.0
       react-loader-spinner: ^5.3.4
       react-textarea-autosize: ^8.4.0
@@ -132,8 +131,6 @@ importers:
       superjson: ^1.12.2
       typescript: ^4.9.5
       uglify-js: ^3.17.4
-      undici: ^5.21.0
-      usehooks-ts: ^2.9.1
       uuid: ^9.0.0
       zod: ^3.21.4
       zustand: ^4.3.6
@@ -176,7 +173,6 @@ importers:
       react-chartjs-2: 5.2.0_t5yjg6ab35jnsudnh2qdighszm
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.43.5_react@18.2.0
-      react-intersection-observer: 9.4.3_react@18.2.0
       react-loader-spinner: 5.3.4_biqbaboplfbrettd7655fr4n2y
       react-textarea-autosize: 8.4.0_pmekkgnqduwlme35zpnqhenc34
       react-use-css-custom-property: 0.1.1_react@18.2.0
@@ -185,8 +181,6 @@ importers:
       smooth-scroll-into-view-if-needed: 2.0.0
       superjson: 1.12.2
       uglify-js: 3.17.4
-      undici: 5.21.0
-      usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
       uuid: 9.0.0
       zod: 3.21.4
       zustand: 4.3.6_react@18.2.0
@@ -8878,13 +8872,6 @@ packages:
   /builtins/1.0.3:
     resolution: {integrity: sha512-uYBjakWipfaO/bXI7E8rq6kpwHRZK5cNYrUv2OzZSI/FvmdMyXJ2tG9dKcjEC5YHmHpUAwsargWIZNWdxb/bnQ==}
 
-  /busboy/1.6.0:
-    resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
-    engines: {node: '>=10.16.0'}
-    dependencies:
-      streamsearch: 1.1.0
-    dev: false
-
   /bytes/3.0.0:
     resolution: {integrity: sha512-pMhOfFDPiv9t5jjIXkHosWmkSyQbvsgEVNkz0ERHbuLh2T/7j4Mqqpz523Fe8MVY89KC6Sh/QfS2sM+SjgFDcw==}
     engines: {node: '>= 0.8'}
@@ -16996,14 +16983,6 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-intersection-observer/9.4.3_react@18.2.0:
-    resolution: {integrity: sha512-WNRqMQvKpupr6MzecAQI0Pj0+JQong307knLP4g/nBex7kYfIaZsPpXaIhKHR+oV8z+goUbH9e10j6lGRnTzlQ==}
-    peerDependencies:
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
-    dev: false
-
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -17988,11 +17967,6 @@ packages:
       - supports-color
     dev: false
 
-  /streamsearch/1.1.0:
-    resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
-    engines: {node: '>=10.0.0'}
-    dev: false
-
   /string-length/4.0.2:
     resolution: {integrity: sha512-+l6rNN5fYHNhZZy41RXsYptCjA2Igmq4EG7kZAYFQI1E1VTXarr6ZPXBg6eq7Y6eK4FEhY6AJlyuFIb/v/S0VQ==}
     engines: {node: '>=10'}
@@ -18956,13 +18930,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /undici/5.21.0:
-    resolution: {integrity: sha512-HOjK8l6a57b2ZGXOcUsI5NLfoTrfmbOl90ixJDl0AEFG4wgHNDQxtZy15/ZQp7HhjkpaGlp/eneMgtsu1dIlUA==}
-    engines: {node: '>=12.18'}
-    dependencies:
-      busboy: 1.6.0
-    dev: false
-
   /unfetch/4.2.0:
     resolution: {integrity: sha512-F9p7yYCn6cIW9El1zi0HI6vqpeIvBsr3dSuRO6Xuppb1u5rXpCPmMvLSyECLhybr9isec8Ohl0hPekMVrEinDA==}
     dev: false
@@ -19165,17 +19132,6 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
-    dev: false
-
-  /usehooks-ts/2.9.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==}
-    engines: {node: '>=16.15.0', npm: '>=8'}
-    peerDependencies:
-      react: ^16.8.0  || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /util-deprecate/1.0.2:
