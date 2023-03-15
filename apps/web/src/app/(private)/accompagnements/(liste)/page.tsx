@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
+  parseTableSearchParams,
   TabOptions,
   Tabs,
 } from '@mss/web/components/Generic'
@@ -14,8 +15,14 @@ import { HelpRequestListTable } from '@mss/web/components/HelpRequestListTable/H
 import { AccompagnementsQuery } from '@mss/web/query'
 import { followupListTableColumns } from '@mss/web/components/FollowupListTable'
 import { buildHelpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
+import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
-const perPage = 15
+const perPage = DEFAULT_PER_PAGE
+
+const defaultSorting: Sorting = {
+  by: 'date',
+  direction: 'desc',
+}
 
 const AccompagnementsListPage = async ({
   searchParams,
@@ -30,16 +37,10 @@ const AccompagnementsListPage = async ({
   }
   const tab = searchParams?.tab ?? 'entretiens'
 
-  // Get pagination and sorting info from searchParams
-  const pageNumber = searchParams?.page ? Number.parseInt(searchParams.page) : 1
-
-  // Get filters info from searchParams
-  const search = searchParams?.recherche
-
-  const currentSorting: Sorting = {
-    by: searchParams?.tri ?? '',
-    direction: searchParams?.ordre ?? 'desc',
-  }
+  const { pageNumber, currentSorting, search } = parseTableSearchParams(
+    searchParams,
+    defaultSorting,
+  )
 
   const helpRequestListTableColumns = buildHelpRequestListTableColumns(user)
 
@@ -65,7 +66,8 @@ const AccompagnementsListPage = async ({
       ),
       content: (
         <FollowupListTable
-          sorting={currentSorting}
+          currentSorting={currentSorting}
+          defaultSorting={defaultSorting}
           perPage={perPage}
           pageNumber={pageNumber}
           search={search}
@@ -82,7 +84,8 @@ const AccompagnementsListPage = async ({
       content: (
         <HelpRequestListTable
           columns={helpRequestListTableColumns}
-          sorting={currentSorting}
+          currentSorting={currentSorting}
+          defaultSorting={defaultSorting}
           perPage={perPage}
           pageNumber={pageNumber}
           search={search}

@@ -10,15 +10,16 @@ import { redirect } from 'next/navigation'
 import {
   Table,
   TableHeadWithSorting,
-  createPageLinkHelper,
-  createSortLinkHelper,
   getColumnOrderBy,
   Sorting,
+  parseTableSearchParams,
+  createTableLinks,
 } from '@mss/web/components/Generic'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
 import { BeneficiairesQuery } from '@mss/web/query'
+import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
-const itemsPerPage = 15
+const perPage = DEFAULT_PER_PAGE
 
 const defaultSorting: Sorting = {
   by: 'Nom',
@@ -35,42 +36,29 @@ const BeneficiariesListPage = async ({
   const user = await getAuthenticatedAgent()
   const { structureId } = user
 
-  // TODO We could put all this in a big list page helper function...
+  const { pageNumber, currentSorting, search } = parseTableSearchParams(
+    searchParams,
+    defaultSorting,
+  )
 
-  // Get pagination and sorting info from searchParams
-  const pageNumber = searchParams?.page ? Number.parseInt(searchParams.page) : 1
-  const currentSorting: Sorting = {
-    by: searchParams?.tri ?? defaultSorting.by,
-    direction: searchParams?.ordre ?? defaultSorting.direction,
-  }
-
-  // Get filters info from searchParams
-  const search = searchParams?.recherche
+  const { createPageLink, createSortLink } = createTableLinks(
+    Routes.Beneficiaires.Index.pathWithParams,
+    { pageNumber, currentSorting, defaultSorting, search },
+  )
 
   const beneficiariesList = await BeneficiairesQuery.iterateBeneficiaries({
-    perPage: itemsPerPage,
+    perPage,
     page: pageNumber,
     orderBy: getColumnOrderBy(currentSorting, beneficiaryColumns),
     structureId,
     search,
   })
 
-  // Linking logic for pages navigation
-  const createPageLink = createPageLinkHelper(
-    { currentSorting, defaultSorting, search },
-    Routes.Beneficiaires.Index.pathWithParams,
-  )
-
+  // FIXME: Not sure if it is possible to factorise the following lines
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > beneficiariesList.totalPages) {
     redirect(createPageLink(beneficiariesList.totalPages))
   }
-
-  // Linking logic for sorting
-  const createSortLink = createSortLinkHelper(
-    { pageNumber, defaultSorting, search },
-    Routes.Beneficiaires.Index.pathWithParams,
-  )
 
   const tableHead = (
     <TableHeadWithSorting

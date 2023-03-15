@@ -6,10 +6,10 @@ import { notFound, redirect } from 'next/navigation'
 import {
   getColumnOrderBy,
   Sorting,
-  createPageLinkHelper,
-  createSortLinkHelper,
   TableHeadWithSorting,
   Table,
+  parseTableSearchParams,
+  createTableLinks,
 } from '@mss/web/components/Generic'
 import {
   structureColumns,
@@ -17,8 +17,9 @@ import {
 } from '@mss/web/components/StructureTable'
 import { Link } from '@mss/web/components/Generic/Link'
 import { StructureQuery } from '@mss/web/query'
+import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
-const itemsPerPage = 15
+const perPage = DEFAULT_PER_PAGE
 
 const defaultSorting: Sorting = {
   by: 'Nom',
@@ -35,41 +36,28 @@ const StructuresListPage = async ({
     notFound()
   }
 
-  // TODO We could put all this in a big list page helper function...
+  const { pageNumber, currentSorting } = parseTableSearchParams(
+    searchParams,
+    defaultSorting,
+  )
 
-  // Get pagination and sorting info from searchParams
-  const pageNumber = searchParams?.page ? Number.parseInt(searchParams.page) : 1
-  const currentSorting: Sorting = {
-    by: searchParams?.tri ?? defaultSorting.by,
-    direction: searchParams?.ordre ?? defaultSorting.direction,
-  }
-
-  // Get filters info from searchParams
-  const search = searchParams?.recherche
+  const { createPageLink, createSortLink } = createTableLinks(
+    Routes.Structures.Index.pathWithParams,
+    { pageNumber, currentSorting, defaultSorting },
+  )
 
   const { structures, totalPages, count } =
     await StructureQuery.iterateStructures({
-      perPage: itemsPerPage,
+      perPage,
       page: pageNumber,
       orderBy: getColumnOrderBy(currentSorting, structureColumns),
     })
 
-  // Linking logic for pages navigation
-  const createPageLink = createPageLinkHelper(
-    { currentSorting, defaultSorting, search },
-    Routes.Structures.Index.pathWithParams,
-  )
-
+  // FIXME: Not sure if it is possible to factorise the following lines
   // Redirect to last page if pageNumber is outside of bounds
   if (pageNumber > totalPages) {
     redirect(createPageLink(totalPages))
   }
-
-  // Linking logic for sorting
-  const createSortLink = createSortLinkHelper(
-    { pageNumber, defaultSorting, search },
-    Routes.Structures.Index.pathWithParams,
-  )
 
   const tableHead = (
     <TableHeadWithSorting
