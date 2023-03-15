@@ -1,7 +1,7 @@
 'use client'
 
 import { trpc } from '@mss/web/trpc'
-import { withTrpc } from '@mss/web/withTrpc'
+import { withTrpc } from '@mss/web/components/TrpcProvider'
 import { useRef } from 'react'
 import { Spinner } from '@mss/web/components/Generic/Spinner'
 import { useRouter } from 'next/navigation'

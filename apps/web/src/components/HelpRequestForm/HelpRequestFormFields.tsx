@@ -10,7 +10,7 @@ import {
 } from '@mss/web/components/FormField'
 import { trpc } from '@mss/web/trpc'
 import { useRouter } from 'next/navigation'
-import { withTrpc } from '@mss/web/withTrpc'
+import { withTrpc } from '@mss/web/components/TrpcProvider'
 import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { MutationInput } from '@mss/web/features/createMutation.client'

@@ -1,6 +1,6 @@
 'use client'
 
-import { withTrpc } from '@mss/web/withTrpc'
+import { withTrpc } from '@mss/web/components/TrpcProvider'
 import { trpc } from '@mss/web/trpc'
 import { ChangeEventHandler, useDeferredValue, useState } from 'react'
 import { Spinner } from '@mss/web/components/Generic/Spinner'

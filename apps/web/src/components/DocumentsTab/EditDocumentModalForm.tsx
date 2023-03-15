@@ -2,7 +2,7 @@
 
 import { DefaultValues, useForm } from 'react-hook-form'
 import { trpc } from '@mss/web/trpc'
-import { withTrpc } from '@mss/web/withTrpc'
+import { withTrpc } from '@mss/web/components/TrpcProvider'
 import {
   SelectFormField,
   CheckboxFormField,
