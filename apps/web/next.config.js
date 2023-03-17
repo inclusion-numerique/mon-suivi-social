@@ -18,31 +18,6 @@ const modularizeImports = {
   'chart.js': { transform: 'chart.js/{{member}}' },
 }
 
-// https://webpack.js.org/concepts/plugins/
-// class DebugCompiledModulesPlugin {
-//   apply(compiler) {
-//     console.log('DebugCompiledModulesPlugin apply called')
-//     // https://webpack.js.org/api/compiler-hooks/
-//     compiler.hooks.compilation.tap(
-//       'DebugCompiledModulesPlugin',
-//       (compilation) => {
-//         // https://webpack.js.org/api/compilation-object/
-//         compilation.hooks.optimizeChunkAssets.tap(
-//           'DebugCompiledModulesPlugin',
-//           (chunk) => {
-//             // console.log('CHUNK', chunk.id)
-//             // explore chunk
-//             // chunk.getModules().forEach((module) => {
-//             //   console.log('MOD', module.resource, module.request, module.path)
-//             //   explore modules
-//             // })
-//           },
-//         )
-//       },
-//     )
-//   }
-// }
-
 /**
  * For faster dev UX, server dependencies do not need to be bundled.
  * Except those that are expected to be bundled for compilation features.
@@ -89,11 +64,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   webpack: (config, { isServer }) => {
-    if (isDev) {
-      // config.plugins.push(new DebugCompiledModulesPlugin())
-    }
     if (!isServer) {
       // Client bundling
+
       return config
     }
 
