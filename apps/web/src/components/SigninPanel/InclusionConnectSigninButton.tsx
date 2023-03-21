@@ -1,29 +1,36 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
-import Image from 'next/image'
 import { inclusionConnectProviderId } from '@mss/web/auth/inclusionConnect'
+import styles from './InclusionConnectSigninButton.module.css'
 
-export function InclusionConnectSigninButton() {
+export function InclusionConnectSigninButton({
+  className,
+}: {
+  className?: string
+}) {
   return (
-    <div className="fr-btns-group">
+    <div className={`${styles['inclusion-connect-section']} ${className}`}>
       <button
-        type="button"
-        className="fr-btn fr-p-0"
-        style={{ background: '#000638' }}
-        title="S'identifier avec Inclusion Connect"
-        onClick={() => {
-          signIn(inclusionConnectProviderId)
-        }}
+        className={`${styles['inclusion-connect-btn']} fr-btn`}
+        title="S'identifier avec InclusionConnect"
+        onClick={() => signIn(inclusionConnectProviderId)}
       >
-        <Image
-          className="img-fluid"
-          alt="Inclusion Connect"
-          src="/images/inclusion-connect.svg"
-          height={40}
-          width={243}
-        />
+        <span>
+          Se connecter avec
+          <strong>InclusionConnect</strong>
+        </span>
       </button>
+
+      <a
+        className="fr-link--sm"
+        href="https://plateforme-inclusion.notion.site/Un-compte-unique-pour-mes-services-num-riques-ded9135197654da590f5dde41d8bb68b"
+        target="_blank"
+        rel="noopener"
+        title="Qu'est-ce qu'Inclusion Connect ? - nouvelle fenêtre"
+      >
+        En savoir plus
+      </a>
     </div>
   )
 }
