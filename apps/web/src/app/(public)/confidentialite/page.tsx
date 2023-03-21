@@ -56,8 +56,8 @@ function ConfidentialityPage() {
           <h2>Destinataires des données</h2>
 
           <p>
-            Le responsable de traitement s’engage à ce que les données soient
-            traitées par les seules personnes autorisées.
+            Le responsable de traitement s&apos;engage à ce que les données
+            soient traitées par les seules personnes autorisées.
           </p>
 
           <p>
@@ -72,7 +72,7 @@ function ConfidentialityPage() {
             réaliser certaines missions. Le responsable de traitement s&apos;est
             assuré de la mise en œuvre par ses sous-traitants de garanties
             adéquates et du respect de conditions strictes de confidentialité,
-            d’usage et de protection des données.
+            d&apos;usage et de protection des données.
           </p>
 
           <p>
@@ -81,10 +81,10 @@ function ConfidentialityPage() {
           </p>
 
           <p>
-            {PublicWebAppConfig.projectTitle} s’est assuré de la mise en œuvre
-            par ses sous-traitants de garanties adéquates et du respect de
-            conditions strictes de confidentialité, d’usage et de protection des
-            données.
+            {PublicWebAppConfig.projectTitle} s&apos;est assuré de la mise en
+            œuvre par ses sous-traitants de garanties adéquates et du respect de
+            conditions strictes de confidentialité, d&apos;usage et de
+            protection des données.
           </p>
 
           <div className="fr-table">
@@ -122,14 +122,14 @@ function ConfidentialityPage() {
           <h2>Base légale du traitement</h2>
 
           <p>
-            Le traitement de données est rendu licite parce qu’il est nécessaire
-            à l’exécution d’une mission d’intérêt public ou relevant de
-            l’exercice de l’autorité publique dont est investi le responsable de
-            traitement, telle qu’entendue par l’article 6-e du règlement (UE)
-            n°2016/679 du Parlement européen et du Conseil relatif à la
-            protection des personnes physiques à l’égard du traitement des
-            données à caractère personnel et à la libre circulation de ces
-            données.
+            Le traitement de données est rendu licite parce qu&apos;il est
+            nécessaire à l&apos;exécution d&apos;une mission d&apos;intérêt
+            public ou relevant de l&apos;exercice de l&apos;autorité publique
+            dont est investi le responsable de traitement, telle
+            qu&apos;entendue par l&apos;article 6-e du règlement (UE) n°2016/679
+            du Parlement européen et du Conseil relatif à la protection des
+            personnes physiques à l&apos;égard du traitement des données à
+            caractère personnel et à la libre circulation de ces données.
           </p>
 
           <p>
@@ -143,7 +143,7 @@ function ConfidentialityPage() {
           <h2>Durée de conservation</h2>
 
           <p>
-            Vous pouvez vous désincrire de la newsletter soit en nous envoyant
+            Vous pouvez vous désinscrire de la newsletter soit en nous envoyant
             un email, soit en utilisant les liens de désinscription présents
             dans nos emails d&apos;alerte ou newsletter, ou directement dans le
             formulaire d&apos;édition du profil, rubrique &ldquo;Mon
@@ -154,7 +154,7 @@ function ConfidentialityPage() {
             Vos coordonnées sont conservées jusqu&apos;à un an après votre
             dernière action sur le site, (dernière connexion à condition de
             n&apos;avoir aucune aide en cours de validité, envoi d&apos;un
-            message, etc), ou un an suite à votre demande d’effacement des
+            message, etc), ou un an suite à votre demande d&apos;effacement des
             données ou demande de désinscription.
           </p>
 
@@ -193,11 +193,13 @@ function ConfidentialityPage() {
                     créer un compte, de diffuser des dispositifs et de les
                     consulter.
                   </td>
-                  <td>envoi régulier ( mensuel) d’une lettre d’info</td>
-                  <td>envoi d’emails</td>
                   <td>
-                    demande adressée à l’équipe{' '}
-                    {PublicWebAppConfig.projectTitle}, en vue d’une réponse
+                    envoi régulier ( mensuel) d&apos;une lettre d&apos;info
+                  </td>
+                  <td>envoi d&apos;emails</td>
+                  <td>
+                    demande adressée à l&apos;équipe{' '}
+                    {PublicWebAppConfig.projectTitle}, en vue d&apos;une réponse
                     personnalisée
                   </td>
                 </tr>
@@ -217,7 +219,7 @@ function ConfidentialityPage() {
                   </td>
                   <td>
                     Vos coordonnées sont conservées jusqu&apos;à un an après
-                    l’envoi de votre message
+                    l&apos;envoi de votre message
                   </td>
                 </tr>
                 <tr>
@@ -272,19 +274,20 @@ function ConfidentialityPage() {
 
           <p>
             Un cookie est un fichier déposé sur votre terminal lors de la visite
-            d’un site. Il a pour but de collecter des informations relatives à
-            votre navigation et de vous adresser des services adaptés à votre
-            terminal (ordinateur, mobile ou tablette).
+            d&apos;un site. Il a pour but de collecter des informations
+            relatives à votre navigation et de vous adresser des services
+            adaptés à votre terminal (ordinateur, mobile ou tablette).
           </p>
 
           <p>
-            Le site dépose des cookies de mesure d’audience (nombre de visites,
-            pages consultées), respectant les conditions d’exemption du
-            consentement de l’internaute définies par la recommandation
-            «&nbsp;Cookies&nbsp;» de la Commission nationale informatique et
-            libertés (CNIL). Cela signifie, notamment, que ces cookies ne
-            servent qu’à la production de statistiques anonymes et ne permettent
-            pas de suivre la navigation de l’internaute sur d’autres sites.
+            Le site dépose des cookies de mesure d&apos;audience (nombre de
+            visites, pages consultées), respectant les conditions
+            d&apos;exemption du consentement de l&apos;internaute définies par
+            la recommandation «&nbsp;Cookies&nbsp;» de la Commission nationale
+            informatique et libertés (CNIL). Cela signifie, notamment, que ces
+            cookies ne servent qu&apos;à la production de statistiques anonymes
+            et ne permettent pas de suivre la navigation de l&apos;internaute
+            sur d&apos;autres sites.
           </p>
 
           <p>
@@ -296,22 +299,22 @@ function ConfidentialityPage() {
 
           <p>
             <b>Nous utilisons pour cela Matomo,</b> un outil de mesure
-            d’audience web libre, paramétré pour être en conformité avec la
+            d&apos;audience web libre, paramétré pour être en conformité avec la
             recommandation «&nbsp;Cookies&nbsp;» de la CNIL. Cela signifie que
-            votre adresse IP, par exemple, est anonymisée avant d’être
-            enregistrée. Il est donc impossible d’associer vos visites sur ce
-            site à votre personne.
+            votre adresse IP, par exemple, est anonymisée avant d&apos;être
+            enregistrée. Il est donc impossible d&apos;associer vos visites sur
+            ce site à votre personne.
           </p>
 
-          <p>Il convient d’indiquer que&nbsp;:</p>
+          <p>Il convient d&apos;indiquer que&nbsp;:</p>
           <ul>
             <li>
-              Les données collectées ne sont pas recoupées avec d’autres
+              Les données collectées ne sont pas recoupées avec d&apos;autres
               traitements
             </li>
             <li>
               Les cookies ne permettent pas de suivre la navigation de
-              l’internaute sur d’autres sites
+              l&apos;internaute sur d&apos;autres sites
             </li>
           </ul>
           <p />
@@ -329,7 +332,7 @@ function ConfidentialityPage() {
           </div>
 
           <p>
-            À tout moment, vous pouvez refuser l’utilisation des cookies et
+            À tout moment, vous pouvez refuser l&apos;utilisation des cookies et
             désactiver le dépôt sur votre ordinateur en utilisant la fonction
             dédiée de votre navigateur (fonction disponible notamment sur
             Microsoft Internet Explorer 11, Google Chrome, Mozilla Firefox,
@@ -365,8 +368,8 @@ function ConfidentialityPage() {
           <h3>Je contribue à enrichir vos données, puis-je y accéder ?</h3>
 
           <p>
-            Bien sûr ! Les statistiques d’usage de la majorité de nos produits
-            sont disponibles en accès libre sur&nbsp;
+            Bien sûr ! Les statistiques d&apos;usage de la majorité de nos
+            produits sont disponibles en accès libre sur&nbsp;
             <a href="https://stats.data.gouv.fr/" target="_blank">
               stats.data.gouv.fr
               <span className="fr-sr-only">Ouvre une nouvelle fenêtre</span>
@@ -380,10 +383,10 @@ function ConfidentialityPage() {
             Les données personnelles sont traitées dans des conditions
             sécurisées, selon les moyens actuels de la technique, dans le
             respect des dispositions relatives à la protection de la vie privée
-            et notamment au référentiel général de sécurité, prévu à l’article 9
-            de l’ordonnance 2005-1516 du 8 décembre 2005 relative aux échanges
-            électroniques entre les usagers et les autorités administratives et
-            entre les autorités administratives.
+            et notamment au référentiel général de sécurité, prévu à
+            l&apos;article 9 de l&apos;ordonnance 2005-1516 du 8 décembre 2005
+            relative aux échanges électroniques entre les usagers et les
+            autorités administratives et entre les autorités administratives.
           </p>
 
           <p>
@@ -393,8 +396,9 @@ function ConfidentialityPage() {
 
           <ul>
             <li>
-              Contrôle d’accès&nbsp;: la base de données des utilisateurs n’est
-              accessible qu’aux seuls membres de l’administration du service;
+              Contrôle d&apos;accès&nbsp;: la base de données des utilisateurs
+              n&apos;est accessible qu&apos;aux seuls membres de
+              l&apos;administration du service;
             </li>
             <li>
               Mesures de traçabilité&nbsp;: les logs applicatifs permettent de
@@ -424,7 +428,7 @@ function ConfidentialityPage() {
 
           <ul>
             <li>
-              Droit d’information, d’accès et de communication des
+              Droit d&apos;information, d&apos;accès et de communication des
               données&nbsp;;
             </li>
             <li>Droit à la limitation&nbsp;;</li>
@@ -433,7 +437,7 @@ function ConfidentialityPage() {
           </ul>
 
           <p>
-            Pour toute demande, vous pouvez écrire un email à l’équipe Mon
+            Pour toute demande, vous pouvez écrire un email à l&apos;équipe Mon
             espace collectivité&nbsp;:{' '}
             <a href={`mailto:${PublicWebAppConfig.contactEmail}`}>
               {PublicWebAppConfig.contactEmail}
@@ -443,7 +447,7 @@ function ConfidentialityPage() {
 
           <p>
             Si vous estimez, après nous avoir contactés, que vos droits ne sont
-            pas respectés ou que le traitement n’est pas conforme à la
+            pas respectés ou que le traitement n&apos;est pas conforme à la
             réglementation sur la protection des données à caractère personnel,
             vous pouvez adresser une réclamation à{' '}
             <a href="https://www.cnil.fr" target="_blank">

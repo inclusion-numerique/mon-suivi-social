@@ -12,49 +12,49 @@ export interface LbBackendConfig extends cdktf.TerraformMetaArguments {
 
 **NOTE** : Only the host part of the Scaleway S3 bucket website is expected.
 E.g. 'failover-website.s3-website.fr-par.scw.cloud' if your bucket website URL is 'https://failover-website.s3-website.fr-par.scw.cloud/'.
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#failover_host LbBackend#failover_host}
   */
   readonly failoverHost?: string;
   /**
   * User sessions will be forwarded to this port of backend servers
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#forward_port LbBackend#forward_port}
   */
   readonly forwardPort: number;
   /**
   * Load balancing algorithm
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#forward_port_algorithm LbBackend#forward_port_algorithm}
   */
   readonly forwardPortAlgorithm?: string;
   /**
   * Backend protocol
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#forward_protocol LbBackend#forward_protocol}
   */
   readonly forwardProtocol: string;
   /**
   * Interval between two HC requests
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#health_check_delay LbBackend#health_check_delay}
   */
   readonly healthCheckDelay?: string;
   /**
   * Number of allowed failed HC requests before the backend server is marked down
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#health_check_max_retries LbBackend#health_check_max_retries}
   */
   readonly healthCheckMaxRetries?: number;
   /**
   * Port the HC requests will be send to. Default to `forward_port`
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#health_check_port LbBackend#health_check_port}
   */
   readonly healthCheckPort?: number;
   /**
   * Timeout before we consider a HC request failed
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#health_check_timeout LbBackend#health_check_timeout}
   */
   readonly healthCheckTimeout?: string;
@@ -66,104 +66,104 @@ E.g. 'failover-website.s3-website.fr-par.scw.cloud' if your bucket website URL i
   */
   readonly id?: string;
   /**
-  * Specifies whether the Load Balancer should check the backend server’s certificate before initiating a connection
-  * 
+  * Specifies whether the Load Balancer should check the backend server's certificate before initiating a connection
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#ignore_ssl_server_verify LbBackend#ignore_ssl_server_verify}
   */
   readonly ignoreSslServerVerify?: boolean | cdktf.IResolvable;
   /**
   * The load-balancer ID
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#lb_id LbBackend#lb_id}
   */
   readonly lbId: string;
   /**
   * The name of the backend
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#name LbBackend#name}
   */
   readonly name?: string;
   /**
   * Modify what occurs when a backend server is marked down
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#on_marked_down_action LbBackend#on_marked_down_action}
   */
   readonly onMarkedDownAction?: string;
   /**
   * Type of PROXY protocol to enable
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#proxy_protocol LbBackend#proxy_protocol}
   */
   readonly proxyProtocol?: string;
   /**
   * Enables PROXY protocol version 2
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#send_proxy_v2 LbBackend#send_proxy_v2}
   */
   readonly sendProxyV2?: boolean | cdktf.IResolvable;
   /**
   * Backend server IP addresses list (IPv4 or IPv6)
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#server_ips LbBackend#server_ips}
   */
   readonly serverIps?: string[];
   /**
   * Enables SSL between load balancer and backend servers
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#ssl_bridging LbBackend#ssl_bridging}
   */
   readonly sslBridging?: boolean | cdktf.IResolvable;
   /**
   * Load balancing algorithm
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#sticky_sessions LbBackend#sticky_sessions}
   */
   readonly stickySessions?: string;
   /**
   * Cookie name for for sticky sessions
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#sticky_sessions_cookie_name LbBackend#sticky_sessions_cookie_name}
   */
   readonly stickySessionsCookieName?: string;
   /**
   * Maximum initial server connection establishment time
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#timeout_connect LbBackend#timeout_connect}
   */
   readonly timeoutConnect?: string;
   /**
   * Maximum server connection inactivity time
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#timeout_server LbBackend#timeout_server}
   */
   readonly timeoutServer?: string;
   /**
   * Maximum tunnel inactivity time
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#timeout_tunnel LbBackend#timeout_tunnel}
   */
   readonly timeoutTunnel?: string;
   /**
   * health_check_http block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#health_check_http LbBackend#health_check_http}
   */
   readonly healthCheckHttp?: LbBackendHealthCheckHttp;
   /**
   * health_check_https block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#health_check_https LbBackend#health_check_https}
   */
   readonly healthCheckHttps?: LbBackendHealthCheckHttps;
   /**
   * health_check_tcp block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#health_check_tcp LbBackend#health_check_tcp}
   */
   readonly healthCheckTcp?: LbBackendHealthCheckTcp;
   /**
   * timeouts block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#timeouts LbBackend#timeouts}
   */
   readonly timeouts?: LbBackendTimeouts;
@@ -171,25 +171,25 @@ E.g. 'failover-website.s3-website.fr-par.scw.cloud' if your bucket website URL i
 export interface LbBackendHealthCheckHttp {
   /**
   * The expected HTTP status code
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#code LbBackend#code}
   */
   readonly code?: number;
   /**
   * The HTTP host header to use for HC requests
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#host_header LbBackend#host_header}
   */
   readonly hostHeader?: string;
   /**
   * The HTTP method to use for HC requests
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#method LbBackend#method}
   */
   readonly method?: string;
   /**
   * The HTTP endpoint URL to call for HC requests
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#uri LbBackend#uri}
   */
   readonly uri: string;
@@ -259,7 +259,7 @@ export class LbBackendHealthCheckHttpOutputReference extends cdktf.ComplexObject
   }
 
   // code - computed: false, optional: true, required: false
-  private _code?: number; 
+  private _code?: number;
   public get code() {
     return this.getNumberAttribute('code');
   }
@@ -275,7 +275,7 @@ export class LbBackendHealthCheckHttpOutputReference extends cdktf.ComplexObject
   }
 
   // host_header - computed: false, optional: true, required: false
-  private _hostHeader?: string; 
+  private _hostHeader?: string;
   public get hostHeader() {
     return this.getStringAttribute('host_header');
   }
@@ -291,7 +291,7 @@ export class LbBackendHealthCheckHttpOutputReference extends cdktf.ComplexObject
   }
 
   // method - computed: false, optional: true, required: false
-  private _method?: string; 
+  private _method?: string;
   public get method() {
     return this.getStringAttribute('method');
   }
@@ -307,7 +307,7 @@ export class LbBackendHealthCheckHttpOutputReference extends cdktf.ComplexObject
   }
 
   // uri - computed: false, optional: false, required: true
-  private _uri?: string; 
+  private _uri?: string;
   public get uri() {
     return this.getStringAttribute('uri');
   }
@@ -322,31 +322,31 @@ export class LbBackendHealthCheckHttpOutputReference extends cdktf.ComplexObject
 export interface LbBackendHealthCheckHttps {
   /**
   * The expected HTTP status code
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#code LbBackend#code}
   */
   readonly code?: number;
   /**
   * The HTTP host header to use for HC requests
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#host_header LbBackend#host_header}
   */
   readonly hostHeader?: string;
   /**
   * The HTTP method to use for HC requests
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#method LbBackend#method}
   */
   readonly method?: string;
   /**
   * The SNI to use for HC requests over SSL
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#sni LbBackend#sni}
   */
   readonly sni?: string;
   /**
   * The HTTPS endpoint URL to call for HC requests
-  * 
+  *
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/scaleway/r/lb_backend#uri LbBackend#uri}
   */
   readonly uri: string;
@@ -423,7 +423,7 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
   }
 
   // code - computed: false, optional: true, required: false
-  private _code?: number; 
+  private _code?: number;
   public get code() {
     return this.getNumberAttribute('code');
   }
@@ -439,7 +439,7 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
   }
 
   // host_header - computed: false, optional: true, required: false
-  private _hostHeader?: string; 
+  private _hostHeader?: string;
   public get hostHeader() {
     return this.getStringAttribute('host_header');
   }
@@ -455,7 +455,7 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
   }
 
   // method - computed: false, optional: true, required: false
-  private _method?: string; 
+  private _method?: string;
   public get method() {
     return this.getStringAttribute('method');
   }
@@ -471,7 +471,7 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
   }
 
   // sni - computed: false, optional: true, required: false
-  private _sni?: string; 
+  private _sni?: string;
   public get sni() {
     return this.getStringAttribute('sni');
   }
@@ -487,7 +487,7 @@ export class LbBackendHealthCheckHttpsOutputReference extends cdktf.ComplexObjec
   }
 
   // uri - computed: false, optional: false, required: true
-  private _uri?: string; 
+  private _uri?: string;
   public get uri() {
     return this.getStringAttribute('uri');
   }
@@ -641,7 +641,7 @@ export class LbBackendTimeoutsOutputReference extends cdktf.ComplexObject {
   }
 
   // create - computed: false, optional: true, required: false
-  private _create?: string; 
+  private _create?: string;
   public get create() {
     return this.getStringAttribute('create');
   }
@@ -657,7 +657,7 @@ export class LbBackendTimeoutsOutputReference extends cdktf.ComplexObject {
   }
 
   // default - computed: false, optional: true, required: false
-  private _default?: string; 
+  private _default?: string;
   public get default() {
     return this.getStringAttribute('default');
   }
@@ -673,7 +673,7 @@ export class LbBackendTimeoutsOutputReference extends cdktf.ComplexObject {
   }
 
   // delete - computed: false, optional: true, required: false
-  private _delete?: string; 
+  private _delete?: string;
   public get delete() {
     return this.getStringAttribute('delete');
   }
@@ -689,7 +689,7 @@ export class LbBackendTimeoutsOutputReference extends cdktf.ComplexObject {
   }
 
   // read - computed: false, optional: true, required: false
-  private _read?: string; 
+  private _read?: string;
   public get read() {
     return this.getStringAttribute('read');
   }
@@ -705,7 +705,7 @@ export class LbBackendTimeoutsOutputReference extends cdktf.ComplexObject {
   }
 
   // update - computed: false, optional: true, required: false
-  private _update?: string; 
+  private _update?: string;
   public get update() {
     return this.getStringAttribute('update');
   }
@@ -791,7 +791,7 @@ export class LbBackend extends cdktf.TerraformResource {
   // ==========
 
   // failover_host - computed: false, optional: true, required: false
-  private _failoverHost?: string; 
+  private _failoverHost?: string;
   public get failoverHost() {
     return this.getStringAttribute('failover_host');
   }
@@ -807,7 +807,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // forward_port - computed: false, optional: false, required: true
-  private _forwardPort?: number; 
+  private _forwardPort?: number;
   public get forwardPort() {
     return this.getNumberAttribute('forward_port');
   }
@@ -820,7 +820,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // forward_port_algorithm - computed: false, optional: true, required: false
-  private _forwardPortAlgorithm?: string; 
+  private _forwardPortAlgorithm?: string;
   public get forwardPortAlgorithm() {
     return this.getStringAttribute('forward_port_algorithm');
   }
@@ -836,7 +836,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // forward_protocol - computed: false, optional: false, required: true
-  private _forwardProtocol?: string; 
+  private _forwardProtocol?: string;
   public get forwardProtocol() {
     return this.getStringAttribute('forward_protocol');
   }
@@ -849,7 +849,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // health_check_delay - computed: false, optional: true, required: false
-  private _healthCheckDelay?: string; 
+  private _healthCheckDelay?: string;
   public get healthCheckDelay() {
     return this.getStringAttribute('health_check_delay');
   }
@@ -865,7 +865,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // health_check_max_retries - computed: false, optional: true, required: false
-  private _healthCheckMaxRetries?: number; 
+  private _healthCheckMaxRetries?: number;
   public get healthCheckMaxRetries() {
     return this.getNumberAttribute('health_check_max_retries');
   }
@@ -881,7 +881,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // health_check_port - computed: true, optional: true, required: false
-  private _healthCheckPort?: number; 
+  private _healthCheckPort?: number;
   public get healthCheckPort() {
     return this.getNumberAttribute('health_check_port');
   }
@@ -897,7 +897,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // health_check_timeout - computed: false, optional: true, required: false
-  private _healthCheckTimeout?: string; 
+  private _healthCheckTimeout?: string;
   public get healthCheckTimeout() {
     return this.getStringAttribute('health_check_timeout');
   }
@@ -913,7 +913,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // id - computed: true, optional: true, required: false
-  private _id?: string; 
+  private _id?: string;
   public get id() {
     return this.getStringAttribute('id');
   }
@@ -929,7 +929,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // ignore_ssl_server_verify - computed: false, optional: true, required: false
-  private _ignoreSslServerVerify?: boolean | cdktf.IResolvable; 
+  private _ignoreSslServerVerify?: boolean | cdktf.IResolvable;
   public get ignoreSslServerVerify() {
     return this.getBooleanAttribute('ignore_ssl_server_verify');
   }
@@ -945,7 +945,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // lb_id - computed: false, optional: false, required: true
-  private _lbId?: string; 
+  private _lbId?: string;
   public get lbId() {
     return this.getStringAttribute('lb_id');
   }
@@ -958,7 +958,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // name - computed: true, optional: true, required: false
-  private _name?: string; 
+  private _name?: string;
   public get name() {
     return this.getStringAttribute('name');
   }
@@ -974,7 +974,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // on_marked_down_action - computed: false, optional: true, required: false
-  private _onMarkedDownAction?: string; 
+  private _onMarkedDownAction?: string;
   public get onMarkedDownAction() {
     return this.getStringAttribute('on_marked_down_action');
   }
@@ -990,7 +990,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // proxy_protocol - computed: false, optional: true, required: false
-  private _proxyProtocol?: string; 
+  private _proxyProtocol?: string;
   public get proxyProtocol() {
     return this.getStringAttribute('proxy_protocol');
   }
@@ -1006,7 +1006,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // send_proxy_v2 - computed: false, optional: true, required: false
-  private _sendProxyV2?: boolean | cdktf.IResolvable; 
+  private _sendProxyV2?: boolean | cdktf.IResolvable;
   public get sendProxyV2() {
     return this.getBooleanAttribute('send_proxy_v2');
   }
@@ -1022,7 +1022,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // server_ips - computed: false, optional: true, required: false
-  private _serverIps?: string[]; 
+  private _serverIps?: string[];
   public get serverIps() {
     return this.getListAttribute('server_ips');
   }
@@ -1038,7 +1038,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // ssl_bridging - computed: false, optional: true, required: false
-  private _sslBridging?: boolean | cdktf.IResolvable; 
+  private _sslBridging?: boolean | cdktf.IResolvable;
   public get sslBridging() {
     return this.getBooleanAttribute('ssl_bridging');
   }
@@ -1054,7 +1054,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // sticky_sessions - computed: false, optional: true, required: false
-  private _stickySessions?: string; 
+  private _stickySessions?: string;
   public get stickySessions() {
     return this.getStringAttribute('sticky_sessions');
   }
@@ -1070,7 +1070,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // sticky_sessions_cookie_name - computed: false, optional: true, required: false
-  private _stickySessionsCookieName?: string; 
+  private _stickySessionsCookieName?: string;
   public get stickySessionsCookieName() {
     return this.getStringAttribute('sticky_sessions_cookie_name');
   }
@@ -1086,7 +1086,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // timeout_connect - computed: false, optional: true, required: false
-  private _timeoutConnect?: string; 
+  private _timeoutConnect?: string;
   public get timeoutConnect() {
     return this.getStringAttribute('timeout_connect');
   }
@@ -1102,7 +1102,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // timeout_server - computed: false, optional: true, required: false
-  private _timeoutServer?: string; 
+  private _timeoutServer?: string;
   public get timeoutServer() {
     return this.getStringAttribute('timeout_server');
   }
@@ -1118,7 +1118,7 @@ export class LbBackend extends cdktf.TerraformResource {
   }
 
   // timeout_tunnel - computed: false, optional: true, required: false
-  private _timeoutTunnel?: string; 
+  private _timeoutTunnel?: string;
   public get timeoutTunnel() {
     return this.getStringAttribute('timeout_tunnel');
   }

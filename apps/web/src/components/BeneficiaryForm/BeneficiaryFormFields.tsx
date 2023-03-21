@@ -179,7 +179,7 @@ export const BeneficiaryFormFields = ({
         />
         <InputFormField
           label={FieldLabels.accomodationAdditionalInformation}
-          hint="Bâtiment, immeuble, escalier et numéro d’appartement"
+          hint="Bâtiment, immeuble, escalier et numéro d'appartement"
           path="accomodationAdditionalInformation"
           disabled={disabled}
           control={control}

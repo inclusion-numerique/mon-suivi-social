@@ -10,7 +10,7 @@ export function ServerError() {
       subtitle="Erreur 500"
       lead="Désolé, le service rencontre un problème, nous travaillons pour le résoudre le plus rapidement possible."
     >
-      Essayez de rafraichir la page ou bien ressayez plus tard.
+      Essayez de rafraîchir la page ou bien ressayez plus tard.
       <br />
       Si vous avez besoin d&apos;une aide immédiate, merci de nous contacter.
     </GenericError>
@@ -25,10 +25,10 @@ export function NotFoundError() {
       lead="La page que vous cherchez est introuvable. Excusez-nous pour la gène occasionnée."
     >
       Si vous avez tapé l&apos;adresse web dans le navigateur, vérifiez
-      qu&apos;elle est correcte. La page n’est peut-être plus disponible.
+      qu&apos;elle est correcte. La page n&apos;est peut-être plus disponible.
       <br />
       Dans ce cas, pour continuer votre visite vous pouvez consulter notre page
-      d’accueil.
+      d&apos;accueil.
     </GenericError>
   )
 }

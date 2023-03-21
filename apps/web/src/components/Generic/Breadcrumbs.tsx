@@ -25,7 +25,7 @@ export function Breadcrumbs({
         aria-expanded="false"
         aria-controls="breadcrumbs"
       >
-        Voir le fil d’Ariane
+        Voir le fil d&apos;Ariane
       </button>
       <div className="fr-collapse" id="breadcrumbs">
         <ol className="fr-breadcrumb__list">

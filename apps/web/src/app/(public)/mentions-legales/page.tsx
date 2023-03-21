@@ -8,12 +8,12 @@ function LegalPage() {
         Établie le <span>07 novembre 2022</span>.
       </p>
       <p>
-        <span>Agence National de la Cohésion des Territoires</span> s’engage à
-        rendre son service accessible, conformément à l’article 47 de la loi n°
-        2005-102 du 11 février 2005.
+        <span>Agence National de la Cohésion des Territoires</span>{' '}
+        s&apos;engage à rendre son service accessible, conformément à
+        l&apos;article 47 de la loi n° 2005-102 du 11 février 2005.
       </p>
       <p>
-        Cette déclaration d’accessibilité s’applique à{' '}
+        Cette déclaration d&apos;accessibilité s&apos;applique à{' '}
         <strong>{PublicWebAppConfig.projectTitle}</strong>{' '}
         <span>
           (<span>{PublicWebAppConfig.mainLiveUrl}</span>)
@@ -27,14 +27,14 @@ function LegalPage() {
           <span data-printfilter="lowercase">non conforme</span>
         </strong>
         avec le{' '}
-        <abbr title="Référentiel général d’amélioration de l’accessibilité">
+        <abbr title="Référentiel général d'amélioration de l'accessibilité">
           RGAA
         </abbr>
-        . <span>Le site n’a encore pas été audité.</span>
+        . <span>Le site n&apos;a encore pas été audité.</span>
       </p>
       <h2>Amélioration et contact</h2>
       <p>
-        Si vous n’arrivez pas à accéder à un contenu ou à un service, vous
+        Si vous n&apos;arrivez pas à accéder à un contenu ou à un service, vous
         pouvez contacter le responsable de{' '}
         <span>{PublicWebAppConfig.projectTitle}</span> pour être orienté vers
         une alternative accessible ou obtenir le contenu sous une autre forme.
@@ -50,9 +50,9 @@ function LegalPage() {
       <h2>Voie de recours</h2>
       <p>
         Cette procédure est à utiliser dans le cas suivant&nbsp;: vous avez
-        signalé au responsable du site internet un défaut d’accessibilité qui
-        vous empêche d’accéder à un contenu ou à un des services du portail et
-        vous n’avez pas obtenu de réponse satisfaisante.
+        signalé au responsable du site internet un défaut d&apos;accessibilité
+        qui vous empêche d&apos;accéder à un contenu ou à un des services du
+        portail et vous n&apos;avez pas obtenu de réponse satisfaisante.
       </p>
       <p>Vous pouvez&nbsp;:</p>
       <ul>
@@ -79,10 +79,10 @@ function LegalPage() {
       </ul>
       <hr />
       <p>
-        Cette déclaration d’accessibilité a été créée le{' '}
+        Cette déclaration d&apos;accessibilité a été créée le{' '}
         <span>07 novembre 2022</span> grâce au{' '}
         <a href="https://betagouv.github.io/a11y-generateur-declaration/#create">
-          Générateur de Déclaration d’Accessibilité de BetaGouv
+          Générateur de Déclaration d&apos;Accessibilité de BetaGouv
         </a>
         .
       </p>

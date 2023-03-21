@@ -20,7 +20,9 @@ export function Verify() {
       </h2>
       <p style={{ textAlign: 'center' }}>
         {email ? (
-          <>Un lien de connexion sécurisé a été envoyé à l’adresse {email}.</>
+          <>
+            Un lien de connexion sécurisé a été envoyé à l&apos;adresse {email}.
+          </>
         ) : (
           <>Un lien de connexion sécurisé vous a été envoyé par&nbsp;email.</>
         )}
