@@ -20,7 +20,7 @@ const getContentSecurityPolicy = (isProd: boolean, nonce: string) =>
   frame-ancestors 'self' https://matomo.incubateur.anct.gouv.fr;
   form-action 'self';
   base-uri 'self';
-  ${isProd ? 'upgrade-insecure-requests true;' : ''}
+  ${isProd ? 'upgrade-insecure-requests;' : ''}
 `
     .replace(/\s{2,}/g, ' ')
     .trim()
