@@ -3,18 +3,21 @@ version: 2.1
 orbs:
   skip: theodo/skip@0.1.2
   queue: eddiewebb/queue@1.8.4
-  dotenv: anilanar/dotenv@1.0.0
 executors:
   node:
     docker:
-      - image: cimg/node:18.13.0
+      - image: cimg/node:18.15.0
         environment:
           TZ: 'UTC'
-  node-browsers:
+  node-e2e:
     docker:
-      - image: cimg/node:18.13.0-browsers
+      - image: cimg/node:18.15.0-browsers
         environment:
           TZ: 'UTC'
+          CI_DATABASE_URL: postgresql://postgres@localhost/test
+      - image: cimg/postgres:14.0
+        environment:
+          POSTGRES_USER: postgres
 
 parameters:
   cache_version:
@@ -78,8 +81,7 @@ workflows:
             - lint
             - test
             #            - chromatic
-            - build_web
-            # - test_e2e
+            - test_e2e
 
   project_infrastructure_deployment:
     # This workflow exclusively runs on the infra branch
@@ -239,6 +241,7 @@ jobs:
       - create_dotenv_file
       - add_secrets_to_dotenv_file
       - setup_docker_web_env
+      - setup_next_public_env
       - run:
           name: 'Prisma generate'
           command: pnpm --silent -F @mss/web prisma:generate
@@ -272,6 +275,10 @@ jobs:
           command: |
             docker login $WEB_APP_DOCKER_REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
             docker push $IMAGE_BUILD_TAG
+      - save_cache:
+          key: << pipeline.id >>-web-build
+          paths:
+            - ./apps/web/.next
 
   chromatic:
     executor: node
@@ -289,33 +296,38 @@ jobs:
           command: pnpm --silent -F @mss/storybook chromatic
 
   test_e2e:
-    executor: node-browsers
+    executor: node-e2e
     resource_class: large
     parallelism: 1
     steps:
       - checkout
       - install_pnpm
       - install_dependencies
-      - setup_remote_docker:
-          docker_layer_caching: true
       - create_dotenv_file
       - add_secrets_to_dotenv_file
-      - setup_docker_web_env
       - run:
-          name: 'Login to registry and pull image'
-          command: |
-            docker login $WEB_APP_DOCKER_REGISTRY -u nologin --password-stdin \<<< "$CI_SCW_SECRET_KEY"
-            docker pull $IMAGE_BUILD_TAG
+          name: 'Prisma generate'
+          command: pnpm --silent -F @mss/web prisma:generate
       - run:
           name: 'Install playwright'
           # This will be instantly resolved from global store thanks to custom image playwright setup
           command: |
             pnpm --silent -F @mss/e2e install
             pnpx playwright install
-      #      - run:
-      #          name: 'Up docker-compose'
-      #          command: |
-      #            docker-compose -f docker/web/docker-compose.ci.yml up
+      - run:
+          name: 'Add e2e CI database url to env'
+          command: |
+            echo "export DATABASE_URL=$CI_DATABASE_URL" >> ${BASH_ENV}
+      - run:
+          name: 'Create CI database schema'
+          command: |
+            pnpm --silent -F @mss/web prisma db push --skip-generate --accept-data-loss
+      - run:
+          name: 'Load fixtures'
+          command: |
+            pnpm --silent cli fixtures:load
+      - restore_cache:
+          key: << pipeline.id >>-web-build
       - run:
           name: 'Run playwright'
           command: |
@@ -335,7 +347,7 @@ jobs:
           name: 'Setup and export database password'
           command: |
             pnpm --silent cli secrets:database:setup $NAMESPACE
-            echo "export DATABASE_PASSWORD=$(pnpm --silent cli secrets:get DATABASE_PASSWORD_$NAMESPACE)" >> ${BASH_ENV}
+            echo "export DATABASE_PASSWORD=$(pnpm --silent cli secrets:database-password $NAMESPACE)" >> ${BASH_ENV}
       - run:
           name: "Create terraform variables file from environment variables"
           command: |
@@ -366,8 +378,10 @@ jobs:
           name: 'Create .env file from deployment outputs'
           command: |
             pnpm --silent cli dotenv:from-cdk web
-      - dotenv/source:
-          path: .env
+      - run:
+          name: 'Add .env vars to bash env'
+          command: |
+            grep -v -e '^[[:space:]]*$' -e '^#' .env | awk '{print "export " $0}' >> $BASH_ENV
       - run:
           name: Set deployment status to migration
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID in_progress -d 'Executing database migrations' -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
@@ -382,6 +396,10 @@ jobs:
           name: 'Load fixtures'
           command: |
             pnpm --silent cli fixtures:load
+      - run:
+          name: Check that deployed container status is ok
+          command: |
+            pnpm --silent cli deployment:check-status https://$WEB_BASE_URL
       - run:
           name: Set deployment status to success
           command: pnpm --silent cli github:deployment:update $DEPLOYMENT_ID success -d 'Deploy successful' -u https://$WEB_BASE_URL -l https://app.circleci.com/pipelines/workflows/$CIRCLE_WORKFLOW_ID
@@ -504,6 +522,13 @@ commands:
           name: "Add web secrets to .env"
           command: |
             pnpm --silent cli dotenv:from-secrets web
+
+  setup_next_public_env:
+    steps:
+      - run:
+          name: "Add NEXT_PUBLIC_* env to .env"
+          command: |
+            pnpm --silent cli dotenv:add-next-public $NAMESPACE
 
   setup_docker_web_env:
     steps:
