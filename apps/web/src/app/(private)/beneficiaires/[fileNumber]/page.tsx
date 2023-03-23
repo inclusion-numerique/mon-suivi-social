@@ -88,13 +88,7 @@ const BeneficiaryPage = async ({
         { fileNumber },
         tab === 'documents' ? searchParams : { tab: 'documents' },
       ),
-      content: (
-        <DocumentsTab
-          user={user}
-          documents={documents}
-          beneficiary={beneficiary}
-        />
-      ),
+      content: <DocumentsTab documents={documents} beneficiary={beneficiary} />,
     },
     {
       id: 'historique',

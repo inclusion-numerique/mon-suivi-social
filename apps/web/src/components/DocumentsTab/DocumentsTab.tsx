@@ -1,4 +1,3 @@
-import { SessionUser } from '@mss/web/auth/sessionUser'
 import { AddDocumentButton } from './AddDocumentButton'
 import { formatByteSize } from '@mss/web/utils/formatByteSize'
 import mime from 'mime-types'
@@ -18,7 +17,6 @@ export function DocumentsTab({
   documents,
   beneficiary,
 }: {
-  user: SessionUser
   documents: Document[]
   beneficiary: Pick<Beneficiary, 'id' | 'archived'>
 }) {
