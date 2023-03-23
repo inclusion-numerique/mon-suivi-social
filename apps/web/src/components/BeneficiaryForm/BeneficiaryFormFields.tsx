@@ -144,6 +144,7 @@ export const BeneficiaryFormFields = ({
         <InputFormField
           label={FieldLabels.accomodationAdditionalInformation}
           path="accomodationAdditionalInformation"
+          hint="Bâtiment, immeuble, escalier et numéro d'appartement"
           disabled={disabled}
           control={control}
         />
@@ -174,13 +175,6 @@ export const BeneficiaryFormFields = ({
         <InputFormField
           label={FieldLabels.street}
           path="street"
-          disabled={disabled}
-          control={control}
-        />
-        <InputFormField
-          label={FieldLabels.accomodationAdditionalInformation}
-          hint="Bâtiment, immeuble, escalier et numéro d'appartement"
-          path="accomodationAdditionalInformation"
           disabled={disabled}
           control={control}
         />
