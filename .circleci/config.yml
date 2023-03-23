@@ -316,9 +316,13 @@ jobs:
             pnpm --silent -F @mss/e2e install
             pnpx playwright install
       - run:
+          name: 'Add e2e CI database url to env'
+          command: |
+            echo "export DATABASE_URL=$CI_DATABASE_URL" >> ${BASH_ENV}
+      - run:
           name: 'Create CI database schema'
           command: |
-            DATABASE_URL=$CI_DATABASE_URL pnpm --silent -F @sde/web prisma db push --skip-generate --accept-data-loss
+            pnpm --silent -F @sde/web prisma db push --skip-generate --accept-data-loss
       - run:
           name: 'Load fixtures'
           command: |
@@ -329,7 +333,6 @@ jobs:
           name: 'Run playwright'
           command: |
             SHARD="$((${CIRCLE_NODE_INDEX}+1))"
-            DATABASE_URL=$CI_DATABASE_URL
             pnpm --silent -F @mss/e2e playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
 
   deploy_web:
