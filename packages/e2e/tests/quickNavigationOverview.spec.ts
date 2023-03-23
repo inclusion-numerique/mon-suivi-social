@@ -7,7 +7,7 @@ test('homepage has title and links to projects page', async ({ page }) => {
   await expect(page).toHaveTitle(/Mon Suivi Social/)
 
   // create a locator
-  const loginButton = page.getByRole('link', { name: 'Se connecter' })
+  const loginButton = page.getByRole('link', { name: 'Se connecter' }).first()
 
   // Expect an attribute "to be strictly equal" to the value.
   await expect(loginButton).toHaveAttribute('href', '/connexion/login')
