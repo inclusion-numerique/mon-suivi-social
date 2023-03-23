@@ -3,7 +3,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 
 export type PageConfig = {
   title: string
-  icon: string
+  icon?: string
   breadcrumbsTitle?: string
 }
 

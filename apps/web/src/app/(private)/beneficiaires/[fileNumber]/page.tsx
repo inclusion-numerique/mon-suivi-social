@@ -52,7 +52,6 @@ const BeneficiaryPage = async ({
   const { referents } = beneficiary
 
   const page: PageConfig = {
-    icon: Routes.Beneficiaires.Beneficiaire.Index.icon,
     title: Routes.Beneficiaires.Beneficiaire.Index.title(beneficiary),
   }
 

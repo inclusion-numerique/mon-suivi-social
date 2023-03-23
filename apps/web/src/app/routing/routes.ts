@@ -41,7 +41,6 @@ export const Routes = {
     Beneficiaire: {
       Index: {
         title: beneficiaryDisplayName,
-        icon: 'user-line',
         path: (
           { fileNumber }: { fileNumber: string },
           parameters?: {
