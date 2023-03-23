@@ -11,11 +11,13 @@ import { setupDatabaseSecret } from '@mss/cli/commands/secrets/setupDatabaseSecr
 import { createTfVarsFileFromEnvironment } from '@mss/cli/commands/infrastructure/createTfVarsFileFromEnvironment'
 import { checkDeploymentStatus } from '@mss/cli/commands/deployment/checkDeploymentStatus'
 import { addNextPublicVariablesToDotEnv } from '@mss/cli/commands/infrastructure/addNextPublicVariablesToDotEnv'
+import { getDatabasePasswordSecret } from '@mss/cli/commands/secrets/getDatabasePasswordSecret'
 
 const program = new Command()
 
 program.addCommand(listSecrets)
 program.addCommand(getSecretValue)
+program.addCommand(getDatabasePasswordSecret)
 program.addCommand(setupDatabaseSecret)
 program.addCommand(createDotEnvFromCdk)
 program.addCommand(createDotEnvFromSecrets)
