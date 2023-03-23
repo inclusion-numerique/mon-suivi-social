@@ -1,74 +1,66 @@
-import { getAge } from '@mss/web/utils/age'
-import { SessionUser } from '@mss/web/auth/sessionUser'
-import { AttributesList } from '@mss/web/components/Generic'
-import { beneficiaryTitleLabels } from '@mss/web/constants/beneficiary'
-import { dateAsDay } from '@mss/web/utils/dateAsDay'
-import { isEmptyValue } from '@mss/web/utils/isEmptyValue'
-import { Beneficiary, FollowupType } from '@prisma/client'
+import { Beneficiary, FollowupType, User } from '@prisma/client'
+import { BeneficiaryGeneralInformation } from './BeneficiaryGeneralInformation'
+import { BeneficiaryHousehold } from './BeneficiaryHousehold'
+import { BeneficiaryRelatives } from './BeneficiaryRelatives'
+import { BeneficiaryHealth } from './BeneficiaryHealth'
+import { BeneficiaryIncome } from './BeneficiaryIncome'
+import { BeneficiaryExternalOrganisations } from './BeneficiaryExternalOrganisations'
+import { BeneficiaryAdditionalInformation } from './BeneficiaryAdditionalInformation'
+import { SessionUserAgent } from '@mss/web/auth/sessionUser'
+import { canViewBeneficiaryFullInfo } from '@mss/web/security/rules'
 
 export function InfoTab({
+  user,
   beneficiary,
   followupTypes,
 }: {
-  user: SessionUser
-  beneficiary: Beneficiary
+  user: SessionUserAgent
+  beneficiary: Beneficiary & { referents: User[] }
   followupTypes: FollowupType[]
 }) {
-  const legals = followupTypes.filter(({ legallyRequired }) => legallyRequired)
-  const optionals = followupTypes.filter(
-    ({ legallyRequired }) => !legallyRequired,
-  )
+  const canViewFullInfo = canViewBeneficiaryFullInfo(user, beneficiary)
 
   return (
+    // TODO: Types d'accompagnements ?
     <div className="fr-grid-row fr-grid-row--gutters">
-      <div className="fr-col-12 fr-col-lg-6">
-        <h5>Bénéficiaire</h5>
-        <AttributesList
-          items={[
-            beneficiary.title
-              ? ['Civilité', beneficiaryTitleLabels[beneficiary.title]]
-              : undefined,
-            ['Prénom', beneficiary.firstName],
-            ['Nom usuel', beneficiary.usualName],
-            ['Nom de naissance', beneficiary.birthName],
-            [
-              'Age',
-              beneficiary.birthDate ? getAge(beneficiary.birthDate) : null,
-            ],
-            ['Date de naissance', dateAsDay(beneficiary.birthDate)],
-          ]}
+      <BeneficiaryGeneralInformation
+        beneficiary={beneficiary}
+        className="fr-col-12 fr-mb-2w fr-p-9v"
+      />
+      {canViewFullInfo ? (
+        <BeneficiaryHousehold
+          beneficiary={beneficiary}
+          className="fr-col-12 fr-mb-2w fr-p-9v"
         />
-        <p className="fr-mt-4v">🚧 en cours de développement</p>
-      </div>
-      <div className="fr-col-12 fr-col-lg-6">
-        <h5>Types d&apos;accompagnement</h5>
-        {legals.length > 0 ? (
-          <>
-            <p className="fr-mb-2v">Aides légales :</p>
-            {legals.map(({ name }) => (
-              <div key={name} className="fr-tag fr-mb-2v fr-mr-1w">
-                {name}
-              </div>
-            ))}
-          </>
-        ) : null}
-        {optionals.length > 0 ? (
-          <>
-            <p className="fr-mb-2v">Aides facultatives :</p>
-            {optionals.map(({ name }) => (
-              <div key={name} className="fr-tag fr-mb-2v fr-mr-1w">
-                {name}
-              </div>
-            ))}
-          </>
-        ) : null}
-        <h5 className="fr-mt-6v">Autres informations</h5>
-        <p>
-          {isEmptyValue(beneficiary.additionalInformation)
-            ? 'Aucune information complémentaire renseignée.'
-            : beneficiary.additionalInformation}
-        </p>
-      </div>
+      ) : null}
+      {canViewFullInfo ? (
+        <BeneficiaryRelatives
+          beneficiary={beneficiary}
+          className="fr-col-12 fr-mb-2w fr-p-9v"
+        />
+      ) : null}
+      {canViewFullInfo ? (
+        <BeneficiaryHealth
+          beneficiary={beneficiary}
+          className="fr-col-12 fr-mb-2w fr-p-9v"
+        />
+      ) : null}
+      {canViewFullInfo ? (
+        <BeneficiaryIncome
+          beneficiary={beneficiary}
+          className="fr-col-12 fr-mb-2w fr-p-9v"
+        />
+      ) : null}
+      {canViewFullInfo ? (
+        <BeneficiaryExternalOrganisations
+          beneficiary={beneficiary}
+          className="fr-col-12 fr-mb-2w fr-p-9v"
+        />
+      ) : null}
+      <BeneficiaryAdditionalInformation
+        beneficiary={beneficiary}
+        className="fr-col-12 fr-mb-2w fr-p-9v"
+      />
     </div>
   )
 }

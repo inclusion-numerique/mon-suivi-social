@@ -13,6 +13,7 @@ import {
   IncomeSource,
 } from '@prisma/client'
 import { arrayToOptions, labelsToOptions } from '@mss/web/utils/options'
+import { PartialBy } from '@mss/web/utils/types'
 
 export const beneficiaryStatusLabels: { [key in BeneficiaryStatus]: string } = {
   [BeneficiaryStatus.Active]: 'Actif',
@@ -21,25 +22,46 @@ export const beneficiaryStatusLabels: { [key in BeneficiaryStatus]: string } = {
   [BeneficiaryStatus.Deceased]: 'Décédé·e',
 }
 
+export const beneficiaryStatusBadgeClasses: {
+  [key in BeneficiaryStatus]: string
+} = {
+  [BeneficiaryStatus.Active]: 'fr-badge--success',
+  [BeneficiaryStatus.Inactive]: 'fr-badge--warning',
+  [BeneficiaryStatus.Archived]: 'fr-badge--error',
+  [BeneficiaryStatus.Deceased]: 'fr-badge--error',
+}
+
 export const beneficiaryStatusOptions = labelsToOptions(beneficiaryStatusLabels)
 
-export const beneficiaryDisplayName = ({
-  firstName,
-  birthName,
-  usualName,
-  fileNumber,
-}: Pick<
-  Beneficiary,
-  'firstName' | 'usualName' | 'birthName' | 'fileNumber'
->): string => {
+const nameOrEmpty = (name: string | null) => name || '(non renseigné)'
+
+export const beneficiaryDisplayName = (
+  {
+    firstName,
+    birthName,
+    usualName,
+    fileNumber,
+    title,
+  }: PartialBy<
+    Pick<
+      Beneficiary,
+      'firstName' | 'birthName' | 'usualName' | 'fileNumber' | 'title'
+    >,
+    'title'
+  >,
+  withTitle?: boolean,
+): string => {
   if (!firstName && !birthName && !usualName) {
     return `n°${fileNumber}`
   }
 
-  if (usualName) {
-    return `${firstName ?? ''} ${usualName ?? ''}`.trim()
-  }
-  return `${firstName ?? ''} ${birthName ?? ''}`.trim()
+  const lastname = usualName || (birthName ? `(${birthName})` : '')
+  const titleLabel =
+    withTitle && title ? `${beneficiaryTitleLabels[title]} ` : ''
+
+  return `${titleLabel}${nameOrEmpty(firstName)} ${nameOrEmpty(
+    lastname.toUpperCase(),
+  )}`
 }
 
 export const beneficiaryTitleLabels: { [key in BeneficiaryTitle]: string } = {

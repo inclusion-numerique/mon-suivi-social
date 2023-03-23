@@ -1,0 +1,1 @@
+export { BeneficiaryMetaAttributes } from './BeneficiaryMetaAttributes'

@@ -1,9 +1,6 @@
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import {
-  AttributeItem,
-  AttributesList,
-} from '@mss/web/components/Generic/AttributesList'
+import { AttributeItem, AttributesList } from '@mss/web/components/Generic'
 import { formatBoolean } from '@mss/web/utils/formatBoolean'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'

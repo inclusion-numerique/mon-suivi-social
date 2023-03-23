@@ -5,10 +5,7 @@ import { notFound } from 'next/navigation'
 import { canViewStructure } from '@mss/web/security/rules'
 import { groupFollowupTypesByLegality } from '@mss/web/helper/groupFollowupTypes'
 import { Link } from '@mss/web/components/Generic/Link'
-import {
-  AttributeItem,
-  AttributesList,
-} from '@mss/web/components/Generic/AttributesList'
+import { AttributeItem, AttributesList } from '@mss/web/components/Generic'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { MutationLog } from '@mss/web/components/MutationLog'
 import { StructureQuery } from '@mss/web/query'
@@ -61,7 +58,6 @@ const StructurePage = async ({
           ))}
         </div>
       ),
-      { inline: false },
     ],
     [
       'Accompagnements optionnels proposés',
@@ -74,7 +70,6 @@ const StructurePage = async ({
           ))}
         </div>
       ),
-      { inline: false },
     ],
   ]
 

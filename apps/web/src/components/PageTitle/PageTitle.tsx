@@ -1,5 +1,6 @@
 import { BreadCrumbParents, Breadcrumbs } from '@mss/web/components/Generic'
 import { Routes } from '@mss/web/app/routing/routes'
+import styles from './PageTitle.module.css'
 
 export type PageConfig = {
   title: string
@@ -10,9 +11,11 @@ export type PageConfig = {
 export function PageTitle({
   page: { icon, title, breadcrumbsTitle },
   parents = [],
+  children,
 }: {
   page: PageConfig
   parents?: BreadCrumbParents
+  children?: React.ReactNode
 }) {
   const breadcrumbsParents: BreadCrumbParents = [
     { title: 'Accueil', path: Routes.Index.path },
@@ -27,10 +30,15 @@ export function PageTitle({
         currentPage={breadcrumbsTitle ?? title}
         parents={breadcrumbsParents}
       />
-      <h2>
-        <span className={`fr-icon-${icon} fr-icon--lg fr-mr-1w`} />
-        {title}
-      </h2>
+      <div className={styles['page-title-container']}>
+        <h2>
+          {icon ? (
+            <span className={`fr-icon-${icon} fr-icon--lg fr-mr-1w`} />
+          ) : null}
+          {title}
+        </h2>
+        {children}
+      </div>
     </>
   )
 }
