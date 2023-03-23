@@ -308,7 +308,7 @@ jobs:
       - add_secrets_to_dotenv_file
       - run:
           name: 'Prisma generate'
-          command: pnpm --silent -F @sde/web prisma:generate
+          command: pnpm --silent -F @mss/web prisma:generate
       - run:
           name: 'Install playwright'
           # This will be instantly resolved from global store thanks to custom image playwright setup
@@ -322,7 +322,7 @@ jobs:
       - run:
           name: 'Create CI database schema'
           command: |
-            pnpm --silent -F @sde/web prisma db push --skip-generate --accept-data-loss
+            pnpm --silent -F @mss/web prisma db push --skip-generate --accept-data-loss
       - run:
           name: 'Load fixtures'
           command: |
