@@ -55,5 +55,23 @@ const temporarilyDisabledRules = [
 // eslint-disable-next-line unicorn/prefer-module
 module.exports = {
   extends: ['next/core-web-vitals'],
-  rules: { ...Object.fromEntries(temporarilyDisabledRules) },
+  rules: {
+    ...Object.fromEntries(temporarilyDisabledRules),
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'variable',
+        format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+        leadingUnderscore: 'allowSingleOrDouble',
+      },
+      {
+        selector: 'function',
+        format: ['camelCase', 'PascalCase'],
+      },
+      {
+        selector: 'typeLike',
+        format: ['PascalCase'],
+      },
+    ],
+  },
 }
