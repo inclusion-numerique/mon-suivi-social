@@ -320,13 +320,9 @@ jobs:
           command: |
             DATABASE_URL=$CI_DATABASE_URL pnpm --silent -F @sde/web prisma db push --skip-generate --accept-data-loss
       - run:
-          name: Download data
+          name: 'Load fixtures'
           command: |
-            DATABASE_URL=$CI_DATABASE_URL pnpm --silent cli projects:grist:download
-      - run:
-          name: Update showcase projects
-          command: |
-            DATABASE_URL=$CI_DATABASE_URL pnpm --silent cli projects:update-showcases
+            pnpm --silent cli fixtures:load
       - restore_cache:
           key: << pipeline.id >>-web-build
       - run:
