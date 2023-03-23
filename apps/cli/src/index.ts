@@ -10,6 +10,7 @@ import { getSecretValue } from '@mss/cli/commands/secrets/getSecretValue'
 import { setupDatabaseSecret } from '@mss/cli/commands/secrets/setupDatabaseSecret'
 import { createTfVarsFileFromEnvironment } from '@mss/cli/commands/infrastructure/createTfVarsFileFromEnvironment'
 import { checkDeploymentStatus } from '@mss/cli/commands/deployment/checkDeploymentStatus'
+import { addNextPublicVariablesToDotEnv } from '@mss/cli/commands/infrastructure/addNextPublicVariablesToDotEnv'
 
 const program = new Command()
 
@@ -24,5 +25,6 @@ program.addCommand(deactivateGithubDeployment)
 program.addCommand(loadFixtures)
 program.addCommand(createTfVarsFileFromEnvironment)
 program.addCommand(checkDeploymentStatus)
+program.addCommand(addNextPublicVariablesToDotEnv)
 
 program.parse()
