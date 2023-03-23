@@ -7,6 +7,8 @@ import { devices } from '@playwright/test'
  */
 // require('dotenv').config();
 
+const baseURL = 'http://localhost:3000'
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -47,6 +49,7 @@ const config: PlaywrightTestConfig = {
     {
       name: 'chromium',
       use: {
+        baseURL,
         ...devices['Desktop Chrome'],
       },
     },
@@ -54,6 +57,7 @@ const config: PlaywrightTestConfig = {
     {
       name: 'firefox',
       use: {
+        baseURL,
         ...devices['Desktop Firefox'],
       },
     },
@@ -94,15 +98,14 @@ const config: PlaywrightTestConfig = {
     //   },
     // },
   ],
+}
 
-  /* Folder for test artifacts such as screenshots, videos, traces, etc. */
-  // outputDir: 'test-results/',
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   port: 3000,
-  // },
+if (process.env.CI === 'true') {
+  config.outputDir = 'test-results/'
+  config.webServer = {
+    command: 'pnpm -F @sde/web start',
+    port: 3000,
+  }
 }
 
 export default config

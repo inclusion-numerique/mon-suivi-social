@@ -9,6 +9,7 @@ import { listSecrets } from '@mss/cli/commands/secrets/listSecrets'
 import { getSecretValue } from '@mss/cli/commands/secrets/getSecretValue'
 import { setupDatabaseSecret } from '@mss/cli/commands/secrets/setupDatabaseSecret'
 import { createTfVarsFileFromEnvironment } from '@mss/cli/commands/infrastructure/createTfVarsFileFromEnvironment'
+import { checkDeploymentStatus } from '@mss/cli/commands/deployment/checkDeploymentStatus'
 
 const program = new Command()
 
@@ -22,5 +23,6 @@ program.addCommand(updateGithubDeployment)
 program.addCommand(deactivateGithubDeployment)
 program.addCommand(loadFixtures)
 program.addCommand(createTfVarsFileFromEnvironment)
+program.addCommand(checkDeploymentStatus)
 
 program.parse()
