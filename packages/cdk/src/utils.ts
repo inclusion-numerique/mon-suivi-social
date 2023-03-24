@@ -23,16 +23,11 @@ export const generateDatabaseUrl = ({
 }) =>
   `postgres://${user}:${encodeURIComponent(password)}@${host}:${port}/${name}`
 
-export const shortenNamespace = (namespace: string, length: number) => {
-  let shortened = namespace.slice(0, length)
-
-  // Remove trailing hyphen
-  if (shortened[shortened.length - 1] === '-') {
-    shortened = shortened.slice(0, -1)
-  }
-
-  return shortened
-}
+export const shortenNamespace = (namespace: string, length: number) =>
+  namespace
+    .slice(0, length)
+    // Remove trailing hyphen
+    .replace(/-$/, '')
 
 export const createPreviewSubdomain = (
   namespace: string,
