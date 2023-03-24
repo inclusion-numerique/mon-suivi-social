@@ -15,6 +15,7 @@ import {
   computeBranchNamespace,
   createPreviewSubdomain,
   namespacer,
+  shortenNamespace,
 } from '@mss/cdk/utils'
 import { ObjectBucket } from '@mss/scaleway/object-bucket'
 import {
@@ -129,7 +130,7 @@ export class WebAppStack extends TerraformStack {
     })
 
     const documentsBucket = new ObjectBucket(this, 'documents', {
-      name: namespaced(`${projectSlug}-documents`),
+      name: shortenNamespace(namespaced(`${projectSlug}-documents`), 63),
       corsRule: [
         {
           allowedHeaders: ['*'],
