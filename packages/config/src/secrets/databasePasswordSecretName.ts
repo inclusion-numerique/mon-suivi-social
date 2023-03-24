@@ -1,4 +1,4 @@
-import { shortenNamespace } from '@sde/cdk/utils'
+import { shortenNamespace } from '@mss/cdk/utils'
 
 export const databasePasswordSecretName = (namespace: string) =>
   `DATABASE_PASSWORD_${shortenNamespace(

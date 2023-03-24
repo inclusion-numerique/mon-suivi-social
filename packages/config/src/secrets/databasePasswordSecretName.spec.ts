@@ -1,4 +1,4 @@
-import { databasePasswordSecretName } from '@sde/config/secrets/databasePasswordSecretName'
+import { databasePasswordSecretName } from '@mss/config/secrets/databasePasswordSecretName'
 
 describe('databasePasswordSecretName', () => {
   it('should return a secret name', () => {
