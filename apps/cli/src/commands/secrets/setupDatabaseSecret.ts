@@ -28,7 +28,7 @@ export const setupDatabaseSecret = new Command()
     await createSecret({
       name: secretName,
       value: generateDatabasePassword(),
-      tags: ['database', namespace],
+      tags: ['database'],
       description: `Database password for "${namespace}" instance`,
     })
 
