@@ -12,8 +12,8 @@ export const computeBranchNamespace = (branch: string) =>
     .replace(/--+/g, '-')
     // Remove prefix hyphen
     .replace(/^-/, '')
-    // Namespace should be shorter than 40 chars
-    .slice(0, 40)
+    // Namespace should be shorter than 20 chars to ensure all resources can be deployed
+    .slice(0, 20)
     // Remove suffix hyphen
     .replace(/-$/, '')
     .toLowerCase()
