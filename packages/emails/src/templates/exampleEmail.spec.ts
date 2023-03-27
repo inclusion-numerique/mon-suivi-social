@@ -1,4 +1,4 @@
-import { emailSignin } from '@mss/emails/templates/emailSignin'
+import { emailSignin } from '@mss/emails/templates/exampleEmail'
 import { createMjmlTemplateOutput } from '../outputTemplateHtml'
 
 describe('Template: emailSignin', () => {
