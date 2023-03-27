@@ -1,9 +1,7 @@
 import '@mss/web/auth/nextAuthSetup'
-import EmailProvider from 'next-auth/providers/email'
 import KeycloakProvider, { KeycloakProfile } from 'next-auth/providers/keycloak'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import { ServerWebAppConfig, PublicWebAppConfig } from '@mss/web/webAppConfig'
-import { sendVerificationRequest } from '@mss/web/auth/sendVerificationRequest'
 import { nextAuthAdapter } from '@mss/web/auth/nextAuthAdapter'
 import { Routes } from '@mss/web/app/routing/routes'
 import { inclusionConnectProviderId } from '@mss/web/auth/inclusionConnect'
@@ -17,10 +15,6 @@ export const authOptions: NextAuthOptions = {
     verifyRequest: Routes.Connexion.Verification,
   },
   providers: [
-    EmailProvider({
-      ...ServerWebAppConfig.Auth.Email,
-      sendVerificationRequest,
-    }),
     KeycloakProvider({
       // Allow an email user to login with Inclusion Connect
       allowDangerousEmailAccountLinking: true,
