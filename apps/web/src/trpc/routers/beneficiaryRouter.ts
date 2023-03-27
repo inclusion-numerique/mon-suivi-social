@@ -1,25 +1,23 @@
 import { protectedProcedure, router } from '@mss/web/trpc/trpc'
 import z from 'zod'
 import { prismaClient } from '@mss/web/prismaClient'
-import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
-import { AddBeneficiaryWithGeneralInfoServer } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.server'
 import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
 import { getBeneficiarySecurityTarget } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { forbiddenError, invalidError } from '@mss/web/trpc/trpcErrors'
 import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
-import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
-import { AddBeneficiaryWithFullDataServer } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.server'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { EditBeneficiaryFullDataServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.server'
 import { ArchiveBeneficiaryClient } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.client'
 import { ArchiveBeneficiaryServer } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.server'
 import { canListBeneficiaries } from '@mss/web/security/rules'
 import { beneficiaryDocumentRouter } from '@mss/web/trpc/routers/beneficiaryDocumentRouter'
+import { beneficiaryCreationSchema } from '@mss/web/schema'
+import { BeneficiairesQuery } from '@mss/web/query'
 
 const tokenToSearchCondition = (token: string) => ({
-    contains: token,
-    mode: 'insensitive',
-  })
+  contains: token,
+  mode: 'insensitive',
+})
 export const beneficiaryRouter = router({
   search: protectedProcedure
     .input(z.object({ query: z.string(), structureId: z.string().uuid() }))
@@ -63,16 +61,10 @@ export const beneficiaryRouter = router({
 
       return { beneficiaries }
     }),
-  addWithGeneralInfo: protectedProcedure
-    .input(AddBeneficiaryWithGeneralInfoClient.inputValidation)
+  create: protectedProcedure
+    .input(beneficiaryCreationSchema)
     .mutation(({ input, ctx: { user } }) =>
-      AddBeneficiaryWithGeneralInfoServer.execute({
-        input,
-        user,
-        target: input,
-        securityParams: {},
-        structureId: input.structureId,
-      }),
+      BeneficiairesQuery.createBeneficiary(input, user),
     ),
   editGeneralInfo: protectedProcedure
     .input(EditBeneficiaryGeneralInfoClient.inputValidation)
@@ -91,17 +83,6 @@ export const beneficiaryRouter = router({
         beneficiaryId: input.beneficiaryId,
       })
     }),
-  addWithFullData: protectedProcedure
-    .input(AddBeneficiaryWithFullDataClient.inputValidation)
-    .mutation(({ input, ctx: { user } }) =>
-      AddBeneficiaryWithFullDataServer.execute({
-        input,
-        user,
-        target: input,
-        securityParams: {},
-        structureId: input.structureId,
-      }),
-    ),
   editFullData: protectedProcedure
     .input(EditBeneficiaryFullDataClient.inputValidation)
     .mutation(async ({ input, ctx: { user } }) => {

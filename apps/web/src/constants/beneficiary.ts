@@ -10,6 +10,7 @@ import {
   BeneficiaryTitle,
   Gender,
   IncomeSource,
+  RelativeRelationship,
 } from '@prisma/client'
 import { arrayToOptions, labelsToOptions } from '@mss/web/utils/options'
 
@@ -192,6 +193,23 @@ export const beneficiaryOrientationTypeLabels: {
 
 export const beneficiaryOrientationTypeOptions = labelsToOptions(
   beneficiaryOrientationTypeLabels,
+)
+export const relativeRelationshipLabels: {
+  [key in RelativeRelationship]: string
+} = {
+  [RelativeRelationship.Conjoint]: 'Conjoint·e',
+  [RelativeRelationship.EnfantMajeur]: 'Enfant majeur',
+  [RelativeRelationship.EnfantMineur]: 'Enfant mineur',
+  [RelativeRelationship.Sibling]: 'Fratrie',
+  [RelativeRelationship.Grandparent]: 'Grand-parent',
+  [RelativeRelationship.Parent]: 'Parent',
+  [RelativeRelationship.Tiers]: 'Tiers',
+  [RelativeRelationship.Neighbour]: 'Voisin·e',
+  [RelativeRelationship.AutreMemberDeLaFamille]: 'Autre membre de la famille',
+}
+
+export const relativeRelationshipOptions = labelsToOptions(
+  relativeRelationshipLabels,
 )
 
 export const PensionOrganisations = [

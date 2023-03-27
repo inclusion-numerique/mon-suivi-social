@@ -6,6 +6,7 @@ import { getSupports } from './getSupports'
 import { getAgentOptions } from './getAgentOptions'
 import { getBeneficiary } from './getBeneficiary'
 import { iterateBeneficiaries } from './iterateBeneficiaries'
+import { createBeneficiary } from './createBeneficiary'
 
 export const BeneficiairesQuery = {
   getBeneficiaryToUpdate,
@@ -16,6 +17,7 @@ export const BeneficiairesQuery = {
   getAgentOptions,
   getBeneficiary,
   iterateBeneficiaries,
+  createBeneficiary,
 }
 
 export type { GetSupportsReturn } from './getSupports'

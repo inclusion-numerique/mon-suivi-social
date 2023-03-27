@@ -2,7 +2,7 @@ import {
   beneficiaryOrientationTypeLabels,
   beneficiaryProtectionMeasureLabels,
 } from '@mss/web/constants/beneficiary'
-import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
+import { beneficiaryFieldLabels } from '@mss/web/field-label'
 import { Beneficiary } from '@prisma/client'
 import { AttributesList } from '../Generic'
 
@@ -13,8 +13,6 @@ export function BeneficiaryExternalOrganisations({
   beneficiary: Beneficiary
   className?: string
 }) {
-  const { fieldLabels } = AddBeneficiaryWithFullDataClient
-
   return (
     <div className={`fr-col-12 fr-mb-2w fr-p-9v ${className}`}>
       <hr />
@@ -23,30 +21,39 @@ export function BeneficiaryExternalOrganisations({
       <AttributesList
         items={[
           [
-            fieldLabels.protectionMeasure || '',
+            beneficiaryFieldLabels.protectionMeasure || '',
             beneficiary.protectionMeasure
               ? beneficiaryProtectionMeasureLabels[
                   beneficiary.protectionMeasure
                 ]
               : null,
           ],
-          [fieldLabels.representative || '', beneficiary.representative],
           [
-            fieldLabels.prescribingStructure || '',
+            beneficiaryFieldLabels.representative || '',
+            beneficiary.representative,
+          ],
+          [
+            beneficiaryFieldLabels.prescribingStructure || '',
             beneficiary.prescribingStructure,
           ],
           [
-            fieldLabels.orientationType || '',
+            beneficiaryFieldLabels.orientationType || '',
             beneficiary.orientationType
               ? beneficiaryOrientationTypeLabels[beneficiary.orientationType]
               : null,
           ],
           [
-            fieldLabels.orientationStructure || '',
+            beneficiaryFieldLabels.orientationStructure || '',
             beneficiary.orientationStructure,
           ],
-          [fieldLabels.serviceProviders || '', beneficiary.serviceProviders],
-          [fieldLabels.involvedPartners || '', beneficiary.involvedPartners],
+          [
+            beneficiaryFieldLabels.serviceProviders || '',
+            beneficiary.serviceProviders,
+          ],
+          [
+            beneficiaryFieldLabels.involvedPartners || '',
+            beneficiary.involvedPartners,
+          ],
         ]}
       />
     </div>

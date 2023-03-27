@@ -1,32 +1,13 @@
 import { Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { BeneficiaryFormCreation } from '@mss/web/components/BeneficiaryForm'
+import { BeneficiaryFormCreation } from '@mss/web/components/BeneficiaryFormCreation'
 import { PageTitle } from '@mss/web/components/PageTitle'
-import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
-import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { BeneficiairesQuery } from '@mss/web/query'
 import { notFound } from 'next/navigation'
 
 const AddBeneficiaryPage = async () => {
   const user = await getAuthenticatedAgent()
   const agents = await BeneficiairesQuery.getAgentOptions(user)
-  const { structureId } = user
-
-  if (
-    !AddBeneficiaryWithGeneralInfoClient.securityCheck(
-      user,
-      { structureId },
-      {},
-    )
-  ) {
-    notFound()
-  }
-
-  const full = AddBeneficiaryWithFullDataClient.securityCheck(
-    user,
-    { structureId },
-    {},
-  )
 
   return (
     <>
@@ -38,11 +19,7 @@ const AddBeneficiaryPage = async () => {
         <div className="fr-col-12 fr-col-lg-10 fr-col-xl-8">
           <div className="fr-card">
             <div className="fr-card__body fr-py-8v">
-              <BeneficiaryFormCreation
-                full={full}
-                agents={agents}
-                defaultInput={{ structureId: user.structureId }}
-              />
+              <BeneficiaryFormCreation agents={agents} />
             </div>
           </div>
         </div>

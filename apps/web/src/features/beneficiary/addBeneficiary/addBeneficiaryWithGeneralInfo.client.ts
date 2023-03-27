@@ -1,4 +1,3 @@
-import { canCreateBeneficiaryWithGeneralInfo } from '@mss/web/security/rules'
 import z from 'zod'
 import { createMutationClient } from '@mss/web/features/createMutation.client'
 import {
@@ -11,6 +10,25 @@ import {
 } from '@prisma/client'
 import { Nationalities } from '@mss/web/constants/nationality'
 import { errorMessages, zodEnumFromObjectKeys } from '@mss/web/utils/zod'
+import {
+  isAdministrator,
+  isInSameStructureAs,
+  SecurityRuleGrantee,
+  SecurityTargetWithStructure,
+} from '@mss/web/security/rules'
+
+const canCreateBeneficiaryWithGeneralInfo = (
+  grantee: SecurityRuleGrantee,
+  target: SecurityTargetWithStructure,
+): boolean =>
+  isAdministrator(grantee) ||
+  isInSameStructureAs(grantee, target, [
+    'StructureManager',
+    'SocialWorker',
+    'Instructor',
+    'ReceptionAgent',
+    'Referent',
+  ])
 
 export const AddBeneficiaryWithGeneralInfoClient = createMutationClient({
   name: 'beneficiary.addWithGeneralInfo',
