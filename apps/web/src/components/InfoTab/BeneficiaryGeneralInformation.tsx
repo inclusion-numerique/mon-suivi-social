@@ -15,7 +15,7 @@ import { BeneficiaryAddress } from './BeneficiaryAddress'
 
 export function BeneficiaryGeneralInformation({
   beneficiary,
-  className, // FIXME: Quelle généricité on veut sur ce genre composant ?
+  className,
 }: {
   beneficiary: Beneficiary
   className?: string
@@ -26,7 +26,6 @@ export function BeneficiaryGeneralInformation({
 
   return (
     <div className={`fr-col-12 fr-mb-2w fr-p-9v ${className}`}>
-      {/* FIXME: Allow number as a prop ? */}
       <h3 className="fr-h4">Informations générales</h3> <hr />
       <div className="fr-grid-row fr-grid-row--gutters">
         <div className="fr-col-12 fr-col-lg-6">
