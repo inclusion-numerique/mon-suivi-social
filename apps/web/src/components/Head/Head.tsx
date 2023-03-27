@@ -1,7 +1,7 @@
 import { ServerWebAppConfig, PublicWebAppConfig } from '@mss/web/webAppConfig'
-import { Dsfr } from '@mss/web/components/RootLayout/Dsfr'
-import { Matomo } from '@mss/web/components/RootLayout/Matomo'
 import { headers } from 'next/headers'
+import { Dsfr } from './Dsfr'
+import { Matomo } from './Matomo'
 
 const fontsToPreload = ['Marianne-Regular', 'Marianne-Bold', 'Marianne-Medium']
 
