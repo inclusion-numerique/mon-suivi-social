@@ -23,44 +23,19 @@ export function InfoTab({
   return (
     // TODO: Types d'accompagnements ?
     <div className="fr-grid-row fr-grid-row--gutters">
-      <BeneficiaryGeneralInformation
-        beneficiary={beneficiary}
-        className="fr-col-12 fr-mb-2w fr-p-9v"
-      />
+      <BeneficiaryGeneralInformation beneficiary={beneficiary} />
       {canViewFullInfo ? (
-        <BeneficiaryHousehold
-          beneficiary={beneficiary}
-          className="fr-col-12 fr-mb-2w fr-p-9v"
-        />
+        <BeneficiaryHousehold beneficiary={beneficiary} />
       ) : null}
       {canViewFullInfo ? (
-        <BeneficiaryRelatives
-          beneficiary={beneficiary}
-          className="fr-col-12 fr-mb-2w fr-p-9v"
-        />
+        <BeneficiaryRelatives beneficiary={beneficiary} />
       ) : null}
+      {canViewFullInfo ? <BeneficiaryHealth beneficiary={beneficiary} /> : null}
+      {canViewFullInfo ? <BeneficiaryIncome beneficiary={beneficiary} /> : null}
       {canViewFullInfo ? (
-        <BeneficiaryHealth
-          beneficiary={beneficiary}
-          className="fr-col-12 fr-mb-2w fr-p-9v"
-        />
+        <BeneficiaryExternalOrganisations beneficiary={beneficiary} />
       ) : null}
-      {canViewFullInfo ? (
-        <BeneficiaryIncome
-          beneficiary={beneficiary}
-          className="fr-col-12 fr-mb-2w fr-p-9v"
-        />
-      ) : null}
-      {canViewFullInfo ? (
-        <BeneficiaryExternalOrganisations
-          beneficiary={beneficiary}
-          className="fr-col-12 fr-mb-2w fr-p-9v"
-        />
-      ) : null}
-      <BeneficiaryAdditionalInformation
-        beneficiary={beneficiary}
-        className="fr-col-12 fr-mb-2w fr-p-9v"
-      />
+      <BeneficiaryAdditionalInformation beneficiary={beneficiary} />
     </div>
   )
 }

@@ -15,12 +15,12 @@ export function BeneficiaryIncome({
   className,
 }: {
   beneficiary: Beneficiary
-  className: string
+  className?: string
 }) {
   const { fieldLabels } = AddBeneficiaryWithFullDataClient
 
   return (
-    <div className={className}>
+    <div className={`fr-col-12 fr-mb-2w fr-p-9v ${className}`}>
       <hr />
       <h3 className="fr-h4">Activité/Revenu</h3>
       <hr />

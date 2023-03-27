@@ -6,10 +6,10 @@ export function BeneficiaryAdditionalInformation({
   className,
 }: {
   beneficiary: Beneficiary
-  className: string
+  className?: string
 }) {
   return (
-    <div className={className}>
+    <div className={`fr-col-12 fr-mb-2w fr-p-9v ${className}`}>
       <hr />
       <h3 className="fr-h4">Informations complémentaires</h3>
       <hr />
