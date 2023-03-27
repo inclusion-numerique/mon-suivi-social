@@ -1,10 +1,10 @@
 import {
   beneficiaryAccomodationModeLabels,
-  beneficiaryDisplayName,
   beneficiaryFamilySituationLabels,
   beneficiaryGenderLabels,
   beneficiaryMobilityLabels,
 } from '@mss/web/constants/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
 import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
 import { Beneficiary } from '@prisma/client'
 import { AttributesList } from '@mss/web/components/Generic'

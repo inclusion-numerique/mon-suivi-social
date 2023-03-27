@@ -1,5 +1,4 @@
 import {
-  Beneficiary,
   BeneficiaryAccomodationMode,
   BeneficiaryFamilySituation,
   BeneficiaryGir,
@@ -13,7 +12,6 @@ import {
   IncomeSource,
 } from '@prisma/client'
 import { arrayToOptions, labelsToOptions } from '@mss/web/utils/options'
-import { PartialBy } from '@mss/web/utils/types'
 
 export const beneficiaryStatusLabels: { [key in BeneficiaryStatus]: string } = {
   [BeneficiaryStatus.Active]: 'Actif',
@@ -32,37 +30,6 @@ export const beneficiaryStatusBadgeClasses: {
 }
 
 export const beneficiaryStatusOptions = labelsToOptions(beneficiaryStatusLabels)
-
-const nameOrEmpty = (name: string | null) => name || '(non renseigné)'
-
-export const beneficiaryDisplayName = (
-  {
-    firstName,
-    birthName,
-    usualName,
-    fileNumber,
-    title,
-  }: PartialBy<
-    Pick<
-      Beneficiary,
-      'firstName' | 'birthName' | 'usualName' | 'fileNumber' | 'title'
-    >,
-    'title'
-  >,
-  withTitle?: boolean,
-): string => {
-  if (!firstName && !birthName && !usualName) {
-    return `n°${fileNumber}`
-  }
-
-  const lastname = usualName || (birthName ? `(${birthName})` : '')
-  const titleLabel =
-    withTitle && title ? `${beneficiaryTitleLabels[title]} ` : ''
-
-  return `${titleLabel}${nameOrEmpty(firstName)} ${nameOrEmpty(
-    lastname.toUpperCase(),
-  )}`
-}
 
 export const beneficiaryTitleLabels: { [key in BeneficiaryTitle]: string } = {
   [BeneficiaryTitle.Miss]: 'Mme.',

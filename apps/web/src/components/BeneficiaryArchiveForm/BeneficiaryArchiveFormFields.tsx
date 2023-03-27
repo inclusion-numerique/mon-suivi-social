@@ -3,7 +3,7 @@
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import { Beneficiary } from '@prisma/client'
 import { CheckboxFormField } from '@mss/web/components/FormField'
-import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
 import { Control } from 'react-hook-form'
 
 export const BeneficiaryArchiveFormFields = ({

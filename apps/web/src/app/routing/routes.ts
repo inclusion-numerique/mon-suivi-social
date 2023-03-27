@@ -1,5 +1,5 @@
 import { withSearchParams } from '@mss/web/app/routing/withSearchParams'
-import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
 import { Beneficiary } from '@prisma/client'
 
 export type PaginationParams<T extends Record<string, string | undefined>> = {
