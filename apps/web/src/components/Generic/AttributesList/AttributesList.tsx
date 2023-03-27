@@ -5,23 +5,13 @@ import styles from './AttributesList.module.css'
 // Array of [label: string, content: ReactNode|string]
 export type AttributeItem = [string, ReactNode]
 
-type AttributeListOptions = {
-  inline?: boolean
-}
-
 export function AttributesList({
   items,
-  options,
 }: {
   items: (AttributeItem | undefined)[]
-  options?: AttributeListOptions
 }) {
   return (
-    <ul
-      className={`fr-raw-list ${styles['attributes-list']} ${
-        options?.inline ? styles.inline : ''
-      }`}
-    >
+    <ul className={`fr-raw-list ${styles['attributes-list']}`}>
       {items
         // Remove empty attributes and attributes with empty value
         .filter((item): item is AttributeItem => {

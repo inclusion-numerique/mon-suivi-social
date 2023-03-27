@@ -133,7 +133,6 @@ export function BeneficiaryGeneralInformation({
             ]}
           />
         </div>
-        {/* TODO: Ne pas afficher de catégorie quand il n'y a pas de contenu ? */}
       </div>
     </div>
   )
