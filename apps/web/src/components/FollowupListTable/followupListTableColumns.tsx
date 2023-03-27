@@ -1,7 +1,6 @@
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-
-import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
 import { getUserDisplayName } from '@mss/web/utils/user'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import {

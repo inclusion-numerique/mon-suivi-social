@@ -1,6 +1,4 @@
-import { Link } from '@mss/web/components/Generic/Link'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
-import { getUserDisplayName } from '@mss/web/utils/user'
 import { PageConfig, PageTitle } from '@mss/web/components/PageTitle'
 import {
   RoutePathParams,
@@ -10,15 +8,16 @@ import {
 import { DocumentsTab } from '@mss/web/components/DocumentsTab'
 import { HistoryTab } from '@mss/web/components/HistoryTab'
 import { InfoTab } from '@mss/web/components/InfoTab'
-import {
-  canDeleteBeneficiary,
-  canEditBeneficiaryGeneralInfo,
-  canCreateBeneficiaryHelpRequest,
-} from '@mss/web/security/rules'
-import { AttributesList, TabOptions, Tabs } from '@mss/web/components/Generic'
+import { TabOptions, Tabs } from '@mss/web/components/Generic'
 import { MutationLog } from '@mss/web/components/MutationLog'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { BeneficiairesQuery } from '@mss/web/query'
+import {
+  BeneficiaryManageActions,
+  BeneficiarySupportActions,
+} from '@mss/web/components/BeneficiaryActions'
+import { BeneficiaryMetaAttributes } from '@mss/web/components/BeneficiaryMetaAttributes'
+import styles from './page.module.css'
 
 export const revalidate = 0
 
@@ -49,25 +48,16 @@ const BeneficiaryPage = async ({
     }),
   ])
 
-  const { referents } = beneficiary
-
   const page: PageConfig = {
     title: Routes.Beneficiaires.Beneficiaire.Index.title(beneficiary),
   }
-
-  const canEdit = canEditBeneficiaryGeneralInfo(user, beneficiary)
-  const canArchive = canDeleteBeneficiary(user, beneficiary)
-  const canCreateHelpRequest = canCreateBeneficiaryHelpRequest(
-    user,
-    beneficiary,
-  )
 
   const tab = searchParams?.tab ?? 'info'
   const tabs = [
     {
       id: 'info',
-      icon: 'list-unordered',
-      title: 'Info',
+      icon: 'info-fill',
+      title: 'Informations',
       href: Routes.Beneficiaires.Beneficiaire.Index.path(
         { fileNumber },
         tab === 'info' ? searchParams : {},
@@ -82,7 +72,7 @@ const BeneficiaryPage = async ({
     },
     {
       id: 'documents',
-      icon: 'file-line',
+      icon: 'folder-2-fill',
       title: 'Documents',
       href: Routes.Beneficiaires.Beneficiaire.Index.path(
         { fileNumber },
@@ -92,7 +82,7 @@ const BeneficiaryPage = async ({
     },
     {
       id: 'historique',
-      icon: 'folder-2-line',
+      icon: 'calendar-2-fill',
       title: 'Historique',
       href: Routes.Beneficiaires.Beneficiaire.Index.path(
         { fileNumber },
@@ -111,9 +101,17 @@ const BeneficiaryPage = async ({
     },
   ] satisfies TabOptions<typeof tab>[]
 
+  // TODO: Responsive !
   return (
     <>
-      <PageTitle page={page} parents={[Routes.Beneficiaires.Index]} />
+      <PageTitle page={page} parents={[Routes.Beneficiaires.Index]}>
+        <BeneficiaryManageActions
+          user={user}
+          beneficiary={beneficiary}
+          className="fr-ml-2w"
+        />
+      </PageTitle>
+
       {beneficiary.archived ? (
         <div className="fr-alert fr-alert--warning fr-mb-8v">
           <h3 className="fr-alert__title">Bénéficiaire archivé</h3>
@@ -126,93 +124,22 @@ const BeneficiaryPage = async ({
           </p>
         </div>
       ) : null}
-      <div className="fr-col-12 fr-col-lg-8 fr-col-xl-9">
-        <AttributesList
-          items={[
-            [
-              'N° dossier',
-              <span
-                key="filenumber"
-                className="fr-badge fr-badge--blue-cumulus"
-              >
-                {fileNumber}
-              </span>,
-            ],
-            [
-              referents.length === 1 ? 'Agent référent' : 'Agents référents',
-              referents.length === 0
-                ? 'Aucun'
-                : referents.map(getUserDisplayName).map((name) => (
-                    <span key={name} className="fr-tag fr-mr-1w">
-                      {name}
-                    </span>
-                  )),
-              { verticalAlign: 'center' },
-            ],
-          ]}
+
+      <div className="fr-col-12 fr-mt-1w">
+        <BeneficiarySupportActions user={user} beneficiary={beneficiary} />
+      </div>
+
+      <hr className="fr-mt-3w" />
+
+      <div className="fr-col-12">
+        <BeneficiaryMetaAttributes
+          beneficiary={beneficiary}
+          className={styles['beneficiary-meta-attributes']}
         />
       </div>
-      <div className="fr-col-12 fr-mt-4v">
-        {beneficiary.archived ? null : (
-          <ul className="fr-btns-group  fr-btns-group--icon-left fr-btns-group--inline fr-btns-group--sm">
-            {canEdit ? (
-              <li>
-                <Link
-                  href={Routes.Beneficiaires.Beneficiaire.Modifier.path({
-                    fileNumber,
-                  })}
-                  className="fr-btn fr-icon-pencil-line fr-btn--primary"
-                >
-                  Modifier le bénéficiaire
-                </Link>
-              </li>
-            ) : null}
-            <li>
-              <Link
-                href={Routes.Accompagnements.Entretien.Nouveau.path({
-                  dossier: fileNumber,
-                })}
-                className="fr-btn fr-icon-file-add-line fr-btn--secondary"
-              >
-                Synthèse d&apos;entretien
-              </Link>
-            </li>
-            {canCreateHelpRequest ? (
-              <li>
-                <Link
-                  href={Routes.Accompagnements.DemandeDAide.Nouvelle.path({
-                    dossier: fileNumber,
-                  })}
-                  className="fr-btn fr-icon-file-add-line fr-btn--secondary"
-                >
-                  Demande d&apos;aide
-                </Link>
-              </li>
-            ) : null}
-            {canArchive ? (
-              <li>
-                <Link
-                  href={Routes.Beneficiaires.Beneficiaire.Archiver.path({
-                    fileNumber,
-                  })}
-                  className="fr-btn fr-btn--secondary fr-icon-archive-line fr-btn--primary"
-                >
-                  Archiver le bénéficiaire
-                </Link>
-              </li>
-            ) : null}
-            <li>
-              <Link
-                href="https://www.mesdroitssociaux.gouv.fr/dd1pnds-ria/#destination/simu-foyer"
-                target="_blank"
-                className="fr-btn fr-btn--tertiary-no-outline"
-              >
-                Simulation de droits sociaux
-              </Link>
-            </li>
-          </ul>
-        )}
-      </div>
+
+      <hr className="fr-mt-2w" />
+
       <Tabs
         ariaLabel="Informations du bénéficiaire"
         current={tab}

@@ -1,5 +1,5 @@
 import { TableColumnDefinition } from '@mss/web/components/Generic'
-import { beneficiaryDisplayName } from '@mss/web/constants/beneficiary'
+import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
 import {
   helpRequestStatusBadgeClasses,
   helpRequestStatusLabels,

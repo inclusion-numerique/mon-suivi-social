@@ -1,0 +1,14 @@
+.attributes-list > *:not(:last-child) {
+  --li-bottom: 1rem;
+}
+
+.attributes-list-item {
+  & > *:first-child,
+  & > .missing-value {
+    color: var(--text-mention-grey);
+  }
+
+  & > *:last-child {
+    word-break: break-word;
+  }
+}

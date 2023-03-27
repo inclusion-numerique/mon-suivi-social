@@ -1,5 +1,4 @@
 import {
-  Beneficiary,
   BeneficiaryAccomodationMode,
   BeneficiaryFamilySituation,
   BeneficiaryGir,
@@ -21,26 +20,16 @@ export const beneficiaryStatusLabels: { [key in BeneficiaryStatus]: string } = {
   [BeneficiaryStatus.Deceased]: 'Décédé·e',
 }
 
-export const beneficiaryStatusOptions = labelsToOptions(beneficiaryStatusLabels)
-
-export const beneficiaryDisplayName = ({
-  firstName,
-  birthName,
-  usualName,
-  fileNumber,
-}: Pick<
-  Beneficiary,
-  'firstName' | 'usualName' | 'birthName' | 'fileNumber'
->): string => {
-  if (!firstName && !birthName && !usualName) {
-    return `n°${fileNumber}`
-  }
-
-  if (usualName) {
-    return `${firstName ?? ''} ${usualName ?? ''}`.trim()
-  }
-  return `${firstName ?? ''} ${birthName ?? ''}`.trim()
+export const beneficiaryStatusBadgeClasses: {
+  [key in BeneficiaryStatus]: string
+} = {
+  [BeneficiaryStatus.Active]: 'fr-badge--success',
+  [BeneficiaryStatus.Inactive]: 'fr-badge--warning',
+  [BeneficiaryStatus.Archived]: 'fr-badge--error',
+  [BeneficiaryStatus.Deceased]: 'fr-badge--error',
 }
+
+export const beneficiaryStatusOptions = labelsToOptions(beneficiaryStatusLabels)
 
 export const beneficiaryTitleLabels: { [key in BeneficiaryTitle]: string } = {
   [BeneficiaryTitle.Miss]: 'Mme.',

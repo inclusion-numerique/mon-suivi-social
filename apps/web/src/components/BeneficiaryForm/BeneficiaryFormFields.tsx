@@ -27,6 +27,8 @@ import { Control } from 'react-hook-form'
 
 const FieldLabels = EditBeneficiaryFullDataClient.fieldLabels
 
+// FIXME: Number input are not properly handled by Zod validation (the emitted value is a string)
+
 export const BeneficiaryFormFields = ({
   disabled,
   control,
