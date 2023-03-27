@@ -1,0 +1,49 @@
+.inclusion-connect-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* button:not(:disabled) is required to override DSFR style */
+button:not(:disabled).inclusion-connect-btn {
+  /* A hack to reset DSFR colors for this button */
+  --background-active-blue-france: #000091;
+  --background-active-blue-france-active: #2323ff;
+
+  background: none;
+  display: inline-flex;
+  align-items: center;
+  height: 3.625rem;
+  text-align: center;
+  padding: 0.5rem 1rem 0.5rem 3.875rem;
+  border-radius: 50rem;
+  user-select: none;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  color: #fff;
+  border: 0.25rem solid var(--background-active-blue-france);
+  background-color: var(--background-active-blue-france);
+  background-image: url('/images/inclusion-connect.svg');
+  background-repeat: no-repeat;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+
+  strong {
+    display: block;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: var(--background-active-blue-france-active);
+    background-color: var(--background-active-blue-france-active);
+  }
+
+  &:focus {
+    outline-offset: 2px;
+    outline: #0a76f6 2px solid;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: 0;
+  }
+}
