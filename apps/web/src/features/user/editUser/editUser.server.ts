@@ -1,7 +1,7 @@
 import { prismaClient } from '@mss/web/prismaClient'
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
-import { invalidError } from '@mss/web/trpc/trpcErrors'
+import { invalidError } from '@mss/web/server/trpcErrors'
 import { UserRole, UserStatus } from '@prisma/client'
 
 export const EditUserServer = createMutationServerWithInitialState({

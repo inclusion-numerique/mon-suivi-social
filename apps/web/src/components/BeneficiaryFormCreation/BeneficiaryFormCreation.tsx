@@ -9,8 +9,8 @@ import { withTrpc } from '@mss/web/components/TrpcProvider'
 import { Routes } from '@mss/web/app/routing/routes'
 import {
   BeneficiaryCreationInput,
-  beneficiaryCreationSchema,
-} from '@mss/web/schema'
+  createBeneficiarySchema,
+} from '@mss/web/server/schema'
 import { FormButton, FormError } from '../Form'
 import { BeneficiaryFormCreationFields } from './BeneficiaryFormCreationFields'
 
@@ -26,7 +26,7 @@ export const BeneficiaryFormCreation = withTrpc(
     const { agents, structureId } = properties
 
     const form = useForm<BeneficiaryCreationInput>({
-      resolver: zodResolver(beneficiaryCreationSchema),
+      resolver: zodResolver(createBeneficiarySchema),
       defaultValues: { structureId },
     })
 
@@ -38,8 +38,7 @@ export const BeneficiaryFormCreation = withTrpc(
         router.push(
           Routes.Beneficiaires.Beneficiaire.Index.path(result.beneficiary),
         )
-      } catch (error_) {
-        console.log(error_)
+      } catch {
         // Error message will be in hook result
       }
     }

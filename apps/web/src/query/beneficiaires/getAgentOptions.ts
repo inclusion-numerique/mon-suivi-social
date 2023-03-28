@@ -1,4 +1,3 @@
-import 'server-only'
 import { Options } from '@mss/web/utils/options'
 import { prismaClient } from '@mss/web/prismaClient'
 

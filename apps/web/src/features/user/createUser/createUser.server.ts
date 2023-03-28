@@ -1,7 +1,7 @@
 import { createMutationServer } from '@mss/web/features/createMutation.server'
 import { CreateUserClient } from '@mss/web/features/user/createUser/createUser.client'
 import { v4 } from 'uuid'
-import { invalidError } from '@mss/web/trpc/trpcErrors'
+import { invalidError } from '@mss/web/server/trpcErrors'
 import { NonAdminUserRole } from '@mss/web/constants/user'
 
 export const CreateUserServer = createMutationServer({

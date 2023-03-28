@@ -1,4 +1,4 @@
-import { protectedProcedure, router } from '@mss/web/trpc/trpc'
+import { protectedProcedure, router } from '@mss/web/server/createRouter'
 import {
   beneficiarySecurityTargetInclude,
   getBeneficiarySecurityTarget,
@@ -7,17 +7,14 @@ import {
   forbiddenError,
   invalidError,
   notfoundError,
-} from '@mss/web/trpc/trpcErrors'
+} from '@mss/web/server/trpcErrors'
 import {
   canAddBeneficiaryDocument,
   canViewBeneficiaryDocuments,
 } from '@mss/web/security/rules'
 import { prismaClient } from '@mss/web/prismaClient'
 import z from 'zod'
-import {
-  createSignedGetUrl,
-  createSignedUploadUrl,
-} from '@mss/web/server/createSignedUrl'
+import { createSignedGetUrl, createSignedUploadUrl } from '@mss/web/lib/s3'
 import { AddDocumentClient } from '@mss/web/features/document/addDocument.client'
 import { AddDocumentServer } from '@mss/web/features/document/addDocument.server'
 import { EditDocumentClient } from '@mss/web/features/document/editDocument.client'

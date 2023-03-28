@@ -1,5 +1,5 @@
 import { initTRPC, TRPCError } from '@trpc/server'
-import { AppContext } from '@mss/web/trpc/trpcContext'
+import { AppContext } from '@mss/web/server/createContext'
 import { transformer } from '@mss/web/utils/serialization'
 
 const t = initTRPC.context<AppContext>().create({
@@ -9,7 +9,7 @@ const t = initTRPC.context<AppContext>().create({
   },
 })
 
-export const {router} = t
+export const { router } = t
 
 /**
  * Unprotected procedure

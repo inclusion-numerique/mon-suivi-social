@@ -1,10 +1,10 @@
-import { protectedProcedure, router } from '@mss/web/trpc/trpc'
+import { protectedProcedure, router } from '@mss/web/server/createRouter'
 import { CreateUserClient } from '@mss/web/features/user/createUser/createUser.client'
 import { CreateUserServer } from '@mss/web/features/user/createUser/createUser.server'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
 import { EditUserServer } from '@mss/web/features/user/editUser/editUser.server'
 import { prismaClient } from '@mss/web/prismaClient'
-import { invalidError } from '@mss/web/trpc/trpcErrors'
+import { invalidError } from '@mss/web/server/trpcErrors'
 
 export const userRouter = router({
   add: protectedProcedure

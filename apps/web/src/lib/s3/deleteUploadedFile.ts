@@ -1,4 +1,4 @@
-import { s3 } from '@mss/web/server/s3/s3'
+import { s3 } from '@mss/web/lib/s3/s3'
 import { DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { ServerWebAppConfig } from '@mss/web/webAppConfig'
 

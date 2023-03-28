@@ -1,18 +1,21 @@
-import { protectedProcedure, router } from '@mss/web/trpc/trpc'
+import { protectedProcedure, router } from '@mss/web/server/createRouter'
 import z from 'zod'
-import { prismaClient } from '@mss/web/prismaClient'
+import { BeneficiaryStatus, prismaClient } from '@mss/web/prismaClient'
 import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
 import { getBeneficiarySecurityTarget } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { forbiddenError, invalidError } from '@mss/web/trpc/trpcErrors'
+import { forbiddenError, invalidError } from '@mss/web/server/trpcErrors'
 import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { EditBeneficiaryFullDataServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.server'
 import { ArchiveBeneficiaryClient } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.client'
 import { ArchiveBeneficiaryServer } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.server'
 import { canListBeneficiaries } from '@mss/web/security/rules'
-import { beneficiaryDocumentRouter } from '@mss/web/trpc/routers/beneficiaryDocumentRouter'
-import { beneficiaryCreationSchema } from '@mss/web/schema'
-import { BeneficiairesQuery } from '@mss/web/query'
+import { beneficiaryDocumentRouter } from '@mss/web/server/routers/beneficiaryDocumentRouter'
+import { createBeneficiarySchema } from '@mss/web/server/schema'
+import { createBeneficiary } from '@mss/web/query/beneficiaires/createBeneficiary'
+import { v4 } from 'uuid'
+import { generateFileNumber } from '@mss/web/utils/generateFileNumber'
+import { createBeneficiaryHandler } from '../controller/beneficiary.controller'
 
 const tokenToSearchCondition = (token: string) => ({
   contains: token,
@@ -62,9 +65,9 @@ export const beneficiaryRouter = router({
       return { beneficiaries }
     }),
   create: protectedProcedure
-    .input(beneficiaryCreationSchema)
-    .mutation(({ input, ctx: { user } }) =>
-      BeneficiairesQuery.createBeneficiary(input, user),
+    .input(createBeneficiarySchema)
+    .mutation(async ({ input, ctx: { user } }) =>
+      createBeneficiaryHandler({ input, user }),
     ),
   editGeneralInfo: protectedProcedure
     .input(EditBeneficiaryGeneralInfoClient.inputValidation)

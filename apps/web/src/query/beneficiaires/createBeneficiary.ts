@@ -1,7 +1,7 @@
-import { BeneficiaryCreationInput } from '@mss/web/schema'
+import { BeneficiaryCreationInput } from '@mss/web/server/schema'
 import { prismaClient } from '@mss/web/prismaClient'
 import { generateFileNumber } from '@mss/web/utils/generateFileNumber'
-import { BeneficiaryStatus, User } from '@prisma/client'
+import { BeneficiaryStatus } from '@prisma/client'
 import { v4 } from 'uuid'
 
 async function createBeneficiary(

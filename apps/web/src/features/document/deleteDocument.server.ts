@@ -1,6 +1,6 @@
 import { createMutationServer } from '@mss/web/features/createMutation.server'
 import { DeleteDocumentClient } from '@mss/web/features/document/deleteDocument.client'
-import { deleteUploadedFile } from '@mss/web/server/s3/deleteUploadedFile'
+import { deleteUploadedFile } from '@mss/web/lib/s3/deleteUploadedFile'
 import * as Sentry from '@sentry/nextjs'
 
 export const DeleteDocumentServer = createMutationServer({

@@ -1,4 +1,4 @@
-import { protectedProcedure, router } from '@mss/web/trpc/trpc'
+import { protectedProcedure, router } from '@mss/web/server/createRouter'
 import { CreateStructureClient } from '@mss/web/features/structure/createStructure/createStructure.client'
 import { CreateStructureServer } from '@mss/web/features/structure/createStructure/createStructure.server'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'

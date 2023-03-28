@@ -2,7 +2,7 @@ import { errorMessages } from '@mss/web/utils/zod'
 import { BeneficiaryTitle, Gender } from '@prisma/client'
 import { z } from 'zod'
 
-const beneficiaryCreationSchema = z.object({
+const createBeneficiarySchema = z.object({
   structureId: z.string().uuid(),
   referents: z
     .array(z.string().uuid(), {
@@ -29,8 +29,8 @@ const beneficiaryCreationSchema = z.object({
   email: z.string().email().nullish(),
 })
 
-type BeneficiaryCreationInput = z.infer<typeof beneficiaryCreationSchema>
+type BeneficiaryCreationInput = z.infer<typeof createBeneficiarySchema>
 
-export { beneficiaryCreationSchema }
+export { createBeneficiarySchema }
 
 export type { BeneficiaryCreationInput }
