@@ -1,3 +1,3 @@
-import { initializeSentry } from './src/sentry'
+import { initializeSentry } from './src/lib/sentry'
 
 initializeSentry()
