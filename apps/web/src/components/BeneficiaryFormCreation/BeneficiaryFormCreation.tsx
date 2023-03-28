@@ -18,15 +18,16 @@ import { BeneficiaryFormCreationFields } from './BeneficiaryFormCreationFields'
  * This forms permits creation of beneficiaries, with full or general info
  */
 export const BeneficiaryFormCreation = withTrpc(
-  (properties: { agents: Options }) => {
+  (properties: { agents: Options; structureId: string }) => {
     const router = useRouter()
 
     const mutation = trpc.beneficiary.create.useMutation()
 
-    const { agents } = properties
+    const { agents, structureId } = properties
 
     const form = useForm<BeneficiaryCreationInput>({
       resolver: zodResolver(beneficiaryCreationSchema),
+      defaultValues: { structureId },
     })
 
     const { handleSubmit, control } = form
@@ -37,7 +38,8 @@ export const BeneficiaryFormCreation = withTrpc(
         router.push(
           Routes.Beneficiaires.Beneficiaire.Index.path(result.beneficiary),
         )
-      } catch {
+      } catch (error_) {
+        console.log(error_)
         // Error message will be in hook result
       }
     }
