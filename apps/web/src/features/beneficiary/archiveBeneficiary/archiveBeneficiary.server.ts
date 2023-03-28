@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { MutationDiff } from '@mss/web/features/mutationLog'
 import { ArchiveBeneficiaryClient } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.client'
 import { invalidError, notfoundError } from '@mss/web/server/trpcErrors'

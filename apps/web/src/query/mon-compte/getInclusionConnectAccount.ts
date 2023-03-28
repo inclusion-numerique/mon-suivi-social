@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 
 const getInclusionConnectAccount = async (userId: string, provider: string) =>
   prismaClient.account.findFirst({

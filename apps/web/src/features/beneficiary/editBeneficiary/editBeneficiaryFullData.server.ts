@@ -1,6 +1,6 @@
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'

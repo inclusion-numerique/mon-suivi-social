@@ -1,5 +1,5 @@
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { Prisma, prismaClient } from '@mss/web/prismaClient'
+import { Prisma, prismaClient } from '@mss/web/server/prisma/prismaClient'
 
 type GetFollowupReturn = Prisma.PromiseReturnType<typeof getFollowup>
 

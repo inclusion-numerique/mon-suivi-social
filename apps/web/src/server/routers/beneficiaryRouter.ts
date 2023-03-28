@@ -1,6 +1,9 @@
 import { protectedProcedure, router } from '@mss/web/server/createRouter'
 import z from 'zod'
-import { BeneficiaryStatus, prismaClient } from '@mss/web/prismaClient'
+import {
+  BeneficiaryStatus,
+  prismaClient,
+} from '@mss/web/server/prisma/prismaClient'
 import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
 import { getBeneficiarySecurityTarget } from '@mss/web/security/getBeneficiarySecurityTarget'
 import { forbiddenError, invalidError } from '@mss/web/server/trpcErrors'

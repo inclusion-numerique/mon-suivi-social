@@ -1,4 +1,4 @@
-import { Prisma, prismaClient } from '@mss/web/prismaClient'
+import { Prisma, prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { sum } from '@mss/web/utils/sum'
 
 export const getGenderStats = async (structureId: string) => {

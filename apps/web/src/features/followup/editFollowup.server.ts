@@ -1,6 +1,6 @@
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { EditFollowupClient } from '@mss/web/features/followup/editFollowup.client'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
@@ -43,11 +43,11 @@ export const EditFollowupServer = createMutationServerWithInitialState({
     createdById,
     ...data
   }): MutationInput<EditFollowupClient> => ({
-      followupId: id,
-      types: types.map((type) => type.id),
-      documents: documents.map(({ key }) => key),
-      ...removeNullAndUndefinedValues(data),
-    }),
+    followupId: id,
+    types: types.map((type) => type.id),
+    documents: documents.map(({ key }) => key),
+    ...removeNullAndUndefinedValues(data),
+  }),
   executeMutation: async ({ input, transaction, initialInput }) => {
     const { followupId, types, documents, ...data } = input
 

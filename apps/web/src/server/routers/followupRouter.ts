@@ -5,7 +5,7 @@ import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client
 import { AddFollowupServer } from '@mss/web/features/followup/addFollowup.server'
 import { EditFollowupClient } from '@mss/web/features/followup/editFollowup.client'
 import { EditFollowupServer } from '@mss/web/features/followup/editFollowup.server'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import {
   canViewBeneficiaryFollowupPrivateSynthesis,
   canViewBeneficiaryFollowupSynthesis,

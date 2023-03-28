@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { computeArrayDiff } from '@mss/web/utils/diff'
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'

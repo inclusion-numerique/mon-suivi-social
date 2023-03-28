@@ -1,5 +1,5 @@
 import { BeneficiaryCreationInput } from '@mss/web/server/schema'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { generateFileNumber } from '@mss/web/utils/generateFileNumber'
 import { BeneficiaryStatus } from '@prisma/client'
 import { v4 } from 'uuid'

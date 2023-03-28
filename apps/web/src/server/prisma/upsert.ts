@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 
 const doubleQuoted = (value: string) => `"${value}"`
 

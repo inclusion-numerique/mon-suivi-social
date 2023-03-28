@@ -1,6 +1,6 @@
 import { getTotalPages, takeAndSkipFromPagination } from '@mss/web/utils/table'
 import { Prisma, UserRole } from '@prisma/client'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 
 export type UserListResult = Prisma.PromiseReturnType<typeof iterateUsers>
 

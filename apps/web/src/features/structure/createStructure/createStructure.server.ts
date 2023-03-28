@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { createMutationServer } from '@mss/web/features/createMutation.server'
 import { CreateStructureClient } from '@mss/web/features/structure/createStructure/createStructure.client'
 import { v4 } from 'uuid'

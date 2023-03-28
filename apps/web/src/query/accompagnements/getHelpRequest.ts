@@ -1,5 +1,5 @@
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 
 const getHelpRequest = async (helpRequestId: string) =>
   prismaClient.helpRequest.findFirst({

@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
 import { invalidError } from '@mss/web/server/trpcErrors'

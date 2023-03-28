@@ -1,5 +1,5 @@
 import { getTotalPages, takeAndSkipFromPagination } from '@mss/web/utils/table'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { Prisma } from '@prisma/client'
 
 export type HelpRequestsListResult = Prisma.PromiseReturnType<

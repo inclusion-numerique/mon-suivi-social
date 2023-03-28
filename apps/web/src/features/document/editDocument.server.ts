@@ -1,6 +1,6 @@
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { EditDocumentClient } from '@mss/web/features/document/editDocument.client'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { DocumentTag } from '@mss/web/constants/document'
 

@@ -12,7 +12,7 @@ import {
   canAddBeneficiaryDocument,
   canViewBeneficiaryDocuments,
 } from '@mss/web/security/rules'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import z from 'zod'
 import { createSignedGetUrl, createSignedUploadUrl } from '@mss/web/lib/s3'
 import { AddDocumentClient } from '@mss/web/features/document/addDocument.client'

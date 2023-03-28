@@ -5,7 +5,7 @@ import { AddHelpRequestClient } from '@mss/web/features/helpRequest/addHelpReque
 import { AddHelpRequestServer } from '@mss/web/features/helpRequest/addHelpRequest.server'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
 import { EditHelpRequestServer } from '@mss/web/features/helpRequest/editHelpRequest.server'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import {
   canViewBeneficiaryFollowupPrivateSynthesis,
   canViewBeneficiaryFollowupSynthesis,

@@ -3,7 +3,7 @@ import { CreateUserClient } from '@mss/web/features/user/createUser/createUser.c
 import { CreateUserServer } from '@mss/web/features/user/createUser/createUser.server'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
 import { EditUserServer } from '@mss/web/features/user/editUser/editUser.server'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { invalidError } from '@mss/web/server/trpcErrors'
 
 export const userRouter = router({

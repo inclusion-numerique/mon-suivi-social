@@ -1,5 +1,5 @@
 import 'tsconfig-paths/register'
-import { prismaClient } from '@mss/web/src/prismaClient'
+import { prismaClient } from '@mss/web/src/server/prisma'
 import { fixtureStructure } from '@mss/cli/fixtures/structures'
 import { fixturesFollowupTypes } from '@mss/cli/fixtures/followupTypes'
 import { previewUserFixtures, userFixtures } from '@mss/cli/fixtures/users'

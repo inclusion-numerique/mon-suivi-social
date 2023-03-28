@@ -1,5 +1,5 @@
 import { beneficiarySecurityTargetSelect } from '@mss/web/security/getBeneficiarySecurityTarget'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 
 const getBeneficiary = async (fileNumber: string) =>
   prismaClient.beneficiary.findUnique({

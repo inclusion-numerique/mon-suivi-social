@@ -1,5 +1,5 @@
 import { Options } from '@mss/web/utils/options'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 
 import { getUserDisplayName } from '@mss/web/utils/user'
 
