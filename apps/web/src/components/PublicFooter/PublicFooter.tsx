@@ -1,28 +1,31 @@
 import { Link } from '@mss/web/components/Generic/Link'
 import { PublicWebAppConfig } from '@mss/web/webAppConfig'
+import styles from './PublicFooter.module.css'
 
 function PublicFooter() {
   return (
-    <footer id="footer" role="contentinfo" className="fr-footer">
+    <footer
+      id="footer"
+      role="contentinfo"
+      className={`fr-footer ${styles.footer}`}
+    >
       <div className="fr-container">
         <div className="fr-footer__body fr-footer__body--operator">
-          <div className="fr-p-4v">
-            <div className="fr-footer__brand fr-enlarge-link fr-p-4v">
-              <a
-                href="https://agence-cohesion-territoires.gouv.fr/"
-                title="Site Web de l'Agence Nationale de la Cohésion des Territoires"
-                className="fr-footer__brand-link"
-              >
-                <picture>
-                  <img
-                    src="/images/logo-anct.svg"
-                    alt="Logo de l'Agence Nationale de la Cohésion des Territoires"
-                    width={200}
-                    className="fr-footer__logo"
-                  />
-                </picture>
-              </a>
-            </div>
+          <div className="fr-footer__brand fr-enlarge-link">
+            <a
+              href="https://agence-cohesion-territoires.gouv.fr/"
+              title="Site Web de l'Agence Nationale de la Cohésion des Territoires"
+              className="fr-footer__brand-link"
+            >
+              <picture>
+                <img
+                  src="/images/logo-anct.svg"
+                  alt="Logo de l'Agence Nationale de la Cohésion des Territoires"
+                  width={200}
+                  className="fr-footer__logo"
+                />
+              </picture>
+            </a>
           </div>
           <div className="fr-footer__content">
             <ul className="fr-footer__content-list">

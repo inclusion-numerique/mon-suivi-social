@@ -1,6 +1,7 @@
 import { Link } from '@mss/web/components/Generic/Link'
 import { Routes } from '@mss/web/app/routing/routes'
 import { PublicWebAppConfig } from '@mss/web/webAppConfig'
+import styles from './PublicHeader.module.css'
 
 function PublicHeader({ hideSigninButton }: { hideSigninButton?: boolean }) {
   const links = hideSigninButton
@@ -8,15 +9,18 @@ function PublicHeader({ hideSigninButton }: { hideSigninButton?: boolean }) {
     : [
         <Link
           key="signin"
-          className="fr-btn fr-btn--icon-left fr-icon-user-setting-line"
+          className={`fr-btn fr-btn--icon-left fr-icon-user-setting-line ${styles.loginBtn}`}
           href={Routes.Connexion.Login}
         >
-          Se connecter
+          Se connecter à son espace
         </Link>,
       ]
 
   return (
-    <header role="banner" className="fr-header">
+    <header
+      role="banner"
+      className={`fr-header ${hideSigninButton ? '' : styles.homeHeader}`}
+    >
       <div className="fr-header__body">
         <div className="fr-container">
           <div className="fr-header__body-row">

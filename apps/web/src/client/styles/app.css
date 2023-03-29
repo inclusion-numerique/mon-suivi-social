@@ -6,7 +6,6 @@ html,
 body,
 body > div:not(#environment-information) {
   min-height: 100% !important;
-  height: 100%;
 }
 
 textarea {
@@ -41,6 +40,10 @@ textarea {
   --blue-france-975-sun-113: #f5f5ff;
   --blue-france-main-525: var(--mss-primary-hover);
   --blue-france-850-200: #6c74e3;
+  --sm-breakpoint: 36em;
+  --md-breakpoint: 48em;
+  --lg-breakpoint: 62em;
+  --xl-breakpoint: 78em;
 }
 
 .fr-btn {
