@@ -7,8 +7,8 @@ import {
   followupMediumLabels,
   followupStatusClasses,
   followupStatusLabels,
-} from '@mss/web/constants/followup'
-import { FollowupsListItem } from '@mss/web/query'
+} from '@mss/web/client/options/followup'
+import { FollowupsListItem } from '@mss/web/server/query'
 
 export const followupListTableColumns = [
   {

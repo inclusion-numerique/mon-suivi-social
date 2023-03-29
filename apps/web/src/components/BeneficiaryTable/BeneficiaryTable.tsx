@@ -2,7 +2,7 @@ import { beneficiaryColumns } from './beneficiaryColumns'
 import { Routes } from '@mss/web/app/routing/routes'
 import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
 import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
-import { BeneficiaryList } from '@mss/web/query'
+import { BeneficiaryList } from '@mss/web/server/query'
 
 export const BeneficiaryTable = ({
   beneficiaries,

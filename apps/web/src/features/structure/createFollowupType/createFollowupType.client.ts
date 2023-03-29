@@ -1,19 +1,11 @@
 import { canEditStructure } from '@mss/web/security/rules'
-import z from 'zod'
 import { createMutationClient } from '@mss/web/features/createMutation.client'
+import { createFollowupTypeSchema } from '@mss/web/server/schema'
 
 export const CreateFollowupTypeClient = createMutationClient({
   name: 'structure.createFollowupType',
   title: "Création de type d'accompagnement",
-  inputValidation: z.object({
-    name: z
-      .string({
-        invalid_type_error: "Veuillez renseigner le nom de l'accompagnement",
-      })
-      .trim()
-      .min(2, 'Veuillez renseigner au minimum 2 caractères'),
-    structureId: z.string().uuid(),
-  }),
+  inputValidation: createFollowupTypeSchema,
   securityCheck: canEditStructure,
   fieldLabels: {
     structureId: 'Identifiant de la structure',

@@ -11,7 +11,7 @@ import { Options } from '@mss/web/utils/options'
 import {
   followupMediumOptions,
   followupStatusOptions,
-} from '@mss/web/constants/followup'
+} from '@mss/web/client/options/followup'
 import { Control } from 'react-hook-form'
 
 const FieldLabels = EditFollowupClient.fieldLabels

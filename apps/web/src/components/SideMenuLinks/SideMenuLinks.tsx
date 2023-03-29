@@ -2,7 +2,7 @@
 
 import { Link } from '@mss/web/components/Generic/Link'
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import { useIsCurrentPathname } from '@mss/web/hooks/useIsCurrentPathname'
+import { useIsCurrentPathname } from '@mss/web/client/hooks/useIsCurrentPathname'
 import { Routes } from '@mss/web/app/routing/routes'
 import { deserialize, Serialized } from '@mss/web/utils/serialization'
 import {

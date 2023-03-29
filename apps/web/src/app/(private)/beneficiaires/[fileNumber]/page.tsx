@@ -11,7 +11,7 @@ import { InfoTab } from '@mss/web/components/InfoTab'
 import { TabOptions, Tabs } from '@mss/web/components/Generic'
 import { MutationLog } from '@mss/web/components/MutationLog'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
-import { BeneficiairesQuery } from '@mss/web/query'
+import { BeneficiairesQuery } from '@mss/web/server/query'
 import {
   BeneficiaryManageActions,
   BeneficiarySupportActions,

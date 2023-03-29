@@ -143,31 +143,6 @@ export const canListBeneficiaries = (
     'Referent',
   ])
 
-export const canCreateBeneficiaryWithGeneralInfo = (
-  grantee: SecurityRuleGrantee,
-  target: SecurityTargetWithStructure,
-): boolean =>
-  isAdministrator(grantee) ||
-  isInSameStructureAs(grantee, target, [
-    'StructureManager',
-    'SocialWorker',
-    'Instructor',
-    'ReceptionAgent',
-    'Referent',
-  ])
-
-export const canCreateBeneficiaryWithFullData = (
-  grantee: SecurityRuleGrantee,
-  target: SecurityTargetWithStructure,
-): boolean =>
-  isAdministrator(grantee) ||
-  isInSameStructureAs(grantee, target, [
-    'StructureManager',
-    'SocialWorker',
-    'Instructor',
-    'Referent',
-  ])
-
 export const canViewBeneficiaryGeneralInfo = (
   grantee: SecurityRuleGrantee,
   beneficiary: SecurityTargetWithStructure & SecurityTargetWithReferents,

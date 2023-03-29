@@ -4,22 +4,13 @@ import { createMutationClient } from '@mss/web/features/createMutation.client'
 import { StructureType } from '@prisma/client'
 import { labelsToOptions } from '@mss/web/utils/options'
 import { errorMessages } from '@mss/web/utils/zod'
+import { createStructureSchema } from '@mss/web/server/schema'
 
 export const CreateStructureClient = createMutationClient({
   name: 'structure.create',
   title: 'Création de structure',
   securityCheck: (grantee) => isAdministrator(grantee),
-  inputValidation: z.object({
-    type: z.nativeEnum(StructureType),
-    name: z.string(errorMessages).min(2, errorMessages.invalid_type_error),
-    zipcode: z.string(errorMessages).min(5, errorMessages.invalid_type_error),
-    city: z.string(errorMessages).min(2, errorMessages.invalid_type_error),
-    address: z.string(errorMessages).min(2, errorMessages.invalid_type_error),
-    phone: z.string(errorMessages).min(10, errorMessages.invalid_type_error),
-    email: z.string(errorMessages).email(errorMessages.invalid_type_error),
-    // Ids of the followupTypes to propose
-    proposedFollowupTypes: z.array(z.string().uuid()),
-  }),
+  inputValidation: createStructureSchema,
   fieldLabels: {
     type: 'Type',
     name: 'Raison sociale',

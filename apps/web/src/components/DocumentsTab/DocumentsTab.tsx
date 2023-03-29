@@ -11,7 +11,7 @@ import {
   DocumentTag,
   documentTagLabels,
   documentTypeLabels,
-} from '@mss/web/constants/document'
+} from '@mss/web/client/options/document'
 
 export function DocumentsTab({
   documents,

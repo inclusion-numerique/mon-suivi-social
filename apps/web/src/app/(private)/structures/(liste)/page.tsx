@@ -16,7 +16,7 @@ import {
   StructureTable,
 } from '@mss/web/components/StructureTable'
 import { Link } from '@mss/web/components/Generic/Link'
-import { StructureQuery } from '@mss/web/query'
+import { StructureQuery } from '@mss/web/server/query'
 import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
 const perPage = DEFAULT_PER_PAGE

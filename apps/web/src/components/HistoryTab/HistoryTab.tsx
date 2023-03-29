@@ -15,16 +15,19 @@ import {
 } from '@mss/web/security/rules'
 import { Routes } from '@mss/web/app/routing/routes'
 import { Link } from '@mss/web/components/Generic/Link'
-import { GetSupportsReturn, GetBeneficiaryToViewReturn } from '@mss/web/query'
+import {
+  GetSupportsReturn,
+  GetBeneficiaryToViewReturn,
+} from '@mss/web/server/query'
 import {
   followupMediumLabels,
   followupStatusClasses,
   followupStatusLabels,
-} from '@mss/web/constants/followup'
+} from '@mss/web/client/options/followup'
 import {
   helpRequestStatusBadgeClasses,
   helpRequestStatusLabels,
-} from '@mss/web/constants/helpRequest'
+} from '@mss/web/client/options/helpRequest'
 
 export function HistoryTab({
   user,

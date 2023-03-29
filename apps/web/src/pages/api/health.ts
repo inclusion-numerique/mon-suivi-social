@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { PublicWebAppConfig } from '@mss/web/webAppConfig'
 
 const databaseStatus = () =>

@@ -1,6 +1,6 @@
 import { Table } from '@mss/web/components/Generic/table/Table'
 import { TableHead } from '@mss/web/components/Generic/table/TableHead'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { TableRow } from '@mss/web/components/Generic/table/TableRow'
 import { getUserDisplayName } from '@mss/web/utils/user'

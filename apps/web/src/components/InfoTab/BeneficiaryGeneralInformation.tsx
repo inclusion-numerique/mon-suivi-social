@@ -3,15 +3,15 @@ import {
   beneficiaryFamilySituationLabels,
   beneficiaryGenderLabels,
   beneficiaryMobilityLabels,
-} from '@mss/web/constants/beneficiary'
+} from '@mss/web/client/options/beneficiary'
 import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
-import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
 import { Beneficiary } from '@prisma/client'
 import { AttributesList } from '@mss/web/components/Generic'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { getAge } from '@mss/web/utils/age'
-import { Nationalities } from '@mss/web/constants/nationality'
+import { Nationalities } from '@mss/web/client/options/nationality'
 import { BeneficiaryAddress } from './BeneficiaryAddress'
+import { beneficiaryFieldLabels } from '@mss/web/client/labels'
 
 export function BeneficiaryGeneralInformation({
   beneficiary,
@@ -20,7 +20,6 @@ export function BeneficiaryGeneralInformation({
   beneficiary: Beneficiary
   className?: string
 }) {
-  const { fieldLabels } = AddBeneficiaryWithFullDataClient
   const { street, addressComplement, zipcode, city, region } = beneficiary
   const hasAddress = street || addressComplement || zipcode || city || region
 
@@ -36,23 +35,26 @@ export function BeneficiaryGeneralInformation({
           <AttributesList
             items={[
               [
-                fieldLabels.birthDate || '', // FIXME: Ici, on a un soucis de type
+                beneficiaryFieldLabels.birthDate || '', // FIXME: Ici, on a un soucis de type
                 beneficiary.birthDate
                   ? `${dateAsDay(beneficiary.birthDate)} (${getAge(
                       beneficiary.birthDate,
                     )} ans)`
                   : null,
               ],
-              [fieldLabels.birthPlace || '', beneficiary.birthPlace],
-              [fieldLabels.deathDate || '', dateAsDay(beneficiary.deathDate)],
+              [beneficiaryFieldLabels.birthPlace || '', beneficiary.birthPlace],
               [
-                fieldLabels.gender || '',
+                beneficiaryFieldLabels.deathDate || '',
+                dateAsDay(beneficiary.deathDate),
+              ],
+              [
+                beneficiaryFieldLabels.gender || '',
                 beneficiary.gender
                   ? beneficiaryGenderLabels[beneficiary.gender]
                   : undefined,
               ],
               [
-                fieldLabels.nationality || '',
+                beneficiaryFieldLabels.nationality || '',
                 beneficiary.nationality
                   ? Nationalities[beneficiary.nationality]
                   : null,
@@ -64,17 +66,17 @@ export function BeneficiaryGeneralInformation({
           <h4 className="fr-text--md fr-mb-1w">Coordonnées</h4>
           <AttributesList
             items={[
-              [fieldLabels.noPhone, beneficiary.noPhone || null],
-              [fieldLabels.phone1 || '', beneficiary.phone1],
-              [fieldLabels.phone2 || '', beneficiary.phone2],
-              [fieldLabels.email || '', beneficiary.email],
+              [beneficiaryFieldLabels.noPhone, beneficiary.noPhone || null],
+              [beneficiaryFieldLabels.phone1 || '', beneficiary.phone1],
+              [beneficiaryFieldLabels.phone2 || '', beneficiary.phone2],
+              [beneficiaryFieldLabels.email || '', beneficiary.email],
             ]}
           />
           <h4 className="fr-text--md fr-mt-4w fr-mb-1w">Mobilité</h4>
           <AttributesList
             items={[
               [
-                fieldLabels.mobility || '',
+                beneficiaryFieldLabels.mobility || '',
                 beneficiary.mobility
                   ? beneficiaryMobilityLabels[beneficiary.mobility]
                   : null,
@@ -90,7 +92,7 @@ export function BeneficiaryGeneralInformation({
           <AttributesList
             items={[
               [
-                fieldLabels.accomodationMode || '',
+                beneficiaryFieldLabels.accomodationMode || '',
                 beneficiary.accomodationMode
                   ? beneficiaryAccomodationModeLabels[
                       beneficiary.accomodationMode
@@ -98,11 +100,11 @@ export function BeneficiaryGeneralInformation({
                   : null,
               ],
               [
-                fieldLabels.accomodationName || '',
+                beneficiaryFieldLabels.accomodationName || '',
                 beneficiary.accomodationName,
               ],
               [
-                fieldLabels.accomodationAdditionalInformation || '',
+                beneficiaryFieldLabels.accomodationAdditionalInformation || '',
                 beneficiary.accomodationAdditionalInformation,
               ],
               [
@@ -119,16 +121,22 @@ export function BeneficiaryGeneralInformation({
           <AttributesList
             items={[
               [
-                fieldLabels.familySituation || '',
+                beneficiaryFieldLabels.familySituation || '',
                 beneficiary.familySituation
                   ? beneficiaryFamilySituationLabels[
                       beneficiary.familySituation
                     ]
                   : null,
               ],
-              [fieldLabels.caregiver, beneficiary.caregiver || null],
-              [fieldLabels.minorChildren || '', beneficiary.minorChildren],
-              [fieldLabels.majorChildren || '', beneficiary.majorChildren],
+              [beneficiaryFieldLabels.caregiver, beneficiary.caregiver || null],
+              [
+                beneficiaryFieldLabels.minorChildren || '',
+                beneficiary.minorChildren,
+              ],
+              [
+                beneficiaryFieldLabels.majorChildren || '',
+                beneficiary.majorChildren,
+              ],
             ]}
           />
         </div>

@@ -5,8 +5,8 @@ import {
   MutationLogInfo,
 } from '@mss/web/features/mutationLog'
 import { Prisma } from '@prisma/client'
-import { prismaClient } from '@mss/web/prismaClient'
-import { forbiddenError } from '@mss/web/trpc/trpcErrors'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
+import { forbiddenError } from '@mss/web/server/trpcErrors'
 import { v4 } from 'uuid'
 import { MutationClient } from '@mss/web/features/createMutation.client'
 

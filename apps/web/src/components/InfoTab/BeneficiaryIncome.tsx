@@ -1,8 +1,8 @@
 import {
   beneficiarySocioProfessionalCategoryLabels,
   incomeSourceLabels,
-} from '@mss/web/constants/beneficiary'
-import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
+} from '@mss/web/client/options/beneficiary'
+import { beneficiaryFieldLabels } from '@mss/web/client/labels'
 import { euros } from '@mss/web/utils/euros'
 import { Beneficiary, IncomeSource } from '@prisma/client'
 import { AttributesList } from '../Generic'
@@ -17,8 +17,6 @@ export function BeneficiaryIncome({
   beneficiary: Beneficiary
   className?: string
 }) {
-  const { fieldLabels } = AddBeneficiaryWithFullDataClient
-
   return (
     <div className={`fr-col-12 fr-mb-2w fr-p-9v ${className}`}>
       <hr />
@@ -27,59 +25,65 @@ export function BeneficiaryIncome({
       <AttributesList
         items={[
           [
-            fieldLabels.socioProfessionalCategory || '',
+            beneficiaryFieldLabels.socioProfessionalCategory || '',
             beneficiary.socioProfessionalCategory
               ? beneficiarySocioProfessionalCategoryLabels[
                   beneficiary.socioProfessionalCategory
                 ]
               : null,
           ],
-          [fieldLabels.occupation || '', beneficiary.occupation],
-          [fieldLabels.employer || '', beneficiary.employer],
-          [fieldLabels.employerSiret || '', beneficiary.employerSiret],
+          [beneficiaryFieldLabels.occupation || '', beneficiary.occupation],
+          [beneficiaryFieldLabels.employer || '', beneficiary.employer],
           [
-            fieldLabels.mainIncomeSource || '',
+            beneficiaryFieldLabels.employerSiret || '',
+            beneficiary.employerSiret,
+          ],
+          [
+            beneficiaryFieldLabels.mainIncomeSource || '',
             incomeSourceToIncomeSourceLabel(beneficiary.mainIncomeSource),
           ],
           [
-            fieldLabels.mainIncomeAmount || '',
+            beneficiaryFieldLabels.mainIncomeAmount || '',
             beneficiary.mainIncomeAmount
               ? euros(beneficiary.mainIncomeAmount)
               : null,
           ],
           [
-            fieldLabels.partnerMainIncomeSource || '',
+            beneficiaryFieldLabels.partnerMainIncomeSource || '',
             incomeSourceToIncomeSourceLabel(
               beneficiary.partnerMainIncomeSource,
             ),
           ],
           [
-            fieldLabels.partnerMainIncomeAmount || '',
+            beneficiaryFieldLabels.partnerMainIncomeAmount || '',
             beneficiary.partnerMainIncomeAmount
               ? euros(beneficiary.partnerMainIncomeAmount)
               : null,
           ],
           [
-            fieldLabels.majorChildrenMainIncomeSource || '',
+            beneficiaryFieldLabels.majorChildrenMainIncomeSource || '',
             incomeSourceToIncomeSourceLabel(
               beneficiary.majorChildrenMainIncomeSource,
             ),
           ],
           [
-            fieldLabels.majorChildrenMainIncomeAmount || '',
+            beneficiaryFieldLabels.majorChildrenMainIncomeAmount || '',
             euros(beneficiary.majorChildrenMainIncomeAmount),
           ],
           [
-            fieldLabels.unemploymentNumber || '',
+            beneficiaryFieldLabels.unemploymentNumber || '',
             beneficiary.unemploymentNumber,
           ],
           [
-            fieldLabels.pensionOrganisations || '',
+            beneficiaryFieldLabels.pensionOrganisations || '',
             beneficiary.pensionOrganisations,
           ],
-          [fieldLabels.cafNumber || '', beneficiary.cafNumber],
-          [fieldLabels.bank || '', beneficiary.bank],
-          [fieldLabels.funeralContract || '', beneficiary.funeralContract],
+          [beneficiaryFieldLabels.cafNumber || '', beneficiary.cafNumber],
+          [beneficiaryFieldLabels.bank || '', beneficiary.bank],
+          [
+            beneficiaryFieldLabels.funeralContract || '',
+            beneficiary.funeralContract,
+          ],
         ]}
       />
     </div>

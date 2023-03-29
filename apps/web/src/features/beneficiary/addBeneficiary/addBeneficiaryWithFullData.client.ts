@@ -1,4 +1,3 @@
-import { canCreateBeneficiaryWithFullData } from '@mss/web/security/rules'
 import z from 'zod'
 import { createMutationClient } from '@mss/web/features/createMutation.client'
 import {
@@ -10,9 +9,27 @@ import {
   RelativeRelationship,
 } from '@prisma/client'
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
-import { arrayToOptions, labelsToOptions } from '@mss/web/utils/options'
+import { labelsToOptions } from '@mss/web/utils/options'
 import { errorMessages } from '@mss/web/utils/zod'
-import { PensionOrganisations } from '@mss/web/constants/beneficiary'
+import { PensionOrganisations } from '@mss/web/client/options/beneficiary'
+import {
+  isAdministrator,
+  isInSameStructureAs,
+  SecurityRuleGrantee,
+  SecurityTargetWithStructure,
+} from '@mss/web/security/rules'
+
+export const canCreateBeneficiaryWithFullData = (
+  grantee: SecurityRuleGrantee,
+  target: SecurityTargetWithStructure,
+): boolean =>
+  isAdministrator(grantee) ||
+  isInSameStructureAs(grantee, target, [
+    'StructureManager',
+    'SocialWorker',
+    'Instructor',
+    'Referent',
+  ])
 
 export const AddBeneficiaryWithFullDataClient = createMutationClient({
   name: 'beneficiary.addWithFullData',

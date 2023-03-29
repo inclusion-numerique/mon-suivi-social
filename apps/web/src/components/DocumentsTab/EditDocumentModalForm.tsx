@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation'
 import {
   documentTagOptions,
   documentTypeOptions,
-} from '@mss/web/constants/document'
+} from '@mss/web/client/options/document'
 
 export const EditDocumentModalForm = withTrpc(
   ({

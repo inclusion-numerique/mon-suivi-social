@@ -6,7 +6,7 @@ import {
   CheckboxFormField,
 } from '@mss/web/components/FormField'
 import { EditUserClient } from '@mss/web/features/user/editUser/editUser.client'
-import { nonAdminUserRoleOptions } from '@mss/web/constants/user'
+import { nonAdminUserRoleOptions } from '@mss/web/client/options/user'
 import { Control } from 'react-hook-form'
 
 const FieldLabels = EditUserClient.fieldLabels

@@ -3,7 +3,7 @@ import {
   httpBatchLink,
   loggerLink,
 } from '@trpc/client'
-import { AppRouter } from '@mss/web/trpc/trpcRouter'
+import { AppRouter } from '@mss/web/server/routers'
 import { getUrl } from '@mss/web/utils/baseUrl'
 import { transformer } from '@mss/web/utils/serialization'
 import { create } from 'zustand'

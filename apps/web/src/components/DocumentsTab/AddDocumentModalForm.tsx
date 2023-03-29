@@ -21,14 +21,14 @@ import {
   AddDocumentWithBrowserUploadValidation,
 } from '@mss/web/features/document/addDocument.client'
 import { useRouter } from 'next/navigation'
-import { modalFadeAnimationTime } from '@mss/web/styles/dsfr'
+import { modalFadeAnimationTime } from '@mss/web/client/styles/dsfr'
 import * as Sentry from '@sentry/nextjs'
 import {
   documentFileAllowedTypes,
   documentFileMaxSize,
   documentTagOptions,
   documentTypeOptions,
-} from '@mss/web/constants/document'
+} from '@mss/web/client/options/document'
 
 export const AddDocumentModalForm = withTrpc(
   ({

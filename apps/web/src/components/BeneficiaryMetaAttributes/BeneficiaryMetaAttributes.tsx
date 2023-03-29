@@ -1,7 +1,7 @@
 import {
   beneficiaryStatusBadgeClasses,
   beneficiaryStatusLabels,
-} from '@mss/web/constants/beneficiary'
+} from '@mss/web/client/options/beneficiary'
 import { AttributesListItem } from '@mss/web/components/Generic'
 import styles from './BeneficiaryMetaAttributes.module.css'
 import { getUserDisplayName } from '@mss/web/utils/user'

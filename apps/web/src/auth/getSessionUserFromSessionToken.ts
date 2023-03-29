@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { SessionUser } from '@mss/web/auth/sessionUser'
 
 export const getSessionUserFromSessionToken = async (

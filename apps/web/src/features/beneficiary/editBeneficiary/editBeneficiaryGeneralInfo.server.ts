@@ -1,10 +1,10 @@
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
-import { Nationalities } from '@mss/web/constants/nationality'
+import { Nationalities } from '@mss/web/client/options/nationality'
 
 export const EditBeneficiaryGeneralInfoServer =
   createMutationServerWithInitialState({

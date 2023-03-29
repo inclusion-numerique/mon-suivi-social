@@ -5,7 +5,7 @@ import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
 import { HelpRequestFormEdition } from '@mss/web/components/HelpRequestForm'
-import { AccompagnementsQuery } from '@mss/web/query'
+import { AccompagnementsQuery } from '@mss/web/server/query'
 import { Options } from '@mss/web/utils/options'
 import {
   canViewBeneficiaryHelpRequestPrivateSynthesis,

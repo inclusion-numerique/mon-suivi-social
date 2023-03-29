@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/src/prismaClient'
+import { prismaClient } from '@mss/web/src/server/prisma'
 
 export const fixtureStructure = {
   id: '3cb0f254-1e5a-4b60-82e8-dd58cf7bf710',

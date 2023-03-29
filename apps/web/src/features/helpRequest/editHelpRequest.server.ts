@@ -1,6 +1,6 @@
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { EditHelpRequestClient } from '@mss/web/features/helpRequest/editHelpRequest.client'
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { MutationInput } from '@mss/web/features/createMutation.client'
 import { removeNullAndUndefinedValues } from '@mss/web/utils/removeNullAndUndefinedValues'
 import { computeArrayDiff } from '@mss/web/utils/diff'
@@ -50,15 +50,15 @@ export const EditHelpRequestServer = createMutationServerWithInitialState({
     createdById,
     ...data
   }): MutationInput<EditHelpRequestClient> => ({
-      helpRequestId: id,
-      type: type.id,
-      documents: documents.map(({ key }) => key),
-      financialSupport: booleanToString(financialSupport) ?? undefined,
-      externalStructure: booleanToString(externalStructure) ?? undefined,
-      askedAmount: askedAmount?.toNumber(),
-      allocatedAmount: allocatedAmount?.toNumber(),
-      ...removeNullAndUndefinedValues(data),
-    }),
+    helpRequestId: id,
+    type: type.id,
+    documents: documents.map(({ key }) => key),
+    financialSupport: booleanToString(financialSupport) ?? undefined,
+    externalStructure: booleanToString(externalStructure) ?? undefined,
+    askedAmount: askedAmount?.toNumber(),
+    allocatedAmount: allocatedAmount?.toNumber(),
+    ...removeNullAndUndefinedValues(data),
+  }),
   executeMutation: async ({ input, transaction, initialInput }) => {
     const {
       helpRequestId,

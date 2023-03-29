@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { FollowupFormCreation } from '@mss/web/components/FollowupForm'
 import { AddFollowupClient } from '@mss/web/features/followup/addFollowup.client'
 import { Options } from '@mss/web/utils/options'
-import { AccompagnementsQuery } from '@mss/web/query'
+import { AccompagnementsQuery } from '@mss/web/server/query'
 
 export const revalidate = 0
 

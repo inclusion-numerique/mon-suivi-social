@@ -1,5 +1,5 @@
-import { beneficiaryGirLabels } from '@mss/web/constants/beneficiary'
-import { AddBeneficiaryWithFullDataClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithFullData.client'
+import { beneficiaryGirLabels } from '@mss/web/client/options/beneficiary'
+import { beneficiaryFieldLabels } from '@mss/web/client/labels'
 import { Beneficiary } from '@prisma/client'
 import { AttributesList } from '../Generic'
 
@@ -10,8 +10,6 @@ export function BeneficiaryHealth({
   beneficiary: Beneficiary
   className?: string
 }) {
-  const { fieldLabels } = AddBeneficiaryWithFullDataClient
-
   return (
     <div className={`fr-col-12 fr-mb-2w fr-p-9v ${className}`}>
       <hr />
@@ -20,17 +18,17 @@ export function BeneficiaryHealth({
       <AttributesList
         items={[
           [
-            fieldLabels.gir || '',
+            beneficiaryFieldLabels.gir || '',
             beneficiary.gir ? beneficiaryGirLabels[beneficiary.gir] : null,
           ],
-          [fieldLabels.doctor || '', beneficiary.doctor],
+          [beneficiaryFieldLabels.doctor || '', beneficiary.doctor],
           [
-            fieldLabels.socialSecurityNumber || '',
+            beneficiaryFieldLabels.socialSecurityNumber || '',
             beneficiary.socialSecurityNumber,
           ],
-          [fieldLabels.insurance || '', beneficiary.insurance],
+          [beneficiaryFieldLabels.insurance || '', beneficiary.insurance],
           [
-            fieldLabels.healthAdditionalInformation || '',
+            beneficiaryFieldLabels.healthAdditionalInformation || '',
             beneficiary.healthAdditionalInformation,
           ],
         ]}

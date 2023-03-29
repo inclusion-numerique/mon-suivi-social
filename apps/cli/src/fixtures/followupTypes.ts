@@ -1,4 +1,4 @@
-import { prismaClient } from '@mss/web/src/prismaClient'
+import { prismaClient } from '@mss/web/src/server/prisma'
 import { fixtureStructure } from './structures'
 
 export const fixturesDefaultFollowupTypes = [

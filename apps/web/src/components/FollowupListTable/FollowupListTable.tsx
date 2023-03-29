@@ -1,5 +1,5 @@
 import { Routes } from '@mss/web/app/routing/routes'
-import { FollowupsListResult } from '@mss/web/query'
+import { FollowupsListResult } from '@mss/web/server/query'
 import { getTotalPages } from '@mss/web/utils/table'
 import {
   createTableLinks,

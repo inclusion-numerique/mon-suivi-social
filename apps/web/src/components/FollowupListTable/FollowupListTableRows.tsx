@@ -1,6 +1,6 @@
 import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
-import { FollowupsList } from '@mss/web/query'
+import { FollowupsList } from '@mss/web/server/query'
 import { followupListTableColumns } from './followupListTableColumns'
 
 export const FollowupListTableRows = ({

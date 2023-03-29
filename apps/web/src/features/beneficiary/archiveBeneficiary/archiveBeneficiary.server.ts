@@ -1,13 +1,13 @@
-import { prismaClient } from '@mss/web/prismaClient'
+import { prismaClient } from '@mss/web/server/prisma/prismaClient'
 import { MutationDiff } from '@mss/web/features/mutationLog'
 import { ArchiveBeneficiaryClient } from '@mss/web/features/beneficiary/archiveBeneficiary/archiveBeneficiary.client'
-import { invalidError, notfoundError } from '@mss/web/trpc/trpcErrors'
+import { invalidError, notfoundError } from '@mss/web/server/trpcErrors'
 import {
   applyAnonymization,
   getAnonymizationForFeature,
 } from '@mss/web/features/beneficiary/archiveBeneficiary/mutationLogAnonymization'
 import * as Sentry from '@sentry/nextjs'
-import { deleteUploadedFile } from '@mss/web/server/s3/deleteUploadedFile'
+import { deleteUploadedFile } from '@mss/web/lib/s3/deleteUploadedFile'
 import { createMutationServerWithInitialState } from '@mss/web/features/createMutation.server'
 import { Prisma } from '@prisma/client'
 
