@@ -1,5 +1,4 @@
-/* FIXME: Je n'ai pas trouvé comment scoper .fr-btns-group dans un composant ? */
-.beneficiary-support-actions {
+.beneficiarySupportActions {
   width: 100%;
   align-items: baseline;
 

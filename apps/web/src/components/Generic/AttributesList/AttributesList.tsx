@@ -11,7 +11,7 @@ export function AttributesList({
   items: (AttributeItem | undefined)[]
 }) {
   return (
-    <ul className={`fr-raw-list ${styles['attributes-list']}`}>
+    <ul className={`fr-raw-list ${styles.attributesList}`}>
       {items
         // Remove empty attributes and attributes with empty value
         .filter((item): item is AttributeItem => {
@@ -35,9 +35,9 @@ export function AttributesListItem({
   const valueNode = value ?? '(non renseigné)'
 
   return (
-    <li className={styles['attributes-list-item']}>
+    <li className={styles.attributesListItem}>
       <p className="fr-mb-0">{label}</p>
-      <p className={`fr-mb-0 ${missingValue ? styles['missing-value'] : ''}`}>
+      <p className={`fr-mb-0 ${missingValue ? styles.missingValue : ''}`}>
         {valueNode}
       </p>
     </li>

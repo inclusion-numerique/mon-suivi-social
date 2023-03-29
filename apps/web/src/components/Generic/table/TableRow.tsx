@@ -14,7 +14,7 @@ export function TableRow<Item extends Record<string, unknown>>({
         <td key={label}>
           <div
             style={{ justifyContent: options?.justify }}
-            className={`${styles['cell-container']} ${
+            className={`${styles.cellContainer} ${
               options?.containerClassName ?? ''
             }`}
           >

@@ -1,6 +1,31 @@
 {
   "extends": ["stylelint-config-standard"],
   "rules": {
-    "selector-class-pattern": ["^([a-z][a-z0-9]*)((-{1,2}|_{1,2})[a-z0-9]+)*$"]
-  }
+    "selector-class-pattern": "^([a-z][a-z0-9]*)((-{1,2}|_{1,2})[a-z0-9]+)*$"
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.module.css",
+        "**/*.module.css",
+        "*.module.scss",
+        "**/*.module.scss"
+      ],
+      "rules": {
+        "selector-class-pattern": "^([a-z][a-zA-Z0-9]+)$|^((fr-[a-z0-9]+)((-{1,2}|_{1,2})[a-z0-9]+)*)$",
+        "selector-pseudo-class-no-unknown": [
+          true,
+          {
+            "ignorePseudoClasses": [
+              "export",
+              "import",
+              "global",
+              "local",
+              "external"
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }

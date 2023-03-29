@@ -29,7 +29,7 @@ export function BeneficiarySupportActions({
 
   return archived ? null : (
     <ul
-      className={`fr-btns-group fr-btns-group--icon-left fr-btns-group--inline ${styles['beneficiary-support-actions']}`}
+      className={`fr-btns-group fr-btns-group--icon-left fr-btns-group--inline ${styles.beneficiarySupportActions}`}
     >
       <li>
         <Link

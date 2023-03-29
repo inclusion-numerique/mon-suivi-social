@@ -1,4 +1,4 @@
-.side-menu {
+.sideMenu {
   background-color: var(--mss-primary);
   padding: 0 1rem;
 
@@ -11,7 +11,7 @@
     background-color: var(--mss-primary-inverted-hover);
   }
 
-  .fr-sidemenu__btn {
+  :global(.fr-sidemenu__btn) {
     color: white;
     background-color: var(--mss-primary);
 
@@ -20,9 +20,8 @@
     }
   }
 
-  /* TODO FIXME This style is not applied, so we cannot see the small mark on the left of currently selected menu item */
-  .fr-sidemenu__btn[aria-current]::before,
-  .fr-sidemenu__link[aria-current]::before {
+  :global(.fr-sidemenu__btn)[aria-current]::before,
+  :global(.fr-sidemenu__link)[aria-current]::before {
     --hover: white !important;
     --active: white !important;
 

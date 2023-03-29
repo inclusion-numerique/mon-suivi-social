@@ -16,7 +16,7 @@ const signinErrorMessage = (error?: string): string | undefined => {
 export function SigninPanel({ error }: { error?: string }) {
   return (
     <AuthCard>
-      <h2 className={`fr-mb-12v ${styles['signin-title']}`}>
+      <h2 className={`fr-mb-12v ${styles.signinTitle}`}>
         Se connecter à ma structure
       </h2>
 

@@ -86,7 +86,7 @@ export const BeneficiarySearchBar = withTrpc(
                 <div style={{ width: '100%' }}>
                   {beneficiaries.data.beneficiaries.map((beneficiary) => (
                     <Link
-                      className={`fr-py-4v ${styles['beneficiary-search-result']}`}
+                      className={`fr-py-4v ${styles.beneficiarySearchResult}`}
                       href={Routes.Beneficiaires.Beneficiaire.Index.path(
                         beneficiary,
                       )}

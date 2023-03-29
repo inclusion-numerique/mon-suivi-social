@@ -1,10 +1,10 @@
-.attributes-list > *:not(:last-child) {
+.attributesList > *:not(:last-child) {
   --li-bottom: 1rem;
 }
 
-.attributes-list-item {
+.attributesListItem {
   & > *:first-child,
-  & > .missing-value {
+  & > .missingValue {
     color: var(--text-mention-grey);
   }
 

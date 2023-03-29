@@ -10,9 +10,9 @@ export function InclusionConnectSigninButton({
   className?: string
 }) {
   return (
-    <div className={`${styles['inclusion-connect-section']} ${className}`}>
+    <div className={`${styles.inclusionConnectSection} ${className}`}>
       <button
-        className={`${styles['inclusion-connect-btn']} fr-btn`}
+        className={`${styles.inclusionConnectBtn} fr-btn`}
         title="S'identifier avec InclusionConnect"
         onClick={() => signIn(inclusionConnectProviderId)}
       >

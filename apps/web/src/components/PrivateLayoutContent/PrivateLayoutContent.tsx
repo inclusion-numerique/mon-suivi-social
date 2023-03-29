@@ -24,7 +24,7 @@ const PrivateLayoutContent: FunctionComponent<{
             role="navigation"
             aria-label="Menu de navigation"
           >
-            <div className={`fr-sidemenu__inner ${styles['side-menu']}`}>
+            <div className={`fr-sidemenu__inner ${styles.sideMenu}`}>
               <button
                 className="fr-sidemenu__btn"
                 hidden
