@@ -1,0 +1,15 @@
+.layoutContainer {
+  --home-gradient: linear-gradient(
+    180deg,
+    var(--background-default-grey) 50%,
+    var(--mss-primary) 300%
+  );
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  > :not(header, footer) {
+    flex: 1;
+  }
+}
