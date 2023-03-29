@@ -21,18 +21,21 @@ import { showErrorsOnSubmit } from './showErrorsOnSubmit'
  */
 export const BeneficiaryFormEdition = withTrpc(
   (
-    properties: { agentOptions: Options; canUpdateReferents?: boolean } & (
+    properties: { agentOptions: Options } & (
       | {
           full: false
           defaultInput: Serialized<
             MutationInput<EditBeneficiaryGeneralInfoClient>
           >
+          referentsDisabled: true
         }
       | {
           full: true
           defaultInput: Serialized<MutationInput<EditBeneficiaryFullDataClient>>
+          referentsDisabled: false
         }
     ),
+    // FIXME: En fait, on aurait peut-être un type EditBeneficiaryInfoClient et EditBeneficiaryInfoReceptionAgentClient
   ) => {
     const router = useRouter()
 
@@ -46,7 +49,7 @@ export const BeneficiaryFormEdition = withTrpc(
       ? EditBeneficiaryFullDataClient
       : EditBeneficiaryGeneralInfoClient
 
-    const { agentOptions, canUpdateReferents } = properties
+    const { agentOptions, referentsDisabled } = properties
 
     const defaultValues = properties.full
       ? deserialize(properties.defaultInput)
@@ -93,7 +96,7 @@ export const BeneficiaryFormEdition = withTrpc(
           control={control}
           agentOptions={agentOptions}
           full={properties.full}
-          canUpdateReferents={canUpdateReferents}
+          referentsDisabled={referentsDisabled}
         />
 
         <FormError message={error?.message} />

@@ -39,6 +39,8 @@ const EditBeneficiaryPage = async ({
   // NOTE: Could I have done this in BeneficiaryFormFields and keep secure ?
   const canUpdateReferents = canUpdateBeneficiaryReferents(user, beneficiary)
 
+  // FIXME: Préparer la possibilité ou non de modifier pour les agents d'accueil ici.
+
   const formProperties = EditBeneficiaryFullDataClient.securityCheck(
     user,
     beneficiary,
@@ -92,7 +94,7 @@ const EditBeneficiaryPage = async ({
                 full={formProperties.full}
                 agentOptions={agentOptions}
                 defaultInput={serialize(formProperties.defaultInput)}
-                canUpdateReferents={canUpdateReferents}
+                referentsDisabled={canUpdateReferents}
               />
             </div>
           </div>
