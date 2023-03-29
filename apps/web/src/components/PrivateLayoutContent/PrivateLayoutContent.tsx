@@ -1,13 +1,14 @@
 import { SessionUser } from '@mss/web/auth/sessionUser'
 import SideMenuLinks from '@mss/web/components/SideMenuLinks/SideMenuLinks'
-import { FunctionComponent, ReactNode } from 'react'
+import { FunctionComponent, PropsWithChildren } from 'react'
 import { serialize } from '@mss/web/utils/serialization'
 import styles from './PrivateLayoutContent.module.css'
 
-const PrivateLayoutContent: FunctionComponent<{
-  user: SessionUser
-  children: ReactNode
-}> = ({ children, user }) => {
+const PrivateLayoutContent: FunctionComponent<
+  PropsWithChildren<{
+    user: SessionUser
+  }>
+> = ({ children, user }) => {
   const menuTitle = user.structure?.name ?? 'Administration'
 
   return (

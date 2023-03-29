@@ -9,6 +9,11 @@ export type PaginationParams<T extends Record<string, string | undefined>> = {
 } & T
 
 export const Routes = {
+  Index: {
+    title: 'Mon Suivi Social',
+    path: '/',
+  },
+
   Connexion: {
     Login: '/connexion/login',
     Logout: '/connexion/logout',
@@ -16,7 +21,7 @@ export const Routes = {
     Verification: '/connexion/verification',
   },
 
-  Index: {
+  Overview: {
     title: 'Tableau de bord',
     path: '/tableau-de-bord',
     icon: 'home-4-line',

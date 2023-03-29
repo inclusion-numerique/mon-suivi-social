@@ -51,7 +51,7 @@ function SideMenuLinks({
 
   // TODO MSS depends on role
   const menuLinks: MenuLink[] = [
-    Routes.Index,
+    Routes.Overview,
     Routes.Beneficiaires.Index,
     Routes.Accompagnements.Index,
   ]
@@ -76,7 +76,7 @@ function SideMenuLinks({
 
   const menuLinksWithCurrent = menuLinks.map((link) => ({
     ...link,
-    current: isCurrent(link.path, link.path === Routes.Index.path),
+    current: isCurrent(link.path, link.path === Routes.Overview.path),
   }))
 
   return (
