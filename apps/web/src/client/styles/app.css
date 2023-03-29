@@ -1,5 +1,5 @@
-@import url('/dsfr/dsfr.min.css');
-@import url('/dsfr/utility/utility.min.css');
+@import '/dsfr/dsfr.min.css';
+@import '/dsfr/utility/utility.min.css';
 
 /* Layout setup */
 html,
