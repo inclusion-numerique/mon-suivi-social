@@ -1,11 +1,11 @@
-.inclusion-connect-section {
+.inclusionConnectSection {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 /* button:not(:disabled) is required to override DSFR style */
-button:not(:disabled).inclusion-connect-btn {
+button:not(:disabled).inclusionConnectBtn {
   /* A hack to reset DSFR colors for this button */
   --background-active-blue-france: #000091;
   --background-active-blue-france-active: #2323ff;

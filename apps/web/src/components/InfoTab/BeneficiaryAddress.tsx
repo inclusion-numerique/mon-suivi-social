@@ -16,21 +16,21 @@ export function BeneficiaryAddress({
   return (
     <span>
       {street ? (
-        <span className={styles['address-line']}>
+        <span className={styles.addressLine}>
           {streetNumber} {street}
         </span>
       ) : null}
       {addressComplement ? (
-        <span className={styles['address-line']}>{addressComplement}</span>
+        <span className={styles.addressLine}>{addressComplement}</span>
       ) : null}
       {zipcode || city ? (
-        <span className={styles['address-line']}>
+        <span className={styles.addressLine}>
           {zipcode}
           {zipcode && city ? ' ' : null}
           {city}
         </span>
       ) : null}
-      {region ? <span className={styles['address-line']}>{region}</span> : null}
+      {region ? <span className={styles.addressLine}>{region}</span> : null}
     </span>
   )
 }

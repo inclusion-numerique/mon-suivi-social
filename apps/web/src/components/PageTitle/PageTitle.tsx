@@ -30,7 +30,7 @@ export function PageTitle({
         currentPage={breadcrumbsTitle ?? title}
         parents={breadcrumbsParents}
       />
-      <div className={styles['page-title-container']}>
+      <div className={styles.pageTitleContainer}>
         <h2>
           {icon ? (
             <span className={`fr-icon-${icon} fr-icon--lg fr-mr-1w`} />

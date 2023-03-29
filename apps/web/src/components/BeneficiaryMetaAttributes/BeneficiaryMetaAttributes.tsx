@@ -23,7 +23,7 @@ export function BeneficiaryMetaAttributes({
 
   return (
     <ul
-      className={`fr-raw-list ${styles['beneficiary-meta-attributes']} ${className}`}
+      className={`fr-raw-list ${styles.beneficiaryMetaAttributes} ${className}`}
     >
       <AttributesListItem item={['N° dossier', fileNumber]} />
       <AttributesListItem

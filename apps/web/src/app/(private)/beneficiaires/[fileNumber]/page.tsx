@@ -134,7 +134,7 @@ const BeneficiaryPage = async ({
       <div className="fr-col-12">
         <BeneficiaryMetaAttributes
           beneficiary={beneficiary}
-          className={styles['beneficiary-meta-attributes']}
+          className={styles.beneficiaryMetaAttributes}
         />
       </div>
 

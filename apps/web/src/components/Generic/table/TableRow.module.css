@@ -2,14 +2,14 @@
   background-color: var(--background-default-grey) !important;
 }
 
-.cell-container {
+.cellContainer {
   display: flex;
   align-items: center;
   height: 100%;
   width: 100%;
 }
 
-.clickable-row {
+.clickableRow {
   background-color: var(--background-default-grey) !important;
   cursor: pointer;
 
@@ -22,7 +22,7 @@
   }
 }
 
-td.cell-with-link {
+td.cellWithLink {
   /* Ugly hack, do you have a better idea ? https://stackoverflow.com/questions/3542090/how-to-make-div-fill-td-height */
 
   /* The link inside has to be full height */
