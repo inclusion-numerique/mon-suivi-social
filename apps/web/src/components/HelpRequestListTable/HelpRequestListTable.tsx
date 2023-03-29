@@ -1,5 +1,8 @@
 import { Routes } from '@mss/web/app/routing/routes'
-import { HelpRequestsListItem, HelpRequestsListResult } from '@mss/web/query'
+import {
+  HelpRequestsListItem,
+  HelpRequestsListResult,
+} from '@mss/web/server/query'
 import { getTotalPages } from '@mss/web/utils/table'
 import {
   Sorting,

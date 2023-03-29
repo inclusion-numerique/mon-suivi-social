@@ -6,7 +6,7 @@ import { pick } from '@mss/web/utils/pick'
 import { useCssProperties } from '@mss/web/hooks/useCssProperty'
 import { getFamilySituationWording } from '@mss/web/constants/familySituation'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
-import { GetFamilyStatsReturn } from '@mss/web/query'
+import { GetFamilyStatsReturn } from '@mss/web/server/query'
 
 export function FamilySituationChart({
   familySituationStats,

@@ -1,6 +1,6 @@
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { nonBreakable } from '@mss/web/utils/nonBreakable'
-import { StructuresListItem } from '@mss/web/query/structure'
+import { StructuresListItem } from '@mss/web/server/query/structure'
 import { StructureTypeLabels } from '@mss/web/constants/structure'
 
 export const structureColumns = [

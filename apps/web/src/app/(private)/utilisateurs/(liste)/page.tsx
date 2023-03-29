@@ -13,7 +13,7 @@ import {
 } from '@mss/web/components/Generic'
 import { Link } from '@mss/web/components/Generic/Link'
 import { UserTable, userTableColumns } from '@mss/web/components/UserTable'
-import { iterateUsers } from '@mss/web/query/utilisateurs/iterateUsers'
+import { iterateUsers } from '@mss/web/server/query/utilisateurs/iterateUsers'
 import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
 const perPage = DEFAULT_PER_PAGE

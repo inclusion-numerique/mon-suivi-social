@@ -16,7 +16,7 @@ import {
   createTableLinks,
 } from '@mss/web/components/Generic'
 import { BeneficiarySearchBar } from '@mss/web/components/BeneficiarySearchBar'
-import { BeneficiairesQuery } from '@mss/web/query'
+import { BeneficiairesQuery } from '@mss/web/server/query'
 import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'
 
 const perPage = DEFAULT_PER_PAGE

@@ -12,7 +12,7 @@ import {
 } from '@mss/web/components/Generic'
 import { FollowupListTable } from '@mss/web/components/FollowupListTable/FollowupListTable'
 import { HelpRequestListTable } from '@mss/web/components/HelpRequestListTable/HelpRequestListTable'
-import { AccompagnementsQuery } from '@mss/web/query'
+import { AccompagnementsQuery } from '@mss/web/server/query'
 import { followupListTableColumns } from '@mss/web/components/FollowupListTable'
 import { buildHelpRequestListTableColumns } from '@mss/web/components/HelpRequestListTable'
 import { DEFAULT_PER_PAGE } from '@mss/web/components/Generic/pagination'

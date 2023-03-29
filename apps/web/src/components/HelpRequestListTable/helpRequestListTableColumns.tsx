@@ -4,7 +4,7 @@ import {
   helpRequestStatusBadgeClasses,
   helpRequestStatusLabels,
 } from '@mss/web/constants/helpRequest'
-import { HelpRequestsListItem } from '@mss/web/query'
+import { HelpRequestsListItem } from '@mss/web/server/query'
 import {
   SecurityRuleGrantee,
   canAccessProtectedDataInHelpRequest,

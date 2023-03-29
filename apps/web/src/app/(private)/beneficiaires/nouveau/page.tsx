@@ -2,7 +2,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 import { getAuthenticatedAgent } from '@mss/web/auth/getSessionUser'
 import { BeneficiaryFormCreation } from '@mss/web/components/BeneficiaryFormCreation'
 import { PageTitle } from '@mss/web/components/PageTitle'
-import { BeneficiairesQuery } from '@mss/web/query'
+import { BeneficiairesQuery } from '@mss/web/server/query'
 
 const AddBeneficiaryPage = async () => {
   const user = await getAuthenticatedAgent()

@@ -15,7 +15,7 @@ import { ArchiveBeneficiaryServer } from '@mss/web/features/beneficiary/archiveB
 import { canListBeneficiaries } from '@mss/web/security/rules'
 import { beneficiaryDocumentRouter } from '@mss/web/server/routers/beneficiaryDocumentRouter'
 import { createBeneficiarySchema } from '@mss/web/server/schema'
-import { createBeneficiary } from '@mss/web/query/beneficiaires/createBeneficiary'
+import { createBeneficiary } from '@mss/web/server/query/beneficiaires/createBeneficiary'
 import { v4 } from 'uuid'
 import { generateFileNumber } from '@mss/web/utils/generateFileNumber'
 import { createBeneficiaryHandler } from '../controller/beneficiary.controller'

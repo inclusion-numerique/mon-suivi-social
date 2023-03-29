@@ -1,6 +1,6 @@
 import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
-import { HelpRequestsList, HelpRequestsListItem } from '@mss/web/query'
+import { HelpRequestsList, HelpRequestsListItem } from '@mss/web/server/query'
 import { TableColumnDefinition } from '../Generic'
 
 export const HelpRequestListTableRows = ({

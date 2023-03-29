@@ -6,7 +6,7 @@ import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/edi
 import { EditBeneficiaryFullDataServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.server'
 import { EditBeneficiaryGeneralInfoClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.client'
 import { EditBeneficiaryGeneralInfoServer } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryGeneralInfo.server'
-import { BeneficiairesQuery } from '@mss/web/query'
+import { BeneficiairesQuery } from '@mss/web/server/query'
 import { serialize } from '@mss/web/utils/serialization'
 import { notFound } from 'next/navigation'
 

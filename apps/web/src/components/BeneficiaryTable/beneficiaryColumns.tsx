@@ -4,7 +4,7 @@ import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableCo
 import { getAge } from '@mss/web/utils/age'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { beneficiaryStatusLabels } from '@mss/web/constants/beneficiary'
-import { BeneficiaryListItem } from '@mss/web/query'
+import { BeneficiaryListItem } from '@mss/web/server/query'
 
 export const beneficiaryColumns = [
   {

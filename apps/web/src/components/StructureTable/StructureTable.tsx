@@ -1,7 +1,7 @@
 import { Routes } from '@mss/web/app/routing/routes'
 import { TableRowWithRowLink } from '@mss/web/components/Generic/table/TableRowWithRowLink'
 import { structureColumns } from './structureColumns'
-import { StructuresList } from '@mss/web/query/structure'
+import { StructuresList } from '@mss/web/server/query/structure'
 
 export const StructureTable = ({
   structures,

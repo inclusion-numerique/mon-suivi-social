@@ -1,5 +1,5 @@
 import { SessionUser } from '@mss/web/auth/sessionUser'
-import { createBeneficiary } from '@mss/web/query/beneficiaires/createBeneficiary'
+import { createBeneficiary } from '@mss/web/server/query/beneficiaires/createBeneficiary'
 import { BeneficiaryCreationInput } from '@mss/web/server/schema'
 
 export const createBeneficiaryHandler = async ({

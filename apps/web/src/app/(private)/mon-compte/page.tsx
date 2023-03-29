@@ -8,7 +8,7 @@ import {
 import { Link } from '@mss/web/components/Generic/Link'
 import { Card } from '@mss/web/components/Generic'
 import { Routes } from '@mss/web/app/routing/routes'
-import { MonCompteQuery } from '@mss/web/query'
+import { MonCompteQuery } from '@mss/web/server/query'
 
 const MonComptePage = async () => {
   const user = await getAuthenticatedSessionUser()

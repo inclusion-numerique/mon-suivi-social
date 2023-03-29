@@ -8,7 +8,7 @@ import { Link } from '@mss/web/components/Generic/Link'
 import { AttributeItem, AttributesList } from '@mss/web/components/Generic'
 import { EditStructureClient } from '@mss/web/features/structure/editStructure/editStructure.client'
 import { MutationLog } from '@mss/web/components/MutationLog'
-import { StructureQuery } from '@mss/web/query'
+import { StructureQuery } from '@mss/web/server/query'
 
 export const revalidate = 0
 
