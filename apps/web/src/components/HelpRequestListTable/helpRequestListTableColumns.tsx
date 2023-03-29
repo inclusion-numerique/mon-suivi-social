@@ -3,7 +3,7 @@ import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
 import {
   helpRequestStatusBadgeClasses,
   helpRequestStatusLabels,
-} from '@mss/web/constants/helpRequest'
+} from '@mss/web/client/options/helpRequest'
 import { HelpRequestsListItem } from '@mss/web/server/query'
 import {
   SecurityRuleGrantee,

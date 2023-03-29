@@ -11,7 +11,7 @@ import {
 import { AddBeneficiaryWithGeneralInfoClient } from '@mss/web/features/beneficiary/addBeneficiary/addBeneficiaryWithGeneralInfo.client'
 import { labelsToOptions } from '@mss/web/utils/options'
 import { errorMessages } from '@mss/web/utils/zod'
-import { PensionOrganisations } from '@mss/web/constants/beneficiary'
+import { PensionOrganisations } from '@mss/web/client/options/beneficiary'
 import {
   isAdministrator,
   isInSameStructureAs,

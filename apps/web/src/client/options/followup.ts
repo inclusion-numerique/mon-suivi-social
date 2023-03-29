@@ -1,5 +1,5 @@
 import { FollowupMedium, FollowupStatus } from '@prisma/client'
-import { labelsToOptions } from '../utils/options'
+import { labelsToOptions } from '../../utils/options'
 
 export const followupMediumLabels: { [key in FollowupMedium]: string } = {
   [FollowupMedium.UnplannedInPerson]: 'Accueil physique spontané',

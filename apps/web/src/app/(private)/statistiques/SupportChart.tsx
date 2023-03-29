@@ -3,7 +3,7 @@
 import { Bar } from 'react-chartjs-2'
 import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
-import { useCssProperties } from '@mss/web/hooks/useCssProperty'
+import { useCssProperties } from '@mss/web/client/hooks/useCssProperty'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 import { GetSupportStatsReturn } from '@mss/web/server/query'
 

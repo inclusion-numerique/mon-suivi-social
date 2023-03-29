@@ -1,5 +1,5 @@
-import { beneficiaryGirLabels } from '@mss/web/constants/beneficiary'
-import { beneficiaryFieldLabels } from '@mss/web/field-label'
+import { beneficiaryGirLabels } from '@mss/web/client/options/beneficiary'
+import { beneficiaryFieldLabels } from '@mss/web/client/labels'
 import { Beneficiary } from '@prisma/client'
 import { AttributesList } from '../Generic'
 

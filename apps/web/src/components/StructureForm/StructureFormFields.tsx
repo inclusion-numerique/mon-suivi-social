@@ -9,7 +9,7 @@ import {
 import { CreateStructureClient } from '@mss/web/features/structure/createStructure/createStructure.client'
 import { CreateFollowupTypeForm } from './CreateFollowupTypeForm'
 import { Option } from '@mss/web/utils/options'
-import { structureTypeOptions } from '@mss/web/constants/structure'
+import { structureTypeOptions } from '@mss/web/client/options/structure'
 
 const FieldLabels = CreateStructureClient.fieldLabels
 

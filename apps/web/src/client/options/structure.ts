@@ -1,5 +1,5 @@
 import { StructureType } from '@prisma/client'
-import { labelsToOptions } from '../utils/options'
+import { labelsToOptions } from '../../utils/options'
 
 export const StructureTypeLabels: { [key in StructureType]: string } = {
   [StructureType.Ccas]: 'CCAS',

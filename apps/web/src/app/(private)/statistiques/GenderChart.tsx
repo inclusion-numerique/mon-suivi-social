@@ -3,8 +3,8 @@
 import { Doughnut } from 'react-chartjs-2'
 import { ChartData } from 'chart.js'
 import { pick } from '@mss/web/utils/pick'
-import { getGenderWording } from '@mss/web/constants/gender'
-import { useCssProperties } from '@mss/web/hooks/useCssProperty'
+import { getGenderWording } from '@mss/web/client/options/gender'
+import { useCssProperties } from '@mss/web/client/hooks/useCssProperty'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 import { GetGenderStatsReturn } from '@mss/web/server/query'
 

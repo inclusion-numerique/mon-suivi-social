@@ -8,7 +8,7 @@ import {
   BeneficiaryTitle,
   Gender,
 } from '@prisma/client'
-import { Nationalities } from '@mss/web/constants/nationality'
+import { Nationalities } from '@mss/web/client/options/nationality'
 import { errorMessages, zodEnumFromObjectKeys } from '@mss/web/utils/zod'
 import {
   isAdministrator,

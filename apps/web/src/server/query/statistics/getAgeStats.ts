@@ -1,4 +1,4 @@
-import { AgeGroup } from '@mss/web/constants/ageGroup'
+import { AgeGroup } from '@mss/web/client/options/ageGroup'
 import { Prisma, prismaClient } from '@mss/web/server/prisma/prismaClient'
 
 export const getAgeStats = async (structureId: string) => {

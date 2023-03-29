@@ -8,7 +8,7 @@ import {
   documentFileAllowedTypes,
   documentFileMaxSize,
   DocumentTags,
-} from '@mss/web/constants/document'
+} from '@mss/web/client/options/document'
 
 const documentSizeValidationErrorMessage = `La taille du document doit être inférieure à ${formatByteSize(
   documentFileMaxSize,

@@ -6,7 +6,7 @@ import {
   minStringLengthMessage,
   validEmailMessage,
 } from '@mss/web/utils/zod'
-import { NonAdminUserRole } from '@mss/web/constants/user'
+import { NonAdminUserRole } from '@mss/web/client/options/user'
 
 export const CreateUserClient = createMutationClient({
   name: 'user.create',

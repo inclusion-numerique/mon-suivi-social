@@ -3,7 +3,7 @@ import { nonBreakable } from '@mss/web/utils/nonBreakable'
 import { TableColumnDefinition } from '@mss/web/components/Generic/table/TableColumnDefinition'
 import { getAge } from '@mss/web/utils/age'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
-import { beneficiaryStatusLabels } from '@mss/web/constants/beneficiary'
+import { beneficiaryStatusLabels } from '@mss/web/client/options/beneficiary'
 import { BeneficiaryListItem } from '@mss/web/server/query'
 
 export const beneficiaryColumns = [

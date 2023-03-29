@@ -9,7 +9,7 @@ import {
 import {
   beneficiaryGenderOptions,
   beneficiaryTitleOptions,
-} from '@mss/web/constants/beneficiary'
+} from '@mss/web/client/options/beneficiary'
 import { EditBeneficiaryFullDataClient } from '@mss/web/features/beneficiary/editBeneficiary/editBeneficiaryFullData.client'
 import { Options } from '@mss/web/utils/options'
 import { Control } from 'react-hook-form'

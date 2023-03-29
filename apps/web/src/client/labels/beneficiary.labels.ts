@@ -53,11 +53,11 @@ const beneficiaryFieldLabels = {
   orientationStructure: "Organisme d'orientation",
   serviceProviders: 'Prestataires',
   involvedPartners: 'Partenaires intervenants',
-  partnerMainIncomeSource: '',
-  partnerMainIncomeAmount: '',
-  majorChildrenMainIncomeSource: '',
-  majorChildrenMainIncomeAmount: '',
-  deathDate: '',
+  partnerMainIncomeSource: 'Nature des ressources du conjoint',
+  partnerMainIncomeAmount: 'Montant des ressources du conjoint',
+  majorChildrenMainIncomeSource: 'Nature des ressources des enfants majeurs',
+  majorChildrenMainIncomeAmount: 'Montant des ressources des enfants majeurs',
+  deathDate: 'Date de décès',
 }
 
 export { beneficiaryFieldLabels }

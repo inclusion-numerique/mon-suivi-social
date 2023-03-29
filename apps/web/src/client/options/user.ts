@@ -1,5 +1,5 @@
 import { UserRole } from '@prisma/client'
-import { labelsToOptions } from '../utils/options'
+import { labelsToOptions } from '../../utils/options'
 
 export const NonAdminUserRoleLabels: { [key in NonAdminUserRole]: string } = {
   [UserRole.ReceptionAgent]: "Agent d'accueil/CNFS",

@@ -2,9 +2,9 @@
 
 import { Bar } from 'react-chartjs-2'
 import { ChartData, ChartOptions } from 'chart.js'
-import { useCssProperties } from '@mss/web/hooks/useCssProperty'
+import { useCssProperties } from '@mss/web/client/hooks/useCssProperty'
 import { GetAgeStatsReturn } from '@mss/web/server/query'
-import { AgeGroupLabels } from '@mss/web/constants/ageGroup'
+import { AgeGroupLabels } from '@mss/web/client/options/ageGroup'
 import { BrowserOnly } from '@mss/web/utils/BrowserOnly'
 
 export function AgeChart({ ageStats }: { ageStats: GetAgeStatsReturn }) {

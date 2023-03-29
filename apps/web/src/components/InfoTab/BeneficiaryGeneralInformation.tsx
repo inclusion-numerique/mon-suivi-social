@@ -3,15 +3,15 @@ import {
   beneficiaryFamilySituationLabels,
   beneficiaryGenderLabels,
   beneficiaryMobilityLabels,
-} from '@mss/web/constants/beneficiary'
+} from '@mss/web/client/options/beneficiary'
 import { beneficiaryDisplayName } from '@mss/web/utils/beneficiary'
 import { Beneficiary } from '@prisma/client'
 import { AttributesList } from '@mss/web/components/Generic'
 import { dateAsDay } from '@mss/web/utils/dateAsDay'
 import { getAge } from '@mss/web/utils/age'
-import { Nationalities } from '@mss/web/constants/nationality'
+import { Nationalities } from '@mss/web/client/options/nationality'
 import { BeneficiaryAddress } from './BeneficiaryAddress'
-import { beneficiaryFieldLabels } from '@mss/web/field-label'
+import { beneficiaryFieldLabels } from '@mss/web/client/labels'
 
 export function BeneficiaryGeneralInformation({
   beneficiary,

@@ -1,8 +1,8 @@
 import {
   beneficiarySocioProfessionalCategoryLabels,
   incomeSourceLabels,
-} from '@mss/web/constants/beneficiary'
-import { beneficiaryFieldLabels } from '@mss/web/field-label'
+} from '@mss/web/client/options/beneficiary'
+import { beneficiaryFieldLabels } from '@mss/web/client/labels'
 import { euros } from '@mss/web/utils/euros'
 import { Beneficiary, IncomeSource } from '@prisma/client'
 import { AttributesList } from '../Generic'

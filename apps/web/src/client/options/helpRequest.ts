@@ -3,7 +3,7 @@ import {
   HelpRequestStatus,
   PaymentMethod,
 } from '@prisma/client'
-import { labelsToOptions, Options } from '../utils/options'
+import { labelsToOptions, Options } from '../../utils/options'
 
 export const helpRequestStatusLabels: { [key in HelpRequestStatus]: string } = {
   [HelpRequestStatus.WaitingAdditionalInformation]:

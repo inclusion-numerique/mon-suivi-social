@@ -1,5 +1,5 @@
 import { DocumentType } from '@prisma/client'
-import { labelsToOptions } from '../utils/options'
+import { labelsToOptions } from '../../utils/options'
 
 // Max size in bytes
 export const documentFileMaxSize = 15_000_000

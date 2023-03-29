@@ -23,11 +23,11 @@ import {
   followupMediumLabels,
   followupStatusClasses,
   followupStatusLabels,
-} from '@mss/web/constants/followup'
+} from '@mss/web/client/options/followup'
 import {
   helpRequestStatusBadgeClasses,
   helpRequestStatusLabels,
-} from '@mss/web/constants/helpRequest'
+} from '@mss/web/client/options/helpRequest'
 
 export function HistoryTab({
   user,

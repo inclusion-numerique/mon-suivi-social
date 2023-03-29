@@ -23,7 +23,7 @@ import {
   helpRequestReasonOptions,
   helpRequestStatusOptions,
   paymentMethodOptions,
-} from '@mss/web/constants/helpRequest'
+} from '@mss/web/client/options/helpRequest'
 
 const FieldLabels = EditHelpRequestClient.fieldLabels
 

@@ -1,6 +1,6 @@
 import { PartialBy } from '@mss/web/utils/types'
 import { Beneficiary } from '@prisma/client'
-import { beneficiaryTitleLabels } from '@mss/web/constants/beneficiary'
+import { beneficiaryTitleLabels } from '@mss/web/client/options/beneficiary'
 
 const nameOrEmpty = (name: string | null) => name || '(non renseigné)'
 
