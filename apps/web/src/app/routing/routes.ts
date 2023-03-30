@@ -21,7 +21,7 @@ export const Routes = {
     Verification: '/connexion/verification',
   },
 
-  Overview: {
+  TableauDeBord: {
     title: 'Tableau de bord',
     path: '/tableau-de-bord',
     icon: 'home-4-line',

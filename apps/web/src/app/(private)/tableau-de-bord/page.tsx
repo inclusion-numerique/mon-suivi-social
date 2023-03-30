@@ -8,7 +8,7 @@ const TableauDeBordPage = async () => {
   const user = await getSessionUser()
   return (
     <>
-      <PageTitle page={Routes.Overview} />
+      <PageTitle page={Routes.TableauDeBord} />
       {user?.structureId ? (
         <div className="fr-card">
           <div className="fr-card__body">

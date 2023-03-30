@@ -7,7 +7,7 @@ import { Routes } from '@mss/web/app/routing/routes'
 const VerifyPage = async () => {
   const user = await getSessionUser()
   if (user) {
-    redirect(Routes.Overview.path)
+    redirect(Routes.TableauDeBord.path)
     return null
   }
 
