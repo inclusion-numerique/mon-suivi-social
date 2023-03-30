@@ -1,4 +1,4 @@
-import '@mss/web/client/styles/app.css'
+import '@mss/web/client/styles/app.scss'
 import { PropsWithChildren } from 'react'
 import { EnvInformation } from './EnvInformation'
 

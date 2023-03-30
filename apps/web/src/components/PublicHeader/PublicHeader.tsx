@@ -8,6 +8,13 @@ function PublicHeader({ hideSigninButton }: { hideSigninButton?: boolean }) {
     ? []
     : [
         <Link
+          key="register"
+          className={`fr-btn fr-btn--icon-left fr-icon-add-circle-line ${styles.registerBtn}`}
+          href={Routes.SEnregistrer.path}
+        >
+          Enregistrer sa structure
+        </Link>,
+        <Link
           key="signin"
           className={`fr-btn fr-btn--icon-left fr-icon-user-setting-line ${styles.loginBtn}`}
           href={Routes.Connexion.Login}
