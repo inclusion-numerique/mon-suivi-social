@@ -1,0 +1,138 @@
+@use '@gouvfr/dsfr/src/core/index' as dsfr;
+@use '@gouvfr/dsfr/module/media-query' as dsfr-media-query;
+
+.landingLayout {
+  --home-oval: url('/images/home-oval.svg');
+
+  background-image: var(--home-oval);
+  background-image: var(--home-oval), var(--home-gradient);
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 50%, 100%;
+}
+
+.landingContainerLeft {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 2rem;
+
+  @include dsfr-media-query.respond-from('lg') {
+    align-items: start;
+    margin-bottom: 0;
+  }
+}
+
+.landingContainerRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include dsfr-media-query.respond-from('lg') {
+    justify-content: flex-end;
+  }
+}
+
+.landingTitle {
+  font-weight: 400;
+  text-align: center;
+
+  @include dsfr-media-query.respond-from('lg') {
+    text-align: initial;
+  }
+}
+
+.landingSubtitle {
+  @include dsfr.title-style(h5);
+
+  display: block;
+  font-weight: normal;
+  text-align: center;
+
+  @include dsfr-media-query.respond-from('lg') {
+    text-align: initial;
+  }
+}
+
+.feature,
+.listSection {
+  text-align: center;
+
+  @include dsfr-media-query.respond-from('lg') {
+    text-align: initial;
+  }
+}
+
+.feature {
+  p {
+    width: 100%;
+
+    @include dsfr-media-query.respond-from('lg') {
+      width: 70%;
+    }
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: 3rem;
+
+    @include dsfr-media-query.respond-from('lg') {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.featureImg {
+  max-width: 100px;
+  margin-bottom: 1rem;
+}
+
+.testimonySection {
+  text-align: center;
+}
+
+.listSection {
+  column-gap: 5rem;
+  row-gap: 2rem;
+
+  div:nth-child(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    @include dsfr-media-query.respond-from('lg') {
+      align-items: start;
+    }
+  }
+
+  img {
+    max-width: 250px;
+
+    @include dsfr-media-query.respond-from('sm') {
+      max-width: 300px;
+    }
+
+    @include dsfr-media-query.respond-from('lg') {
+      max-width: 600px;
+    }
+  }
+
+  ul {
+    --li-bottom: 1rem;
+
+    width: max-content;
+
+    li {
+      @include dsfr.title-style(h5);
+
+      display: block;
+      font-weight: normal;
+    }
+
+    li::before {
+      color: var(--mss-primary);
+      margin-right: 0.5rem;
+    }
+  }
+}

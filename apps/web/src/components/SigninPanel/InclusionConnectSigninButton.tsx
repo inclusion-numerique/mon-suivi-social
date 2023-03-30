@@ -26,7 +26,7 @@ export function InclusionConnectSigninButton({
         className="fr-link--sm"
         href="https://plateforme-inclusion.notion.site/Un-compte-unique-pour-mes-services-num-riques-ded9135197654da590f5dde41d8bb68b"
         target="_blank"
-        rel="noopener"
+        rel="noreferrer"
         title="Qu'est-ce qu'Inclusion Connect ? - nouvelle fenêtre"
       >
         En savoir plus

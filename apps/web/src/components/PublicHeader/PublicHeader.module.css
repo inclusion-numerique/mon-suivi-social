@@ -1,0 +1,21 @@
+.homeHeader:global(.fr-header) {
+  background-color: transparent;
+  filter: none;
+}
+
+:global(.fr-header__tools-links) {
+  .registerBtn:global(.fr-btn) {
+    --hover-tint: var(--mss-primary-hover);
+    --active-tint: var(--mss-primary-hover);
+
+    color: var(--text-inverted-blue-france);
+
+    &:not(:hover) {
+      background-color: var(--mss-primary);
+    }
+  }
+
+  .loginBtn:global(.fr-btn) {
+    background-color: var(--background-default-grey);
+  }
+}
