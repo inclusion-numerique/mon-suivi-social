@@ -1,5 +1,6 @@
 const { withSentryConfig } = require('@sentry/nextjs')
 const packageJson = require('./package.json')
+const path = require('path')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -71,6 +72,10 @@ const nextConfig = {
     config.externals.push('mjml', 'mjml-core')
 
     return config
+  },
+
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'node_modules/@gouvfr/dsfr')],
   },
 }
 

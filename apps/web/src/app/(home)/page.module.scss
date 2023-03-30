@@ -1,13 +1,5 @@
+@use '@gouvfr/dsfr/src/core/index' as dsfr;
 @use '@gouvfr/dsfr/module/media-query' as dsfr-media-query;
-
-@mixin dsfr-h5-without-font-weight {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-
-  @include dsfr-media-query.respond-from('md') {
-    font-size: 1.375rem;
-  }
-}
 
 .landingLayout {
   --home-oval: url('/images/home-oval.svg');
@@ -52,7 +44,7 @@
 }
 
 .landingSubtitle {
-  @include dsfr-h5-without-font-weight;
+  @include dsfr.title-style(h5);
 
   display: block;
   font-weight: normal;
@@ -132,7 +124,7 @@
     width: max-content;
 
     li {
-      @include dsfr-h5-without-font-weight;
+      @include dsfr.title-style(h5);
 
       display: block;
       font-weight: normal;
