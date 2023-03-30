@@ -29,6 +29,16 @@ function PublicFooter() {
           </div>
           <div className="fr-footer__content">
             <ul className="fr-footer__content-list">
+              <li className="fr-footer__bottom-item">
+                <a
+                  className="fr-footer__bottom-link"
+                  href="https://stock.adobe.com/fr/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Crédits photos : Adobe Stock
+                </a>
+              </li>
               <li className="fr-footer__content-item">
                 <a
                   href="https://gouvernement.fr"
