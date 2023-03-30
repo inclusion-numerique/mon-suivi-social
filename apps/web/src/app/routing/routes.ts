@@ -14,6 +14,11 @@ export const Routes = {
     path: '/',
   },
 
+  SEnregistrer: {
+    title: 'Enregistrer sa structure',
+    path: '/s-enregistrer',
+  },
+
   Connexion: {
     Login: '/connexion/login',
     Logout: '/connexion/logout',

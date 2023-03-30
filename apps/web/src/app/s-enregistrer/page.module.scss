@@ -1,0 +1,36 @@
+@use '@gouvfr/dsfr/module/media-query' as dsfr-media-query;
+
+.registerLayout {
+  --home-oval: url('/images/register-oval.svg');
+
+  background-image: var(--home-oval);
+  background-image: var(--home-oval), var(--home-gradient);
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 50%, 100%;
+}
+
+h1.registerTitle {
+  text-align: center;
+  font-weight: normal !important;
+}
+
+.registerStepGrid:global(.fr-grid-row) {
+  text-align: center;
+  gap: 4rem;
+  margin-bottom: 6rem;
+
+  @include dsfr-media-query.respond-from('xl') {
+    gap: 6rem;
+  }
+}
+
+.registerStepImg {
+  max-height: 200px;
+  margin-bottom: 1.5rem;
+  width: auto;
+}
+
+.mailtoLink {
+  color: var(--mss-primary);
+}

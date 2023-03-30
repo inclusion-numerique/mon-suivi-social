@@ -11,7 +11,7 @@ export default function HomePage() {
           <h1 className={styles.landingTitle}>
             Libérez du temps pour l&apos;accompagnement social
           </h1>
-          <p className={styles.landingSubtitle}>
+          <p className="landing-subtitle home-landing-subtitle">
             {PublicWebAppConfig.projectTitle} est un logiciel simple et intuitif
             pour faciliter le suivi des bénéficiaires des structures
             d&apos;accompagnement social.

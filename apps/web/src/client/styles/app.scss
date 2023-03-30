@@ -1,3 +1,5 @@
+@use '@gouvfr/dsfr/src/core/index' as dsfr;
+@use '@gouvfr/dsfr/module/media-query' as dsfr-media-query;
 @import '/dsfr/dsfr.min.css';
 @import '/dsfr/utility/utility.min.css';
 
@@ -71,6 +73,20 @@ textarea {
 .fr-tabs,
 .fr-tabs__panel {
   border-radius: var(--mss-border-radius-2xs);
+}
+
+.landing-subtitle {
+  @include dsfr.title-style(h5);
+
+  display: block;
+  font-weight: normal;
+  text-align: center;
+
+  @include dsfr-media-query.respond-from('lg') {
+    &.home-landing-subtitle {
+      text-align: initial;
+    }
+  }
 }
 
 /* Css debug hack 🤓💅 */
