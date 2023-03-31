@@ -1,0 +1,33 @@
+@use '@gouvfr/dsfr/src/core/index' as dsfr;
+
+.beneficiaryHistoryDetailsBody {
+  --text-spacing: 0 0 1rem;
+
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.paddingExpanded {
+  padding: 2rem 1.5rem 1rem;
+}
+
+.borderInterview {
+  border: 1px solid var(--color-interview);
+}
+
+.borderHelpRequest {
+  border: 1px solid var(--color-help-request);
+}
+
+.synthesisTitle {
+  @include dsfr.text-style(md);
+
+  margin-bottom: 0.5rem;
+
+  &::before {
+    margin-right: 0.25rem;
+  }
+}
+
+.synthesisContent {
+  white-space: pre-line;
+}

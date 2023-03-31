@@ -44,6 +44,24 @@ textarea {
   --md-breakpoint: 48em;
   --lg-breakpoint: 62em;
   --xl-breakpoint: 78em;
+
+  /* Couleurs theme rubriques */
+  --color-interview-light: #e5fbfd;
+  --color-interview-light-hover: #c8fbe6;
+  --color-interview: var(--green-archipel-sun-391-moon-716);
+  --color-interview-hover: var(--green-archipel-sun-391-moon-716-hover);
+  --color-interview-active: var(--green-archipel-sun-391-moon-716);
+  --color-help-request-light: var(--primary-light);
+  --color-help-request-light-hover: var(--primary-light-hover);
+  --color-help-request: var(--mss-primary);
+  --color-help-request-hover: var(--mss-primary-hover);
+  --color-help-request-active: var(--primary-active);
+  --color-mes-droits-sociaux: var(--blue-cumulus-sun-368-moon-732);
+  --color-mes-droits-sociaux-hover: var(--blue-cumulus-sun-368-moon-732);
+  --color-mes-droits-sociaux-active: var(--blue-cumulus-sun-368-moon-732);
+  --shadow-light: 0 7px 14px 0 rgb(44 39 56 / 2%),
+    0 18px 37px 0 rgb(44 39 56 / 4%);
+  --shadow-dark: 0 8px 8px 0 rgb(0 0 0 / 10%), 0 8px 16px -16px rgb(0 0 0 / 32%);
 }
 
 .fr-btn {
@@ -73,6 +91,10 @@ textarea {
   border-radius: var(--mss-border-radius-2xs);
 }
 
+.fr-badge {
+  text-transform: none;
+}
+
 /* Css debug hack 🤓💅 */
 
 /*
@@ -80,3 +102,10 @@ textarea {
   outline: 1px solid red !important;
 }
 */
+
+/* It seems incredibly horrible but is necessary to be able to override DSFR when programmatically focusing an element */
+.force-focus-visible:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible) {
+  outline-style: solid !important;
+}

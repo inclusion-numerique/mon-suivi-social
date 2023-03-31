@@ -14,6 +14,7 @@ const getSupports = async ({
       followups: {
         include: {
           createdBy: true,
+          prescribingOrganization: true,
           types: true,
         },
         orderBy: {
@@ -46,6 +47,8 @@ const getSupports = async ({
     return {
       ...followup,
       historyDate: followup.date,
+      isHelpRequest: false as const,
+      isInterview: true as const,
       __type: 'followup' as const,
     }
   })
@@ -56,6 +59,8 @@ const getSupports = async ({
     return {
       ...helpRequest,
       historyDate: helpRequest.openingDate,
+      isHelpRequest: true as const,
+      isInterview: false as const,
       __type: 'helpRequest' as const,
     }
   })
@@ -67,4 +72,6 @@ const getSupports = async ({
 
 export { getSupports }
 
-export type GetSupportsReturn = Prisma.PromiseReturnType<typeof getSupports>
+export type SupportList = Prisma.PromiseReturnType<typeof getSupports>
+
+export type SupportListItem = SupportList[number]

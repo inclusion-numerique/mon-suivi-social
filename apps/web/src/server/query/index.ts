@@ -13,7 +13,8 @@ export {
 } from './statistics'
 export {
   type GetBeneficiaryToViewReturn,
-  type GetSupportsReturn,
+  type SupportList,
+  type SupportListItem,
   type BeneficiaryListResult,
   type BeneficiaryList,
   type BeneficiaryListItem,

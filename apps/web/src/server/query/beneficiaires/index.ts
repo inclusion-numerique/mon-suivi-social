@@ -20,7 +20,7 @@ export const BeneficiairesQuery = {
   createBeneficiary,
 }
 
-export type { GetSupportsReturn } from './getSupports'
+export type { SupportList, SupportListItem } from './getSupports'
 export type { GetBeneficiaryToViewReturn } from './getBeneficiaryToView'
 export type {
   BeneficiaryListResult,

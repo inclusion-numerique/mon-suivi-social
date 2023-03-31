@@ -6,7 +6,7 @@ import {
   Routes,
 } from '@mss/web/app/routing/routes'
 import { DocumentsTab } from '@mss/web/components/DocumentsTab'
-import { HistoryTab } from '@mss/web/components/HistoryTab'
+import { BeneficiaryHistoryTab } from '@mss/web/components/BeneficiaryHistoryTab'
 import { InfoTab } from '@mss/web/components/InfoTab'
 import { TabOptions, Tabs } from '@mss/web/components/Generic'
 import { MutationLog } from '@mss/web/components/MutationLog'
@@ -89,7 +89,7 @@ const BeneficiaryPage = async ({
         tab === 'historique' ? searchParams : { tab: 'historique' },
       ),
       content: (
-        <HistoryTab
+        <BeneficiaryHistoryTab
           user={user}
           supports={supports}
           beneficiary={beneficiary}

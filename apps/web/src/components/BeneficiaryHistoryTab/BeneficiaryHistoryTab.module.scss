@@ -1,0 +1,9 @@
+@use '@gouvfr/dsfr/src/core/index' as dsfr;
+
+.historyList {
+  @include dsfr.disable-list-style;
+
+  > *:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
