@@ -457,7 +457,7 @@ jobs:
       - run:
           name: "Create terraform variables file from environment variables"
           command: |
-            WEB_CONTAINER_IMAGE='placeholder_for_destroy' pnpm --silent cli terraform:vars-from-env web
+            DATABASE_PASSWORD='placeholder_for_destroy' WEB_CONTAINER_IMAGE='placeholder_for_destroy' pnpm --silent cli terraform:vars-from-env web
       - when:
           condition:
             or:
