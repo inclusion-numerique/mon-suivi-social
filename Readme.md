@@ -1,3 +1,7 @@
+# Migration du repo vers Gitlab
+
+Retrouvez le repository sur le gitlab de l'incubateur des territoires [Lien vers le gitlab](https://gitlab.com/incubateur-territoires/startups/monsuivisocial/monsuivisocial-v2/-/tree/main)
+
 # Mon Suivi Social
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/inclusion-numerique/mon-suivi-social/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/inclusion-numerique/mon-espace-collectivite/tree/main)
